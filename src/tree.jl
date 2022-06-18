@@ -51,6 +51,7 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 		srcdir=srcdir,
 		tardir=tardir
 	)
+	cd(srcdir*"docs")
 	make_rec(;
 		current=root,
 		path="docs/",
@@ -99,13 +100,13 @@ function gen_rec(;
 				io=open(spath*it,"r")
 				str=replace(read(io,String),"\r"=>"")
 				close(io)
-				current.files[pre]=("<pre class=\"language\">$(jlcode(str))</pre>",pre,suf)
+				current.files[pre]=("<pre class=\"language\">$(highlight(Val(:jl) ,str))</pre>",pre,suf)
 			elseif suf=="txt"
 				str="<pre class=\"language\">"
 				io=open(spath*it,"r")
 				num=1
 				for l in eachline(io)
-					str*="<span id=\"line-$num\">$(ify_s(l))</span><br />"
+					str*="<span id=\"line-$num\">$(html_safe(l))</span><br />"
 					num+=1
 				end
 				close(io)
@@ -150,18 +151,19 @@ function make_rec(;
 	pss::PagesSetting,
 	tardir::String)
 	tpath=tardir*path
+	toml=current.toml
 	for pa in current.files
 		id=pa.first
 		title=pa.second[2]
 		prevpage=""
 		nextpage=""
-		if outline && haskey(toml,"outline")
+		if haskey(toml, "outline")
 			vec=@inbounds toml["outline"]
 			len=length(vec)
 			for i in 1:len
 				if vec[i]==id
 					if i!=1
-						previd=@inbounds(vec[i-1])
+						previd=@inbounds vec[i-1]
 						ptitle=current.files[previd][2]
 						prevpage="<a class=\"docs-footer-prevpage\" href=\"$(previd)$(pss.filesuffix)\">« $ptitle</a>"
 					else
@@ -190,13 +192,12 @@ function make_rec(;
 		writehtml(tpath*pa.first, html)
 	end
 	for pa in current.dirs
-		tup=pa.second
-		name=tup[2]
+		name=pa.first
 		cd(name)
 		push!(pathv, name)
 		make_rec(;
-			current=tup[1],
-			path=path*tup[2]*"/",
+			current=pa.second[1],
+			path=path*name*"/",
 			pathv=pathv,
 			pss=pss,
 			tardir=tardir
@@ -239,12 +240,12 @@ function makeindexhtml(node::Node, path::String, pathv::Vector{String}; pss::Pag
 	mds*="</ul>"
 	title = (node.par===nothing ? "主页" : node.par.dirs[node.name][2])*"索引"
 	ps=PageSetting(
-		description="$(current.par.dirs[current.name][2])/$title - $(pss.title)",
-		editpath="$(pss.repo_path*path)$id.$(pa.second[3])",
-		mds=pa.second[1],
-		navbar_title="$(current.par.dirs[current.name][2]) / $title",
-		nextpage=nextpage,
-		prevpage=prevpage,
+		description="$title - $(pss.title)",
+		editpath=pss.repo_path*path,
+		mds=mds,
+		navbar_title=title,
+		nextpage="",
+		prevpage=node.par===nothing ? "" : "<a class='docs-footer-prevpage' href='../index$(pss.filesuffix)'>« 上层索引</a>",
 		tURL="../"^length(pathv)
 	)
 	return makehtml(pss, ps)

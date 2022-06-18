@@ -10,16 +10,16 @@ function md_withtitle(s::String, pss::PagesSetting)
 		@error "content empty"
 		return Pair("<p></p>","_MISSING_")
 	end
-	ti=md.content[1]
-	typeassert(ti,Markdown.Header{1})
+	ti=md.content[1]::Markdown.Header{1}
 	con=""
 	try
 		con=ify(md.content, pss)
 	catch er
-		@error er
 		buf=IOBuffer()
-		showerror(buf,er)
-		con="<p>ERROR: $(html_safe(String(take!(buf))))</p>"
+		showerror(buf, er)
+		str=String(take!(buf))
+		con="<p>$(html_safe(str))</p>"
+		@error str
 	end
 	return Pair(con,ti.text[1])
 end
@@ -43,8 +43,8 @@ function ify(h::Header, ::PagesSetting)
 	text=h.text[1]
 	return "<h$lv id=\"header-$text\">$text</h$lv>"
 end
-function ify(c::Code, ::PagesSetting)
-	return highlight(c.language, c.code)
+function ify(c::Code, pss::PagesSetting)
+	return highlight(c.language, c.code, pss)
 end
 function ify(f::Footnote, pss::PagesSetting)
 	if f.text === nothing
@@ -61,12 +61,12 @@ end
 function ify(a::Admonition, pss::PagesSetting)
 	cat=a.category
 	title=a.title
-	if cat=="note" || cat=="tipss"
+	if cat=="note" || cat=="tips"
 		cat="info"
 	elseif cat=="warn"
 		cat="warning"
 	end
-	"<div class=\"admonition is-$cat\"><header class=\"admonition-header\">$title</header><div class=\"admonition-body\"><p>$(ify(a.content, pss))</p></div></div>"
+	return "<div class=\"admonition is-$cat\"><header class=\"admonition-header\">$title</header><div class=\"admonition-body\"><p>$(ify(a.content, pss))</p></div></div>"
 end
 function ify(l::List, pss::PagesSetting)
 	if l.ordered==-1
