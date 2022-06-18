@@ -7569,6 +7569,11 @@ a.has-text-danger:hover, a.has-text-danger:focus {
 		#documenter .docs-main #documenter-search-results .docs-highlight {
 			background-color: yellow; }
 
-.language-julia{
+.language{
 	background-color: black;
+}
+.content .fill-area{
+	background-color: #282f2f;
+	border-left: 5px solid #5e6d6f;
+	padding: 1.25em 1.5em;
 }

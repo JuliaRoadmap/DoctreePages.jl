@@ -1,5 +1,36 @@
+## 关于
+中文文档 | [English Docs](README_en.md)
+* [规范](docs/guidelines.md)
+* [注意事项](docs/notice.md)
+* [设置文件](docs/setting.md)
+
 ## LICENSE
-遵循MIT LICENSE，部分css、js与html数据来自[Documenter](https://github.com/JuliaDocs/Documenter.jl)（MIT）
+遵循MIT LICENSE，其中以下文件部分来自[Documenter](https://github.com/JuliaDocs/Documenter.jl)（MIT）
+* css/dark.css
+* css/light.css
+* js/main.js
+
+Discussion功能来自[giscus](https://github.com/giscus/giscus)
+
+## 使用实例
+[对应测试示例](https://juliaroadmap.github.io/docs/meta/doctest.html)
+```jl
+using DoctreePages
+gis = GiscusSetting(; # 使用 giscus.app 获取
+	repo = "JuliaRoadmap/zh",
+	repo_id = "R_kgDOHQYI2Q",
+	category_id = "DIC_kwDOHQYI2c4CO2c9",
+	lang = "zh-CN"
+)
+pss = PagesSetting(;
+	giscus = gis,
+	lang = "zh",
+	repo_name = "zh",
+	repo_owner = "JuliaRoadmap",
+	title = "Roadmap"
+)
+generate("D:/RM", "D:/RMH", pss)
+```
 
 ## todo
 - [ ] 收藏页面
@@ -15,7 +46,8 @@
 - [x] `.jl`，`.txt`
 - [ ] `jl`高亮：长转义
 - [ ] `jl`高亮：正则表达式
-- [ ] 暗色描述舒适初始化
+- [ ] `shell`高亮
+- [x] 暗色模式舒适初始化
 - [ ] 允许调整字体大小
 - [ ] 支持LaTeX
 - [x] 插入html

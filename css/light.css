@@ -7555,6 +7555,11 @@ html {
 	#documenter .docs-main #documenter-search-results .docs-highlight {
 		background-color: yellow; }
 
-.language-julia{
+.language{
 	background-color: whitesmoke;
+}
+.content .fill-area{
+	background-color: whitesmoke;
+	border-left: 5px solid #dbdbdb;
+	padding: 1.25em 1.5em;
 }

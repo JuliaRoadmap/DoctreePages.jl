@@ -1,4 +1,13 @@
 // 复制于 Documenter.jl(MIT) ，有删改
+
+// 优先执行
+var tURL=document.getElementById("tURL").content
+var theme=localStorage.getItem("theme")
+if(theme==undefined)theme="light"
+else if(theme!="light"){
+	localStorage.getElementById("theme-href").href=tURL+"css/"+theme+".css"
+}
+
 requirejs.config({
 	paths: {
 		'headroom': 'https://cdnjs.cloudflare.com/ajax/libs/headroom/0.10.3/headroom.min',
@@ -99,18 +108,9 @@ require(['jquery'], function ($) {
 	})
 })
 require(['jquery'],function($){
-	var tURL=$("#tURL")[0].content
 	var pi=$("#documenter-themepicker")
-	var theme=localStorage.getItem("theme")
-	if(theme==undefined)theme="light"
-	// 初始化theme
-	$("#theme-href").ready(function(){
-		if(theme!="light"){
-			$("#theme-href")[0].href=tURL+"css/"+theme+".css"
-		}
-	})
 	pi.ready(function(){
-		for(tag of pi[0]){
+		for(let tag of pi[0].children){
 			if(tag.value==theme){
 				tag.selected=true
 				break

@@ -1,1 +1,5 @@
-outline = []
+outline = [
+	"guidelines",
+	"notice",
+	"setting",
+]
