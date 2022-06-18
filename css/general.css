@@ -1,0 +1,71 @@
+/* 语言高亮 */
+.language{
+	font-family: 'Courier New', Courier, monospace;
+	tab-size:4;
+}
+.hl-repl-code{
+	color: green;
+}
+.hl-repl-help{
+	color: wheat;
+}
+.hl-repl-pkg{
+	color: rgb(16,64,224);
+}
+.hl-repl-shell{
+	color: red;
+}
+.hl-repl-error{
+	color: red;
+}
+.hl-comment{
+	color: darkolivegreen;
+}
+.hl-string{
+	color: brown;
+}
+.hl-keyword{
+	color: purple;
+}
+.hl-special{
+	color: royalblue;
+}
+.hl-escape{
+	color: goldenrod;
+}
+.hl-insert{
+	color: skyblue;
+}
+.hl-plain{
+	color: darkgray;
+}
+.hl-macro{
+	color: gold;
+}
+.hl-function{
+	color: darkgoldenrod;
+}
+.hl-number{
+	color: yellowgreen;
+}
+.hl-type{
+	color: forestgreen;
+}
+
+/* 主标签 */
+.content p, code, sup, strong, em, a{
+	display: inline;
+}
+.content .admonition > p{
+	display: block;
+}
+
+/* 附加功能 */
+.checkis{
+	display: none;
+}
+.fill-area{
+	background-color: whitesmoke;
+	border-left: 5px solid #dbdbdb;
+	padding: 1.25em 1.5em;
+}

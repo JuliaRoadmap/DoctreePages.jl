@@ -24,7 +24,7 @@ function makehtml(pss::PagesSetting, ps::PageSetting)
 	<body>
 		<div id="documenter">
 			<nav class="docs-sidebar">
-				<a class="docs-logo"><img src="$(ps.tURL)img/logo.png" alt="alt" height="96" width="144"></a>
+				<a class="docs-logo"><img src="$(ps.tURL)$(pss.logo_path)" alt="alt" height="96" width="144"></a>
 				<div class="docs-package-name">
 				<span class="docs-autofit">JuliaRoadmap</span>
 				</div>

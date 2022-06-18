@@ -13,9 +13,11 @@ Base.@kwdef struct GiscusSetting
 end
 Base.@kwdef struct PagesSetting
     buildmessage::String = "built at $(Libc.strftime(Libc.time()))"
+	favicon_path::String = "assets/img/favicon.png"
     filesuffix::String = ".html"
     giscus::Union{Nothing, GiscusSetting} = nothing
 	lang::String = "en"
+	logo_path::String = "assets/img/logo.png"
     repo_branch::String = "master"
     repo_name::String
     repo_owner::String
