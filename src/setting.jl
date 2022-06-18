@@ -1,0 +1,33 @@
+Base.@kwdef struct GiscusSetting
+    repo::String
+    repo_id::String
+    category::String = "General"
+    category_id::String
+    mapping::String = "pathname"
+	reactions_enabled::String = "1"
+	emit_metadata::String = "0"
+	input_position::String = "top"
+	theme::String = "preferred_color_scheme"
+	lang::String
+	crossorigin::String = "anonymous"
+end
+Base.@kwdef struct PagesSetting
+    buildmessage::String = "built at $(Libc.strftime(Libc.time()))"
+    filesuffix::String = ".html"
+    giscus::Union{Nothing, GiscusSetting} = nothing
+	lang::String = "en"
+    repo_branch::String = "master"
+    repo_name::String
+    repo_owner::String
+    repo_path::String = "https://github.com/$repo_owner/$repo_name/tree/$repo_branch/"
+    title::String
+end
+Base.@kwdef struct PageSetting
+    description::String
+	editpath::String
+    mds::String
+    navbar_title::String
+    nextpage::String
+    prevpage::String
+    tURL::String # trace-back-to-root-dir
+end
