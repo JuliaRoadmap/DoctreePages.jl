@@ -5,6 +5,8 @@
 * [注意事项](docs/notice.md)
 * [设置文件](docs/settings.md)
 
+输入`?DoctreePages`以阅读功能使用方式
+
 ## LICENSE
 遵循MIT LICENSE，其中以下文件部分来自[Documenter](https://github.com/JuliaDocs/Documenter.jl)（MIT）
 * css/dark.css

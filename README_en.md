@@ -5,6 +5,8 @@ This is a lightweight interactive document generator.\
 * [notice](docs/en/notice.md)
 * [setting](docs/en/settings.md)
 
+Type `?DoctreePages` to read usage of functions.
+
 ## LICENSE
 MIT LICENSE, and these files partly come from [Documenter](https://github.com/JuliaDocs/Documenter.jl) (MIT)
 * css/dark.css

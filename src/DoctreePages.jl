@@ -1,3 +1,8 @@
+"""
+A lightweight interactive document generator.
+
+Read [generate](@ref) [PagesSetting](@ref) [GiscusSetting](@ref)
+"""
 module DoctreePages
 export GiscusSetting, PagesSetting
 export generate
