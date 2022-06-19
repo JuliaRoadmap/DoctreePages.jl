@@ -97,7 +97,7 @@ function ify(l::Link, pss::PagesSetting)
 	if startswith(url,"#")
 		return "<a href=\"#header-$(url[2:end])\">$htm</a>"
 	end
-	if !startswith(url,"https://")
+	if !startswith(url, "https://") && !startswith(url, "http://")
 		has=findlast('#',url)
 		if has!==nothing
 			ma=findfirst(r".md#.*$",url)
@@ -110,12 +110,9 @@ function ify(l::Link, pss::PagesSetting)
 				end
 			end
 		else
-			if findlast(".md",url)!==nothing
-				url=url[1:sizeof(url)-3]*pss.filesuffix
-			elseif findlast(".jl",url)!==nothing
-				url=url[1:sizeof(url)-3]*pss.filesuffix
-			elseif findlast(".txt",url)!==nothing
-				url=url[1:sizeof(url)-4]*pss.filesuffix
+			dot=findlast('.', url)
+			if dot !== nothing
+				url=url[1:dot-1]*pss.filesuffix
 			end
 		end
 	end

@@ -91,26 +91,9 @@ function gen_rec(;
 			dot=findlast('.', it)
 			pre=it[1:dot-1]
 			suf=it[dot+1:end]
-			if suf=="md"
-				io=open(spath*it,"r")
-				pair=md_withtitle(read(io,String), pss)
-				close(io)
-				current.files[pre]=(pair.first,pair.second,suf)
-			elseif suf=="jl"
-				io=open(spath*it,"r")
-				str=replace(read(io,String),"\r"=>"")
-				close(io)
-				current.files[pre]=("<pre class=\"language\">$(highlight(Val(:jl) ,str))</pre>",pre,suf)
-			elseif suf=="txt"
-				str="<pre class=\"language\">"
-				io=open(spath*it,"r")
-				num=1
-				for l in eachline(io)
-					str*="<span id=\"line-$num\">$(html_safe(l))</span><br />"
-					num+=1
-				end
-				close(io)
-				current.files[pre]=(str*"</pre>",pre,suf)
+			sym=Symbol(suf)
+			if hasmethod(file2node, Tuple{Val{sym}}, (:it, :node, :pre, :pss, :spath))
+				file2node(Val(sym); it=it, node=current, pre=pre, pss=pss, spath=spath)
 			else
 				cp(spath*it, tpath*it; force=true)
 			end
@@ -255,4 +238,28 @@ function writehtml(path::String,html::String)
 	io=open(path*pss.filesuffix, "w")
 	print(io, html)
 	close(io)
+end
+
+function file2node(::Val{:md}; it::String, node::Node, pre::String, pss::PagesSetting, spath::String)
+	io=open(spath*it, "r")
+	pair=md_withtitle(read(io, String), pss)
+	close(io)
+	node.files[pre]=(pair.first, pair.second, "md")
+end
+function file2node(::Val{:jl}; it::String, node::Node, pre::String, ::PagesSetting, spath::String)
+	io=open(spath*it, "r")
+	str=replace(read(io, String), "\r"=>"")
+	close(io)
+	node.files[pre]=("<pre class=\"language\">$(highlight(Val(:jl), str))</pre>", pre, "jl")
+end
+function file2node(::Val{:txt}; it::String, node::Node, pre::String, ::PagesSetting, spath::String)
+	str="<pre class=\"language\">"
+	io=open(spath*it, "r")
+	num=1
+	for l in eachline(io)
+		str*="<span id=\"line-$num\">$(html_safe(l))</span><br />"
+		num+=1
+	end
+	close(io)
+	node.files[pre]=(str*"</pre>", pre, "txt")
 end
