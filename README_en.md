@@ -1,5 +1,9 @@
 ## About
+This is a lightweight interactive document generator.\
 [中文文档](README.md) | English Docs
+* [guidelines](docs/en/guidelines.md)
+* [notice](docs/en/notice.md)
+* [setting](docs/en/settings.md)
 
 ## LICENSE
 MIT LICENSE, and these files partly come from [Documenter](https://github.com/JuliaDocs/Documenter.jl) (MIT)

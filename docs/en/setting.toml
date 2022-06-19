@@ -2,7 +2,4 @@ outline = [
 	"guidelines",
 	"notice",
 	"setting",
-	"en"
 ]
-[names]
-en = "English Docs"

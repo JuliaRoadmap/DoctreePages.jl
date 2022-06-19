@@ -1,8 +1,9 @@
 ## 关于
+这是一个轻量级交互式文档生成器\
 中文文档 | [English Docs](README_en.md)
 * [规范](docs/guidelines.md)
 * [注意事项](docs/notice.md)
-* [设置文件](docs/setting.md)
+* [设置文件](docs/settings.md)
 
 ## LICENSE
 遵循MIT LICENSE，其中以下文件部分来自[Documenter](https://github.com/JuliaDocs/Documenter.jl)（MIT）
