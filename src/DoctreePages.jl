@@ -15,7 +15,30 @@ function html_safe(s::AbstractString)
 	return t
 end
 
+const language_tags=[
+	(en="content empty", zh="内容为空"),
+	(en="edit this", zh="编辑此页面"),
+	(en="setting", zh="设置"),
+	(en="pick theme", zh="选择主题"),
+	(en="docs", zh="文档"),
+	(en="index", zh="索引"),
+	(en="main", zh="主页"),
+	(en=" index", zh="索引"),
+	(en="parent index", zh="上层索引"),
+]
+
 include("setting.jl")
+
+function lw(pss::PagesSetting, id::Integer)
+	sym=Symbol(pss.lang)
+	named=language_tags[id]
+	if haskey(named, sym)
+		return named.sym
+	else
+		return named.en
+	end
+end
+
 using Markdown
 using Markdown: Paragraph,Header,Code,Footnote,BlockQuote,Admonition,List,HorizontalRule
 using Markdown: Italic,Bold,Image,Link,LineBreak

@@ -40,7 +40,7 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 	end
 	cp(pss.favicon_path, tardir*"favicon.ico"; force=true)
 	# docs
-	root=Node(nothing, "文档")
+	root=Node(nothing, lw(pss, 5))
 	cd(srcdir*"docs")
 	gen_rec(;
 		current=root,
@@ -167,7 +167,7 @@ function make_rec(;
 						ptitle=current.files[previd][2]
 						prevpage="<a class=\"docs-footer-prevpage\" href=\"$(previd)$(pss.filesuffix)\">« $ptitle</a>"
 					else
-						prevpage="<a class=\"docs-footer-prevpage\" href=\"index$(pss.filesuffix)\">« 索引</a>"
+						prevpage="<a class=\"docs-footer-prevpage\" href=\"index$(pss.filesuffix)\">« $(lw(pss, 6))</a>"
 					end
 					if i!=len
 						nextid=@inbounds vec[i+1]
@@ -177,7 +177,7 @@ function make_rec(;
 				end
 			end
 		else
-			prevpage="<a class=\"docs-footer-prevpage\" href=\"index$(pss.filesuffix)\">« 索引</a>"
+			prevpage="<a class=\"docs-footer-prevpage\" href=\"index$(pss.filesuffix)\">« $(lw(pss, 6))</a>"
 		end
 		ps=PageSetting(
 			description="$(current.par.dirs[current.name][2])/$title - $(pss.title)",
@@ -238,14 +238,14 @@ function makeindexhtml(node::Node, path::String, pathv::Vector{String}; pss::Pag
 		mds*="<li><a href=\"$(d.first)$(pss.filesuffix)\">$(d.second[2])</a></li>"
 	end
 	mds*="</ul>"
-	title = (node.par===nothing ? "主页" : node.par.dirs[node.name][2])*"索引"
+	title = (node.par===nothing ? lw(pss, 7) : node.par.dirs[node.name][2])*lw(pss, 8)
 	ps=PageSetting(
 		description="$title - $(pss.title)",
 		editpath=pss.repo_path*path,
 		mds=mds,
 		navbar_title=title,
 		nextpage="",
-		prevpage=node.par===nothing ? "" : "<a class='docs-footer-prevpage' href='../index$(pss.filesuffix)'>« 上层索引</a>",
+		prevpage=node.par===nothing ? "" : "<a class='docs-footer-prevpage' href='../index$(pss.filesuffix)'>« $(lw(pss, 9))</a>",
 		tURL="../"^length(pathv)
 	)
 	return makehtml(pss, ps)

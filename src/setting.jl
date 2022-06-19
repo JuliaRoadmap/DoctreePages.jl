@@ -22,6 +22,7 @@ Pages settings, call `PagesSetting(; keyword=value...)`
 
 The keywords:
 * buildmessage::String = "built at \$(Libc.strftime(Libc.time()))"
+* charset::String = "UTF-8"
 * favicon_path::String = "assets/img/favicon.png"
 * filesuffix::String = ".html"
 * giscus::Union{Nothing, GiscusSetting} = nothing
@@ -35,6 +36,7 @@ The keywords:
 """
 Base.@kwdef struct PagesSetting
     buildmessage::String = "built at $(Libc.strftime(Libc.time()))"
+    charset::String = "UTF-8"
 	favicon_path::String = "assets/img/favicon.png"
     filesuffix::String = ".html"
     giscus::Union{Nothing, GiscusSetting} = nothing

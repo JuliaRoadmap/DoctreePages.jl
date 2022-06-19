@@ -7,8 +7,9 @@ function md_withtitle(s::String, pss::PagesSetting)
 	s=replace(s, "\r"=>"")
 	md=Markdown.parse(s)
 	if isempty(md.content)
-		@error "content empty"
-		return Pair("<p></p>","_MISSING_")
+		str=lw(pss, 1)
+		@error str
+		return Pair("<p></p>", str)
 	end
 	ti=md.content[1]::Markdown.Header{1}
 	con=""

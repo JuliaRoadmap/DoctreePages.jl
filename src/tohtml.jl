@@ -4,7 +4,7 @@ function makehtml(pss::PagesSetting, ps::PageSetting)
 	<!DOCTYPE html>
 	<html lang="$(pss.lang)">
 	<head>
-		<meta charset="UTF-8"/>
+		<meta charset="$(pss.charset)"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 		<title>$(pss.title)</title>
 		<meta name="tURL" id="tURL" content="$(ps.tURL)"/>
@@ -26,7 +26,7 @@ function makehtml(pss::PagesSetting, ps::PageSetting)
 			<nav class="docs-sidebar">
 				<a class="docs-logo"><img src="$(ps.tURL)$(pss.logo_path)" alt="alt" height="96" width="144"></a>
 				<div class="docs-package-name">
-				<span class="docs-autofit">JuliaRoadmap</span>
+				<span class="docs-autofit">$(pss.title)</span>
 				</div>
 				<ul class="docs-menu"></ul>
 			</nav>
@@ -38,9 +38,9 @@ function makehtml(pss::PagesSetting, ps::PageSetting)
 					</nav>
 					<div class="docs-right">
 						<a class="docs-edit-link" href="$(ps.editpath)" target="_blank">
-							<span class="docs-label is-hidden-touch">编辑此页面</span>
+							<span class="docs-label is-hidden-touch">$(lw(pss, 2))</span>
 						</a>
-						<a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="设置"></a>
+						<a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="$(lw(pss, 3))"></a>
 						<a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a>
 					</div>
 				</header>
@@ -52,11 +52,11 @@ function makehtml(pss::PagesSetting, ps::PageSetting)
 				<div class="modal-background"></div>
 				<div class="modal-card">
 					<header class="modal-card-head">
-						<p class="modal-card-title">设置</p>
+						<p class="modal-card-title">$(lw(pss, 3))</p>
 						<button class="delete"></button>
 					</header>
 					<section class="modal-card-body">
-						<p><label class="label">选择主题</label>
+						<p><label class="label">$(lw(pss, 4))</label>
 							<div class="select">
 								<select id="documenter-themepicker">
 									<option value="light">light</option><option value="dark">dark</option>
