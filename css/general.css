@@ -37,13 +37,13 @@
 	color: skyblue;
 }
 .hl-plain{
-	color: darkgray;
+	color: black;
 }
 .hl-macro{
-	color: gold;
+	color: #d7c787;
 }
 .hl-function{
-	color: darkgoldenrod;
+	color: #d0c080;
 }
 .hl-number{
 	color: yellowgreen;

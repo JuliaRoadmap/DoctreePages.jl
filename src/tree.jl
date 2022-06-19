@@ -61,7 +61,7 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 	)
 	# menu.js
 	io=open(tardir*"js/menu.js", "w")
-	print(io, "const menu=`", makemenu(root; path="docs/"), "`")
+	print(io, "const menu=`", makemenu(root, pss; path="docs/"), "`")
 	close(io)
 	# 消除影响
 	cd(pwds)
@@ -172,7 +172,7 @@ function make_rec(;
 			tURL="../"^length(pathv)
 		)
 		html=makehtml(pss, ps)
-		writehtml(tpath*pa.first, html)
+		writehtml(tpath*pa.first, html, pss)
 	end
 	for pa in current.dirs
 		name=pa.first
@@ -186,7 +186,7 @@ function make_rec(;
 			tardir=tardir
 		)
 	end
-	writehtml(tpath*"index", makeindexhtml(current, path, pathv; pss=pss))
+	writehtml(tpath*"index", makeindexhtml(current, path, pathv; pss=pss), pss)
 	# 消除影响
 	current=current.par
 	path=path[1:end-1-length(last(pathv))]
@@ -194,7 +194,7 @@ function make_rec(;
 	cd("..")
 end
 
-function makemenu(rt::Node; path::String)
+function makemenu(rt::Node, pss::PagesSetting; path::String)
 	html=""
 	if haskey(rt.toml, "outline")
 		outline=@inbounds rt.toml["outline"]
@@ -202,7 +202,7 @@ function makemenu(rt::Node; path::String)
 			expath=path*id
 			if haskey(rt.dirs, id)
 				pair=@inbounds rt.dirs[id]
-				html*="<li><a class=\"tocitem\" href=\"\$$(expath)/index$(pss.filesuffix)\">$(pair[2])</a><ul>$(makemenu(pair[1];path=expath*"/"))</ul><li>"
+				html*="<li><a class=\"tocitem\" href=\"\$$(expath)/index$(pss.filesuffix)\">$(pair[2])</a><ul>$(makemenu(pair[1], pss; path=expath*"/"))</ul><li>"
 			else
 				name=rt.files[id][2]
 				html*="<li><a class=\"tocitem\" href=\"\$$(expath)$(pss.filesuffix)\">$name</a></li>"
@@ -234,7 +234,7 @@ function makeindexhtml(node::Node, path::String, pathv::Vector{String}; pss::Pag
 	return makehtml(pss, ps)
 end
 
-function writehtml(path::String,html::String)
+function writehtml(path::String, html::String, pss::PagesSetting)
 	io=open(path*pss.filesuffix, "w")
 	print(io, html)
 	close(io)
@@ -246,13 +246,15 @@ function file2node(::Val{:md}; it::String, node::Node, pre::String, pss::PagesSe
 	close(io)
 	node.files[pre]=(pair.first, pair.second, "md")
 end
-function file2node(::Val{:jl}; it::String, node::Node, pre::String, ::PagesSetting, spath::String)
+
+function file2node(::Val{:jl}; it::String, node::Node, pre::String, pss::PagesSetting, spath::String)
 	io=open(spath*it, "r")
 	str=replace(read(io, String), "\r"=>"")
 	close(io)
 	node.files[pre]=("<pre class=\"language\">$(highlight(Val(:jl), str))</pre>", pre, "jl")
 end
-function file2node(::Val{:txt}; it::String, node::Node, pre::String, ::PagesSetting, spath::String)
+
+function file2node(::Val{:txt}; it::String, node::Node, pre::String, pss::PagesSetting, spath::String)
 	str="<pre class=\"language\">"
 	io=open(spath*it, "r")
 	num=1
