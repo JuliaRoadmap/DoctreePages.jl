@@ -8,9 +8,9 @@ export GiscusSetting, PagesSetting
 export generate
 
 function html_safe(s::AbstractString)
-	t=replace(s, "<"=>"&lt;")
+	t=replace(s, "&"=>"&amp;")
+	t=replace(t, "<"=>"&lt;")
 	t=replace(t, ">"=>"&gt;")
-	t=replace(t, "&"=>"&quot;")
 	t=replace(t, "\n"=>"<br />")
 	return t
 end
