@@ -8,6 +8,7 @@ end
 Node(par::Union{Node,Nothing}, name::String, toml::Dict=Dict())=Node(par, name, toml, Dict{String, Pair{Node, String}}(), Dict{String, Pair{String, String}}())
 
 function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSetting)
+	mkpath(tardir)
 	# 支持相对路径
 	pwds=pwd()
 	if srcdir[1]=='.'

@@ -1,7 +1,7 @@
 name = "DoctreePages"
 uuid = "22309a8f-d5e2-54ec-9ec8-201313e31489"
 authors = ["Rratic"]
-version = "0.1.0"
+version = "1.0.0"
 
 [deps]
 Markdown = "d6f4376e-aef5-505a-96c1-9c027394607a"

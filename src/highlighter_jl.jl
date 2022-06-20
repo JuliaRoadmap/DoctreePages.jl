@@ -63,7 +63,7 @@ function highlight(::Union{Val{:jl}, Val{:julia}}, content::AbstractString)
 				i+=7
 				pre=i
 			else
-				f=findfirst(r"^\(@v1\.[0-9]*\) pkg> ",SubString(co,i,sz))
+				f=findfirst(r"^\([0-9a-zA-Z._@]*\) pkg> ", SubString(co,i,sz))
 				if f!==nothing
 					dealf()
 					s*=col(co[f.start+i-1:f.stop+i-1],"repl-pkg")

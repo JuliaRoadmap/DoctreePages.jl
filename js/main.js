@@ -5,7 +5,7 @@ var tURL=document.getElementById("tURL").content
 var theme=localStorage.getItem("theme")
 if(theme==undefined)theme="light"
 else if(theme!="light"){
-	localStorage.getElementById("theme-href").href=tURL+"css/"+theme+".css"
+	document.getElementById("theme-href").href=tURL+"css/"+theme+".css"
 }
 
 requirejs.config({
