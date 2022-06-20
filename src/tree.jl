@@ -101,10 +101,9 @@ function gen_rec(;
 		else # isdir
 			@info it*"/"
 			if !haskey(current.toml,"names")
-				@error "TOML: " path current.toml
-				throw("KEY [NAMES] UNFOUND")
+				error("KEY [NAMES] UNFOUND", path, current.toml)
 			end
-			ns=@inbounds current.toml["names"]
+			ns=current.toml["names"]
 			ns::Dict
 			node=Node(current,it)
 			current.dirs[it]=(node,ns[it])
@@ -142,7 +141,7 @@ function make_rec(;
 		prevpage=""
 		nextpage=""
 		if haskey(toml, "outline")
-			vec=@inbounds toml["outline"]
+			vec=toml["outline"]
 			len=length(vec)
 			for i in 1:len
 				if vec[i]==id
@@ -202,7 +201,7 @@ function makemenu(rt::Node, pss::PagesSetting; path::String)
 		for id in outline
 			expath=path*id
 			if haskey(rt.dirs, id)
-				pair=@inbounds rt.dirs[id]
+				pair=rt.dirs[id]
 				html*="<li><a class=\"tocitem\" href=\"\$$(expath)/index$(pss.filesuffix)\">$(pair[2])</a><ul>$(makemenu(pair[1], pss; path=expath*"/"))</ul><li>"
 			else
 				name=rt.files[id][2]
@@ -243,9 +242,12 @@ end
 
 function file2node(::Val{:md}; it::String, node::Node, pre::String, pss::PagesSetting, spath::String)
 	io=open(spath*it, "r")
-	pair=md_withtitle(read(io, String), pss)
-	close(io)
-	node.files[pre]=(pair.first, pair.second, "md")
+	try
+		pair=md_withtitle(read(io, String), pss)
+		node.files[pre]=(pair.first, pair.second, "md")
+	finally
+		close(io)
+	end
 end
 
 function file2node(::Val{:jl}; it::String, node::Node, pre::String, pss::PagesSetting, spath::String)

@@ -26,10 +26,12 @@ gis = GiscusSetting(; # 使用 giscus.app 获取
 	lang = "zh-CN"
 )
 pss = PagesSetting(;
+	buildmessage = "",
 	giscus = gis,
 	lang = "zh",
 	repo_name = "zh",
 	repo_owner = "JuliaRoadmap",
+	throwall = true,
 	title = "Roadmap"
 )
 generate("D:/RM", "D:/RMH", pss)

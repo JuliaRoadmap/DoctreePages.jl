@@ -16,6 +16,9 @@ function md_withtitle(s::String, pss::PagesSetting)
 	try
 		con=ify(md.content, pss)
 	catch er
+		if pss.throwall
+			throw(er)
+		end
 		buf=IOBuffer()
 		showerror(buf, er)
 		str=String(take!(buf))
