@@ -23,30 +23,32 @@ Pages settings, call `PagesSetting(; keyword=value...)`
 The keywords:
 * buildmessage::String = "built at \$(Libc.strftime(Libc.time()))"
 * charset::String = "UTF-8"
-* favicon_path::String = "assets/img/favicon.png"
+* favicon_path::String = "assets/images/favicon.png"
 * filesuffix::String = ".html"
 * giscus::Union{Nothing, GiscusSetting} = nothing
 * lang::String = "en"
-* logo_path::String = "assets/img/logo.png"
+* logo_path::String = "assets/images/logo.png"
 * repo_branch::String = "master"
 * repo_name::String
 * repo_owner::String
 * repo_path::String = "https://github.com/\$repo_owner/\$repo_name/tree/\$repo_branch/"
+* show_info::Bool = true
 * throwall::Bool = false
 * title::String
 """
 Base.@kwdef struct PagesSetting
     buildmessage::String = "built at $(Libc.strftime(Libc.time()))"
     charset::String = "UTF-8"
-	favicon_path::String = "assets/img/favicon.png"
+	favicon_path::String = "assets/images/favicon.png"
     filesuffix::String = ".html"
     giscus::Union{Nothing, GiscusSetting} = nothing
 	lang::String = "en"
-	logo_path::String = "assets/img/logo.png"
+	logo_path::String = "assets/imags/logo.png"
     repo_branch::String = "master"
     repo_name::String
     repo_owner::String
     repo_path::String = "https://github.com/$repo_owner/$repo_name/tree/$repo_branch/"
+    show_info::Bool = true
     throwall::Bool = false
     title::String
 end

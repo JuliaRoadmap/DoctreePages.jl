@@ -88,7 +88,7 @@ function gen_rec(;
 		if it=="setting.toml"
 			continue
 		elseif isfile(it)
-			@info it
+			pss.show_info && @info it
 			dot=findlast('.', it)
 			pre=it[1:dot-1]
 			suf=it[dot+1:end]
@@ -99,7 +99,7 @@ function gen_rec(;
 				cp(spath*it, tpath*it; force=true)
 			end
 		else # isdir
-			@info it*"/"
+			pss.show_info && @info it*"/"
 			if !haskey(current.toml,"names")
 				error("KEY [NAMES] UNFOUND", path, current.toml)
 			end
