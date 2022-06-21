@@ -19,7 +19,11 @@ end
 
 function default_parser()
     p=Parser()
+    enable!(p, AdmonitionRule())
     enable!(p, FootnoteRule())
+    enable!(p, DollarMathRule())
+    enable!(p, TableRule())
+    return p
 end
 
 """

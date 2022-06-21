@@ -39,12 +39,11 @@ function mkhtml(node::CommonMark.Node, ::CommonMark.Paragraph, pss::PagesSetting
 	str="<p>"
 	current=node.first_child
 	while true
-		next=current.nxt
-		if next==current
+		current=current.nxt
+		str*=mkhtml(current, current.t, pss)
+		if current==node.last_child
 			break
 		end
-		str*=mkhtml(next, next.t, pss)
-		current=next
 	end
 	return str*"</p>"
 end
@@ -59,6 +58,17 @@ function mkhtml(node::CommonMark.Node, c::CommonMark.CodeBlock, pss::PagesSettin
 	code=node.literal
 	return highlight(lang, code, pss)
 end
+function mkhtml(::CommonMark.Node, ::CommonMark.ThematicBreak, ::PagesSetting)
+	return "<hr />"
+end
+function mkhtml(node::CommonMark.Node, f::CommonMark.FootnoteDefinition, pss::PagesSetting)
+	ch=node.first_child
+	return "<p id='footnote-$(f.id)'>$(f.id). $(mkhtml(ch, ch.t, pss))</p>"
+end
+function mkhtml(::CommonMark.Node, ::CommonMark.BlockQuote, pss::PagesSetting)
+	ch=node.first_child
+	return "<blockquote>$(mkhtml(ch, ch.t, pss))</blockquote>"
+end
 
 # inline
 function mkhtml(node::CommonMark.Node, ::CommonMark.Text, ::PagesSetting)
@@ -72,6 +82,7 @@ function mkhtml(node::CommonMark.Node, ::CommonMark.Strong, ::PagesSetting)
 end
 function mkhtml(node::CommonMark.Node, link::CommonMark.Link, pss::PagesSetting)
 	htm=mkhtml(node.first_child, node.first_child.t, pss)
+	url=link.destination
 	# 特殊处理
 	if startswith(url,"#")
 		return "<a href='#header-$(url[2:end])'>$htm</a>"
@@ -106,20 +117,36 @@ end
 function mkhtml(node::CommonMark.Node, ::CommonMark.Code, ::PagesSetting)
 	return "<code>$(html_safe(node.first_child.literal))</code>"
 end
-
-# block
-function ify(f::Footnote, pss::PagesSetting)
-	if f.text === nothing
-		return "<sup><a href=\"#footnote-$(f.id)\">$(f.id)</a></sup>"
+function mkhtml(::CommonMark.Node, l::CommonMark.FootnoteLink, ::PagesSetting)
+	return "<sup><a href=\"#footnote-$(l.id)\">[$(l.id)]</a></sup>"
+end
+function mkhtml(::CommonMark.Node, l::CommonMark.List, ::PagesSetting)
+	str=""
+	current=node.first_child
+	if l.type==:ordered
+		while true
+			current=current.nxt
+			ch=current.first_child
+			str*="<ol>$(mkhtml(ch, ch.t, pss))</ol>"
+			str*=mkhtml(current, current.t, pss)
+			if current==node.last_child
+				break
+			end
+		end
 	else
-		text=f.text[1].content[1]
-		html= startswith(text,"https://") ? "<a href=\"$text\" target=\"_blank\">$text</a>" : ify(f.text, pss)
-		return (f.id=="1" ? "<br />" : "")*"<br /><p id=\"footnote-$(f.id)\">$(f.id). </p>"*html
+		while true
+			current=current.nxt
+			ch=current.first_child
+			str*="<ul>$(mkhtml(ch, ch.t, pss))</ul>"
+			str*=mkhtml(current, current.t, pss)
+			if current==node.last_child
+				break
+			end
+		end
 	end
+	return str
 end
-function ify(b::BlockQuote, pss::PagesSetting)
-	return "<blockquote>$(ify(b.content, pss))</blockquote>"
-end
+
 function ify(a::Admonition, pss::PagesSetting)
 	cat=a.category
 	title=a.title
@@ -130,22 +157,6 @@ function ify(a::Admonition, pss::PagesSetting)
 	end
 	return "<div class=\"admonition is-$cat\"><header class=\"admonition-header\">$title</header><div class=\"admonition-body\"><p>$(ify(a.content, pss))</p></div></div>"
 end
-function ify(l::List, pss::PagesSetting)
-	if l.ordered==-1
-		s="<ul>"
-		for el in l.items
-			s*="<li>$(ify(el, pss))</li>"
-		end
-		return s*"</ul>"
-	else
-		s="<ol>"
-		for el in l.items
-			s*="<li>$(ify(el, pss))</li>"
-		end
-		return s*"</ol>"
-	end
-end
-ify(::HorizontalRule, ::PagesSetting)="<hr />"
 
 # table
 function ify(t::Table, pss::PagesSetting)

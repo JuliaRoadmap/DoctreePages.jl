@@ -52,14 +52,6 @@
 	color: forestgreen;
 }
 
-/* 主标签 */
-.content p, code, sup, strong, em, a{
-	display: inline;
-}
-.content .admonition > p{
-	display: block;
-}
-
 /* 附加功能 */
 .checkis{
 	display: none;
