@@ -17,6 +17,11 @@ Base.@kwdef struct GiscusSetting
 	crossorigin::String = "anonymous"
 end
 
+function default_parser()
+    p=Parser()
+    enable!(p, FootnoteRule())
+end
+
 """
 Pages settings, call `PagesSetting(; keyword=value...)`
 
@@ -28,6 +33,7 @@ The keywords:
 * giscus::Union{Nothing, GiscusSetting} = nothing
 * lang::String = "en"
 * logo_path::String = "assets/images/logo.png"
+* parser::Parser = default_parser()
 * repo_branch::String = "master"
 * repo_name::String
 * repo_owner::String
@@ -44,6 +50,7 @@ Base.@kwdef struct PagesSetting
     giscus::Union{Nothing, GiscusSetting} = nothing
 	lang::String = "en"
 	logo_path::String = "assets/imags/logo.png"
+    parser::Parser = default_parser()
     repo_branch::String = "master"
     repo_name::String
     repo_owner::String

@@ -1,20 +1,14 @@
 function ify_md(s::String, pss::PagesSetting)
 	s=replace(s, "\r"=>"")
-	md=Markdown.parse(s)
-	return ify(md.content, pss)
+	md=pss.parser(s)
+	return mkhtml(md, md.t, pss)
 end
 function md_withtitle(s::String, pss::PagesSetting)
 	s=replace(s, "\r"=>"")
-	md=Markdown.parse(s)
-	if isempty(md.content)
-		str=lw(pss, 1)
-		@error str
-		return Pair("<p></p>", str)
-	end
-	ti=md.content[1]::Markdown.Header{1}
+	md=pss.parser(s)
 	con=""
 	try
-		con=ify(md.content, pss)
+		con=mkhtml(md, md.t, pss)
 	catch er
 		if pss.throwall
 			throw(er)
@@ -25,31 +19,95 @@ function md_withtitle(s::String, pss::PagesSetting)
 		con="<p>$(html_safe(str))</p>"
 		@error str
 	end
-	return Pair(con,ti.text[1])
+	return Pair(con, md.first_child.first_child.literal)
 end
-
-# global
-ify(s::String, ::PagesSetting)="<p>$(html_safe(s))</p>"
-function ify(content::Vector, pss::PagesSetting)
-	s=""
-	for el in content
-		s*=ify(el, pss)
+# block
+function mkhtml(node::CommonMark.Node, ::CommonMark.Document, pss::PagesSetting)
+	str="<p>"
+	current=node.first_child
+	while true
+		next=current.nxt
+		if next==current
+			break
+		end
+		str*=mkhtml(next, next.t, pss)
+		current=next
 	end
-	return s
+	return str*"</p>"
+end
+function mkhtml(node::CommonMark.Node, ::CommonMark.Paragraph, pss::PagesSetting)
+	str="<p>"
+	current=node.first_child
+	while true
+		next=current.nxt
+		if next==current
+			break
+		end
+		str*=mkhtml(next, next.t, pss)
+		current=next
+	end
+	return str*"</p>"
 end
 
 # block
-function ify(p::Paragraph, pss::PagesSetting)
-	return ify(p.content, pss)
+function mkhtml(node::CommonMark.Node, h::CommonMark.Heading, ::PagesSetting)
+	lv=h.level
+	return "<h$lv>$(html_safe(node.first_child.literal))</h$lv>"
 end
-function ify(h::Header, ::PagesSetting)
-	lv=typeof(h).parameters[1]
-	text=h.text[1]
-	return "<h$lv id=\"header-$text\">$text</h$lv>"
+function mkhtml(node::CommonMark.Node, c::CommonMark.CodeBlock, pss::PagesSetting)
+	lang=c.info
+	code=node.literal
+	return highlight(lang, code, pss)
 end
-function ify(c::Code, pss::PagesSetting)
-	return highlight(c.language, c.code, pss)
+
+# inline
+function mkhtml(node::CommonMark.Node, ::CommonMark.Text, ::PagesSetting)
+	return "<p>$(html_safe(node.literal))</p>"
 end
+function mkhtml(node::CommonMark.Node, ::CommonMark.Emph, ::PagesSetting)
+	return "<em>$(html_safe(node.first_child.literal))</em>"
+end
+function mkhtml(node::CommonMark.Node, ::CommonMark.Strong, ::PagesSetting)
+	return "<strong>$(html_safe(node.first_child.literal))</strong>"
+end
+function mkhtml(node::CommonMark.Node, link::CommonMark.Link, pss::PagesSetting)
+	htm=mkhtml(node.first_child, node.first_child.t, pss)
+	# 特殊处理
+	if startswith(url,"#")
+		return "<a href='#header-$(url[2:end])'>$htm</a>"
+	end
+	if !startswith(url, "https://") && !startswith(url, "http://")
+		has=findlast('#',url)
+		if has!==nothing
+			ma=findfirst(r".md#.*$",url)
+			if ma!==nothing
+				url=url[1:ma.start-1]*pss.filesuffix*"#header-"*url[ma.start+4:ma.stop]
+			else
+				ma=findfirst(r".txt#.*$",url)
+				if ma!==nothing
+					url=url[1:ma.start-1]*pss.filesuffix*url[ma.start+4:ma.stop]
+				end
+			end
+		else
+			dot=findlast('.', url)
+			if dot !== nothing
+				url=url[1:dot-1]*pss.filesuffix
+			end
+		end
+	end
+	return "<a href='$url' target='_blank'>$htm</a>"
+end
+function mkhtml(node::CommonMark.Node, img::CommonMark.Image, ::PagesSetting)
+	return "<img src='$(img.destination)' alt='$(node.first_child.literal)'>"
+end
+function mkhtml(::CommonMark.Node, ::CommonMark.Backslash, ::PagesSetting)
+	return "<br />"
+end
+function mkhtml(node::CommonMark.Node, ::CommonMark.Code, ::PagesSetting)
+	return "<code>$(html_safe(node.first_child.literal))</code>"
+end
+
+# block
 function ify(f::Footnote, pss::PagesSetting)
 	if f.text === nothing
 		return "<sup><a href=\"#footnote-$(f.id)\">$(f.id)</a></sup>"
@@ -88,40 +146,6 @@ function ify(l::List, pss::PagesSetting)
 	end
 end
 ify(::HorizontalRule, ::PagesSetting)="<hr />"
-
-# inline
-ify(b::Bold, ::PagesSetting)="<strong>$(html_safe(b.text[1]))</strong>"
-ify(i::Italic, ::PagesSetting)="<em>$(html_safe(i.text[1]))</em>"
-ify(i::Image, ::PagesSetting)="<img src=\"$(i.url)\" alt=\"$(i.alt)\" />"
-function ify(l::Link, pss::PagesSetting)
-	htm=ify(l.text, pss)
-	url=l.url
-	# 特殊处理
-	if startswith(url,"#")
-		return "<a href=\"#header-$(url[2:end])\">$htm</a>"
-	end
-	if !startswith(url, "https://") && !startswith(url, "http://")
-		has=findlast('#',url)
-		if has!==nothing
-			ma=findfirst(r".md#.*$",url)
-			if ma!==nothing
-				url=url[1:ma.start-1]*pss.filesuffix*"#header-"*url[ma.start+4:ma.stop]
-			else
-				ma=findfirst(r".txt#.*$",url)
-				if ma!==nothing
-					url=url[1:ma.start-1]*pss.filesuffix*url[ma.start+4:ma.stop]
-				end
-			end
-		else
-			dot=findlast('.', url)
-			if dot !== nothing
-				url=url[1:dot-1]*pss.filesuffix
-			end
-		end
-	end
-	return "<a href=\"$(url)\" target=\"_blank\">$htm</a>"
-end
-ify(::LineBreak, ::PagesSetting)="<br />"
 
 # table
 function ify(t::Table, pss::PagesSetting)

@@ -27,6 +27,7 @@ const language_tags=[
 	(en="parent index", zh="上层索引"),
 ]
 
+using CommonMark
 include("setting.jl")
 
 function lw(pss::PagesSetting, id::Integer)

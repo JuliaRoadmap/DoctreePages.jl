@@ -1,7 +1,4 @@
 function highlight(language::AbstractString, code::AbstractString, pss::PagesSetting)
-	if isempty(language) # inline-code
-		return "<code>$(html_safe(code))</code>"
-	end
 	if startswith(language, "is-")
 		return "<div class='checkis' data-check='$(language)'>$(ify_md(code, pss))</div>"
 	end
