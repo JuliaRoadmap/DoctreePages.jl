@@ -21,31 +21,31 @@ function md_withtitle(s::String, pss::PagesSetting)
 	end
 	return Pair(con, md.first_child.first_child.literal)
 end
-# block
-function mkhtml(node::CommonMark.Node, ::CommonMark.Document, pss::PagesSetting)
-	str="<p>"
+
+@inline function childrenhtml(node::CommonMark.Node, pss::PagesSetting, wrap::String="")
+	str=""
 	current=node.first_child
 	while true
 		next=current.nxt
 		if next==current
 			break
 		end
-		str*=mkhtml(next, next.t, pss)
+		str*="<$wrap>$(mkhtml(next, next.t, pss))</$wrap>"
 		current=next
 	end
-	return str*"</p>"
+	return str
+end
+
+function mkhtml(node::CommonMark.Node, ::CommonMark.AbstractContainer, ::PagesSetting)
+	return html(node)
+end
+
+# block
+function mkhtml(node::CommonMark.Node, ::CommonMark.Document, pss::PagesSetting)
+	return childrenhtml(node, pss)
 end
 function mkhtml(node::CommonMark.Node, ::CommonMark.Paragraph, pss::PagesSetting)
-	str="<p>"
-	current=node.first_child
-	while true
-		current=current.nxt
-		str*=mkhtml(current, current.t, pss)
-		if current==node.last_child
-			break
-		end
-	end
-	return str*"</p>"
+	return "<p>$(childrenhtml(node, pss))</p>"
 end
 
 # block
@@ -69,19 +69,41 @@ function mkhtml(::CommonMark.Node, ::CommonMark.BlockQuote, pss::PagesSetting)
 	ch=node.first_child
 	return "<blockquote>$(mkhtml(ch, ch.t, pss))</blockquote>"
 end
+function mkhtml(node::CommonMark.Node, l::CommonMark.List, pss::PagesSetting)
+	return l.type==:ordered ? childrenhtml(node, pss, "ol") : childrenhtml(node, pss, "ul")
+end
+function mkhtml(node::CommonMark.Node, ad::CommonMark.Admonition, pss::PagesSetting)
+	title=ad.title
+	cat=ad.category
+	if cat=="note" || cat=="tips"
+		cat="info"
+	elseif cat=="warn"
+		cat="warning"
+	end
+	return "<div class='admonition is-$cat'><header class='admonition-header'>$title</header><div class='admonition-body'>$(childrenhtml(node, pss))</div></div>"
+end
+function mkhtml(node::CommonMark.Node, ::CommonMark.Table, pss::PagesSetting)
+	return "<table>$(childrenhtml(node, pss))</table>"
+end
+function mkhtml(node::CommonMark.Node, ::CommonMark.TableHeader, pss::PagesSetting)
+	return "<tr>$(childrenhtml(node, pss, "th"))</tr>"
+end
+function mkhtml(node::CommonMark.Node, ::CommonMark.TableBody, pss::PagesSetting)
+	return "<tr>$(childrenhtml(node, pss, "td"))</tr>"
+end
 
 # inline
 function mkhtml(node::CommonMark.Node, ::CommonMark.Text, ::PagesSetting)
-	return "<p>$(html_safe(node.literal))</p>"
+	return html_safe(node.literal)
 end
 function mkhtml(node::CommonMark.Node, ::CommonMark.Emph, ::PagesSetting)
-	return "<em>$(html_safe(node.first_child.literal))</em>"
+	return "<em>$(childrenhtml(node, pss))</em>"
 end
 function mkhtml(node::CommonMark.Node, ::CommonMark.Strong, ::PagesSetting)
-	return "<strong>$(html_safe(node.first_child.literal))</strong>"
+	return "<strong>$(childrenhtml(node, pss))</strong>"
 end
 function mkhtml(node::CommonMark.Node, link::CommonMark.Link, pss::PagesSetting)
-	htm=mkhtml(node.first_child, node.first_child.t, pss)
+	htm=childrenhtml(node, pss)
 	url=link.destination
 	# 特殊处理
 	if startswith(url,"#")
@@ -119,67 +141,4 @@ function mkhtml(node::CommonMark.Node, ::CommonMark.Code, ::PagesSetting)
 end
 function mkhtml(::CommonMark.Node, l::CommonMark.FootnoteLink, ::PagesSetting)
 	return "<sup><a href=\"#footnote-$(l.id)\">[$(l.id)]</a></sup>"
-end
-function mkhtml(::CommonMark.Node, l::CommonMark.List, ::PagesSetting)
-	str=""
-	current=node.first_child
-	if l.type==:ordered
-		while true
-			current=current.nxt
-			ch=current.first_child
-			str*="<ol>$(mkhtml(ch, ch.t, pss))</ol>"
-			str*=mkhtml(current, current.t, pss)
-			if current==node.last_child
-				break
-			end
-		end
-	else
-		while true
-			current=current.nxt
-			ch=current.first_child
-			str*="<ul>$(mkhtml(ch, ch.t, pss))</ul>"
-			str*=mkhtml(current, current.t, pss)
-			if current==node.last_child
-				break
-			end
-		end
-	end
-	return str
-end
-
-function ify(a::Admonition, pss::PagesSetting)
-	cat=a.category
-	title=a.title
-	if cat=="note" || cat=="tips"
-		cat="info"
-	elseif cat=="warn"
-		cat="warning"
-	end
-	return "<div class=\"admonition is-$cat\"><header class=\"admonition-header\">$title</header><div class=\"admonition-body\"><p>$(ify(a.content, pss))</p></div></div>"
-end
-
-# table
-function ify(t::Table, pss::PagesSetting)
-	s="<table>"
-	fi=true
-	for v in t.rows
-		s*="<tr>"
-		if fi
-			fi=false
-			for st in v
-				s*="<th>$(ify(st, pss))</th>"
-			end
-		else
-			for st in v
-				s*="<td>$(ify(st, pss))</td>"
-			end
-		end
-		s*="</tr>"
-	end
-	return s*"</table>"
-end
-
-# latex
-function ify(l::LaTeX, ::PagesSetting)
-	return "<p>$(l.formula)</p>"
 end
