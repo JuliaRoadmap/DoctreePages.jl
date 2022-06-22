@@ -40,11 +40,6 @@ function lw(pss::PagesSetting, id::Integer)
 	end
 end
 
-using Markdown
-using Markdown: Paragraph,Header,Code,Footnote,BlockQuote,Admonition,List,HorizontalRule
-using Markdown: Italic,Bold,Image,Link,LineBreak
-using Markdown: Table
-using Markdown: LaTeX
 include("markdown.jl")
 include("highlighter.jl")
 include("highlighter_jl.jl")

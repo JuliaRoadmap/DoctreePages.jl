@@ -23,15 +23,17 @@ function md_withtitle(s::String, pss::PagesSetting)
 end
 
 @inline function childrenhtml(node::CommonMark.Node, pss::PagesSetting, wrap::String="")
-	str=""
 	current=node.first_child
+	if !isdefined(current, :t)
+		return ""
+	end
+	str=""
 	while true
-		next=current.nxt
-		if next==current
+		str*=wrap=="" ? mkhtml(current, current.t, pss) : "<$wrap>$(mkhtml(current, current.t, pss))</$wrap>"
+		if current===node.last_child
 			break
 		end
-		str*="<$wrap>$(mkhtml(next, next.t, pss))</$wrap>"
-		current=next
+		current=current.nxt
 	end
 	return str
 end
@@ -49,9 +51,9 @@ function mkhtml(node::CommonMark.Node, ::CommonMark.Paragraph, pss::PagesSetting
 end
 
 # block
-function mkhtml(node::CommonMark.Node, h::CommonMark.Heading, ::PagesSetting)
+function mkhtml(node::CommonMark.Node, h::CommonMark.Heading, pss::PagesSetting)
 	lv=h.level
-	return "<h$lv>$(html_safe(node.first_child.literal))</h$lv>"
+	return "<h$lv>$(childrenhtml(node, pss))</h$lv>"
 end
 function mkhtml(node::CommonMark.Node, c::CommonMark.CodeBlock, pss::PagesSetting)
 	lang=c.info
@@ -65,12 +67,12 @@ function mkhtml(node::CommonMark.Node, f::CommonMark.FootnoteDefinition, pss::Pa
 	ch=node.first_child
 	return "<p id='footnote-$(f.id)'>$(f.id). $(mkhtml(ch, ch.t, pss))</p>"
 end
-function mkhtml(::CommonMark.Node, ::CommonMark.BlockQuote, pss::PagesSetting)
+function mkhtml(node::CommonMark.Node, ::CommonMark.BlockQuote, pss::PagesSetting)
 	ch=node.first_child
 	return "<blockquote>$(mkhtml(ch, ch.t, pss))</blockquote>"
 end
 function mkhtml(node::CommonMark.Node, l::CommonMark.List, pss::PagesSetting)
-	return l.type==:ordered ? childrenhtml(node, pss, "ol") : childrenhtml(node, pss, "ul")
+	return l.list_data.type==:ordered ? childrenhtml(node, pss, "ol") : childrenhtml(node, pss, "ul")
 end
 function mkhtml(node::CommonMark.Node, ad::CommonMark.Admonition, pss::PagesSetting)
 	title=ad.title
@@ -96,10 +98,10 @@ end
 function mkhtml(node::CommonMark.Node, ::CommonMark.Text, ::PagesSetting)
 	return html_safe(node.literal)
 end
-function mkhtml(node::CommonMark.Node, ::CommonMark.Emph, ::PagesSetting)
+function mkhtml(node::CommonMark.Node, ::CommonMark.Emph, pss::PagesSetting)
 	return "<em>$(childrenhtml(node, pss))</em>"
 end
-function mkhtml(node::CommonMark.Node, ::CommonMark.Strong, ::PagesSetting)
+function mkhtml(node::CommonMark.Node, ::CommonMark.Strong, pss::PagesSetting)
 	return "<strong>$(childrenhtml(node, pss))</strong>"
 end
 function mkhtml(node::CommonMark.Node, link::CommonMark.Link, pss::PagesSetting)
@@ -133,11 +135,11 @@ end
 function mkhtml(node::CommonMark.Node, img::CommonMark.Image, ::PagesSetting)
 	return "<img src='$(img.destination)' alt='$(node.first_child.literal)'>"
 end
-function mkhtml(::CommonMark.Node, ::CommonMark.Backslash, ::PagesSetting)
+function mkhtml(::CommonMark.Node, ::Union{CommonMark.Backslash, CommonMark.LineBreak}, ::PagesSetting)
 	return "<br />"
 end
-function mkhtml(node::CommonMark.Node, ::CommonMark.Code, ::PagesSetting)
-	return "<code>$(html_safe(node.first_child.literal))</code>"
+function mkhtml(node::CommonMark.Node, ::CommonMark.Code, pss::PagesSetting)
+	return "<code>$(childrenhtml(node, pss))</code>"
 end
 function mkhtml(::CommonMark.Node, l::CommonMark.FootnoteLink, ::PagesSetting)
 	return "<sup><a href=\"#footnote-$(l.id)\">[$(l.id)]</a></sup>"
