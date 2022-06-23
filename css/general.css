@@ -52,6 +52,11 @@
 	color: forestgreen;
 }
 
+/* 主标签额外 */
+.footnote p:first-child{
+	display: inline;
+}
+
 /* 附加功能 */
 .checkis{
 	display: none;

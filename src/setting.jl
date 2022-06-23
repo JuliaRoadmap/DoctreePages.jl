@@ -53,7 +53,7 @@ Base.@kwdef struct PagesSetting
     filesuffix::String = ".html"
     giscus::Union{Nothing, GiscusSetting} = nothing
 	lang::String = "en"
-	logo_path::String = "assets/imags/logo.png"
+	logo_path::String = "assets/images/logo.png"
     parser::Parser = default_parser()
     repo_branch::String = "master"
     repo_name::String

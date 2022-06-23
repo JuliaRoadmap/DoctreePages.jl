@@ -49,8 +49,6 @@ end
 function mkhtml(node::CommonMark.Node, ::CommonMark.Paragraph, pss::PagesSetting)
 	return "<p>$(childrenhtml(node, pss))</p>"
 end
-
-# block
 function mkhtml(node::CommonMark.Node, h::CommonMark.Heading, pss::PagesSetting)
 	lv=h.level
 	return "<h$lv>$(childrenhtml(node, pss))</h$lv>"
@@ -64,8 +62,7 @@ function mkhtml(::CommonMark.Node, ::CommonMark.ThematicBreak, ::PagesSetting)
 	return "<hr />"
 end
 function mkhtml(node::CommonMark.Node, f::CommonMark.FootnoteDefinition, pss::PagesSetting)
-	ch=node.first_child
-	return "<p id='footnote-$(f.id)'>$(f.id). $(mkhtml(ch, ch.t, pss))</p>"
+	return "<span id='footnote-$(f.id)' class='footnote'>$(f.id). $(childrenhtml(node, pss))</span>"
 end
 function mkhtml(node::CommonMark.Node, ::CommonMark.BlockQuote, pss::PagesSetting)
 	ch=node.first_child

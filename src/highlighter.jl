@@ -19,10 +19,11 @@ function highlight(::Val{Symbol("insert-fill")}, content::AbstractString)
 	des=html_safe(des)
 	des=replace(des,"\n"=>"<br />")
 	esc=escape_string(tup[2])
-	reg=length(tup)==3 ? tup[3].pattern : "^$esc\$"
-	return """<div class="fill-area"><p>$des</p><br />
+	noreg=length(tup)!=3
+	reg=noreg ? esc : tup[3].pattern
+	return """<div class="fill-area"><p>$des</p>
 	<input type="text" placeholder="ans">
-	<button class="submit-fill" data-ans="$reg">📤</button>
+	<button class="submit-fill" data-ans="$reg" data-noreg="$noreg">📤</button>
 	<button class="ans-fill" data-ans="$esc">🔑</button>
 	</div>"""
 	# 💡

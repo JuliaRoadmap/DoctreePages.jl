@@ -179,11 +179,13 @@ require(['jquery'],function($){
 		for(let i of $(".submit-fill")){
 			i.onclick=function(){
 				var input=i.parentNode.children[2]
-				var reg=RegExp(i.dataset["ans"])
-				if(reg.exec(input.value)===null){
-					i.style.backgroundColor="#f05020"
+				let noreg=i.dataset["noreg"]=="true"
+				if(noreg){
+					let reg=RegExp(i.dataset["ans"])
+					i.style.backgroundColor= reg.exec(input.value)===null ? "#f05020" : "#80af00"
 				}else{
-					i.style.backgroundColor="#80af00"
+					let str=i.dataset["ans"]
+					i.style.backgroundColor= input.value==str ? "#f05020" : "#80af00"
 				}
 				setTimeout(function(){
 					i.style.backgroundColor=null
