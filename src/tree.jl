@@ -39,7 +39,9 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 			cp("script/"*file, tardir*"js/"*file; force=true)
 		end
 	end
-	cp(pss.favicon_path, tardir*"favicon.ico"; force=true)
+	if pss.move_favicon
+		cp(pss.favicon_path, tardir*"favicon.ico"; force=true)
+	end
 	# docs
 	root=Node(nothing, lw(pss, 5))
 	cd(srcdir*"docs")

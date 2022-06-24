@@ -37,11 +37,12 @@ The keywords:
 * giscus::Union{Nothing, GiscusSetting} = nothing
 * lang::String = "en"
 * logo_path::String = "assets/images/logo.png"
+* move_favicon::Bool = true
 * parser::Parser = default_parser()
 * repo_branch::String = "master"
 * repo_name::String
 * repo_owner::String
-* repo_path::String = "https://github.com/\$repo_owner/\$repo_name/tree/\$repo_branch/"
+* repo\\_path::String = "https://github.com/\$repo\\_owner/\$repo\\_name/tree/\$repo\\_branch/"
 * show_info::Bool = true
 * throwall::Bool = false
 * title::String
@@ -54,6 +55,7 @@ Base.@kwdef struct PagesSetting
     giscus::Union{Nothing, GiscusSetting} = nothing
 	lang::String = "en"
 	logo_path::String = "assets/images/logo.png"
+    move_favicon::Bool = true
     parser::Parser = default_parser()
     repo_branch::String = "master"
     repo_name::String
