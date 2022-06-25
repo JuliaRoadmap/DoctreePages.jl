@@ -128,21 +128,21 @@ require(['jquery'],function($){
 		const _menu=menu.replaceAll("$",tURL)
 		$(".docs-menu")[0].innerHTML=_menu
 	})
-	// 复制标题链接
+	
 	$(".content").ready(function(){
-		pasteh=function(id){
-			var s=document.location.href
-			navigator.clipboard.writeText(s+"#"+id).then(function(){},function(){window.alert("复制失败")})
-		}
-		bindh=function(s){
-			for(var i of $(".content "+s)){
-				i.ondblclick=function(){pasteh(i.id)}
+		// 复制标题链接
+		for(let i of $(".content .docs-heading-anchor-permalink")){
+			i.onclick=function(){
+				let s=document.location.href
+				let id=i.parentNode.id
+				navigator.clipboard.writeText(s+"#"+id).then(
+					function(){},
+					function(){window.alert("复制失败")
+				})
 			}
 		}
-		bindh("h1");bindh("h2");bindh("h3")
-		bindh("h4");bindh("h5");bindh("h6")
 		// 复制代码块数据
-		for(var i of $(".content pre")){
+		for(let i of $(".content pre")){
 			i.ondblclick=function(){
 				var s=""
 				for(e of i.children){

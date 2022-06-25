@@ -51,7 +51,8 @@ function mkhtml(node::CommonMark.Node, ::CommonMark.Paragraph, pss::PagesSetting
 end
 function mkhtml(node::CommonMark.Node, h::CommonMark.Heading, pss::PagesSetting)
 	lv=h.level
-	return "<h$lv>$(childrenhtml(node, pss))</h$lv>"
+	text=childrenhtml(node, pss)
+	return "<h$lv id='header-$text'>$text<a class='docs-heading-anchor-permalink'></a></h$lv>"
 end
 function mkhtml(node::CommonMark.Node, c::CommonMark.CodeBlock, pss::PagesSetting)
 	lang=c.info
