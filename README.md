@@ -4,6 +4,7 @@
 * [规范](docs/guidelines.md)
 * [注意事项](docs/notice.md)
 * [设置文件](docs/settings.md)
+* [扩展](docs/extension.md)
 
 输入`?DoctreePages`以阅读功能使用方式
 

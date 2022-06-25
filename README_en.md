@@ -4,6 +4,7 @@ This is a lightweight interactive document generator.\
 * [guidelines](docs/en/guidelines.md)
 * [notice](docs/en/notice.md)
 * [setting](docs/en/settings.md)
+* [extension](docs/en/extension.md)
 
 Type `?DoctreePages` to read usage of functions.
 
