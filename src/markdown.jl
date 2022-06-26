@@ -136,8 +136,8 @@ end
 function mkhtml(::CommonMark.Node, ::Union{CommonMark.Backslash, CommonMark.LineBreak}, ::PagesSetting)
 	return "<br />"
 end
-function mkhtml(node::CommonMark.Node, ::CommonMark.Code, pss::PagesSetting)
-	return "<code>$(childrenhtml(node, pss))</code>"
+function mkhtml(node::CommonMark.Node, ::CommonMark.Code, ::PagesSetting)
+	return "<code>$(html_safe(node.literal))</code>"
 end
 function mkhtml(::CommonMark.Node, l::CommonMark.FootnoteLink, ::PagesSetting)
 	return "<sup><a href=\"#footnote-$(l.id)\">[$(l.id)]</a></sup>"
