@@ -144,7 +144,7 @@ require(['jquery'],function($){
 		}
 		// 复制代码块数据
 		for(let i of $(".content .codeblock-header")){
-			i.innerHTML=`<span class='codeblock-paste'><img src='${tURL}.doctreepages/assets/svg/copy.svg'/ width='20' height='20' onclick='copycodeblock(event)'></span>`
+			i.innerHTML=`<span class='codeblock-paste'><img src='${tURL}.doctreepages/assets/svg/copy.svg' width='20' height='20' onclick='copycodeblock(event)'></span>`
 		}
 	})
 	$(document).ready(function(){
@@ -218,10 +218,10 @@ function copycodeblock(ev){
 	}
 	navigator.clipboard.writeText(s).then(
 		function(){
+			tar.src=tURL+".doctreepages/assets/svg/copied.svg"
 			setTimeout(function(){
-				tar.src=tURL+".doctreepages/assets/svg/copied.svg"
+				tar.src=tURL+".doctreepages/assets/svg/copy.svg"
 			},2000)
-			tar.src=tURL+".doctreepages/assets/svg/copy.svg"
 		},
 		function(){window.alert("failed")}
 	)

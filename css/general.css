@@ -61,11 +61,9 @@
 .checkis{
 	display: none;
 }
-.codeblock-header{
-	background-color:cornsilk;
-}
 .codeblock-paste{
-	background-color: whitesmoke;
+	background-color: transparent;
+	float: right;
 }
 annotation{
 	display: none;
