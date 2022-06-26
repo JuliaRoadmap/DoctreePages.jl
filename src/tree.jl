@@ -47,6 +47,9 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 	# docs
 	root=Node(nothing, lw(pss, 5))
 	cd(srcdir*"docs")
+	if pss.remove_original && isdir(tardir*"docs")
+		rm(tardir*"docs")
+	end
 	gen_rec(;
 		current=root,
 		outline=true,

@@ -40,6 +40,7 @@ The keywords:
 * make_index::Bool = true
 * move_favicon::Bool = true
 * parser::Parser = default_parser()
+* remove_original::Bool = true
 * repo_branch::String = "master"
 * repo_name::String
 * repo_owner::String
@@ -59,6 +60,7 @@ Base.@kwdef struct PagesSetting
     make_index::Bool = true
     move_favicon::Bool = true
     parser::Parser = default_parser()
+    remove_original::Bool = true
     repo_branch::String = "master"
     repo_name::String
     repo_owner::String

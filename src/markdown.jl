@@ -83,7 +83,7 @@ function mkhtml(node::CommonMark.Node, ad::CommonMark.Admonition, pss::PagesSett
 	return "<div class='admonition is-$cat'><header class='admonition-header'>$title</header><div class='admonition-body'>$(childrenhtml(node, pss))</div></div>"
 end
 function mkhtml(node::CommonMark.Node, ::CommonMark.Table, pss::PagesSetting)
-	return "<table>$(childrenhtml(node, pss))</table>"
+	return "<table style='float:center'>$(childrenhtml(node, pss))</table>"
 end
 function mkhtml(node::CommonMark.Node, ::CommonMark.TableHeader, pss::PagesSetting)
 	return "<thead>$(childrenhtml(node, pss))</thead>"
