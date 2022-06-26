@@ -53,7 +53,7 @@
 }
 
 /* 主标签额外 */
-.footnote p:first-child{
+.footnote > p{
 	display: inline;
 }
 

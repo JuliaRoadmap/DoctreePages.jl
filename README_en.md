@@ -1,6 +1,10 @@
-## About
-This is a lightweight interactive document generator.\
 [中文文档](README.md) | English Docs
+
+## About
+This is a lightweight interactive document generator.
+* lightweight: only two dependencies
+* interactive: including page-discussion, answer-board and statement-trigger text
+
 * [guidelines](docs/en/guidelines.md)
 * [notice](docs/en/notice.md)
 * [setting](docs/en/settings.md)

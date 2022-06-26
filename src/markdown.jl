@@ -46,8 +46,8 @@ end
 function mkhtml(node::CommonMark.Node, ::CommonMark.Document, pss::PagesSetting)
 	return childrenhtml(node, pss)
 end
-function mkhtml(node::CommonMark.Node, ::CommonMark.Paragraph, pss::PagesSetting)
-	return "<p>$(childrenhtml(node, pss))</p>"
+function mkhtml(node::CommonMark.Node, ::CommonMark.Paragraph, pss::PagesSetting; inline=false)
+	return inline ? "<span>$(childrenhtml(node, pss))</span>" : "<p>$(childrenhtml(node, pss))</p>"
 end
 function mkhtml(node::CommonMark.Node, h::CommonMark.Heading, pss::PagesSetting)
 	lv=h.level
@@ -63,7 +63,7 @@ function mkhtml(::CommonMark.Node, ::CommonMark.ThematicBreak, ::PagesSetting)
 	return "<hr />"
 end
 function mkhtml(node::CommonMark.Node, f::CommonMark.FootnoteDefinition, pss::PagesSetting)
-	return "<p id='footnote-$(f.id)' class='footnote'>$(f.id). $(childrenhtml(node, pss))</p>"
+	return "<div id='footnote-$(f.id)' class='footnote'><span>$(f.id). </span>$(childrenhtml(node, pss))</div>"
 end
 function mkhtml(node::CommonMark.Node, ::CommonMark.BlockQuote, pss::PagesSetting)
 	ch=node.first_child
@@ -86,13 +86,19 @@ function mkhtml(node::CommonMark.Node, ::CommonMark.Table, pss::PagesSetting)
 	return "<table>$(childrenhtml(node, pss))</table>"
 end
 function mkhtml(node::CommonMark.Node, ::CommonMark.TableHeader, pss::PagesSetting)
-	return "<tr>$(childrenhtml(node, pss, "th"))</tr>"
+	return "<thead>$(childrenhtml(node, pss))</thead>"
 end
 function mkhtml(node::CommonMark.Node, ::CommonMark.TableBody, pss::PagesSetting)
+	return "<tbody>$(childrenhtml(node, pss))</tbody>"
+end
+function mkhtml(node::CommonMark.Node, ::CommonMark.TableRow, pss::PagesSetting)
 	return "<tr>$(childrenhtml(node, pss, "td"))</tr>"
 end
+function mkhtml(node::CommonMark.Node, ::CommonMark.TableCell, pss::PagesSetting)
+	return childrenhtml(node, pss)
+end
 function mkhtml(node::CommonMark.Node, ::CommonMark.DisplayMath, ::PagesSetting)
-	return "<div class='display-math tex'>$(html_safe(node.literal))</span>"
+	return "<div class='display-math tex'>$(html_safe(node.literal))</div>"
 end
 
 # inline

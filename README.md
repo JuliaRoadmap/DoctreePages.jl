@@ -1,6 +1,10 @@
-## 关于
-这是一个轻量级交互式文档生成器\
 中文文档 | [English Docs](README_en.md)
+
+## 关于
+这是一个轻量级交互式文档生成器
+* 轻量级：只基于 CommonMark 和 TOML
+* 交互式：包括页面讨论功能，填空题与条件激发文本
+
 * [规范](docs/guidelines.md)
 * [注意事项](docs/notice.md)
 * [设置文件](docs/settings.md)

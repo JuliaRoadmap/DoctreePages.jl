@@ -43,7 +43,7 @@ The keywords:
 * repo_branch::String = "master"
 * repo_name::String
 * repo_owner::String
-* repo\\_path::String = "https://github.com/\$repo\\_owner/\$repo\\_name/tree/\$repo\\_branch/"
+* repo\\_path::String = `"https://github.com/\$repo_owner/\$repo_name/tree/\$repo_branch/"`
 * show_info::Bool = true
 * throwall::Bool = false
 * title::String

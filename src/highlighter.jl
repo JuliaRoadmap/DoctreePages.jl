@@ -6,16 +6,17 @@ function highlight(language::AbstractString, code::AbstractString, pss::PagesSet
 	if hasmethod(highlight, Tuple{Val{sym}, AbstractString})
 		middle=highlight(Val(sym), code)
 		special=startswith(language, "insert-") || startswith(language, "is-")
-		return special ? middle : "<div class='language language-$language'><div class='codeblock-header'></div><div class='codeblock-body'>$middle</div></div>"
+		return special ? middle : "<div class='language language-$language'><div class='codeblock-header'></div><div class='codeblock-body'>$middle</div></div><br />"
 	else
-		return "<div class='language language-$language'>$(html_safe(code))</div>"
+		return "<div class='language language-$language'><div class='codeblock-header'></div><div class='codeblock-body'>$(html_safe(code))</div></div><br />"
 	end
 end
 
-safecol(content::String, co::String)="<span class=\"hl-$co\">$content</span>"
-function col(content::String, co::String; br=true)
+safecol(content::AbstractString, co::AbstractString)="<span class=\"hl-$co\">$content</span>"
+function col(content::AbstractString, co::String; br=true)
 	if content=="" return "" end
-	t=replace(content, "&"=>"&amp;")
+	t=String(content)
+	t=replace(t, "&"=>"&amp;")
 	t=replace(t, "<"=>"&lt;")
 	t=replace(t, ">"=>"&gt;")
 	t=replace(t, " "=>"&nbsp;")

@@ -18,14 +18,14 @@ function highlight(::Union{Val{:shell}, Val{:sh}}, content::AbstractString)
 			s*=safecol("\$", "repl-code")
 			s*=col(line[2:end], "plain"; br=false)
 		else
-			find=findfirst(line, r"^[a-zA-Z0-9_-]*(>|#|~) ")
+			find=findfirst(r"^[a-zA-Z0-9_-]*(>|#|~) ", line)
 			if find===nothing
 				s*=col(line, "plain"; br=false)
 			else
 				sz=find.stop-1
 				maystart=line[1:sz]
 				s*=safecol(maystart, "repl-code")
-				s*=col(line[find.stop:len], "plain"; br=false)
+				s*=col(line[find.stop:end], "plain"; br=false)
 			end
 		end
 		if i!=l
