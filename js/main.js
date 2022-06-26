@@ -14,7 +14,6 @@ requirejs.config({
 		'jqueryui': 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min',
 		'jquery': 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min',
 		'headroom-jquery': 'https://cdnjs.cloudflare.com/ajax/libs/headroom/0.10.3/jQuery.headroom.min',
-		'katex-auto-render': 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/contrib/auto-render.min',
 		'katex': 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min',
 	},
 	shim: {
@@ -22,11 +21,6 @@ requirejs.config({
 			"deps": [
 				"jquery",
 				"headroom"
-			]
-		},
-		"katex-auto-render": {
-			"deps": [
-				"katex"
 			]
 		},
 	}
@@ -207,17 +201,19 @@ require(['jquery'],function($){
 		}
 	})
 })
-require(['jquery', 'katex', 'katex-auto-render'], function($, katex, renderMathInElement) {
+require(['jquery', 'katex'], function($, katex){
 	$(document).ready(function(){
-		renderMathInElement(
-			document.body,
-			{
-				"delimiters": [
-					{"left": "$","right": "$","display": false},
-					{"left": "$$","right": "$$","display": true},
-					{"left": "\\[","right": "\\]","display": true}
-	  			]
-			}
-		);
+		for(let e of $(".math")){
+			katex.render(e.innerText,e,{
+				displayMode:false,
+				throwOnError:false
+			})
+		}
+		for(let e of $(".display-math")){
+			katex.render(e.innerText,e,{
+				displayMode:true,
+				throwOnError:false
+			})
+		}
 	})
 })

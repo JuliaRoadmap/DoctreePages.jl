@@ -91,6 +91,9 @@ end
 function mkhtml(node::CommonMark.Node, ::CommonMark.TableBody, pss::PagesSetting)
 	return "<tr>$(childrenhtml(node, pss, "td"))</tr>"
 end
+function mkhtml(node::CommonMark.Node, ::CommonMark.DisplayMath, ::PagesSetting)
+	return "<div class='display-math tex'>$(html_safe(node.literal))</span>"
+end
 
 # inline
 function mkhtml(node::CommonMark.Node, ::CommonMark.Text, ::PagesSetting)
@@ -141,4 +144,7 @@ function mkhtml(node::CommonMark.Node, ::CommonMark.Code, ::PagesSetting)
 end
 function mkhtml(::CommonMark.Node, l::CommonMark.FootnoteLink, ::PagesSetting)
 	return "<sup><a href=\"#footnote-$(l.id)\">[$(l.id)]</a></sup>"
+end
+function mkhtml(node::CommonMark.Node, ::CommonMark.Math, ::PagesSetting)
+	return "<span class='math tex'>$(html_safe(node.literal))</span>"
 end

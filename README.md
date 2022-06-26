@@ -56,7 +56,7 @@ generate("D:/RM", "D:/RMH", pss)
 - [ ] `shell`高亮
 - [x] 暗色模式舒适初始化
 - [ ] 允许调整字体大小
-- [ ] 支持LaTeX
+- [x] 支持LaTeX
 - [x] 插入html
 - [x] 插入条件激发
 - [x] 插入填空题
