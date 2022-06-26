@@ -28,6 +28,8 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 	cd("..")
 	cp("css", tardir*"css"; force=true)
 	cp("js", tardir*"js"; force=true)
+	mkpath(tardir*".doctreepages/assets")
+	cp("svg", tardir*".doctreepages/assets/svg")
 	# 复制来源
 	cd(srcdir)
 	if isdir("assets")

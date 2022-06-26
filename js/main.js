@@ -138,22 +138,13 @@ require(['jquery'],function($){
 				let id=i.parentNode.id
 				navigator.clipboard.writeText(s+"#"+id).then(
 					function(){},
-					function(){window.alert("复制失败")
+					function(){window.alert("failed")
 				})
 			}
 		}
 		// 复制代码块数据
-		for(let i of $(".content pre")){
-			i.ondblclick=function(){
-				var s=""
-				for(e of i.children){
-					if(e.tagName=="BR")s+="\n"
-					else s+=e.innerText
-				}
-				navigator.clipboard.writeText(s).then(function(){},function(){
-					window.alert("复制失败")
-				})
-			}
+		for(let i of $(".content .codeblock-header")){
+			i.innerHTML=`<span class='codeblock-paste'><img src='${tURL}.doctreepages/assets/svg/copy.svg'/ onclick='copycodeblock(event)'></span>`
 		}
 	})
 	$(document).ready(function(){
@@ -217,3 +208,21 @@ require(['jquery', 'katex'], function($, katex){
 		}
 	})
 })
+function copycodeblock(ev){
+	let tar=ev.target
+	let body=tar.parentNode.parentNode.nextSibling
+	let s=""
+	for(let e of body.children){
+		if(e.tagName=="BR")s+="\n"
+		else s+=e.innerText
+	}
+	navigator.clipboard.writeText(s).then(
+		function(){
+			setTimeout(function(){
+				tar.src=tURL+".doctreepages/assets/svg/copied.svg"
+			},2000)
+			tar.src=tURL+".doctreepages/assets/svg/copy.svg"
+		},
+		function(){window.alert("failed")}
+	)
+}

@@ -1,0 +1,4 @@
+<svg width="20" height="20" version="1.1" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" d="M0 50 H30 V20 H0 Z" stroke="green"></path>
+<path fill-rule="evenodd" d="M50 0 H20 V30 H50 Z" stroke="green"></path>
+</svg>

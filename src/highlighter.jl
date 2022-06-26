@@ -5,7 +5,8 @@ function highlight(language::AbstractString, code::AbstractString, pss::PagesSet
 	sym=Symbol(language)
 	if hasmethod(highlight, Tuple{Val{sym}, AbstractString})
 		middle=highlight(Val(sym), code)
-		return startswith(language, "insert") ? middle : "<div class='language language-$language'>$middle</div>"
+		special=startswith(language, "insert-") || startswith(language, "is-")
+		return special ? middle : "<div class='language language-$language'><div class='codeblock-header'></div><div class='codeblock-body'>$middle</div></div>"
 	else
 		return "<div class='language language-$language'>$(html_safe(code))</div>"
 	end
