@@ -190,7 +190,9 @@ function make_rec(;
 			tardir=tardir
 		)
 	end
-	writehtml(tpath*"index", makeindexhtml(current, path, pathv; pss=pss), pss)
+	if pss.make_index
+		writehtml(tpath*"index", makeindexhtml(current, path, pathv; pss=pss), pss)
+	end
 	# 消除影响
 	current=current.par
 	path=path[1:end-1-length(last(pathv))]

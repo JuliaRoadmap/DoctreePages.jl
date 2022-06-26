@@ -37,6 +37,7 @@ The keywords:
 * giscus::Union{Nothing, GiscusSetting} = nothing
 * lang::String = "en"
 * logo_path::String = "assets/images/logo.png"
+* make_index::Bool = true
 * move_favicon::Bool = true
 * parser::Parser = default_parser()
 * repo_branch::String = "master"
@@ -55,6 +56,7 @@ Base.@kwdef struct PagesSetting
     giscus::Union{Nothing, GiscusSetting} = nothing
 	lang::String = "en"
 	logo_path::String = "assets/images/logo.png"
+    make_index::Bool = true
     move_favicon::Bool = true
     parser::Parser = default_parser()
     repo_branch::String = "master"
