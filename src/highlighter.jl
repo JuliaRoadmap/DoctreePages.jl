@@ -11,6 +11,17 @@ function highlight(language::AbstractString, code::AbstractString, pss::PagesSet
 		return "<div class='language language-$language'>$(html_safe(code))</div>"
 	end
 end
+
+safecol(content::String, co::String)="<span class=\"hl-$co\">$content</span>"
+function col(content::String, co::String; br=true)
+	if content=="" return "" end
+	t=replace(content, "&"=>"&amp;")
+	t=replace(t, "<"=>"&lt;")
+	t=replace(t, ">"=>"&gt;")
+	t=replace(t, " "=>"&nbsp;")
+	return "<span class=\"hl-$co\">$(br ? replace(t,"\n"=>"<br />") : t)</span>"
+end
+
 function highlight(::Val{Symbol("insert-html")}, content::AbstractString)
 	return content
 end

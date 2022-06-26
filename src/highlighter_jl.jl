@@ -6,15 +6,6 @@ const jl_keywords=[
 const jl_specials=[
 	"true","false","nothing","missing"
 ]
-safecol(content::String,co::String)="<span class=\"hl-$co\">$content</span>"
-function col(content::String,co::String;br=true)
-	if content=="" return "" end
-	t=replace(content,"&"=>"&amp;")
-	t=replace(t,"<"=>"&lt;")
-	t=replace(t,">"=>"&gt;")
-	t=replace(t," "=>"&nbsp;")
-	return "<span class=\"hl-$co\">$(br ? replace(t,"\n"=>"<br />") : t)</span>"
-end
 function highlight(::Union{Val{:jl}, Val{:julia}}, content::AbstractString)
 	co=String(content)
 	repl=false

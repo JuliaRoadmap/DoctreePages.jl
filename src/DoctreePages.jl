@@ -43,6 +43,7 @@ end
 include("markdown.jl")
 include("highlighter.jl")
 include("highlighter_jl.jl")
+include("highlighter_shell.jl")
 include("tohtml.jl")
 
 using TOML
