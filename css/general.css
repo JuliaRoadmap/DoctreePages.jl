@@ -67,3 +67,6 @@
 .codeblock-paste{
 	background-color: whitesmoke;
 }
+annotation{
+	display: none;
+}
