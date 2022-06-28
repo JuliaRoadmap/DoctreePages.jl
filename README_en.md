@@ -34,6 +34,7 @@ pss = PagesSetting(;
 	buildmessage = "",
 	giscus = gis,
 	lang = "zh",
+	logo_path = "assets/images/logo.png",
 	repo_name = "zh",
 	repo_owner = "JuliaRoadmap",
 	throwall = true,

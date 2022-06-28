@@ -32,11 +32,12 @@ Pages settings, call `PagesSetting(; keyword=value...)`
 The keywords:
 * buildmessage::String = "built at \$(Libc.strftime(Libc.time()))"
 * charset::String = "UTF-8"
+* default_alt::String = "img"
 * favicon_path::String = "assets/images/favicon.png"
 * filesuffix::String = ".html"
 * giscus::Union{Nothing, GiscusSetting} = nothing
 * lang::String = "en"
-* logo_path::String = "assets/images/logo.png"
+* logo_path::Union{Nothing, String} = nothing
 * make_index::Bool = true
 * move_favicon::Bool = true
 * parser::Parser = default_parser()
@@ -52,11 +53,12 @@ The keywords:
 Base.@kwdef struct PagesSetting
     buildmessage::String = "built at $(Libc.strftime(Libc.time()))"
     charset::String = "UTF-8"
+    default_alt::String = "img"
 	favicon_path::String = "assets/images/favicon.png"
     filesuffix::String = ".html"
     giscus::Union{Nothing, GiscusSetting} = nothing
 	lang::String = "en"
-	logo_path::String = "assets/images/logo.png"
+	logo_path::Union{Nothing, String} = nothing
     make_index::Bool = true
     move_favicon::Bool = true
     parser::Parser = default_parser()
