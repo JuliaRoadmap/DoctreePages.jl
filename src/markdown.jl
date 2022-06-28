@@ -38,9 +38,9 @@ end
 	return str
 end
 
-function mkhtml(node::CommonMark.Node, ::CommonMark.AbstractContainer, ::PagesSetting)
+#= function mkhtml(node::CommonMark.Node, ::CommonMark.AbstractContainer, ::PagesSetting)
 	return html(node)
-end
+end =# # 这会掩盖问题 
 
 # block
 function mkhtml(node::CommonMark.Node, ::CommonMark.Document, pss::PagesSetting)
@@ -70,7 +70,11 @@ function mkhtml(node::CommonMark.Node, ::CommonMark.BlockQuote, pss::PagesSettin
 	return "<blockquote>$(mkhtml(ch, ch.t, pss))</blockquote>"
 end
 function mkhtml(node::CommonMark.Node, l::CommonMark.List, pss::PagesSetting)
-	return l.list_data.type==:ordered ? childrenhtml(node, pss, "ol") : childrenhtml(node, pss, "ul")
+	ch=childrenhtml(node, pss)
+	return l.list_data.type==:ordered ? "<ol>$ch</ol>" : "<ul>$ch</ul>"
+end
+function mkhtml(node::CommonMark.Node, ::CommonMark.Item, pss::PagesSetting)
+	return "<li>$(childrenhtml(node, pss))</li>"
 end
 function mkhtml(node::CommonMark.Node, ad::CommonMark.Admonition, pss::PagesSetting)
 	title=ad.title
