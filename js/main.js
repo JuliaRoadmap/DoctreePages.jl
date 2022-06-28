@@ -170,9 +170,9 @@ require(['jquery'],function($){
 		// 初始化填空题
 		for(let i of $(".submit-fill")){
 			i.onclick=function(){
-				var input=i.parentNode.children[2]
-				let noreg=i.dataset["noreg"]=="true"
-				if(noreg){
+				let input=i.parentNode.children[1]
+				let isreg=i.dataset["isreg"]=="true"
+				if(isreg){
 					let reg=RegExp(i.dataset["ans"])
 					i.style.backgroundColor= reg.exec(input.value)===null ? "#f05020" : "#80af00"
 				}else{
@@ -186,7 +186,7 @@ require(['jquery'],function($){
 		}
 		for(let i of $(".ans-fill")){
 			i.onclick=function(){
-				var input=i.parentNode.children[2]
+				var input=i.parentNode.children[1]
 				input.value=i.dataset["ans"]
 			}
 		}
