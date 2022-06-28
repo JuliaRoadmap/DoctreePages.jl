@@ -24,7 +24,7 @@ function makehtml(pss::PagesSetting, ps::PageSetting)
 	</head>
 	<body>
 		<div id="documenter">
-			<nav class="docs-sidebar">$(logo_path===nothing ? "" : "<a class='docs-logo'><img src='$(ps.tURL)$(pss.logo_path)' alt='logo' height='96' width='144'></a>")
+			<nav class="docs-sidebar">$(pss.logo_path===nothing ? "" : "<a class='docs-logo'><img src='$(ps.tURL)$(pss.logo_path)' alt='logo' height='96' width='144'></a>")
 				<div class="docs-package-name">
 				<span class="docs-autofit">$(pss.title)</span>
 				</div>

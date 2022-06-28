@@ -28,12 +28,11 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 	cd("..")
 	cp("css", tardir*"css"; force=true)
 	cp("js", tardir*"js"; force=true)
-	mkpath(tardir*"assets/extra")
-	cp("svg", tardir*"assets/extra"; force=true)
 	# 复制来源
 	cd(srcdir)
 	if isdir("assets")
 		cp("assets", tardir*"assets"; force=true)
+		cp(joinpath(@__DIR__, "../svg"), tardir*"assets/extra"; force=true)
 	end
 	if isdir("script")
 		v=readdir("script"; sort=false)
@@ -48,7 +47,7 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 	root=Node(nothing, lw(pss, 5))
 	cd(srcdir*"docs")
 	if pss.remove_original && isdir(tardir*"docs")
-		rm(tardir*"docs")
+		rm(tardir*"docs"; force=true, recursive=true)
 	end
 	gen_rec(;
 		current=root,
