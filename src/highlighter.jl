@@ -4,15 +4,14 @@ function highlight(language::AbstractString, code::AbstractString, pss::PagesSet
 	end
 	sym=Symbol(language)
 	if hasmethod(highlight, Tuple{Val{sym}, AbstractString})
-		middle=highlight(Val(sym), code)
-		special=startswith(language, "insert-") || startswith(language, "is-")
-		return special ? middle : "<div class='language language-$language'><div class='codeblock-header'></div><div class='codeblock-body'>$middle</div></div><br />"
+		return highlight(Val(sym), code)
 	else
-		return "<div class='language language-$language'><div class='codeblock-header'></div><div class='codeblock-body'>$(html_safe(code))</div></div><br />"
+		lines=split(code, '\n'; keepempty=true)
+		vec=map(x -> ("plain" => html_safe(x; br=false),), lines)
+		return buildcodeblock(language, vec)
 	end
 end
 
-safecol(content::AbstractString, co::AbstractString)="<span class=\"hl-$co\">$content</span>"
 function col(content::AbstractString, co::String; br=true)
 	if content=="" return "" end
 	t=String(content)
@@ -20,7 +19,23 @@ function col(content::AbstractString, co::String; br=true)
 	t=replace(t, "<"=>"&lt;")
 	t=replace(t, ">"=>"&gt;")
 	t=replace(t, " "=>"&nbsp;")
-	return "<span class=\"hl-$co\">$(br ? replace(t,"\n"=>"<br />") : t)</span>"
+	return co => (br ? replace(t,"\n"=>"<br />") : t)
+end
+
+function buildcodeblock(language::AbstractString, str::AbstractString)
+	return "<div class='language language-$language'><div class='codeblock-header'></div><div class='codeblock-body'>$str</div></div><br />"
+end
+function buildcodeblock(language::AbstractString, vec::AbstractVector)
+	l=length(vec)
+	s=""
+	for i in 1:l
+		line=vec[i]
+		for pair in line
+			typeassert(pair, Pair)
+			s*="<span class='hl-$(pair.first)'>$(pair.second)</span>"
+		end
+	end
+	return buildcodeblock(language, s)
 end
 
 function highlight(::Val{Symbol("insert-html")}, content::AbstractString)

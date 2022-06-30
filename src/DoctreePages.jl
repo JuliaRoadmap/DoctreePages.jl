@@ -1,17 +1,19 @@
 """
 A lightweight interactive document generator.
 
-Read [generate](@ref) [PagesSetting](@ref) [GiscusSetting](@ref)
+Read `generate` `PagesSetting` `GiscusSetting`
 """
 module DoctreePages
 export GiscusSetting, PagesSetting
 export generate
 
-function html_safe(s::AbstractString)
+function html_safe(s::AbstractString; br=true)
 	t=replace(s, "&"=>"&amp;")
 	t=replace(t, "<"=>"&lt;")
 	t=replace(t, ">"=>"&gt;")
-	t=replace(t, "\n"=>"<br />")
+	if br
+		t=replace(t, "\n"=>"<br />")
+	end
 	return t
 end
 
