@@ -119,10 +119,11 @@ function mkhtml(node::CommonMark.Node, link::CommonMark.Link, pss::PagesSetting)
 	htm=childrenhtml(node, pss)
 	url=link.destination
 	# 特殊处理
-	if startswith(url,"#")
+	if startswith(url, '#')
 		return "<a href='#header-$(url[2:end])'>$htm</a>"
-	end
-	if !startswith(url, "https://") && !startswith(url, "http://")
+	elseif startswith(url, '/')
+		url="/$(pss.sub_path)/$(url[2:end])"
+	elseif !startswith(url, "https://") && !startswith(url, "http://")
 		has=findlast('#',url)
 		if has!==nothing
 			ma=findfirst(r".md#.*$",url)
