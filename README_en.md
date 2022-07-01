@@ -37,6 +37,7 @@ pss = PagesSetting(;
 	logo_path = "assets/images/logo.png",
 	repo_name = "zh",
 	repo_owner = "JuliaRoadmap",
+	table_align = :center,
 	throwall = true,
 	title = "Roadmap"
 )

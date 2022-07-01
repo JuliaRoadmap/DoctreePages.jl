@@ -37,6 +37,7 @@ pss = PagesSetting(;
 	logo_path = "assets/images/logo.png",
 	repo_name = "zh",
 	repo_owner = "JuliaRoadmap",
+	table_align = :center,
 	throwall = true,
 	title = "Roadmap"
 )
@@ -68,7 +69,8 @@ generate("D:/RM", "D:/RMH", pss)
 - [x] 插入填空题
 - [x] 精确跳转编辑
 - [ ] 二维码
-- [ ] 设置：表格对齐模式
+- [x] 设置：表格对齐模式
 - [ ] 更好的代码块
 	- [ ] 侧边序号
 - [ ] live2d
+- [ ] 空间压缩

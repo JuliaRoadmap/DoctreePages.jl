@@ -96,10 +96,11 @@ function mkhtml(node::CommonMark.Node, ::CommonMark.TableBody, pss::PagesSetting
 	return "<tbody>$(childrenhtml(node, pss))</tbody>"
 end
 function mkhtml(node::CommonMark.Node, ::CommonMark.TableRow, pss::PagesSetting)
-	return "<tr>$(childrenhtml(node, pss, "td"))</tr>"
+	return "<tr>$(childrenhtml(node, pss))</tr>"
 end
-function mkhtml(node::CommonMark.Node, ::CommonMark.TableCell, pss::PagesSetting)
-	return childrenhtml(node, pss)
+function mkhtml(node::CommonMark.Node, cell::CommonMark.TableCell, pss::PagesSetting)
+	align=pss.align==:auto ? cell.align : pss.align
+	return "<td style='float:$align'>$(childrenhtml(node, pss))</td>"
 end
 function mkhtml(node::CommonMark.Node, ::CommonMark.DisplayMath, ::PagesSetting)
 	return "<div class='display-math tex'>$(html_safe(node.literal))</div>"

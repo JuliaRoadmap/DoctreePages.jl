@@ -48,6 +48,7 @@ The keywords:
 * repo\\_path::String = `"https://github.com/\$repo_owner/\$repo_name/tree/\$repo_branch/"`
 * show_info::Bool = true
 * sub_path::String = ""
+* table_align::Symbol = :auto
 * throwall::Bool = false
 * title::String
 """
@@ -70,6 +71,7 @@ Base.@kwdef struct PagesSetting
     repo_path::String = "https://github.com/$repo_owner/$repo_name/tree/$repo_branch/"
     show_info::Bool = true
     sub_path::String = ""
+    table_align::Symbol = :auto
     throwall::Bool = false
     title::String
 end
