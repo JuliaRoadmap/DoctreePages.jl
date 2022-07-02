@@ -5,12 +5,11 @@
 * 轻量级：只基于 CommonMark 和 TOML
 * 交互式：包括页面讨论功能，填空题与条件激发文本
 
+* [使用方式](docs/usage.md)
 * [规范](docs/guidelines.md)
 * [注意事项](docs/notice.md)
 * [设置文件](docs/settings.md)
 * [扩展](docs/extension.md)
-
-输入`?DoctreePages`以阅读功能使用方式
 
 ## LICENSE
 遵循MIT LICENSE，其中以下文件部分来自[Documenter](https://github.com/JuliaDocs/Documenter.jl)（MIT）
@@ -74,3 +73,5 @@ generate("D:/RM", "D:/RMH", pss)
 	- [ ] 侧边序号
 - [ ] live2d
 - [ ] 空间压缩
+- [ ] 快捷键
+	- [ ] t 到页面顶端

@@ -5,6 +5,7 @@ This is a lightweight interactive document generator.
 * lightweight: only two dependencies
 * interactive: including page-discussion, answer-board and statement-trigger text
 
+* [usage](docs/en/usage.md)
 * [guidelines](docs/en/guidelines.md)
 * [notice](docs/en/notice.md)
 * [setting](docs/en/settings.md)
