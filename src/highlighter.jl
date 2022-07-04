@@ -23,7 +23,7 @@ function col(content::AbstractString, co::String; br=true)
 end
 
 function buildcodeblock(language::AbstractString, str::AbstractString)
-	return "<div class='language language-$language'><div class='codeblock-header'></div><div class='codeblock-body'>$str</div></div><br />"
+	return "<div class='language language-$language'><div class='codeblock-header'></div><div class='codeblock-body'><div class='codeblock-num'></div><div class='codeblock-code'>$str</div></div></div><br />"
 end
 function buildcodeblock(language::AbstractString, vec::AbstractVector)
 	l=length(vec)
@@ -34,6 +34,7 @@ function buildcodeblock(language::AbstractString, vec::AbstractVector)
 			typeassert(pair, Pair)
 			s*="<span class='hl-$(pair.first)'>$(pair.second)</span>"
 		end
+		s*="<br />"
 	end
 	return buildcodeblock(language, s)
 end

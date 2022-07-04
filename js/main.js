@@ -142,9 +142,24 @@ require(['jquery'],function($){
 				})
 			}
 		}
-		// 复制代码块数据
-		for(let i of $(".content .codeblock-header")){
-			i.innerHTML=`<span class='codeblock-paste'><img src='${tURL}assets/extra/copy.svg' alt='copy' width='20' height='20' onclick='copycodeblock(event)'></span>`
+		// 代码块
+		for(let i of $(".content .language")){
+			// 复制代码块数据
+			let header=i.firstElementChild
+			header.innerHTML=`<span class='codeblock-paste'><img src='${tURL}assets/extra/copy.svg' alt='copy' width='20' height='20' onclick='copycodeblock(event)'></span>`
+			let body=i.lastElementChild
+			let num=body.firstElementChild
+			let code=body.lastElementChild
+			let text=code.innerText
+			let l=1
+			for(let j of text){
+				if(j=='\n')l+=1
+			}
+			let numhtml=""
+			for(let j=1; j<=l; j++){
+				numhtml+=`<span>${j}</span>`
+			}
+			num.innerHTML=numhtml
 		}
 	})
 	$(document).ready(function(){
@@ -211,8 +226,9 @@ require(['jquery', 'katex'], function($, katex){
 function copycodeblock(ev){
 	let tar=ev.target
 	let body=tar.parentNode.parentNode.nextSibling
+	let code=body.firstChild
 	let s=""
-	for(let e of body.children){
+	for(let e of code.children){
 		if(e.tagName=="BR")s+="\n"
 		else s+=e.innerText
 	}

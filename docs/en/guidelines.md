@@ -1,4 +1,9 @@
 # Guidelines
+## Dir Managing
+* `assets` stores images or other data
+* `docs` stores text
+* `script` stores scripts
+
 ## Naming
 The name part should be unique, and
 - should be made up of `a-z`, `0-9` and `_`
