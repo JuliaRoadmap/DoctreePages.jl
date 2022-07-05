@@ -65,6 +65,20 @@
 	background-color: transparent;
 	float: right;
 }
+.codeblock-body{
+	display: table-row;
+}
+.codeblock-num{
+	display: table-cell;
+	width: 3em;
+	overflow-x: hidden;
+}
+.codeblock-code{
+	display: table-cell;
+}
+/* .codeblock-num > div{
+	height: 1em;
+} */
 annotation{
 	display: none;
 }

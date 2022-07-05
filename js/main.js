@@ -147,6 +147,7 @@ require(['jquery'],function($){
 			// 复制代码块数据
 			let header=i.firstElementChild
 			header.innerHTML=`<span class='codeblock-paste'><img src='${tURL}assets/extra/copy.svg' alt='copy' width='20' height='20' onclick='copycodeblock(event)'></span>`
+			// 侧边栏编号
 			let body=i.lastElementChild
 			let num=body.firstElementChild
 			let code=body.lastElementChild
@@ -157,7 +158,7 @@ require(['jquery'],function($){
 			}
 			let numhtml=""
 			for(let j=1; j<=l; j++){
-				numhtml+=`<span>${j}</span>`
+				numhtml+=`${j}<br />`
 			}
 			num.innerHTML=numhtml
 		}
@@ -226,7 +227,7 @@ require(['jquery', 'katex'], function($, katex){
 function copycodeblock(ev){
 	let tar=ev.target
 	let body=tar.parentNode.parentNode.nextSibling
-	let code=body.firstChild
+	let code=body.lastElementChild
 	let s=""
 	for(let e of code.children){
 		if(e.tagName=="BR")s+="\n"
