@@ -24,6 +24,7 @@
 | repo_owner | owner name of repo |
 | repo_path | full path to repo default branch |
 | show_info | whether to call `@info` |
+| sort_file | whether to sort files |
 | sub_path | when it's subdir of a project, gives the path down |
 | table_align | table align |
 | throwall | whether to throw unfatal errors |

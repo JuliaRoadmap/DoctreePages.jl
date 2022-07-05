@@ -206,6 +206,8 @@ require(['jquery'],function($){
 				input.value=i.dataset["ans"]
 			}
 		}
+		// buildmessage
+		$(".modal-card-foot").innerText=buildmessage
 	})
 })
 require(['jquery', 'katex'], function($, katex){

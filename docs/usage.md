@@ -24,6 +24,7 @@
 | repo_owner | 仓库的所有者名称 |
 | repo_path | 到仓库默认分支的完整路径 |
 | show_info | 是否在生成时调用`@info` |
+| sort_file | 是否给文件排序 |
 | sub_path | 若位于一个项目的子目录，给出从项目根目录到源目录的路径 |
 | table_align | 表格对齐方式 |
 | throwall | 抛出非致命错误 |

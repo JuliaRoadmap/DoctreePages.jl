@@ -35,7 +35,7 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 		cp(joinpath(@__DIR__, "../svg"), tardir*"assets/extra"; force=true)
 	end
 	if isdir("script")
-		v=readdir("script"; sort=false)
+		v=readdir("script"; sort=pss.sort_file)
 		for file in v
 			cp("script/"*file, tardir*"js/"*file; force=true)
 		end
@@ -69,6 +69,7 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 	# menu.js
 	io=open(tardir*"js/menu.js", "w")
 	print(io, "const menu=`", makemenu(root, pss; path="docs/"), "`")
+	print(io, "const buildmessage=`$(replace(pss.buildmessage, '`' => "\\`"))`")
 	close(io)
 	# 消除影响
 	cd(pwds)

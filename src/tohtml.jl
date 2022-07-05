@@ -9,8 +9,7 @@ function makehtml(pss::PagesSetting, ps::PageSetting)
 		<title>$(pss.title)</title>$(pss.move_favicon ? "" : "<link rel='icon' type='image/x-icon' href='$(pss.favicon_path)'>")
 		<meta name="tURL" id="tURL" content="$(ps.tURL)"/>
 		<meta name="description" content="$(ps.description)">
-		<script src="$(ps.tURL)js/menu.js"></script>
-		$(
+		<script src="$(ps.tURL)js/info.js"></script>$(
 			gis===nothing ? "" :
 			"<script src='https://giscus.app/client.js' data-repo='$(gis.repo)' data-repo-id='$(gis.repo_id)' data-category='$(gis.category)' data-category-id='$(gis.category_id)' data-mapping='$(gis.mapping)' data-reactions-enabled='$(gis.reactions_enabled)' data-emit-metadata='$(gis.emit_metadata)' data-input-position='$(gis.input_position)' data-theme='$(gis.theme)' data-lang='$(gis.lang)' crossorigin='$(gis.crossorigin)' async></script>"
 		)
@@ -64,7 +63,7 @@ function makehtml(pss::PagesSetting, ps::PageSetting)
 							</div>
 						</p>
 					</section>
-					<footer class="modal-card-foot">$(pss.buildmessage)</footer>
+					<footer class="modal-card-foot"></footer>
 				</div>
 			</div>
 		</div>
