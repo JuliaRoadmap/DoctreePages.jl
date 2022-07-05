@@ -6,33 +6,21 @@ function highlight(language::AbstractString, code::AbstractString, pss::PagesSet
 	if hasmethod(highlight, Tuple{Val{sym}, AbstractString})
 		return highlight(Val(sym), code)
 	else
-		lines=split(code, '\n'; keepempty=true)
-		vec=map(x -> ("plain" => html_safe(x; br=false),), lines)
-		return buildcodeblock(language, vec)
+		return buildcodeblock(language, highlight_lines(language, code))
 	end
-end
-
-function col(content::AbstractString, co::String; br=true)
-	if content=="" return "" end
-	t=String(content)
-	t=replace(t, "&"=>"&amp;")
-	t=replace(t, "<"=>"&lt;")
-	t=replace(t, ">"=>"&gt;")
-	t=replace(t, " "=>"&nbsp;")
-	return co => (br ? replace(t,"\n"=>"<br />") : t)
 end
 
 function buildcodeblock(language::AbstractString, str::AbstractString)
 	return "<div class='language language-$language'><div class='codeblock-header'></div><div class='codeblock-body'><div class='codeblock-num'></div><div class='codeblock-code'>$str</div></div></div><br />"
 end
-function buildcodeblock(language::AbstractString, vec::AbstractVector)
-	l=length(vec)
+function buildcodeblock(language::AbstractString, lines::HighlightLines)
+	l=length(lines.lines)
 	s=""
 	for i in 1:l
-		line=vec[i]
+		line=lines.lines[i]
 		for pair in line
 			typeassert(pair, Pair)
-			s*="<span class='hl-$(pair.first)'>$(pair.second)</span>"
+			s*="<span class='hl-$(pair.first)'>$(html_safe(pair.second))</span>"
 		end
 		s*="<br />"
 	end
