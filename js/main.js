@@ -146,7 +146,7 @@ require(['jquery'],function($){
 		for(let i of $(".content .language")){
 			// 复制代码块数据
 			let header=i.firstElementChild
-			header.innerHTML=`<span class='codeblock-paste'><img src='${tURL}assets/extra/copy.svg' alt='copy' width='20' height='20' onclick='copycodeblock(event)'></span>`
+			header.innerHTML=`<span class='codeblock-paste' onclick='copycodeblock(event)'>📋</span>`
 			// 侧边栏编号
 			let body=i.lastElementChild
 			let num=body.firstElementChild
@@ -228,7 +228,7 @@ require(['jquery', 'katex'], function($, katex){
 })
 function copycodeblock(ev){
 	let tar=ev.target
-	let body=tar.parentNode.parentNode.nextSibling
+	let body=tar.parentNode.nextSibling
 	let code=body.lastElementChild
 	let s=""
 	for(let e of code.children){
@@ -237,11 +237,9 @@ function copycodeblock(ev){
 	}
 	navigator.clipboard.writeText(s).then(
 		function(){
-			tar.src=tURL+"assets/extra/copied.svg"
-			tar.alt="copied"
+			tar.innerText="✔"
 			setTimeout(function(){
-				tar.src=tURL+"assets/extra/copy.svg"
-				tar.alt="copy"
+				tar.innerText="📋"
 			},2000)
 		},
 		function(){window.alert("failed")}
