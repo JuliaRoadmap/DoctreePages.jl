@@ -36,6 +36,7 @@ The keywords:
 * favicon_path::String = "assets/images/favicon.png"
 * filesuffix::String = ".html"
 * giscus::Union{Nothing, GiscusSetting} = nothing
+* highlighter::CommonHighlightSetting = CommonHighlightSetting()
 * lang::String = "en"
 * logo_path::Union{Nothing, String} = nothing
 * make_index::Bool = true
@@ -60,6 +61,7 @@ Base.@kwdef struct PagesSetting
 	favicon_path::String = "assets/images/favicon.png"
     filesuffix::String = ".html"
     giscus::Union{Nothing, GiscusSetting} = nothing
+    highlighter::CommonHighlightSetting = CommonHighlightSetting()
 	lang::String = "en"
 	logo_path::Union{Nothing, String} = nothing
     make_index::Bool = true

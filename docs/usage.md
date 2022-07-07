@@ -13,6 +13,7 @@
 | favicon_path | favicon的路径 |
 | filesuffix | 生成文件的后缀 |
 | giscus | Giscus设置 |
+| highlighter | 高亮设置 |
 | lang | 使用语言（`en`、`zh`等） |
 | logo_path | logo的路径 |
 | make_index | 是否创建索引页 |

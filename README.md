@@ -2,8 +2,10 @@
 
 ## 关于
 这是一个轻量级交互式文档生成器
-* 轻量级：只基于 CommonMark 和 TOML
+* 轻量级：只基于 CommonMark、CommonHighlight 和 TOML
 * 交互式：包括页面讨论功能，填空题与条件激发文本
+* 简单：即使没有编程经验也能使用
+* 强大：超过20个设置项（不包括子项）
 
 * [使用方式](docs/usage.md)
 * [规范](docs/guidelines.md)
@@ -75,3 +77,5 @@ generate("D:/RM", "D:/RMH", pss)
 - [ ] 空间压缩
 - [ ] 快捷键
 	- [ ] t 到页面顶端
+- [ ] 测试
+- [ ] 部分内容加密

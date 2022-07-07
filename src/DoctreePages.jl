@@ -30,6 +30,7 @@ const language_tags=[
 ]
 
 using CommonMark
+using CommonHighlight
 include("setting.jl")
 
 function lw(pss::PagesSetting, id::Integer)
@@ -44,7 +45,6 @@ end
 
 include("markdown.jl")
 
-using CommonHighlight
 include("highlighter.jl")
 include("tohtml.jl")
 

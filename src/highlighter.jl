@@ -6,7 +6,7 @@ function highlight(language::AbstractString, code::AbstractString, pss::PagesSet
 	if hasmethod(highlight, Tuple{Val{sym}, AbstractString})
 		return highlight(Val(sym), code)
 	else
-		return buildcodeblock(language, highlight_lines(sym, code))
+		return buildcodeblock(language, highlight_lines(sym, code, pss.highlighter))
 	end
 end
 

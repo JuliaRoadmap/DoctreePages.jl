@@ -2,8 +2,10 @@
 
 ## About
 This is a lightweight interactive document generator.
-* lightweight: only two dependencies
+* lightweight: only three dependencies (CommonMark, CommonHighlight, TOML)
 * interactive: including page-discussion, answer-board and statement-trigger text
+* easy: even those with out programming experience can use it
+* powerful: 20+ setting keys (not including sub-keys)
 
 * [usage](docs/en/usage.md)
 * [guidelines](docs/en/guidelines.md)

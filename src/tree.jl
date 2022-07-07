@@ -263,12 +263,12 @@ function file2node(::Val{:jl}; it::String, node::Node, pre::String, pss::PagesSe
 	io=open(spath*it, "r")
 	str=read(io, String)
 	close(io)
-	node.files[pre]=(buildcodeblock("julia", highlight_lines(:jl, str)), pre, "jl")
+	node.files[pre]=(buildcodeblock("julia", highlight_lines(:jl, str, pss.highlighter)), pre, "jl")
 end
 
 function file2node(::Val{:txt}; it::String, node::Node, pre::String, pss::PagesSetting, spath::String)
 	io=open(spath*it, "r")
 	str=read(io, String)
 	close(io)
-	node.files[pre]=(buildcodeblock("txt", highlight_lines(:plain, str)), pre, "txt")
+	node.files[pre]=(buildcodeblock("txt", highlight_lines(:plain, str, pss.highlighter)), pre, "txt")
 end

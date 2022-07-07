@@ -13,6 +13,7 @@
 | favicon_path | path of favicon |
 | filesuffix | suffix of generated files |
 | giscus | Giscus setting |
+| highlighter | highlight setting |
 | lang | language(`en`, `zh`, etc) |
 | logo_path | path of logo |
 | make_index | whether to create index pages |
