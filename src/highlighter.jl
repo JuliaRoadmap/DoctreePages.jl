@@ -6,7 +6,7 @@ function highlight(language::AbstractString, code::AbstractString, pss::PagesSet
 	if hasmethod(highlight, Tuple{Val{sym}, AbstractString})
 		return highlight(Val(sym), code)
 	else
-		return buildcodeblock(language, highlight_lines(language, code))
+		return buildcodeblock(language, highlight_lines(sym, code))
 	end
 end
 
@@ -14,17 +14,7 @@ function buildcodeblock(language::AbstractString, str::AbstractString)
 	return "<div class='language language-$language'><div class='codeblock-header'></div><div class='codeblock-body'><div class='codeblock-num'></div><div class='codeblock-code'>$str</div></div></div><br />"
 end
 function buildcodeblock(language::AbstractString, lines::HighlightLines)
-	l=length(lines.lines)
-	s=""
-	for i in 1:l
-		line=lines.lines[i]
-		for pair in line
-			typeassert(pair, Pair)
-			s*="<span class='hl-$(pair.first)'>$(html_safe(pair.second))</span>"
-		end
-		s*="<br />"
-	end
-	return buildcodeblock(language, s)
+	return buildcodeblock(language, html(lines))
 end
 
 function highlight(::Val{Symbol("insert-html")}, content::AbstractString)

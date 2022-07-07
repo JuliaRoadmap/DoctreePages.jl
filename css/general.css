@@ -3,19 +3,19 @@
 	font-family: 'Courier New', Courier, monospace;
 	tab-size:4;
 }
-.hl-repl-code{
+.hl-shell{
 	color: green;
 }
-.hl-repl-help{
+.hl-help{
 	color: wheat;
 }
-.hl-repl-pkg{
+.hl-repl_pkg{
 	color: rgb(16,64,224);
 }
-.hl-repl-shell{
+.hl-repl_shell{
 	color: red;
 }
-.hl-repl-error{
+.hl-error{
 	color: red;
 }
 .hl-comment{
@@ -33,7 +33,7 @@
 .hl-escape{
 	color: goldenrod;
 }
-.hl-insert{
+.hl-interpolation{
 	color: skyblue;
 }
 .hl-plain{

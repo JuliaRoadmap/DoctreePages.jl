@@ -261,19 +261,14 @@ end
 
 function file2node(::Val{:jl}; it::String, node::Node, pre::String, pss::PagesSetting, spath::String)
 	io=open(spath*it, "r")
-	str=replace(read(io, String), "\r"=>"")
+	str=read(io, String)
 	close(io)
-	node.files[pre]=("<pre class=\"language\">$(highlight(Val(:jl), str))</pre>", pre, "jl")
+	node.files[pre]=(buildcodeblock("julia", highlight_lines(:jl, str)), pre, "jl")
 end
 
 function file2node(::Val{:txt}; it::String, node::Node, pre::String, pss::PagesSetting, spath::String)
-	str="<pre class=\"language\">"
 	io=open(spath*it, "r")
-	num=1
-	for l in eachline(io)
-		str*="<span id=\"line-$num\">$(html_safe(l))</span><br />"
-		num+=1
-	end
+	str=read(io, String)
 	close(io)
-	node.files[pre]=(str*"</pre>", pre, "txt")
+	node.files[pre]=(buildcodeblock("txt", highlight_lines(:plain, str)), pre, "txt")
 end
