@@ -38,9 +38,15 @@ end
 	return str
 end
 
-#= function mkhtml(node::CommonMark.Node, ::CommonMark.AbstractContainer, ::PagesSetting)
+function mkhtml(node::CommonMark.Node, c::CommonMark.AbstractContainer, pss::PagesSetting)
+	str="no method for Markdown Container ($(typeof(c)))"
+	if pss.throwall
+		error(str)
+	else
+		@warn str
+	end
 	return html(node)
-end =# # 这会掩盖问题 
+end
 
 # block
 function mkhtml(node::CommonMark.Node, ::CommonMark.Document, pss::PagesSetting)

@@ -1,4 +1,0 @@
-<svg width="50" height="50" version="1.1" xmlns="http://www.w3.org/2000/svg">
-<path d="M0 50 h30 V20 H0 Z" stroke="green" fill="transparent"></path>
-<path d="M50 0 H20 V30 H50 Z" stroke="green" fill="green"></path>
-</svg>

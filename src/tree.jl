@@ -32,7 +32,7 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 	cd(srcdir)
 	if isdir("assets")
 		cp("assets", tardir*"assets"; force=true)
-		cp(joinpath(@__DIR__, "../svg"), tardir*"assets/extra"; force=true)
+		# cp(joinpath(@__DIR__, "../svg"), tardir*"assets/extra"; force=true)
 	end
 	if isdir("script")
 		v=readdir("script"; sort=pss.sort_file)
