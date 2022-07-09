@@ -18,8 +18,9 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 		srcdir*="/"
 	end
 	if tardir[1]=='.'
-		tardir=joinpath(pwds,tardir)
+		tardir=joinpath(pwds, tardir)
 	end
+	tardir=joinpath(tardir, pss.sub_path)
 	if !endswith(tardir,"/")
 		tardir*="/"
 	end
@@ -35,10 +36,7 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 		# cp(joinpath(@__DIR__, "../svg"), tardir*"assets/extra"; force=true)
 	end
 	if isdir("script")
-		v=readdir("script"; sort=pss.sort_file)
-		for file in v
-			cp("script/"*file, tardir*"js/"*file; force=true)
-		end
+		cp("script", tardir*"script"; force=true)
 	end
 	if pss.move_favicon
 		cp(pss.favicon_path, tardir*"favicon.ico"; force=true)
@@ -66,8 +64,14 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 		pss=pss,
 		tardir=tardir
 	)
-	# menu.js
-	io=open(tardir*"js/menu.js", "w")
+	# 404.html
+	if isfile(pss.unfound)
+		cp(pss.unfound, joinpath(tardir, pss.unfound); force=true)
+	else
+		make404html(pss.unfound, pss)
+	end
+	# info.js
+	io=open(tardir*"js/info.js", "w")
 	print(io, "const menu=`", makemenu(root, pss; path="docs/"), "`")
 	print(io, "const buildmessage=`$(replace(pss.buildmessage, '`' => "\\`"))`")
 	close(io)
@@ -243,6 +247,9 @@ function makeindexhtml(node::Node, path::String, pathv::Vector{String}; pss::Pag
 	return makehtml(pss, ps)
 end
 
+function make404html(path::String, pss::PagesSetting)
+end
+
 function writehtml(path::String, html::String, pss::PagesSetting)
 	io=open(path*pss.filesuffix, "w")
 	print(io, html)
@@ -257,6 +264,25 @@ function file2node(::Val{:md}; it::String, node::Node, pre::String, pss::PagesSe
 	finally
 		close(io)
 	end
+end
+
+function file2node(v::Union{Val{:html}, Val{:htm}}; it::String, node::Node, pre::String, pss::PagesSetting, spath::String)
+	io=open(spath*it, "r")
+	str=read(io, String)
+	close(io)
+	if pss.wrap_html
+		# todo: parameters
+		str=makehtml(pss, PageSetting(
+			description="$title - $(pss.title)",
+			editpath=pss.repo_path*path,
+			mds=str,
+			navbar_title=title,
+			nextpage="",
+			prevpage=node.par===nothing ? "" : "<a class='docs-footer-prevpage' href='../index$(pss.filesuffix)'>« $(lw(pss, 9))</a>",
+			tURL="../"^length(pathv)
+		))
+	end
+	node.files[pre]=(str, pre, v==Val(:html) ? "html" : "htm")
 end
 
 function file2node(::Val{:jl}; it::String, node::Node, pre::String, pss::PagesSetting, spath::String)

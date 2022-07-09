@@ -41,6 +41,7 @@ The keywords:
 * logo_path::Union{Nothing, String} = nothing
 * make_index::Bool = true
 * move_favicon::Bool = true
+* page_foot::String = ""
 * parser::Parser = default_parser()
 * remove_original::Bool = true
 * repo_branch::String = "master"
@@ -53,6 +54,8 @@ The keywords:
 * table_align::Symbol = :auto
 * throwall::Bool = false
 * title::String
+* unfound::String = "404.html"
+* wrap_html::Bool = true
 """
 Base.@kwdef struct PagesSetting
     buildmessage::String = "built at $(Libc.strftime(Libc.time()))"
@@ -66,6 +69,7 @@ Base.@kwdef struct PagesSetting
 	logo_path::Union{Nothing, String} = nothing
     make_index::Bool = true
     move_favicon::Bool = true
+    page_foot::String = ""
     parser::Parser = default_parser()
     remove_original::Bool = true
     repo_branch::String = "master"
@@ -78,6 +82,8 @@ Base.@kwdef struct PagesSetting
     table_align::Symbol = :auto
     throwall::Bool = false
     title::String
+    unfound::String = "404.html"
+    wrap_html::Bool = true
 end
 Base.@kwdef struct PageSetting
     description::String

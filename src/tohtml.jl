@@ -35,16 +35,13 @@ function makehtml(pss::PagesSetting, ps::PageSetting)
 						<ul class="is-hidden-mobile"><li class="is-active">$(ps.navbar_title)</li></ul>
 						<ul class="is-hidden-tablet"><li class="is-active">$(ps.navbar_title)</li></ul>
 					</nav>
-					<div class="docs-right">
-						<a class="docs-edit-link" href="$(ps.editpath)" target="_blank">
-							<span class="docs-label is-hidden-touch">$(lw(pss, 2))</span>
-						</a>
+					<div class="docs-right">$(ps.editpath=="" ? "" : "<a class='docs-edit-link' href='$(ps.editpath)' target='_blank'><span class='docs-label is-hidden-touch'>$(lw(pss, 2))</span></a>")
 						<a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="$(lw(pss, 3))"></a>
 						<a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a>
 					</div>
 				</header>
 				<article class="content">$(ps.mds)</article>
-				<nav class="docs-footer">$(ps.prevpage)$(ps.nextpage)</nav>
+				<nav class="docs-footer">$(ps.prevpage)$(ps.nextpage)$(pss.page_foot=="" ? "" : "<div class='flexbox-break'></div><p class='footer-message'>$(pss.page_foot)</p>")</nav>
 				$(gis===nothing ? "" : "<div class='giscus'></div>")
 			</div>
 			<div class="modal" id="documenter-settings">
