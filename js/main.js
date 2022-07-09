@@ -156,6 +156,7 @@ require(['jquery'],function($){
 			for(let j of text){
 				if(j=='\n')l+=1
 			}
+			if(text[text.length-1]=='\n')l-=1
 			let numhtml=""
 			for(let j=1; j<=l; j++){
 				numhtml+=`${j}<br />`
@@ -165,16 +166,13 @@ require(['jquery'],function($){
 	})
 	$(document).ready(function(){
 		// 检测L-L定位
-		var loc=document.location.hash
+		let loc=document.location.hash
 		loc=loc.substring(1,loc.length)
 		if(loc[0]=='L'){
 			var split=loc.search('-')
 			var from=Number(loc.substring(1,split))
 			var to=Number(loc.substring(split+2,loc.length))
-			for(var i=from;i<=to;i++){
-				document.getElementById("line-"+i).style.backgroundColor="lightgreen"
-			}
-			document.getElementById("line-"+from).scrollIntoView()
+			scroll_to_lines(from, to)
 		}
 		// 检测条件激发
 		for(let i of $(".checkis")){
@@ -253,4 +251,11 @@ function upd_trigger(key){
 			i.style.display=mode
 		}
 	}
+}
+function scroll_to_lines(from, to){
+	let cb=$(".codeblock-code")
+	for(let i=from; i<=to; i++){
+		cb.children[i<<1-1].style.backgroundColor="lightgreen"
+	}
+	cb.children[from<<1-1].scrollIntoView()
 }

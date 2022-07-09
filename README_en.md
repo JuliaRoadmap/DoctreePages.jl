@@ -34,15 +34,15 @@ gis = GiscusSetting(; # get via giscus.app
 	lang = "zh-CN"
 )
 pss = PagesSetting(;
-	buildmessage = "",
 	giscus = gis,
 	lang = "zh",
 	logo_path = "assets/images/logo.png",
 	repo_name = "zh",
 	repo_owner = "JuliaRoadmap",
+	sub_path = "zh",
 	table_align = :center,
 	throwall = true,
 	title = "Roadmap"
 )
-generate("D:/RM", "D:/RMH", pss)
+generate("D:/RM", "D:/RMH/zh", pss)
 ```

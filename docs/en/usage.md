@@ -4,7 +4,8 @@
 * tardir: dir to store result (html, etc)
 * pss: instance of `PagesSetting`
 
-`PagesSetting` constructor uses keywords. These are introductions and type&default shall be mentioned in docstring.
+`PagesSetting` constructor uses keywords. These are introductions while type and default values shall be mentioned in docstring. More detailed information shall refer to source code.
+
 | key name | description |
 | --- | --- |
 | buildmessage | build message |
@@ -18,6 +19,7 @@
 | logo_path | path of logo |
 | make_index | whether to create index pages |
 | move_favicon | whether to move favcon to `/favicon.ico` |
+| page_foot | html inserted at the bottom |
 | parser | CommonMark parser |
 | remove_origin | whether to remove before generating |
 | repo_branch | default branch name of repo |
@@ -26,7 +28,12 @@
 | repo_path | full path to repo default branch |
 | show_info | whether to call `@info` |
 | sort_file | whether to sort files |
-| sub_path | when it's subdir of a project, gives the path down |
-| table_align | table align |
-| throwall | whether to throw unfatal errors |
+| sub_path | when it's subdir of a project, gives the path down from the root directory |
+| table_align | table align setting |
+| throwall | whether to throw non-fatal errors |
 | title | title |
+| unfound | page to redirect when 404 error occurs (page will be automatically generated if not found) |
+| wrap_html | whether to wrap html files |
+
+1. Keys without default values include `repo_name`, `repo_owner` and `title`.
+2. File that value `unfound` refer to shall be under the same directory. 

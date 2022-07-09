@@ -20,7 +20,7 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 	if tardir[1]=='.'
 		tardir=joinpath(pwds, tardir)
 	end
-	tardir=joinpath(tardir, pss.sub_path)
+	# tardir=joinpath(tardir, pss.sub_path)
 	if !endswith(tardir,"/")
 		tardir*="/"
 	end
@@ -279,7 +279,7 @@ function file2node(::Val{:md}; it::String, node::Node, path::String, pathv::Vect
 	end
 end
 
-function file2node(v::Union{Val{:html}, Val{:htm}}; it::String, node::Node, path::String, pathv::Vector{String}, pre::String, pss::PagesSetting, spath::String, tpath::String)
+function file2node(::Union{Val{:html}, Val{:htm}}; it::String, node::Node, path::String, pathv::Vector{String}, pre::String, pss::PagesSetting, spath::String, tpath::String)
 	io=open(spath*it, "r")
 	str=read(io, String)
 	close(io)
@@ -288,7 +288,7 @@ function file2node(v::Union{Val{:html}, Val{:htm}}; it::String, node::Node, path
 		# todo: parameters
 		str=makehtml(pss, PageSetting(
 			description="$title - $(pss.title)",
-			editpath=pss.repo_path*path,
+			editpath=pss.repo_path*path*it,
 			mds=str,
 			navbar_title=title,
 			nextpage="",
@@ -296,7 +296,7 @@ function file2node(v::Union{Val{:html}, Val{:htm}}; it::String, node::Node, path
 			tURL="../"^length(pathv)
 		))
 	end
-	node.files[pre]=(str, pre, v==Val(:html) ? "html" : "htm")
+	writehtml(tpath*it, str, pss)
 end
 
 function file2node(::Val{:jl}; it::String, node::Node, path::String, pathv::Vector{String}, pre::String, pss::PagesSetting, spath::String, tpath::String)
