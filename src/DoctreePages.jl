@@ -27,6 +27,7 @@ const language_tags=[
 	(en="main", zh="主页"),
 	(en=" index", zh="索引"),
 	(en="parent index", zh="上层索引"),
+	(en="Requested source unfound :(", zh="请求的资源未找到"),
 ]
 
 using CommonMark

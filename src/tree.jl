@@ -65,10 +65,18 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 		tardir=tardir
 	)
 	# 404.html
+	tarundef=joinpath(tardir, pss.unfound)
 	if isfile(pss.unfound)
-		cp(pss.unfound, joinpath(tardir, pss.unfound); force=true)
+		if pss.wrap_html
+			io=open(pss.unfound, "r")
+			str=read(io, String)
+			close(io)
+			writehtml(tarundef, make404html(str, pss), pss)
+		else
+			cp(pss.unfound, tarundef; force=true)
+		end
 	else
-		make404html(pss.unfound, pss)
+		writehtml(tarundef, make404html(lw(pss, 10), pss), pss)
 	end
 	# info.js
 	io=open(tardir*"js/info.js", "w")
@@ -103,17 +111,9 @@ function gen_rec(;
 			dot=findlast('.', it)
 			pre=it[1:dot-1]
 			suf=it[dot+1:end]
-			sym=Symbol(suf)
-			if hasmethod(file2node, Tuple{Val{sym}}, (:it, :node, :pre, :pss, :spath))
-				file2node(Val(sym); it=it, node=current, pre=pre, pss=pss, spath=spath)
-			else
-				cp(spath*it, tpath*it; force=true)
-			end
+			file2node(Val(Symbol(suf)); it=it, node=current, pre=pre, pss=pss, spath=spath, tpath=tpath)
 		else # isdir
 			pss.show_info && @info it*"/"
-			if !haskey(current.toml,"names")
-				error("KEY [NAMES] UNFOUND", path, current.toml)
-			end
 			ns=current.toml["names"]
 			ns::Dict
 			node=Node(current,it)
@@ -247,7 +247,16 @@ function makeindexhtml(node::Node, path::String, pathv::Vector{String}; pss::Pag
 	return makehtml(pss, ps)
 end
 
-function make404html(path::String, pss::PagesSetting)
+function make404html(mds::String, pss::PagesSetting)
+	return makehtml(pss, PageSetting(
+		description="404 ($(pss.title))",
+		editpath="",
+		mds=mds,
+		navbar_title="404",
+		nextpage="",
+		prevpage="<a class='docs-footer-prevpage' href='../index$(pss.filesuffix)'>« $(lw(pss, 9))</a>",
+		tURL="../",
+	))
 end
 
 function writehtml(path::String, html::String, pss::PagesSetting)
@@ -256,7 +265,11 @@ function writehtml(path::String, html::String, pss::PagesSetting)
 	close(io)
 end
 
-function file2node(::Val{:md}; it::String, node::Node, pre::String, pss::PagesSetting, spath::String)
+function file2node(::Val; it::String, node::Node, path::String, pathv::Vector{String}, pre::String, pss::PagesSetting, spath::String, tpath::String)
+	cp(spath*it, tpath*it; force=true)
+end
+
+function file2node(::Val{:md}; it::String, node::Node, path::String, pathv::Vector{String}, pre::String, pss::PagesSetting, spath::String, tpath::String)
 	io=open(spath*it, "r")
 	try
 		pair=md_withtitle(read(io, String), pss)
@@ -266,11 +279,12 @@ function file2node(::Val{:md}; it::String, node::Node, pre::String, pss::PagesSe
 	end
 end
 
-function file2node(v::Union{Val{:html}, Val{:htm}}; it::String, node::Node, pre::String, pss::PagesSetting, spath::String)
+function file2node(v::Union{Val{:html}, Val{:htm}}; it::String, node::Node, path::String, pathv::Vector{String}, pre::String, pss::PagesSetting, spath::String, tpath::String)
 	io=open(spath*it, "r")
 	str=read(io, String)
 	close(io)
 	if pss.wrap_html
+		title=node.toml["names"][pre]
 		# todo: parameters
 		str=makehtml(pss, PageSetting(
 			description="$title - $(pss.title)",
@@ -285,14 +299,14 @@ function file2node(v::Union{Val{:html}, Val{:htm}}; it::String, node::Node, pre:
 	node.files[pre]=(str, pre, v==Val(:html) ? "html" : "htm")
 end
 
-function file2node(::Val{:jl}; it::String, node::Node, pre::String, pss::PagesSetting, spath::String)
+function file2node(::Val{:jl}; it::String, node::Node, path::String, pathv::Vector{String}, pre::String, pss::PagesSetting, spath::String, tpath::String)
 	io=open(spath*it, "r")
 	str=read(io, String)
 	close(io)
 	node.files[pre]=(buildcodeblock("julia", highlight_lines(:jl, str, pss.highlighter)), pre, "jl")
 end
 
-function file2node(::Val{:txt}; it::String, node::Node, pre::String, pss::PagesSetting, spath::String)
+function file2node(::Val{:txt}; it::String, node::Node, path::String, pathv::Vector{String}, pre::String, pss::PagesSetting, spath::String, tpath::String)
 	io=open(spath*it, "r")
 	str=read(io, String)
 	close(io)
