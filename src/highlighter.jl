@@ -2,11 +2,16 @@ function highlight(language::AbstractString, code::AbstractString, pss::PagesSet
 	if startswith(language, "is-")
 		return "<div class='checkis' data-check='$(language)'>$(ify_md(code, pss))</div>"
 	end
+	if pss.hljs_all
+		return buildhljsblock(language, code)
+	end
 	sym=Symbol(language)
-	if hasmethod(highlight, Tuple{Val{sym}, AbstractString})
+	if hasmethod(highlight, Tuple{Val{sym}, typeof(code)})
 		return highlight(Val(sym), code)
-	else
+	elseif hasmethod(highlight_lines, Tuple{Val{sym}, typeof(code), CommonHighlightSetting})
 		return buildcodeblock(language, highlight_lines(sym, code, pss.highlighter))
+	else
+		return buildhljsblock(language, code)
 	end
 end
 
@@ -15,6 +20,9 @@ function buildcodeblock(language::AbstractString, str::AbstractString)
 end
 function buildcodeblock(language::AbstractString, lines::HighlightLines)
 	return buildcodeblock(language, html(lines))
+end
+
+function buildhljsblock(language::AbstractString, str::AbstractString)
 end
 
 function highlight(::Val{Symbol("insert-html")}, content::AbstractString)

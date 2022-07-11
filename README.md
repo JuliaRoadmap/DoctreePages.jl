@@ -7,6 +7,8 @@
 * 简单：即使没有编程经验也能使用
 * 强大：超过20个设置项（不包括子项）
 
+---
+
 * [使用方式](docs/usage.md)
 * [规范](docs/guidelines.md)
 * [注意事项](docs/notice.md)
@@ -31,8 +33,9 @@ gis = GiscusSetting(; # 使用 giscus.app 获取
 	category_id = "DIC_kwDOHQYI2c4CO2c9",
 	lang = "zh-CN"
 )
-pss = PagesSetting(;
+psszh = PagesSetting(;
 	giscus = gis,
+	hljs_all = false,
 	lang = "zh",
 	logo_path = "assets/images/logo.png",
 	repo_name = "zh",
@@ -40,9 +43,20 @@ pss = PagesSetting(;
 	sub_path = "zh",
 	table_align = :center,
 	throwall = true,
-	title = "Roadmap"
+	title = "Roadmap",
+	use_subdir = "zh"
 )
-generate("D:/RM", "D:/RMH/zh", pss)
+pssdp = PagesSetting(;
+	favicon_path = "",
+	lang = "en",
+	repo_name = "DoctreePages.jl",
+	repo_owner = "JuliaRoadmap",
+	sub_path = "dtpages",
+	title = "DoctreePages.jl",
+	use_subdir = "dtpages",
+)
+generate("D:/RM", "D:/RMH", psszh)
+generate("D:/DP", "D:/RMH", pssdp)
 ```
 
 ## todo

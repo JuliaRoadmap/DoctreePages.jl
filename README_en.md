@@ -7,6 +7,8 @@ This is a lightweight interactive document generator.
 * easy: even those with out programming experience can use it
 * powerful: 20+ setting keys (not including sub-keys)
 
+---
+
 * [usage](docs/en/usage.md)
 * [guidelines](docs/en/guidelines.md)
 * [notice](docs/en/notice.md)
@@ -27,14 +29,9 @@ Page-discussion is powered by [giscus](https://github.com/giscus/giscus)
 [Result](https://juliaroadmap.github.io/docs/meta/doctest.html)
 ```jl
 using DoctreePages
-gis = GiscusSetting(; # get via giscus.app
-	repo = "JuliaRoadmap/zh",
-	repo_id = "R_kgDOHQYI2Q",
-	category_id = "DIC_kwDOHQYI2c4CO2c9",
-	lang = "zh-CN"
-)
-pss = PagesSetting(;
+psszh = PagesSetting(;
 	giscus = gis,
+	hljs_all = false,
 	lang = "zh",
 	logo_path = "assets/images/logo.png",
 	repo_name = "zh",
@@ -42,7 +39,18 @@ pss = PagesSetting(;
 	sub_path = "zh",
 	table_align = :center,
 	throwall = true,
-	title = "Roadmap"
+	title = "Roadmap",
+	use_subdir = "zh"
 )
-generate("D:/RM", "D:/RMH/zh", pss)
+pssdp = PagesSetting(;
+	favicon_path = "",
+	lang = "en",
+	repo_name = "DoctreePages.jl",
+	repo_owner = "JuliaRoadmap",
+	sub_path = "dtpages",
+	title = "DoctreePages.jl",
+	use_subdir = "dtpages",
+)
+generate("D:/RM", "D:/RMH", psszh)
+generate("D:/DP", "D:/RMH", pssdp)
 ```

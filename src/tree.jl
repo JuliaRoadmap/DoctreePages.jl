@@ -14,29 +14,32 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 	if srcdir[1]=='.'
 		srcdir=joinpath(pwds,srcdir)
 	end
-	if !endswith(srcdir,"/")
+	if !endswith(srcdir, '/')
 		srcdir*="/"
 	end
 	if tardir[1]=='.'
 		tardir=joinpath(pwds, tardir)
 	end
-	# tardir=joinpath(tardir, pss.sub_path)
-	if !endswith(tardir,"/")
+	if !endswith(tardir, '/')
 		tardir*="/"
+	end
+	realtardir=joinpath(tardir, pss.use_subdir)
+	if !endswith(realtardir, '/')
+		realtardir*="/"
 	end
 	# 复制本项目
 	cd(@__DIR__)
 	cd("..")
-	cp("css", tardir*"css"; force=true)
-	cp("js", tardir*"js"; force=true)
+	cp("css", realtardir*"css"; force=true)
+	cp("js", realtardir*"extra"; force=true)
 	# 复制来源
 	cd(srcdir)
 	if isdir("assets")
-		cp("assets", tardir*"assets"; force=true)
+		cp("assets", realtardir*"assets"; force=true)
 		# cp(joinpath(@__DIR__, "../svg"), tardir*"assets/extra"; force=true)
 	end
 	if isdir("script")
-		cp("script", tardir*"script"; force=true)
+		cp("script", realtardir*"script"; force=true)
 	end
 	if pss.move_favicon
 		cp(pss.favicon_path, tardir*"favicon.ico"; force=true)
@@ -44,8 +47,8 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 	# docs
 	root=Node(nothing, lw(pss, 5))
 	cd(srcdir*"docs")
-	if pss.remove_original && isdir(tardir*"docs")
-		rm(tardir*"docs"; force=true, recursive=true)
+	if pss.remove_original && isdir(realtardir*"docs")
+		rm(realtardir*"docs"; force=true, recursive=true)
 	end
 	gen_rec(;
 		current=root,
@@ -54,7 +57,7 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 		pathv=["docs"],
 		pss=pss,
 		srcdir=srcdir,
-		tardir=tardir
+		tardir=realtardir
 	)
 	cd(srcdir*"docs")
 	make_rec(;
@@ -62,7 +65,7 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 		path="docs/",
 		pathv=["docs"],
 		pss=pss,
-		tardir=tardir
+		tardir=realtardir
 	)
 	# 404.html
 	tarundef=joinpath(tardir, pss.unfound)
@@ -79,9 +82,10 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 		writehtml(tarundef, make404html(lw(pss, 10), pss), pss)
 	end
 	# info.js
-	io=open(tardir*"js/info.js", "w")
-	print(io, "const menu=`", makemenu(root, pss; path="docs/"), "`")
-	print(io, "const buildmessage=`$(replace(pss.buildmessage, '`' => "\\`"))`")
+	io=open(realtardir*"extra/info.js", "w")
+	println(io, "const menu=`", makemenu(root, pss; path="docs/"), "`")
+	println(io, "const buildmessage=`$(replace(pss.buildmessage, '`' => "\\`"))`")
+	println(io, "const page_foot=`$(replace(pss.page_foot, '`' => "\\`"))`")
 	close(io)
 	# 消除影响
 	cd(pwds)

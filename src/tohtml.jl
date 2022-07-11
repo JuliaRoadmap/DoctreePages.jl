@@ -6,7 +6,7 @@ function makehtml(pss::PagesSetting, ps::PageSetting)
 	<head>
 		<meta charset="$(pss.charset)"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-		<title>$(pss.title)</title>$(pss.move_favicon ? "" : "<link rel='icon' type='image/x-icon' href='$(pss.favicon_path)'>")
+		<title>$(pss.title)</title>$((pss.move_favicon || pss.favicon_path=="") ? "" : "<link rel='icon' type='image/x-icon' href='$(pss.favicon_path)'>")
 		<meta name="tURL" id="tURL" content="$(ps.tURL)"/>
 		<meta name="description" content="$(ps.description)">
 		<script src="$(ps.tURL)js/info.js"></script>$(

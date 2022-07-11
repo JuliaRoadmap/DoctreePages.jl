@@ -37,11 +37,12 @@ The keywords:
 * filesuffix::String = ".html"
 * giscus::Union{Nothing, GiscusSetting} = nothing
 * highlighter::CommonHighlightSetting = CommonHighlightSetting()
+* hljs_all::Bool = true
 * lang::String = "en"
 * logo_path::Union{Nothing, String} = nothing
 * make_index::Bool = true
 * move_favicon::Bool = true
-* page_foot::String = ""
+* page_foot::String = "Powered by" ...
 * parser::Parser = default_parser()
 * remove_original::Bool = true
 * repo_branch::String = "master"
@@ -55,6 +56,7 @@ The keywords:
 * throwall::Bool = false
 * title::String
 * unfound::String = "404.html"
+* use_subdir::String = ""
 * wrap_html::Bool = true
 """
 Base.@kwdef struct PagesSetting
@@ -65,11 +67,12 @@ Base.@kwdef struct PagesSetting
     filesuffix::String = ".html"
     giscus::Union{Nothing, GiscusSetting} = nothing
     highlighter::CommonHighlightSetting = CommonHighlightSetting()
+    hljs_all::Bool = true
 	lang::String = "en"
 	logo_path::Union{Nothing, String} = nothing
     make_index::Bool = true
     move_favicon::Bool = true
-    page_foot::String = ""
+    page_foot::String = "Powered by <a href='https://github.com/JuliaRoadmap/DoctreePages.jl'>DoctreePages.jl</a> and its dependencies."
     parser::Parser = default_parser()
     remove_original::Bool = true
     repo_branch::String = "master"
@@ -83,6 +86,7 @@ Base.@kwdef struct PagesSetting
     throwall::Bool = false
     title::String
     unfound::String = "404.html"
+    use_subdir::String = ""
     wrap_html::Bool = true
 end
 Base.@kwdef struct PageSetting
