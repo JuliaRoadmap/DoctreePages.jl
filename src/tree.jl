@@ -30,16 +30,16 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 	# 复制本项目
 	cd(@__DIR__)
 	cd("..")
-	cp("css", realtardir*"css"; force=true)
-	cp("js", realtardir*"extra"; force=true)
+	cp("css", realtardir*pss.tar_css; force=true)
+	cp("extra", realtardir*pss.tar_extra; force=true)
 	# 复制来源
 	cd(srcdir)
-	if isdir("assets")
-		cp("assets", realtardir*"assets"; force=true)
+	if isdir(pss.src_assets)
+		cp(pss.src_assets, realtardir*pss.tar_assets; force=true)
 		# cp(joinpath(@__DIR__, "../svg"), tardir*"assets/extra"; force=true)
 	end
 	if isdir("script")
-		cp("script", realtardir*"script"; force=true)
+		cp("script", realtardir*pss.tar_script; force=true)
 	end
 	if pss.move_favicon
 		cp(pss.favicon_path, tardir*"favicon.ico"; force=true)
@@ -82,7 +82,7 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 		writehtml(tarundef, make404html(lw(pss, 10), pss), pss)
 	end
 	# info.js
-	io=open(realtardir*"extra/info.js", "w")
+	io=open(realtardir*"$(pss.tar_extra)/info.js", "w")
 	println(io, "const menu=`", makemenu(root, pss; path="docs/"), "`")
 	println(io, "const buildmessage=`$(replace(pss.buildmessage, '`' => "\\`"))`")
 	println(io, "const page_foot=`$(replace(pss.page_foot, '`' => "\\`"))`")

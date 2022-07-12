@@ -80,9 +80,15 @@ Base.@kwdef struct PagesSetting
     repo_owner::String
     repo_path::String = "https://github.com/$repo_owner/$repo_name/tree/$repo_branch/"
     show_info::Bool = true
+    src_assets = "assets"
+    src_script = "script"
     sort_file::Bool = true
     sub_path::String = ""
     table_align::Symbol = :auto
+    tar_assets = "assets"
+    tar_css = "css"
+    tar_extra = "extra"
+    tar_script = "script"
     throwall::Bool = false
     title::String
     unfound::String = "404.html"
