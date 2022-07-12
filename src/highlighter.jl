@@ -2,27 +2,31 @@ function highlight(language::AbstractString, code::AbstractString, pss::PagesSet
 	if startswith(language, "is-")
 		return "<div class='checkis' data-check='$(language)'>$(ify_md(code, pss))</div>"
 	end
-	if pss.hljs_all
-		return buildhljsblock(language, code)
-	end
 	sym=Symbol(language)
 	if hasmethod(highlight, Tuple{Val{sym}, typeof(code)})
 		return highlight(Val(sym), code)
+	elseif pss.hljs_all
+		return buildhljsblock(language, code)
+	#=
 	elseif hasmethod(highlight_lines, Tuple{Val{sym}, typeof(code), CommonHighlightSetting})
 		return buildcodeblock(language, highlight_lines(sym, code, pss.highlighter))
+	=#
 	else
+		msg = "pss.hljs_all = false not yet supported"
+		pss.throwall ? error(msg) : (@warn msg)
 		return buildhljsblock(language, code)
 	end
 end
 
 function buildcodeblock(language::AbstractString, str::AbstractString)
-	return "<div class='language language-$language'><div class='codeblock-header'></div><div class='codeblock-body'><div class='codeblock-num'></div><div class='codeblock-code'>$str</div></div></div><br />"
+	return "<div class='rendered-code' data-lang='$language'><div class='codeblock-header'></div><div class='codeblock-body'><div class='codeblock-num'></div><div class='codeblock-code'>$str</div></div></div><br />"
 end
 function buildcodeblock(language::AbstractString, lines::HighlightLines)
 	return buildcodeblock(language, html(lines))
 end
 
 function buildhljsblock(language::AbstractString, str::AbstractString)
+	return "<div class='unrendered-code' data-lang='$language'><div class='codeblock-header'></div><div class='codeblock-body'><div class='codeblock-num'></div><div class='codeblock-code'>$str</div></div></div><br />"
 end
 
 function highlight(::Val{Symbol("insert-html")}, content::AbstractString)

@@ -9,11 +9,11 @@ function makehtml(pss::PagesSetting, ps::PageSetting)
 		<title>$(pss.title)</title>$((pss.move_favicon || pss.favicon_path=="") ? "" : "<link rel='icon' type='image/x-icon' href='$(pss.favicon_path)'>")
 		<meta name="tURL" id="tURL" content="$(ps.tURL)"/>
 		<meta name="description" content="$(ps.description)">
-		<script src="$(ps.tURL)js/info.js"></script>$(
+		<script src="$(ps.tURL)$(pss.tar_extra)/info.js"></script>$(
 			gis===nothing ? "" :
 			"<script src='https://giscus.app/client.js' data-repo='$(gis.repo)' data-repo-id='$(gis.repo_id)' data-category='$(gis.category)' data-category-id='$(gis.category_id)' data-mapping='$(gis.mapping)' data-reactions-enabled='$(gis.reactions_enabled)' data-emit-metadata='$(gis.emit_metadata)' data-input-position='$(gis.input_position)' data-theme='$(gis.theme)' data-lang='$(gis.lang)' crossorigin='$(gis.crossorigin)' async></script>"
 		)
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="$(ps.tURL)js/main.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="$(ps.tURL)$(pss.tar_extra)/main.js"></script>
 		<link id="theme-href" rel="stylesheet" type="text/css" href=\"$(ps.tURL)css/light.css\">
 		<link rel="stylesheet" type="text/css" href="$(ps.tURL)css/general.css">
 		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/fontawesome.min.css"/>

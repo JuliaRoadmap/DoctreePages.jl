@@ -5,7 +5,7 @@ mutable struct Node
 	dirs::Dict{String, Tuple{Node, String}} # data name
 	files::Dict{String, Tuple{String, String, String}} # data name suffix
 end
-Node(par::Union{Node,Nothing}, name::String, toml::Dict=Dict())=Node(par, name, toml, Dict{String, Pair{Node, String}}(), Dict{String, Pair{String, String}}())
+Node(par::Union{Node,Nothing}, name::String, toml::Dict=Dict{String, Any}())=Node(par, name, toml, Dict{String, Pair{Node, String}}(), Dict{String, Pair{String, String}}())
 
 function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSetting)
 	mkpath(tardir)
@@ -307,12 +307,12 @@ function file2node(::Val{:jl}; it::String, node::Node, path::String, pathv::Vect
 	io=open(spath*it, "r")
 	str=read(io, String)
 	close(io)
-	node.files[pre]=(buildcodeblock("julia", highlight_lines(:jl, str, pss.highlighter)), pre, "jl")
+	node.files[pre]=(highlight("julia", str, pss), pre, "jl")
 end
 
 function file2node(::Val{:txt}; it::String, node::Node, path::String, pathv::Vector{String}, pre::String, pss::PagesSetting, spath::String, tpath::String)
 	io=open(spath*it, "r")
 	str=read(io, String)
 	close(io)
-	node.files[pre]=(buildcodeblock("txt", highlight_lines(:plain, str, pss.highlighter)), pre, "txt")
+	node.files[pre]=(highlight("plain", str, pss), pre, "txt")
 end

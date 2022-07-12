@@ -15,6 +15,7 @@ requirejs.config({
 		'jquery': 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min',
 		'headroom-jquery': 'https://cdnjs.cloudflare.com/ajax/libs/headroom/0.10.3/jQuery.headroom.min',
 		'katex': 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min',
+		'highlight': 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/highlight.min',
 	},
 	shim: {
 		"headroom-jquery": {
@@ -108,7 +109,7 @@ require(['jquery'], function ($) {
 		}
 	})
 })
-require(['jquery'],function($){
+require(['jquery', "highlight"], function($, hljs){
 	var pi=$("#documenter-themepicker")
 	pi.ready(function(){
 		for(let tag of pi[0].children){
@@ -143,7 +144,7 @@ require(['jquery'],function($){
 			}
 		}
 		// 代码块
-		for(let i of $(".content .language")){
+		for(let i of $(".content .rendered-code")){
 			// 复制代码块数据
 			let header=i.firstElementChild
 			header.innerHTML=`<span class='codeblock-paste' onclick='copycodeblock(event)'>📋</span>`
@@ -162,6 +163,10 @@ require(['jquery'],function($){
 				numhtml+=`${j}<br />`
 			}
 			num.innerHTML=numhtml
+		}
+		// hljs渲染
+		for(let i of $(".content .unrendered-code")){
+			renderhljs(hljs, i)
 		}
 	})
 	$(document).ready(function(){
@@ -224,6 +229,9 @@ require(['jquery', 'katex'], function($, katex){
 		}
 	})
 })
+function renderhljs(hljs, tag){
+	let hl=hljs.highlight(tag.lastElementChild.lastElementChild.innerText, {language: tag.dataset["lang"], ignoreIllegals: true})
+}
 function copycodeblock(ev){
 	let tar=ev.target
 	let body=tar.parentNode.nextSibling

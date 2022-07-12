@@ -14,8 +14,8 @@ The name part should be unique, and
 * Files should start with `# title`, and no `# ` should be used afterwards.
 * For links to the same docs field:
 	* use relative paths
-	* use `#subtitle` after a link to markdown file to specify the place, uniqueness must be ensured
-	* use `#Lx-Ly` after a link to txt file to specify the lines
+	* use `#subtitle` after a link to markdown file to specify the place, uniqueness must be ensured, it will be turned to `#header-subtitle` in HTML
+	* use `#Lx-Ly` after a link specify the lines of the first codeblock
 
 ## Code Block Format
 * Language name should not be empty. Use `plain` instead.
