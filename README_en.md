@@ -2,10 +2,10 @@
 
 ## About
 This is a lightweight interactive document generator.
-* lightweight: only three dependencies (CommonMark, CommonHighlight, TOML)
+* lightweight: only two dependencies (CommonMark and TOML)
 * interactive: including page-discussion, answer-board and statement-trigger text
 * easy: even those with out programming experience can use it
-* powerful: 20+ setting keys (not including sub-keys)
+* powerful: 30+ setting keys (not including sub-keys)
 
 ---
 
@@ -15,13 +15,11 @@ This is a lightweight interactive document generator.
 * [setting](docs/en/settings.md)
 * [extension](docs/en/extension.md)
 
-Type `?DoctreePages` to read usage of functions.
-
 ## LICENSE
 MIT LICENSE, and these files partly come from [Documenter](https://github.com/JuliaDocs/Documenter.jl) (MIT)
 * css/dark.css
 * css/light.css
-* js/main.js
+* extra/main.js
 
 Page-discussion is powered by [giscus](https://github.com/giscus/giscus)
 
@@ -31,7 +29,6 @@ Page-discussion is powered by [giscus](https://github.com/giscus/giscus)
 using DoctreePages
 psszh = PagesSetting(;
 	giscus = gis,
-	hljs_all = false,
 	lang = "zh",
 	logo_path = "assets/images/logo.png",
 	repo_name = "zh",

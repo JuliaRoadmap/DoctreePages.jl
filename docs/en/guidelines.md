@@ -1,8 +1,8 @@
 # Guidelines
 ## Dir Managing
-* `assets` stores images or other data
+* `assets` stores images or other data (determined by key `src_assets`)
 * `docs` stores text
-* `script` stores scripts
+* `script` stores scripts (determined by key `src_script`)
 
 ## Naming
 The name part should be unique, and
@@ -19,8 +19,6 @@ The name part should be unique, and
 
 ## Code Block Format
 * Language name should not be empty. Use `plain` instead.
-* Use `jl` or `julia` for julialang code. REPL staff like `julia>` will be recognized and colored as well.
-* Use `shell` for cli.
 * Use `insert-html` to insert HTML.
 * Use `insert-fill` to insert an interative answer board. It should include an instance of `Tuple{String, String, Regex}` and will be parsed by `eval`. The first is the description, the second is the standard answer and the third judges whether an answer is right. If the third parameter isn't given, It will be judged as "being the same to the standard answer".
 * Use `is-xxx` to insert markdown which will be shown iff `localStorage.getItem("is-xxx") == "true"`. A setting page shall be given for readers using `insert-html` block.

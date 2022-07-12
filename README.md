@@ -2,10 +2,10 @@
 
 ## 关于
 这是一个轻量级交互式文档生成器
-* 轻量级：只基于 CommonMark、CommonHighlight 和 TOML
+* 轻量级：只基于 CommonMark 和 TOML
 * 交互式：包括页面讨论功能，填空题与条件激发文本
 * 简单：即使没有编程经验也能使用
-* 强大：超过20个设置项（不包括子项）
+* 强大：超过30个设置项（不包括子项）
 
 ---
 
@@ -19,7 +19,7 @@
 遵循MIT LICENSE，其中以下文件部分来自[Documenter](https://github.com/JuliaDocs/Documenter.jl)（MIT）
 * css/dark.css
 * css/light.css
-* js/main.js
+* extra/main.js
 
 Discussion功能来自[giscus](https://github.com/giscus/giscus)
 
@@ -35,7 +35,6 @@ gis = GiscusSetting(; # 使用 giscus.app 获取
 )
 psszh = PagesSetting(;
 	giscus = gis,
-	hljs_all = false,
 	lang = "zh",
 	logo_path = "assets/images/logo.png",
 	repo_name = "zh",
