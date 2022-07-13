@@ -25,4 +25,4 @@ Manifest.toml
 
 # Files for local testing
 [0-9]*.html
-extra/menu.js
+test/

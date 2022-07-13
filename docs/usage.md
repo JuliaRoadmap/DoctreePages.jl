@@ -17,6 +17,7 @@
 | hljs_all | 是否全部高亮均使用[highlight.js](https://github.com/highlightjs/highlight.js)（当前不支持`false`） |
 | lang | 使用语言（`en`、`zh`等） |
 | logo_path | logo的路径 |
+| main_script | `main.js`的设置 |
 | make_index | 是否创建索引页 |
 | move_favicon | 是否把favicon移至`/favicon.ico` |
 | page_foot | 页面底端嵌入的html |

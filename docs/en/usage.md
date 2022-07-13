@@ -17,6 +17,7 @@
 | hljs_all | whether all highlighting uses [highlight.js](https://github.com/highlightjs/highlight.js), `false` is not yet supported |
 | lang | language(`en`, `zh`, etc) |
 | logo_path | path of logo |
+| main_script | setting for `main.js` |
 | make_index | whether to create index pages |
 | move_favicon | whether to move favcon to `/favicon.ico` |
 | page_foot | html inserted at the bottom |

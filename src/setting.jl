@@ -17,6 +17,27 @@ Base.@kwdef struct GiscusSetting
 	crossorigin::String = "anonymous"
 end
 
+Base.@kwdef struct MainScriptSetting
+    hljs_languages::AbstractString = "'julia', 'julia-repl'"
+    requirejs::NamedTuple{(:url, :configpaths, :configshim), Tuple{AbstractString, AbstractString, AbstractString}} = (
+        url = "https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js",
+        configpaths = """
+        'headroom': 'https://cdnjs.cloudflare.com/ajax/libs/headroom/0.10.3/headroom.min',
+		'jquery': 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min',
+		'headroom-jquery': 'https://cdnjs.cloudflare.com/ajax/libs/headroom/0.10.3/jQuery.headroom.min',
+		'katex': 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min',
+		'highlight': 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/highlight.min',
+        'hljs-julia': 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/languages/julia.min',
+		'hljs-julia-repl': 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/languages/julia-repl.min',
+        """,
+        configshim = """
+        "hljs-julia-repl": { "deps": ["hljs-julia"] },
+		"hljs-julia": {"deps": ["highlight"]},
+		"headroom-jquery": { "deps": [ "jquery", "headroom" ]},
+        """
+    )
+end
+
 function default_parser()
     p=Parser()
     enable!(p, AdmonitionRule())
@@ -39,6 +60,7 @@ The keywords:
 * hljs_all::Bool = true
 * lang::String = "en"
 * logo_path::Union{Nothing, String} = nothing
+* main_script::MainScriptSetting
 * make_index::Bool = true
 * move_favicon::Bool = true
 * page_foot::String = "Powered by" ...
@@ -69,6 +91,7 @@ Base.@kwdef struct PagesSetting
     hljs_all::Bool = true
 	lang::String = "en"
 	logo_path::Union{Nothing, String} = nothing
+    main_script::MainScriptSetting
     make_index::Bool = true
     move_favicon::Bool = true
     page_foot::String = "Powered by <a href='https://github.com/JuliaRoadmap/DoctreePages.jl'>DoctreePages.jl</a> and its dependencies."

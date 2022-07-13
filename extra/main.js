@@ -5,27 +5,10 @@ var tURL=document.getElementById("tURL").content
 var theme=localStorage.getItem("theme")
 if(theme==undefined)theme="light"
 else if(theme!="light"){
-	document.getElementById("theme-href").href=tURL+"css/"+theme+".css"
+	document.getElementById("theme-href").href=tURL+"/*[tar_css]*//"+theme+".css"
 }
 
-requirejs.config({
-	paths: {
-		'headroom': 'https://cdnjs.cloudflare.com/ajax/libs/headroom/0.10.3/headroom.min',
-		'jqueryui': 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min',
-		'jquery': 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min',
-		'headroom-jquery': 'https://cdnjs.cloudflare.com/ajax/libs/headroom/0.10.3/jQuery.headroom.min',
-		'katex': 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min',
-		'highlight': 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/highlight.min',
-	},
-	shim: {
-		"headroom-jquery": {
-			"deps": [
-				"jquery",
-				"headroom"
-			]
-		},
-	}
-});
+requirejs.config({ paths: { /*[configpaths]*/ }, shim: { /*[configshim]*/ } });
 require(['jquery', 'headroom', 'headroom-jquery'], function ($, Headroom) {
 
 	// Manages the top navigation bar (hides it when the user starts scrolling down on the
@@ -121,7 +104,7 @@ require(['jquery', "highlight"], function($, hljs){
 		pi.bind('change',function(){
 			// 更改theme
 			var theme=pi[0].value
-			$("#theme-href")[0].href=tURL+"css/"+theme+".css"
+			$("#theme-href")[0].href=tURL+"/*[tar_css]*//"+theme+".css"
 			localStorage.setItem("theme",theme)
 		})
 	})
@@ -165,6 +148,7 @@ require(['jquery', "highlight"], function($, hljs){
 			num.innerHTML=numhtml
 		}
 		// hljs渲染
+		hljs.configure({ languages: ["/*[hljs_languages]*/"] })
 		for(let i of $(".content .unrendered-code")){
 			renderhljs(hljs, i)
 		}
@@ -231,6 +215,7 @@ require(['jquery', 'katex'], function($, katex){
 })
 function renderhljs(hljs, tag){
 	let hl=hljs.highlight(tag.lastElementChild.lastElementChild.innerText, {language: tag.dataset["lang"], ignoreIllegals: true})
+	let v=hl.value
 }
 function copycodeblock(ev){
 	let tar=ev.target
