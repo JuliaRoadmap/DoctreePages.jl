@@ -78,7 +78,7 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 		else
 			cp(pss.unfound, tarundef; force=true)
 		end
-	else
+	elseif pss.make404
 		writehtml(tarundef, make404html(lw(pss, 10), pss), pss)
 	end
 	# info.js
@@ -231,7 +231,7 @@ function makeindexhtml(node::Node, path::String, pathv::Vector{String}; pss::Pag
 		mds*="<li><a href=\"$(d.first)/index$(pss.filesuffix)\" target=\"_blank\">📁$(d.second[2])</a></li>"
 	end
 	for d in node.files
-		mds*="<li><a href=\"$(d.first)$(pss.filesuffix)\">$(d.second[2])</a></li>"
+		mds*="<li><a href=\"$(d.first)$(pss.filesuffix)\">📔$(d.second[2])</a></li>"
 	end
 	mds*="</ul>"
 	title = (node.par===nothing ? lw(pss, 7) : node.par.dirs[node.name][2])*lw(pss, 8)
@@ -254,8 +254,8 @@ function make404html(mds::String, pss::PagesSetting)
 		mds=mds,
 		navbar_title="404",
 		nextpage="",
-		prevpage="<a class='docs-footer-prevpage' href='../index$(pss.filesuffix)'>« $(lw(pss, 9))</a>",
-		tURL="../",
+		prevpage="<a class='docs-footer-prevpage' href='$(pss.use_subdir)/index$(pss.filesuffix)'>« $(lw(pss, 9))</a>",
+		tURL=pss.use_subdir,
 	))
 end
 function makeinfo_js(path::String, root::Node, pss::PagesSetting)
@@ -270,7 +270,7 @@ function makeinfo_js(path::String, root::Node, pss::PagesSetting)
 		println(io, "const configpaths=`$(rep(ms.requirejs.configpaths))`")
 		println(io, "const configshim=`$(rep(ms.requirejs.configshim))`")
 		println(io, "const hljs_languages=`$(rep(ms.hljs_languages))`")
-		println(io, "const main_requirement=$(rep(ms.main_requirement))")
+		println(io, "const main_requirement=`$(rep(ms.main_requirement))`")
 	finally
 		close(io)
 	end

@@ -111,6 +111,9 @@ end
 function mkhtml(node::CommonMark.Node, ::CommonMark.DisplayMath, ::PagesSetting)
 	return "<div class='display-math tex'>$(html_safe(node.literal))</div>"
 end
+function mkhtml(node::CommonMark.Node, ::Union{CommonMark.HtmlInline, CommonMark.HtmlBlock}, ::PagesSetting)
+	return node.literal
+end
 
 # inline
 function mkhtml(node::CommonMark.Node, ::CommonMark.Text, ::PagesSetting)
@@ -158,7 +161,7 @@ function mkhtml(node::CommonMark.Node, img::CommonMark.Image, pss::PagesSetting)
 	end
 	return "<img src='$(img.destination)' alt='$alt'>"
 end
-function mkhtml(::CommonMark.Node, ::Union{CommonMark.Backslash, CommonMark.LineBreak}, ::PagesSetting)
+function mkhtml(::CommonMark.Node, ::Union{CommonMark.Backslash, CommonMark.LineBreak, CommonMark.SoftBreak}, ::PagesSetting)
 	return "<br />"
 end
 function mkhtml(node::CommonMark.Node, ::CommonMark.Code, ::PagesSetting)

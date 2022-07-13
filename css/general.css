@@ -4,11 +4,6 @@
 	tab-size: 4;
 }
 
-/* 主标签额外 */
-.footnote>p {
-	display: inline;
-}
-
 pre code.hljs {
 	display: block;
 	overflow-x: auto;
@@ -102,7 +97,11 @@ code.hljs {
 	font-weight: 700
 }
 
-/* 附加功能 */
+/* 附加 */
+.footnote>p {
+	display: inline;
+}
+
 .checkis {
 	display: none;
 }
@@ -114,4 +113,9 @@ code.hljs {
 
 annotation {
 	display: none;
+}
+
+table{
+	border-spacing: 0;
+	border-collapse: collapse;
 }

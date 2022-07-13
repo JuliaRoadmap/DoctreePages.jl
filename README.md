@@ -24,7 +24,7 @@
 Discussion功能来自[giscus](https://github.com/giscus/giscus)
 
 ## 使用实例
-[对应测试示例](https://juliaroadmap.github.io/docs/meta/doctest.html)
+[对应测试示例](https://juliaroadmap.github.io/zh/docs/meta/doctest.html)
 ```jl
 using DoctreePages
 gis = GiscusSetting(; # 使用 giscus.app 获取
@@ -47,6 +47,7 @@ psszh = PagesSetting(;
 )
 pssdp = PagesSetting(;
 	favicon_path = "",
+	make404 = false,
 	lang = "en",
 	repo_name = "DoctreePages.jl",
 	repo_owner = "JuliaRoadmap",

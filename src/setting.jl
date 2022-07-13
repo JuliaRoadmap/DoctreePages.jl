@@ -19,7 +19,7 @@ end
 
 Base.@kwdef struct MainScriptSetting
     hljs_languages::AbstractString = "['julia', 'julia-repl']"
-    main_requirement::AbstractString = "main_requirement=['jquery', 'highlight', 'hljs-julia', 'hljs-julia-repl', 'hljs-line-numbers']"
+    main_requirement::AbstractString = "['jquery', 'highlight', 'hljs-julia', 'hljs-julia-repl', 'hljs-line-numbers']"
     requirejs::NamedTuple{(:url, :configpaths, :configshim), Tuple{AbstractString, AbstractString, AbstractString}} = (
         url = "https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js",
         configpaths = """
@@ -64,6 +64,7 @@ The keywords:
 * lang::String = "en"
 * logo_path::Union{Nothing, String} = nothing
 * main_script::MainScriptSetting
+* make404::Bool = true
 * make_index::Bool = true
 * move_favicon::Bool = true
 * page_foot::String = "Powered by" ...
@@ -96,6 +97,7 @@ Base.@kwdef struct PagesSetting
 	lang::String = "en"
 	logo_path::Union{Nothing, String} = nothing
     main_script::MainScriptSetting = MainScriptSetting()
+    make404::Bool = true
     make_index::Bool = true
     move_favicon::Bool = true
     page_foot::String = "Powered by <a href='https://github.com/JuliaRoadmap/DoctreePages.jl'>DoctreePages.jl</a> and its dependencies."

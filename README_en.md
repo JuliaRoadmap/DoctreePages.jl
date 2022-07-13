@@ -24,7 +24,7 @@ MIT LICENSE, and these files partly come from [Documenter](https://github.com/Ju
 Page-discussion is powered by [giscus](https://github.com/giscus/giscus)
 
 ## Sample
-[Result](https://juliaroadmap.github.io/docs/meta/doctest.html)
+[Result](https://juliaroadmap.github.io/zh/docs/meta/doctest.html)
 ```jl
 using DoctreePages
 gis = GiscusSetting(; # get via giscus.app
@@ -47,6 +47,7 @@ psszh = PagesSetting(;
 )
 pssdp = PagesSetting(;
 	favicon_path = "",
+	make404 = false,
 	lang = "en",
 	repo_name = "DoctreePages.jl",
 	repo_owner = "JuliaRoadmap",
