@@ -82,11 +82,7 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 		writehtml(tarundef, make404html(lw(pss, 10), pss), pss)
 	end
 	# info.js
-	io=open(realtardir*"$(pss.tar_extra)/info.js", "w")
-	println(io, "const menu=`", makemenu(root, pss; path="docs/"), "`")
-	println(io, "const buildmessage=`$(replace(pss.buildmessage, '`' => "\\`"))`")
-	println(io, "const page_foot=`$(replace(pss.page_foot, '`' => "\\`"))`")
-	close(io)
+	makeinfo_js(realtardir*"$(pss.tar_extra)/info.js", root, pss)
 	# 消除影响
 	cd(pwds)
 end
@@ -261,6 +257,23 @@ function make404html(mds::String, pss::PagesSetting)
 		prevpage="<a class='docs-footer-prevpage' href='../index$(pss.filesuffix)'>« $(lw(pss, 9))</a>",
 		tURL="../",
 	))
+end
+function makeinfo_js(path::String, root::Node, pss::PagesSetting)
+	io=open(path, "w")
+	rep=str -> replace(str, '`' => "\\`")
+	try
+		println(io, "const menu=`", makemenu(root, pss; path="docs/"), "`")
+		println(io, "const buildmessage=`$(rep(pss.buildmessage))`")
+		println(io, "const page_foot=`$(rep(pss.page_foot))`")
+		println(io, "const tar_css=`$(rep(pss.tar_css))`")
+		ms=pss.main_script
+		println(io, "const configpaths=`$(rep(ms.requirejs.configpaths))`")
+		println(io, "const configshim=`$(rep(ms.requirejs.configshim))`")
+		println(io, "const hljs_languages=`$(rep(ms.hljs_languages))`")
+		println(io, "const main_requirement=$(rep(ms.main_requirement))")
+	finally
+		close(io)
+	end
 end
 
 function writehtml(path::String, html::String, pss::PagesSetting)

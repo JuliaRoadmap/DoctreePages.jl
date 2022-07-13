@@ -5,10 +5,10 @@ var tURL=document.getElementById("tURL").content
 var theme=localStorage.getItem("theme")
 if(theme==undefined)theme="light"
 else if(theme!="light"){
-	document.getElementById("theme-href").href=tURL+"/*[tar_css]*//"+theme+".css"
+	document.getElementById("theme-href").href=`${tURL}${tar_css}/${theme}.css`
 }
 
-requirejs.config({ paths: { /*[configpaths]*/ }, shim: { /*[configshim]*/ } });
+requirejs.config({ paths: configpaths, shim: configshim});
 require(['jquery', 'headroom', 'headroom-jquery'], function ($, Headroom) {
 
 	// Manages the top navigation bar (hides it when the user starts scrolling down on the
@@ -104,7 +104,7 @@ require(['jquery', "highlight"], function($, hljs){
 		pi.bind('change',function(){
 			// 更改theme
 			var theme=pi[0].value
-			$("#theme-href")[0].href=tURL+"/*[tar_css]*//"+theme+".css"
+			$("#theme-href")[0].href=`${tURL}${tar_css}/${theme}.css`
 			localStorage.setItem("theme",theme)
 		})
 	})
@@ -148,7 +148,7 @@ require(['jquery', "highlight"], function($, hljs){
 			num.innerHTML=numhtml
 		}
 		// hljs渲染
-		hljs.configure({ languages: ["/*[hljs_languages]*/"] })
+		hljs.configure({ languages: hljs_languages })
 		for(let i of $(".content .unrendered-code")){
 			renderhljs(hljs, i)
 		}

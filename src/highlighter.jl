@@ -26,7 +26,7 @@ function buildcodeblock(language::AbstractString, lines::HighlightLines)
 end
 
 function buildhljsblock(language::AbstractString, str::AbstractString)
-	return "<div class='unrendered-code' data-lang='$language'><div class='codeblock-header'></div><div class='codeblock-body'><div class='codeblock-num'></div><div class='codeblock-code'>$str</div></div></div><br />"
+	return "<div class='unrendered-code' data-lang='$language'><div class='codeblock-header'></div><pre class='codeblock-body language-$language'><code>$str</code></pre></div><br />"
 end
 
 function highlight(::Val{Symbol("insert-html")}, content::AbstractString)
