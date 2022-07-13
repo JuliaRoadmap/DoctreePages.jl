@@ -24,9 +24,9 @@ end
 function buildcodeblock(language::AbstractString, str::AbstractString)
 	return "<div class='data-lang='$language'><div class='codeblock-header'></div><pre class='codeblock-body language-$language nohighlight'><code>$str</code></pre></div><br />"
 end
-function buildcodeblock(language::AbstractString, lines::HighlightLines)
+#= function buildcodeblock(language::AbstractString, lines::HighlightLines)
 	return buildcodeblock(language, html(lines))
-end
+end =#
 
 function buildhljsblock(language::AbstractString, str::AbstractString)
 	return "<div data-lang='$language'><div class='codeblock-header'></div><pre class='codeblock-body language-$language'><code>$str</code></pre></div><br />"

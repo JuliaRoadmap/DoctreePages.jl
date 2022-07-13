@@ -105,7 +105,7 @@ function mkhtml(node::CommonMark.Node, ::CommonMark.TableRow, pss::PagesSetting)
 	return "<tr>$(childrenhtml(node, pss))</tr>"
 end
 function mkhtml(node::CommonMark.Node, cell::CommonMark.TableCell, pss::PagesSetting)
-	align=pss.align==:auto ? cell.align : pss.align
+	align=pss.table_align==:auto ? cell.align : pss.table_align
 	return "<td style='float:$align'>$(childrenhtml(node, pss))</td>"
 end
 function mkhtml(node::CommonMark.Node, ::CommonMark.DisplayMath, ::PagesSetting)

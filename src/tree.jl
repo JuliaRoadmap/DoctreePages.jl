@@ -8,7 +8,6 @@ end
 Node(par::Union{Node,Nothing}, name::String, toml::Dict=Dict{String, Any}())=Node(par, name, toml, Dict{String, Pair{Node, String}}(), Dict{String, Pair{String, String}}())
 
 function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSetting)
-	mkpath(tardir)
 	# 支持相对路径
 	pwds=pwd()
 	if srcdir[1]=='.'
@@ -24,6 +23,7 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 		tardir*="/"
 	end
 	realtardir=joinpath(tardir, pss.use_subdir)
+	mkpath(realtardir)
 	if !endswith(realtardir, '/')
 		realtardir*="/"
 	end
@@ -41,7 +41,7 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 	if isdir("script")
 		cp("script", realtardir*pss.tar_script; force=true)
 	end
-	if pss.move_favicon
+	if pss.move_favicon && pss.favicon_path!=""
 		cp(pss.favicon_path, tardir*"favicon.ico"; force=true)
 	end
 	# docs
@@ -111,7 +111,7 @@ function gen_rec(;
 			dot=findlast('.', it)
 			pre=it[1:dot-1]
 			suf=it[dot+1:end]
-			file2node(Val(Symbol(suf)); it=it, node=current, pre=pre, pss=pss, spath=spath, tpath=tpath)
+			file2node(Val(Symbol(suf)); it=it, node=current, path=path, pathv=pathv, pre=pre, pss=pss, spath=spath, tpath=tpath)
 		else # isdir
 			pss.show_info && @info it*"/"
 			ns=current.toml["names"]

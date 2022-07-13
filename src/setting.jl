@@ -95,7 +95,7 @@ Base.@kwdef struct PagesSetting
     hljs_all::Bool = true
 	lang::String = "en"
 	logo_path::Union{Nothing, String} = nothing
-    main_script::MainScriptSetting
+    main_script::MainScriptSetting = MainScriptSetting()
     make_index::Bool = true
     move_favicon::Bool = true
     page_foot::String = "Powered by <a href='https://github.com/JuliaRoadmap/DoctreePages.jl'>DoctreePages.jl</a> and its dependencies."
@@ -122,6 +122,13 @@ Base.@kwdef struct PagesSetting
     use_subdir::String = ""
     wrap_html::Bool = true
 end
+function Base.show(io::IO, pss::PagesSetting)
+    print(io, "PagesSetting for <$(pss.title)>")
+    if pss.use_subdir!=""
+        print(io, " under $(pss.use_subdir)")
+    end
+end
+
 Base.@kwdef struct PageSetting
     description::String
 	editpath::String

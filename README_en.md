@@ -27,6 +27,12 @@ Page-discussion is powered by [giscus](https://github.com/giscus/giscus)
 [Result](https://juliaroadmap.github.io/docs/meta/doctest.html)
 ```jl
 using DoctreePages
+gis = GiscusSetting(; # get via giscus.app
+	repo = "JuliaRoadmap/zh",
+	repo_id = "R_kgDOHQYI2Q",
+	category_id = "DIC_kwDOHQYI2c4CO2c9",
+	lang = "zh-CN"
+)
 psszh = PagesSetting(;
 	giscus = gis,
 	lang = "zh",
