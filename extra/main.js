@@ -92,7 +92,7 @@ require(['jquery'], function ($) {
 		}
 	})
 })
-require(['jquery', "highlight"], function($, hljs){
+require(main_requirement, function($, hljs){
 	var pi=$("#documenter-themepicker")
 	pi.ready(function(){
 		for(let tag of pi[0].children){
@@ -126,31 +126,14 @@ require(['jquery', "highlight"], function($, hljs){
 				})
 			}
 		}
-		// 代码块
-		for(let i of $(".content .rendered-code")){
-			// 复制代码块数据
-			let header=i.firstElementChild
+		// 代码块渲染
+		let hljs=window.hljs
+		hljs.registerAliases("plain", {languageName:"plaintext"})
+		hljs.highlightAll()
+		for(let i of $("code.hljs")){
+			hljs.lineNumbersBlock(i, {singleLine: true})
+			let header=i.parentElement.parentElement.firstElementChild
 			header.innerHTML=`<span class='codeblock-paste' onclick='copycodeblock(event)'>📋</span>`
-			// 侧边栏编号
-			let body=i.lastElementChild
-			let num=body.firstElementChild
-			let code=body.lastElementChild
-			let text=code.innerText
-			let l=1
-			for(let j of text){
-				if(j=='\n')l+=1
-			}
-			if(text[text.length-1]=='\n')l-=1
-			let numhtml=""
-			for(let j=1; j<=l; j++){
-				numhtml+=`${j}<br />`
-			}
-			num.innerHTML=numhtml
-		}
-		// hljs渲染
-		hljs.configure({ languages: hljs_languages })
-		for(let i of $(".content .unrendered-code")){
-			renderhljs(hljs, i)
 		}
 	})
 	$(document).ready(function(){
@@ -213,19 +196,12 @@ require(['jquery', 'katex'], function($, katex){
 		}
 	})
 })
-function renderhljs(hljs, tag){
-	let hl=hljs.highlight(tag.lastElementChild.lastElementChild.innerText, {language: tag.dataset["lang"], ignoreIllegals: true})
-	let v=hl.value
-}
 function copycodeblock(ev){
 	let tar=ev.target
 	let body=tar.parentNode.nextSibling
-	let code=body.lastElementChild
+	let codes=body.querySelectorAll(".hljs-ln-code")
 	let s=""
-	for(let e of code.children){
-		if(e.tagName=="BR")s+="\n"
-		else s+=e.innerText
-	}
+	for(let code of codes)s+=code.innerText+"\n"
 	navigator.clipboard.writeText(s).then(
 		function(){
 			tar.innerText="✔"
@@ -246,9 +222,10 @@ function upd_trigger(key){
 	}
 }
 function scroll_to_lines(from, to){
-	let cb=$(".codeblock-code")
+	let cb=$("code.hljs")[0]
+	let nums=cb.querySelectorAll(".hljs-ln-numbers")
 	for(let i=from; i<=to; i++){
-		cb.children[i<<1-1].style.backgroundColor="lightgreen"
+		nums[i-1].style.backgroundColor="lightgreen"
 	}
-	cb.children[from<<1-1].scrollIntoView()
+	nums[from-1].scrollIntoView()
 }

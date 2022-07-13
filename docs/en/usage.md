@@ -39,6 +39,8 @@
 | tar_script | name of dir of generated scripts |
 | throwall | whether to throw non-fatal errors |
 | title | title |
+| use_repl_highlight | whether use `jl-repl` for all julia codeblocks |
+| use_subdir | uses `joinpath(tardir, pss.use_subdir)` when building independent parts |
 | unfound | page to redirect when 404 error occurs (page will be automatically generated if not found) |
 | wrap_html | whether to wrap html files |
 
