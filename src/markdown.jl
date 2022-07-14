@@ -161,9 +161,10 @@ function mkhtml(node::CommonMark.Node, img::CommonMark.Image, pss::PagesSetting)
 	end
 	return "<img src='$(img.destination)' alt='$alt'>"
 end
-function mkhtml(::CommonMark.Node, ::Union{CommonMark.Backslash, CommonMark.LineBreak, CommonMark.SoftBreak}, ::PagesSetting)
+function mkhtml(::CommonMark.Node, ::Union{CommonMark.Backslash, CommonMark.LineBreak}, ::PagesSetting)
 	return "<br />"
 end
+mkhtml(::CommonMark.Node, ::CommonMark.SoftBreak, ::PagesSetting)=""
 function mkhtml(node::CommonMark.Node, ::CommonMark.Code, ::PagesSetting)
 	return "<code>$(html_safe(node.literal))</code>"
 end

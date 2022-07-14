@@ -1,13 +1,10 @@
 /* 语言高亮 */
-.language {
-	font-family: 'Courier New', Courier, monospace;
-	tab-size: 4;
-}
-
 pre code.hljs {
 	display: block;
 	overflow-x: auto;
-	padding: 1em
+	padding: 1em;
+	font-family: 'Courier New', Courier, monospace;
+	tab-size: 4;
 }
 
 code.hljs {
