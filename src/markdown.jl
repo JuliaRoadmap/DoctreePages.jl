@@ -1,9 +1,9 @@
-function ify_md(s::String, pss::PagesSetting)
+function ify_md(s::AbstractString, pss::PagesSetting)
 	s=replace(s, "\r"=>"")
 	md=pss.parser(s)
 	return mkhtml(md, md.t, pss)
 end
-function md_withtitle(s::String, pss::PagesSetting)
+function md_withtitle(s::AbstractString, pss::PagesSetting)
 	s=replace(s, "\r"=>"")
 	md=pss.parser(s)
 	con=""
@@ -22,14 +22,14 @@ function md_withtitle(s::String, pss::PagesSetting)
 	return Pair(con, md.first_child.first_child.literal)
 end
 
-@inline function childrenhtml(node::CommonMark.Node, pss::PagesSetting, wrap::String="")
+@inline function childrenhtml(node::CommonMark.Node, pss::PagesSetting)
 	current=node.first_child
 	if !isdefined(current, :t)
 		return ""
 	end
 	str=""
 	while true
-		str*=wrap=="" ? mkhtml(current, current.t, pss) : "<$wrap>$(mkhtml(current, current.t, pss))</$wrap>"
+		str*=mkhtml(current, current.t, pss)
 		if current===node.last_child
 			break
 		end

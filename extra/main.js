@@ -135,17 +135,19 @@ require(main_requirement, function($, hljs){
 			let header=i.parentElement.parentElement.firstElementChild
 			header.innerHTML=`<span class='codeblock-paste' onclick='copycodeblock(event)'>📋</span>`
 		}
+		$(".hljs-ln").ready(function(){
+			// 检测L-L定位
+			let loc=document.location.hash
+			loc=loc.substring(1,loc.length)
+			if(loc[0]=='L'){
+				var split=loc.search('-')
+				var from=Number(loc.substring(1,split))
+				var to=Number(loc.substring(split+2,loc.length))
+				scroll_to_lines(from, to)
+			}
+		})
 	})
 	$(document).ready(function(){
-		// 检测L-L定位
-		let loc=document.location.hash
-		loc=loc.substring(1,loc.length)
-		if(loc[0]=='L'){
-			var split=loc.search('-')
-			var from=Number(loc.substring(1,split))
-			var to=Number(loc.substring(split+2,loc.length))
-			scroll_to_lines(from, to)
-		}
 		// 检测条件激发
 		for(let i of $(".checkis")){
 			var chk=i.dataset["check"]

@@ -127,7 +127,7 @@ end
 function Base.show(io::IO, pss::PagesSetting)
     print(io, "PagesSetting for <$(pss.title)>")
     if pss.use_subdir!=""
-        print(io, " under $(pss.use_subdir)")
+        print(io, " under $(pss.use_subdir)/")
     end
 end
 

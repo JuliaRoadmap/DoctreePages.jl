@@ -74,12 +74,12 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 			io=open(pss.unfound, "r")
 			str=read(io, String)
 			close(io)
-			writehtml(tarundef, make404html(str, pss), pss)
+			writehtml(tarundef, make404html(str, pss), pss; rawpath=true)
 		else
 			cp(pss.unfound, tarundef; force=true)
 		end
 	elseif pss.make404
-		writehtml(tarundef, make404html(lw(pss, 10), pss), pss)
+		writehtml(tarundef, make404html(lw(pss, 10), pss), pss; rawpath=true)
 	end
 	# info.js
 	makeinfo_js(realtardir*"$(pss.tar_extra)/info.js", root, pss)
@@ -216,13 +216,16 @@ function makemenu(rt::Node, pss::PagesSetting; path::String)
 			if haskey(rt.dirs, id)
 				pair=rt.dirs[id]
 				html*="<li><a class=\"tocitem\" href=\"\$$(expath)/index$(pss.filesuffix)\">$(pair[2])</a><ul>$(makemenu(pair[1], pss; path=expath*"/"))</ul><li>"
-			else
+			elseif haskey(rt.files, id)
 				name=rt.files[id][2]
 				html*="<li><a class=\"tocitem\" href=\"\$$(expath)$(pss.filesuffix)\">$name</a></li>"
+			else
+				msg = "nothing matches [$id] under $path"
+				pss.throwall ? error(msg) : (@error msg)
 			end
 		end
-		return html
 	end
+	return html
 end
 
 function makeindexhtml(node::Node, path::String, pathv::Vector{String}; pss::PagesSetting)
@@ -255,7 +258,7 @@ function make404html(mds::String, pss::PagesSetting)
 		navbar_title="404",
 		nextpage="",
 		prevpage="<a class='docs-footer-prevpage' href='$(pss.use_subdir)/index$(pss.filesuffix)'>« $(lw(pss, 9))</a>",
-		tURL=pss.use_subdir,
+		tURL="$(pss.use_subdir)/",
 	))
 end
 function makeinfo_js(path::String, root::Node, pss::PagesSetting)
@@ -267,17 +270,21 @@ function makeinfo_js(path::String, root::Node, pss::PagesSetting)
 		println(io, "const page_foot=`$(rep(pss.page_foot))`")
 		println(io, "const tar_css=`$(rep(pss.tar_css))`")
 		ms=pss.main_script
-		println(io, "const configpaths=`$(rep(ms.requirejs.configpaths))`")
-		println(io, "const configshim=`$(rep(ms.requirejs.configshim))`")
-		println(io, "const hljs_languages=`$(rep(ms.hljs_languages))`")
-		println(io, "const main_requirement=`$(rep(ms.main_requirement))`")
+		# 无 `
+		println(io, "const configpaths=$(ms.requirejs.configpaths)")
+		println(io, "const configshim=$(ms.requirejs.configshim)")
+		println(io, "const hljs_languages=$(ms.hljs_languages)")
+		println(io, "const main_requirement=$(ms.main_requirement)")
 	finally
 		close(io)
 	end
 end
 
-function writehtml(path::String, html::String, pss::PagesSetting)
-	io=open(path*pss.filesuffix, "w")
+function writehtml(path::String, html::String, pss::PagesSetting; rawpath::Bool=false)
+	if !rawpath
+		path*=pss.filesuffix
+	end
+	io=open(path, "w")
 	print(io, html)
 	close(io)
 end
