@@ -6,6 +6,31 @@ mutable struct Node
 	files::Dict{String, Tuple{String, String, String}} # data name suffix
 end
 Node(par::Union{Node,Nothing}, name::String, toml::Dict=Dict{String, Any}())=Node(par, name, toml, Dict{String, Pair{Node, String}}(), Dict{String, Pair{String, String}}())
+function Base.show(io::IO, node::Node)
+	if get(io, :compat, false)
+		println(io, node.name)
+		return
+	end
+	if node.par === nothing
+		println(io, "Root Node")
+	else
+		println(io, "Directory ", node.name)
+		par=node.par
+		println(io, "parent: ", par.par===nothing ? "< root >" : par.name)
+	end
+	if !isempty(node.dirs)
+		println(io, "sub directories:")
+		for it in node.dirs
+			println(io, "| ", it.first, "( $(it.second[2]) )")
+		end
+	end
+	if !isempty(node.files)
+		println(io, "files:")
+		for it in node.dirs
+			println(io, "| ", it.first, "( $(it.second[2]) )")
+		end
+	end
+end
 
 function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSetting)
 	# 支持相对路径
@@ -85,6 +110,8 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 	makeinfo_js(realtardir*"$(pss.tar_extra)/info.js", root, pss)
 	# 消除影响
 	cd(pwds)
+	# 返回
+	return root
 end
 function gen_rec(;
 	current::Node,
@@ -207,25 +234,27 @@ function make_rec(;
 	cd("..")
 end
 
-function makemenu(rt::Node, pss::PagesSetting; path::String)
-	html=""
-	if haskey(rt.toml, "outline")
-		outline=rt.toml["outline"]
+function makemenu(node::Node, pss::PagesSetting)
+	return "{filesuffix:`$(rep(pss.filesuffix))`,tree:[$(_makemenu(node, pss))]}"
+end
+function _makemenu(node::Node, pss::PagesSetting)
+	str=""
+	if haskey(node.toml, "outline")
+		outline=node.toml["outline"]
 		for id in outline
-			expath=path*id
-			if haskey(rt.dirs, id)
-				pair=rt.dirs[id]
-				html*="<li><a class=\"tocitem\" href=\"\$$(expath)/index$(pss.filesuffix)\">$(pair[2])</a><ul>$(makemenu(pair[1], pss; path=expath*"/"))</ul><li>"
+			if haskey(node.dirs, id)
+				pair=node.dirs[id]
+				str*="[`$(rep(id))/$(pair[2])`,$(_makemenu(pair[1], pss))}],"
 			elseif haskey(rt.files, id)
-				name=rt.files[id][2]
-				html*="<li><a class=\"tocitem\" href=\"\$$(expath)$(pss.filesuffix)\">$name</a></li>"
+				name=node.files[id][2]
+				str*="`$(rep(id))/$(rep(name))`,"
 			else
-				msg = "nothing matches [$id] under $path"
+				msg = "nothing matches [$id] in $node"
 				pss.throwall ? error(msg) : (@error msg)
 			end
 		end
 	end
-	return html
+	return str
 end
 
 function makeindexhtml(node::Node, path::String, pathv::Vector{String}; pss::PagesSetting)
@@ -263,14 +292,13 @@ function make404html(mds::String, pss::PagesSetting)
 end
 function makeinfo_js(path::String, root::Node, pss::PagesSetting)
 	io=open(path, "w")
-	rep=str -> replace(str, '`' => "\\`")
 	try
-		println(io, "const menu=`", makemenu(root, pss; path="docs/"), "`")
 		println(io, "const buildmessage=`$(rep(pss.buildmessage))`")
 		println(io, "const page_foot=`$(rep(pss.page_foot))`")
 		println(io, "const tar_css=`$(rep(pss.tar_css))`")
 		ms=pss.main_script
-		# 无 `
+		# 无直角引号
+		println(io, "const menu=", makemenu(root, pss))
 		println(io, "const configpaths=$(ms.requirejs.configpaths)")
 		println(io, "const configshim=$(ms.requirejs.configshim)")
 		println(io, "const hljs_languages=$(ms.hljs_languages)")

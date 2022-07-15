@@ -16,6 +16,9 @@ function html_safe(s::AbstractString; br=true)
 	end
 	return t
 end
+function rep(str::AbstractString)
+	return replace(str, '`' => "\\`")
+end
 
 const language_tags=[
 	(en="content empty", zh="内容为空"),
