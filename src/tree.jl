@@ -120,7 +120,7 @@ function gen_rec(;
 			current.dirs[it]=(node,ns[it])
 			push!(pathv,it)
 			cd(it)
-			o=outline || (haskey(toml,"outline") && in(it, @inbounds(toml["outline"])))
+			o=outline || (haskey(toml,"outline") && in(it, toml["outline"]))
 			gen_rec(
 				current=node,
 				outline=o,
@@ -210,7 +210,7 @@ end
 function makemenu(rt::Node, pss::PagesSetting; path::String)
 	html=""
 	if haskey(rt.toml, "outline")
-		outline=@inbounds rt.toml["outline"]
+		outline=rt.toml["outline"]
 		for id in outline
 			expath=path*id
 			if haskey(rt.dirs, id)
@@ -234,7 +234,7 @@ function makeindexhtml(node::Node, path::String, pathv::Vector{String}; pss::Pag
 		mds*="<li><a href=\"$(d.first)/index$(pss.filesuffix)\" target=\"_blank\">📁$(d.second[2])</a></li>"
 	end
 	for d in node.files
-		mds*="<li><a href=\"$(d.first)$(pss.filesuffix)\">📔$(d.second[2])</a></li>"
+		mds*="<li><a href=\"$(d.first)$(pss.filesuffix)\">📄$(d.second[2])</a></li>"
 	end
 	mds*="</ul>"
 	title = (node.par===nothing ? lw(pss, 7) : node.par.dirs[node.name][2])*lw(pss, 8)
