@@ -116,3 +116,10 @@ table{
 	border-spacing: 0;
 	border-collapse: collapse;
 }
+
+.li-dir::before{
+	content: "📁";
+}
+.li-file::before{
+	content: "📄";
+}

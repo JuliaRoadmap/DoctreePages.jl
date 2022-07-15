@@ -41,7 +41,6 @@
 | throwall | 是否抛出非致命错误 |
 | title | 标题 |
 | unfound | 404错误时重定向的页面（若无文件则自动生成） |
-| use_repl_highlight | 是否对所有julia代码块使用`jl-repl` |
 | use_subdir | 在构建独立部分时使用`joinpath(tardir, pss.use_subdir)` |
 | wrap_html | 是否对html文件进行包裹 |
 

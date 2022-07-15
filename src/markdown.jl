@@ -134,21 +134,18 @@ function mkhtml(node::CommonMark.Node, link::CommonMark.Link, pss::PagesSetting)
 	elseif startswith(url, '/')
 		url="/$(pss.sub_path)/$(url[2:end])"
 	elseif !startswith(url, "https://") && !startswith(url, "http://")
-		has=findlast('#',url)
-		if has!==nothing
-			ma=findfirst(r".md#.*$",url)
-			if ma!==nothing
-				url=url[1:ma.start-1]*pss.filesuffix*"#header-"*url[ma.start+4:ma.stop]
-			else
-				ma=findfirst(r".txt#.*$",url)
-				if ma!==nothing
-					url=url[1:ma.start-1]*pss.filesuffix*url[ma.start+4:ma.stop]
+		dot=findlast('.', url)
+		if dot !== nothing
+			has=findlast('#', url)
+			if has===nothing
+				url=url[1:prevind(url, dot)]*pss.filesuffix
+			elseif has > dot
+				suf=url[dot+1:prevind(url, has)]
+				if suf=="md"
+					url=url[1:prevind(url, dot)]*pss.filesuffix*"#header-"*url[has+1:end]
+				else
+					url=url[1:prevind(url, dot)]*pss.filesuffix*url[has+1:end]
 				end
-			end
-		else
-			dot=findlast('.', url)
-			if dot !== nothing
-				url=url[1:dot-1]*pss.filesuffix
 			end
 		end
 	end

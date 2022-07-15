@@ -2,9 +2,6 @@ function highlight(language::AbstractString, code::AbstractString, pss::PagesSet
 	if startswith(language, "is-")
 		return "<div class='checkis' data-check='$(language)'>$(ify_md(code, pss))</div>"
 	end
-	if pss.use_repl_highlight && (language=="jl" || language=="julia")
-		language="julia-repl"
-	end
 	sym=Symbol(language)
 	if hasmethod(highlight, Tuple{Val{sym}, typeof(code)})
 		return highlight(Val(sym), code)

@@ -235,7 +235,7 @@ function make_rec(;
 end
 
 function makemenu(node::Node, pss::PagesSetting)
-	return "{filesuffix:`$(rep(pss.filesuffix))`,tree:[$(_makemenu(node, pss))]}"
+	return "['',$(_makemenu(node, pss))]"
 end
 function _makemenu(node::Node, pss::PagesSetting)
 	str=""
@@ -260,10 +260,10 @@ end
 function makeindexhtml(node::Node, path::String, pathv::Vector{String}; pss::PagesSetting)
 	mds="<ul>"
 	for d in node.dirs
-		mds*="<li><a href=\"$(d.first)/index$(pss.filesuffix)\" target=\"_blank\">📁$(d.second[2])</a></li>"
+		mds*="<li><a href='$(d.first)/index$(pss.filesuffix)' class='li-dir'>$(d.second[2])</a></li>"
 	end
 	for d in node.files
-		mds*="<li><a href=\"$(d.first)$(pss.filesuffix)\">📄$(d.second[2])</a></li>"
+		mds*="<li><a href='$(d.first)$(pss.filesuffix)' class='li-file'>$(d.second[2])</a></li>"
 	end
 	mds*="</ul>"
 	title = (node.par===nothing ? lw(pss, 7) : node.par.dirs[node.name][2])*lw(pss, 8)
@@ -296,6 +296,7 @@ function makeinfo_js(path::String, root::Node, pss::PagesSetting)
 		println(io, "const buildmessage=`$(rep(pss.buildmessage))`")
 		println(io, "const page_foot=`$(rep(pss.page_foot))`")
 		println(io, "const tar_css=`$(rep(pss.tar_css))`")
+		println(io, "const filesuffix=`$(rep(pss.filesuffix))`")
 		ms=pss.main_script
 		# 无直角引号
 		println(io, "const menu=", makemenu(root, pss))

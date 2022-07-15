@@ -81,7 +81,6 @@ The keywords:
 * throwall::Bool = false
 * title::String
 * unfound::String = "404.html"
-* use_repl_highlight::Bool = true
 * use_subdir::String = ""
 * wrap_html::Bool = true
 """
@@ -121,7 +120,6 @@ Base.@kwdef struct PagesSetting
     throwall::Bool = false
     title::String
     unfound::String = "404.html"
-    use_repl_highlight::Bool = true
     use_subdir::String = ""
     wrap_html::Bool = true
 end
