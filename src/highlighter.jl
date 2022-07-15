@@ -43,3 +43,6 @@ function highlight(::Val{Symbol("insert-fill")}, content::AbstractString)
 	return """<div class="fill-area"><p>$des</p><input type="text" placeholder="ans"><button class="submit-fill" data-ans="$reg" data-isreg="$(!noreg)">📤</button><button class="ans-fill" data-ans="$esc">🔑</button></div>"""
 	# 💡
 end
+function highlight(::Val{Symbol("insert-highlight")}, content::AbstractString)
+	toml = TOML.parse(content)
+end

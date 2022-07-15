@@ -32,6 +32,11 @@ function Base.show(io::IO, node::Node)
 	end
 end
 
+function generate(srcdir::AbstractString, tardir::AbstractString, build_setting::AbstractString="DoctreeBuild.toml")
+	toml=TOML.parsefile(joinpath(srcdir, build_setting))
+	generate(srcdir, tardir, pss)
+end
+
 function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSetting)
 	# 支持相对路径
 	pwds=pwd()

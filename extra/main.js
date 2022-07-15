@@ -150,12 +150,20 @@ require(main_requirement, function($, hljs){
 				input.value=i.dataset["ans"]
 			}
 		}
+		// 收藏
+		for(let dir of $(".li-dir")){
+			let span=document.createElement("span")
+			span.onclick=function(){
+				span.toggleAttribute("li-marked")
+			}
+			dir.prepend(span)
+		}
 		// buildmessage
 		$(".modal-card-foot").innerText=buildmessage
-		$(".hljs-ln-numbers").ready(function(){
 		// 检测L-L定位
-		let loc=document.location.hash
-		loc=loc.substring(1, loc.length)
+		$(".hljs-ln-numbers").ready(function(){
+			let loc=document.location.hash
+			loc=loc.substring(1, loc.length)
 			if(loc[0]=='L'){
 				let split=loc.search('-')
 				let from=Number(loc.substring(1, split))

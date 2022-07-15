@@ -24,40 +24,7 @@
 Discussion功能来自[giscus](https://github.com/giscus/giscus)
 
 ## 使用实例
-[对应测试示例](https://juliaroadmap.github.io/zh/docs/meta/doctest.html)
-```jl
-using DoctreePages
-gis = GiscusSetting(; # 使用 giscus.app 获取
-	repo = "JuliaRoadmap/zh",
-	repo_id = "R_kgDOHQYI2Q",
-	category_id = "DIC_kwDOHQYI2c4CO2c9",
-	lang = "zh-CN"
-)
-psszh = PagesSetting(;
-	giscus = gis,
-	lang = "zh",
-	logo_path = "assets/images/logo.png",
-	repo_name = "zh",
-	repo_owner = "JuliaRoadmap",
-	sub_path = "zh",
-	table_align = :center,
-	throwall = true,
-	title = "Roadmap",
-	use_subdir = "zh"
-)
-pssdp = PagesSetting(;
-	favicon_path = "",
-	make404 = false,
-	lang = "en",
-	repo_name = "DoctreePages.jl",
-	repo_owner = "JuliaRoadmap",
-	sub_path = "dtpages",
-	title = "DoctreePages.jl",
-	use_subdir = "dtpages",
-)
-generate("D:/RM", "D:/RMH", psszh)
-generate("D:/DP", "D:/RMH", pssdp)
-```
+[DoctreeBuild](https://github.com/JuliaRoadmap/zhl/blob/master/DoctreeBuild.toml) [对应测试示例](https://juliaroadmap.github.io/zh/docs/meta/doctest.html)
 
 ## todo
 - [ ] 收藏页面
@@ -91,7 +58,8 @@ generate("D:/DP", "D:/RMH", pssdp)
 - [ ] 空间压缩
 - [ ] 快捷键
 	- [ ] t 到页面顶端
-- [ ] 测试
+- [ ] 插入测试
 - [ ] 部分内容加密
 - [ ] 根据fetch到的页面内容自动生成链接块
 - [ ] 允许将代码块拖动到侧边
+- [ ] DoctreePagesProject.toml

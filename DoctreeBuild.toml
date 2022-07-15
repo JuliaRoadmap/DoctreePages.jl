@@ -1,0 +1,9 @@
+[pages]
+favicon_path = ""
+make404 = false
+lang = "en"
+repo_name = "DoctreePages.jl"
+repo_owner = "JuliaRoadmap"
+sub_path = "dtpages"
+title = "DoctreePages.jl"
+use_subdir = "dtpages"

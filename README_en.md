@@ -24,37 +24,4 @@ MIT LICENSE, and these files partly come from [Documenter](https://github.com/Ju
 Page-discussion is powered by [giscus](https://github.com/giscus/giscus)
 
 ## Sample
-[Result](https://juliaroadmap.github.io/zh/docs/meta/doctest.html)
-```jl
-using DoctreePages
-gis = GiscusSetting(; # get via giscus.app
-	repo = "JuliaRoadmap/zh",
-	repo_id = "R_kgDOHQYI2Q",
-	category_id = "DIC_kwDOHQYI2c4CO2c9",
-	lang = "zh-CN"
-)
-psszh = PagesSetting(;
-	giscus = gis,
-	lang = "zh",
-	logo_path = "assets/images/logo.png",
-	repo_name = "zh",
-	repo_owner = "JuliaRoadmap",
-	sub_path = "zh",
-	table_align = :center,
-	throwall = true,
-	title = "Roadmap",
-	use_subdir = "zh"
-)
-pssdp = PagesSetting(;
-	favicon_path = "",
-	make404 = false,
-	lang = "en",
-	repo_name = "DoctreePages.jl",
-	repo_owner = "JuliaRoadmap",
-	sub_path = "dtpages",
-	title = "DoctreePages.jl",
-	use_subdir = "dtpages",
-)
-generate("D:/RM", "D:/RMH", psszh)
-generate("D:/DP", "D:/RMH", pssdp)
-```
+[DoctreeBuild](https://github.com/JuliaRoadmap/zhl/blob/master/DoctreeBuild.toml) [Result](https://juliaroadmap.github.io/zh/docs/meta/doctest.html)

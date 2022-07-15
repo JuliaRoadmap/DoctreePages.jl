@@ -117,9 +117,18 @@ table{
 	border-collapse: collapse;
 }
 
-.li-dir::before{
+.li-dir span::before{
 	content: "📁";
 }
-.li-file::before{
+.li-file span::before{
 	content: "📄";
+}
+.li-dir span.li-marked::before{
+	content: "🗂";
+}
+.li-file span.li-marked::before{
+	content: "📑";
+}
+a.li-marked::after{
+	content: "🔖";
 }
