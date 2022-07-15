@@ -70,7 +70,7 @@ generate("D:/DP", "D:/RMH", pssdp)
 	- [ ] giscus theme调整
 - [x] `#header`定位
 - [x] txt`#L-L`定位
-- [ ] 完善侧边栏
+- [x] 完善侧边栏
 - [x] `.jl`，`.txt`
 - [x] `jl`高亮：长转义
 - [ ] `jl`高亮：正则表达式

@@ -67,7 +67,7 @@ require(['jquery'], function ($) {
 	// Resizes the package name / sitename in the sidebar if it is too wide.
 	// Inspired by: https://github.com/davatron5000/FitText.js
 	$(document).ready(function () {
-		e = $("#documenter .docs-autofit");
+		let e = $("#documenter .docs-autofit");
 		function resize() {
 			var L = parseInt(e.css('max-width'), 10);
 			var L0 = e.width();
@@ -82,15 +82,6 @@ require(['jquery'], function ($) {
 		$(window).resize(resize);
 		$(window).on('orientationchange', resize);
 	});
-
-	// Scroll the navigation bar to the currently selected menu item
-	$(document).ready(function () {
-		var sidebar = $("#documenter .docs-menu").get(0);
-		var active = $("#documenter .docs-menu .is-active").get(0);
-		if (typeof active !== 'undefined') {
-			sidebar.scrollTop = active.offsetTop - sidebar.offsetTop - 15;
-		}
-	})
 })
 require(main_requirement, function($, hljs){
 	var pi=$("#documenter-themepicker")
@@ -230,6 +221,27 @@ function buildmenu(){
 	for(let li of lis){
 		dm.appendChild(li)
 	}
+	$(".docs-chevron").bind("click", function(ev){
+		let list=ev.target.parentElement.nextElementSibling.classList
+		if(list.contains("collapsed"))list.remove("collapsed")
+		else list.add("collapsed")
+	})
+	let loc=document.location
+	let flag=false
+	for(let a of $(".tocitem")){
+		if(a.href==loc.origin+loc.pathname){
+			activate_token(a)
+			flag=true
+			break
+		}
+	}
+	if(flag){
+		let sidebar = $("#documenter .docs-menu").get(0)
+		let active = $("#documenter .docs-menu .is-active").get(0)
+		if (active != undefined) {
+			sidebar.scrollTop = active.offsetTop - sidebar.offsetTop - 15;
+		}
+	}
 }
 function _buildmenu(vec, path, level){
 	let ans=[]
@@ -253,13 +265,49 @@ function _buildmenu(vec, path, level){
 			a.href=`${tURL}${path}${tup[0]}/index${filesuffix}`
 			a.innerText=tup[1]
 			let li=document.createElement("li")
-			li.appendChild(a)
+			if(level==1){
+				let iden=`menu-${path}${tup[0]}`
+				let input=document.createElement("input")
+				input.type="checkbox"
+				input.className="collapse-toggle"
+				input.id=iden
+				li.appendChild(input)
+				let label=document.createElement("label")
+				label.className="tocitem"
+				label.appendChild(a)
+				label.for=iden
+				let i=document.createElement("i")
+				i.className="docs-chevron"
+				label.appendChild(i)
+				li.appendChild(label)
+			}
+			else{
+				li.appendChild(a)
+			}
 			let clis=_buildmenu(e, `${path}${tup[0]}/`, level+1)
 			let ul=document.createElement("ul")
 			for(let cli of clis)ul.appendChild(cli)
+			if(level==1)ul.className="collapsed"
 			li.appendChild(ul)
 			ans.push(li)
 		}
 	}
 	return ans
+}
+function activate_token(node){
+	let par=node.parentNode
+	par.classList.add("is-active")
+	let ul=document.createElement("ul")
+	ul.className="internal"
+	for(let e of $(".content > h2")){
+		let text=e.innerText
+		let li=document.createElement("li")
+		let a=document.createElement("a")
+		a.className="tocitem"
+		a.href=`#header-${text}`
+		a.innerText=text
+		li.appendChild(a)
+		ul.appendChild(li)
+	}
+	par.appendChild(ul)
 }
