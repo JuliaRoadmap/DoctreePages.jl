@@ -287,7 +287,7 @@ function make404html(mds::String, pss::PagesSetting)
 		navbar_title="404",
 		nextpage="",
 		prevpage="<a class='docs-footer-prevpage' href='$(pss.use_subdir)/index$(pss.filesuffix)'>« $(lw(pss, 9))</a>",
-		tURL="$(pss.use_subdir)/",
+		tURL="$(pss.server_prefix)$(pss.use_subdir)/",
 	))
 end
 function makeinfo_js(path::String, root::Node, pss::PagesSetting)

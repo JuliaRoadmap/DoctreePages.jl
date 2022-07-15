@@ -108,12 +108,6 @@ require(main_requirement, function($, hljs){
 			localStorage.setItem("theme",theme)
 		})
 	})
-	$(".docs-menu").ready(function(){
-		// 侧边栏
-		const _menu=menu.replaceAll("$",tURL)
-		$(".docs-menu")[0].innerHTML=_menu
-	})
-	
 	$(".content").ready(function(){
 		// 复制标题链接
 		for(let i of $(".content .docs-heading-anchor-permalink")){
@@ -135,19 +129,18 @@ require(main_requirement, function($, hljs){
 			let header=i.parentElement.parentElement.firstElementChild
 			header.innerHTML=`<span class='codeblock-paste' onclick='copycodeblock(event)'>📋</span>`
 		}
-		$(".hljs-ln").ready(function(){
-			// 检测L-L定位
-			let loc=document.location.hash
-			loc=loc.substring(1,loc.length)
-			if(loc[0]=='L'){
-				var split=loc.search('-')
-				var from=Number(loc.substring(1,split))
-				var to=Number(loc.substring(split+2,loc.length))
-				scroll_to_lines(from, to)
-			}
-		})
 	})
 	$(document).ready(function(){
+		buildmenu()
+		// 检测L-L定位
+		let loc=document.location.hash
+		loc=loc.substring(1,loc.length)
+		if(loc[0]=='L'){
+			var split=loc.search('-')
+			var from=Number(loc.substring(1,split))
+			var to=Number(loc.substring(split+2,loc.length))
+			scroll_to_lines(from, to)
+		}
 		// 检测条件激发
 		for(let i of $(".checkis")){
 			var chk=i.dataset["check"]
@@ -230,4 +223,43 @@ function scroll_to_lines(from, to){
 		nums[i-1].style.backgroundColor="lightgreen"
 	}
 	nums[from-1].scrollIntoView()
+}
+function buildmenu(){
+	let lis=_buildmenu(menu, "", 0)
+	let dm=$(".docs-menu")[0]
+	for(let li of lis){
+		dm.appendChild(li)
+	}
+}
+function _buildmenu(vec, path, level){
+	let ans=[]
+	let l=vec.length
+	for(let i=1;i<l;i++){
+		let e=vec[i]
+		if(typeof e == "string"){
+			let tup=e.split('/')
+			let a=document.createElement("a")
+			a.className="tocitem"
+			a.href=`${tURL}${path}${tup[0]}${filesuffix}`
+			a.innerText=tup[1]
+			let li=document.createElement("li")
+			li.appendChild(a)
+			ans.push(li)
+		}
+		else{
+			let tup=e[0].split('/')
+			let a=document.createElement("a")
+			a.className="tocitem"
+			a.href=`${tURL}${path}${tup[0]}/index${filesuffix}`
+			a.innerText=tup[1]
+			let li=document.createElement("li")
+			li.appendChild(a)
+			let clis=_buildmenu(e, `${path}${tup[0]}/`, level+1)
+			let ul=document.createElement("ul")
+			for(let cli of clis)ul.appendChild(cli)
+			li.appendChild(ul)
+			ans.push(li)
+		}
+	}
+	return ans
 }

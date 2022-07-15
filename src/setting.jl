@@ -106,7 +106,7 @@ Base.@kwdef struct PagesSetting
     repo_name::String
     repo_owner::String
     repo_path::String = "https://github.com/$repo_owner/$repo_name/tree/$repo_branch/"
-    # server_prefix
+    server_prefix::String = "/"
     show_info::Bool = true
     src_assets = "assets"
     src_script = "script"
