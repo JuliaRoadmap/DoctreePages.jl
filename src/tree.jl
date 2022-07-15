@@ -21,13 +21,13 @@ function Base.show(io::IO, node::Node)
 	if !isempty(node.dirs)
 		println(io, "sub directories:")
 		for it in node.dirs
-			println(io, "| ", it.first, "( $(it.second[2]) )")
+			println(io, "| ", it.first, " ($(it.second[2]))")
 		end
 	end
 	if !isempty(node.files)
 		println(io, "files:")
-		for it in node.dirs
-			println(io, "| ", it.first, "( $(it.second[2]) )")
+		for it in node.files
+			println(io, "| ", it.first, " ($(it.second[2]))")
 		end
 	end
 end
@@ -185,15 +185,31 @@ function make_rec(;
 				if vec[i]==id
 					if i!=1
 						previd=@inbounds vec[i-1]
-						ptitle=current.files[previd][2]
-						prevpage="<a class=\"docs-footer-prevpage\" href=\"$(previd)$(pss.filesuffix)\">« $ptitle</a>"
+						if haskey(current.files, previd)
+							ptitle=current.files[previd][2]
+							prevpage="<a class='docs-footer-prevpage' href='$(previd)$(pss.filesuffix)'>« $ptitle</a>"
+						elseif haskey(current.dirs, previd)
+							ptitle=current.dirs[previd][2]
+							prevpage="<a class='docs-footer-prevpage' href='$(previd)/index$(pss.filesuffix)'>« $ptitle</a>"
+						else
+							msg = "nothing matches [$id] in $current"
+							pss.throwall ? error(msg) : (@error msg)
+						end
 					else
 						prevpage="<a class=\"docs-footer-prevpage\" href=\"index$(pss.filesuffix)\">« $(lw(pss, 6))</a>"
 					end
 					if i!=len
 						nextid=@inbounds vec[i+1]
-						ntitle=current.files[nextid][2]
-						nextpage="<a class=\"docs-footer-nextpage\" href=\"$(nextid)$(pss.filesuffix)\">$ntitle »</a>"
+						if haskey(current.files, nextid)
+							ntitle=current.files[nextid][2]
+							nextpage="<a class='docs-footer-nextpage' href='$(nextid)$(pss.filesuffix)'>« $ntitle</a>"
+						elseif haskey(current.dirs, nextid)
+							ntitle=current.dirs[nextid][2]
+							nextpage="<a class='docs-footer-nextpage' href='$(nextid)/index$(pss.filesuffix)'>« $ntitle</a>"
+						else
+							msg = "nothing matches [$id] in $current"
+							pss.throwall ? error(msg) : (@error msg)
+						end
 					end
 				end
 			end
@@ -244,13 +260,10 @@ function _makemenu(node::Node, pss::PagesSetting)
 		for id in outline
 			if haskey(node.dirs, id)
 				pair=node.dirs[id]
-				str*="[`$(rep(id))/$(pair[2])`,$(_makemenu(pair[1], pss))}],"
-			elseif haskey(rt.files, id)
+				str*="[`$(rep(id))/$(pair[2])`,$(_makemenu(pair[1], pss))],"
+			elseif haskey(node.files, id)
 				name=node.files[id][2]
 				str*="`$(rep(id))/$(rep(name))`,"
-			else
-				msg = "nothing matches [$id] in $node"
-				pss.throwall ? error(msg) : (@error msg)
 			end
 		end
 	end

@@ -84,8 +84,8 @@ require(['jquery'], function ($) {
 	});
 })
 require(main_requirement, function($, hljs){
-	var pi=$("#documenter-themepicker")
-	pi.ready(function(){
+	$(document).ready(function(){
+		let pi=$("#documenter-themepicker")
 		for(let tag of pi[0].children){
 			if(tag.value==theme){
 				tag.selected=true
@@ -98,8 +98,6 @@ require(main_requirement, function($, hljs){
 			$("#theme-href")[0].href=`${tURL}${tar_css}/${theme}.css`
 			localStorage.setItem("theme",theme)
 		})
-	})
-	$(".content").ready(function(){
 		// 复制标题链接
 		for(let i of $(".content .docs-heading-anchor-permalink")){
 			i.onclick=function(){
@@ -114,24 +112,14 @@ require(main_requirement, function($, hljs){
 		// 代码块渲染
 		let hljs=window.hljs
 		hljs.registerAliases("plain", {languageName:"plaintext"})
+		hljs.registerAliases("jl", {languageName:"julia"})
 		hljs.highlightAll()
 		for(let i of $("code.hljs")){
 			hljs.lineNumbersBlock(i, {singleLine: true})
 			let header=i.parentElement.parentElement.firstElementChild
 			header.innerHTML=`<span class='codeblock-paste' onclick='copycodeblock(event)'>📋</span>`
 		}
-	})
-	$(document).ready(function(){
 		buildmenu()
-		// 检测L-L定位
-		let loc=document.location.hash
-		loc=loc.substring(1,loc.length)
-		if(loc[0]=='L'){
-			var split=loc.search('-')
-			var from=Number(loc.substring(1,split))
-			var to=Number(loc.substring(split+2,loc.length))
-			scroll_to_lines(from, to)
-		}
 		// 检测条件激发
 		for(let i of $(".checkis")){
 			var chk=i.dataset["check"]
@@ -164,6 +152,17 @@ require(main_requirement, function($, hljs){
 		}
 		// buildmessage
 		$(".modal-card-foot").innerText=buildmessage
+		$(".hljs-ln-numbers").ready(function(){
+		// 检测L-L定位
+		let loc=document.location.hash
+		loc=loc.substring(1, loc.length)
+			if(loc[0]=='L'){
+				let split=loc.search('-')
+				let from=Number(loc.substring(1, split))
+				let to=Number(loc.substring(split+2, loc.length))
+				scroll_to_lines(from, to)
+			}
+		})
 	})
 })
 require(['jquery', 'katex'], function($, katex){
@@ -216,7 +215,7 @@ function scroll_to_lines(from, to){
 	nums[from-1].scrollIntoView()
 }
 function buildmenu(){
-	let lis=_buildmenu(menu, "", 0)
+	let lis=_buildmenu(menu, "docs/", 0)
 	let dm=$(".docs-menu")[0]
 	for(let li of lis){
 		dm.appendChild(li)
@@ -230,8 +229,7 @@ function buildmenu(){
 	let flag=false
 	for(let a of $(".tocitem")){
 		if(a.href==loc.origin+loc.pathname){
-			activate_token(a)
-			flag=true
+			flag=activate_token(a)
 			break
 		}
 	}
@@ -246,10 +244,14 @@ function buildmenu(){
 function _buildmenu(vec, path, level){
 	let ans=[]
 	let l=vec.length
+	let spl = (str) => {
+		let pl=str.search('/')
+		return [str.substring(0, pl), str.substring(pl+1)]
+	}
 	for(let i=1;i<l;i++){
 		let e=vec[i]
 		if(typeof e == "string"){
-			let tup=e.split('/')
+			let tup=spl(e)
 			let a=document.createElement("a")
 			a.className="tocitem"
 			a.href=`${tURL}${path}${tup[0]}${filesuffix}`
@@ -259,7 +261,7 @@ function _buildmenu(vec, path, level){
 			ans.push(li)
 		}
 		else{
-			let tup=e[0].split('/')
+			let tup=spl(e[0])
 			let a=document.createElement("a")
 			a.className="tocitem"
 			a.href=`${tURL}${path}${tup[0]}/index${filesuffix}`
@@ -298,7 +300,7 @@ function activate_token(node){
 	let par=node.parentNode
 	par.classList.add("is-active")
 	let ul=document.createElement("ul")
-	ul.className="internal"
+	let flag=false
 	for(let e of $(".content > h2")){
 		let text=e.innerText
 		let li=document.createElement("li")
@@ -308,6 +310,11 @@ function activate_token(node){
 		a.innerText=text
 		li.appendChild(a)
 		ul.appendChild(li)
+		flag=true
 	}
-	par.appendChild(ul)
+	if(flag){
+		ul.className="internal"
+		par.appendChild(ul)
+	}
+	return flag
 }

@@ -144,7 +144,7 @@ function mkhtml(node::CommonMark.Node, link::CommonMark.Link, pss::PagesSetting)
 				if suf=="md"
 					url=url[1:prevind(url, dot)]*pss.filesuffix*"#header-"*url[has+1:end]
 				else
-					url=url[1:prevind(url, dot)]*pss.filesuffix*url[has+1:end]
+					url=url[1:prevind(url, dot)]*pss.filesuffix*url[has:end]
 				end
 			end
 		end
