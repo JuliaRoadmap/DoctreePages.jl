@@ -51,6 +51,7 @@ include("markdown.jl")
 
 include("highlighter.jl")
 include("tohtml.jl")
+include("scripts.jl")
 
 using TOML
 include("tree.jl")
