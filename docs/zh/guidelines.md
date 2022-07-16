@@ -20,5 +20,12 @@
 ## 代码块规范
 * 不建议留空（使用`plain`）
 * `insert-html`表示插入HTML
-* `insert-fill`表示插入填空题，会使用`eval`解析其中内容，类型是`Tuple{String, String, Regex}`，分别表示描述、正确答案和正误判断（若省略，则按照与正确答案完全相同判定）
 * `is-xxx`表示仅在`localStorage.getItem("is-xxx")`为`true`时显示的Markdown
+
+`insert-fill`表示插入填空题，使用TOML格式配置
+```toml
+content = "题目描述，**使用 Markdown**"
+ans = "标准答案"
+ans_regex = "答案判定，若无此项则以“与标准答案完全相同”判定"
+instruction = "提示（可选，不支持Markdown）"
+```

@@ -20,5 +20,12 @@ The name part should be unique, and
 ## Code Block Format
 * Language name should not be empty. Use `plain` instead.
 * Use `insert-html` to insert HTML.
-* Use `insert-fill` to insert an interative answer board. It should include an instance of `Tuple{String, String, Regex}` and will be parsed by `eval`. The first is the description, the second is the standard answer and the third judges whether an answer is right. If the third parameter isn't given, It will be judged as "being the same to the standard answer".
 * Use `is-xxx` to insert markdown which will be shown iff `localStorage.getItem("is-xxx") == "true"`. A setting page shall be given for readers using `insert-html` block.
+
+`insert-fill` inserts a gap-filling answer board. Use TOML:
+```toml
+content = "description, uses **Markdown**"
+ans = "standard answer"
+ans_regex = "answer judger, if this key doesn't exist, judgement is \"being the same as the standard answer\""
+instruction = "instruction (you can choose not to set this key; does not support Markdown)"
+```
