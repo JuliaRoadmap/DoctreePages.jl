@@ -29,3 +29,5 @@ ans = "标准答案"
 ans_regex = "答案判定，若无此项则以“与标准答案完全相同”判定"
 instruction = "提示（可选，不支持Markdown）"
 ```
+
+`insert-test`表示插入测试，使用TOML格式配置

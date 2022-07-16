@@ -1,4 +1,4 @@
-中文文档 | [English Docs](README_en.md)
+中文README | [English README](README_en.md)
 
 ## 关于
 这是一个轻量级交互式文档生成器
@@ -10,17 +10,13 @@
 
 ---
 
-* [使用方式](docs/zh/usage.md)
-* [规范](docs/zh/guidelines.md)
-* [注意事项](docs/zh/notice.md)
-* [设置文件](docs/zh/settings.md)
-* [扩展](docs/zh/extension.md)
+* [在此阅读文档](https://juliaroadmap.github.io/dtpages/docs/zh/usage.html)
 
 ## LICENSE
 遵循MIT LICENSE，其中以下文件部分来自[Documenter](https://github.com/JuliaDocs/Documenter.jl)（MIT）
 * css/dark.css
 * css/light.css
-* extra/main.js
+* src/scripts.jl
 
 Discussion功能来自[giscus](https://github.com/giscus/giscus)
 

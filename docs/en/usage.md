@@ -1,5 +1,6 @@
 # Usage
-`generate` function allows three parameters:
+## Generate with Parameter
+One method of the `generate` function allows three parameters:
 * srcdir: dir containing raw data (markdown, etc)
 * tardir: dir to store result (html, etc)
 * pss: instance of `PagesSetting`
@@ -47,3 +48,13 @@
 1. Keys without default values include `repo_name`, `repo_owner` and `title`.
 2. File that value `unfound` refer to shall be under the same directory.
 3. Values of keys starting with `src_` or `tar_` shall only be a dir-name without `/`(dir-split symbol)
+
+## Config File
+The third parameter of the other method is a string, representing the path to the config file, and defaults to `DoctreeBuild.toml`.\
+The config file uses TOML format, where
+- `version` represents the lowest supported `DoctreePages` version
+- `pages`, `giscus` and `mainscript` represents Pages-setting, Giscus-setting and MainScript-Setting
+- despite strings and booleans, no advanced function is provided
+
+## Builder Script
+If you want, you can also call the functions and write a builder script yourself.

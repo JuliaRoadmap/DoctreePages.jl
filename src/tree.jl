@@ -115,7 +115,7 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 	makeinfo_js(realtardir*"$(pss.tar_extra)/info.js", root, pss)
 	# main.js
 	io=open(realtardir*"$(pss.tar_extra)/main.js", "w")
-	makescript(io, pss)
+	makescript(io)
 	close(io)
 	# 消除影响
 	cd(pwds)

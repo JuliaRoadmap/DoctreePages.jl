@@ -1,4 +1,4 @@
-[中文文档](README.md) | English Docs
+[中文README](README.md) | English README
 
 ## About
 This is a lightweight interactive document generator.
@@ -10,17 +10,13 @@ This is a lightweight interactive document generator.
 
 ---
 
-* [usage](docs/en/usage.md)
-* [guidelines](docs/en/guidelines.md)
-* [notice](docs/en/notice.md)
-* [setting](docs/en/settings.md)
-* [extension](docs/en/extension.md)
+* [docs here](https://juliaroadmap.github.io/dtpages/docs/en/usage.html)
 
 ## LICENSE
 MIT LICENSE, and these files partly come from [Documenter](https://github.com/JuliaDocs/Documenter.jl) (MIT)
 * css/dark.css
 * css/light.css
-* extra/main.js
+* src/scripts.jl
 
 Page-discussion is powered by [giscus](https://github.com/giscus/giscus)
 

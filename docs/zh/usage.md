@@ -1,5 +1,6 @@
 # 使用方式
-`generate`函数接受三个参数：源目录srcdir、目标目录tardir、设置数据pss
+## 基于参数生成
+`generate`函数的一个方法接受三个参数：源目录srcdir、目标目录tardir、设置数据pss
 * 源目录：包含待处理的数据（Markdown等）
 * 目标目录：用于存放处理结果（HTML等）
 * 设置数据：一个`PagesSetting`实例
@@ -47,3 +48,13 @@
 1. 未提供默认值的键包括`repo_name`，`repo_owner`和`title`
 2. `unfound`值表示的文件应在同一目录下
 3. 以`src_`或`tar_`开头的对应值应只是目录名，不应含有`/`（目录分隔符）
+
+## 配置文件
+`generate`函数的另一个方法的第三个参数为字符串，表示配置文件的路径，默认是`DoctreeBuild.toml`\
+配置文件应使用TOML格式，其中
+* `version` 项表明最低支持的`DoctreePages`版本
+* `pages`、`giscus`、`mainscript`表分别表示总设置、`giscus`设置与`main_script`设置
+* 除字符串与布尔值以外，不支持更高级的值配置
+
+## 构建脚本
+如果你想，你可以选择自己调用提供的函数编写构建脚本
