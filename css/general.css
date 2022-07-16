@@ -129,6 +129,6 @@ table{
 .li-file span.li-marked::before{
 	content: "📑 ";
 }
-a.li-marked::after{
+.li-marked a::after{
 	content: "🔖";
 }

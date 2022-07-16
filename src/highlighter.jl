@@ -33,15 +33,19 @@ function highlight(::Val{Symbol("insert-html")}, content::AbstractString)
 	return content
 end
 function highlight(::Val{Symbol("insert-fill")}, content::AbstractString)
-	tup=eval(Meta.parse(content))::Tuple
-	des=tup[1]::String
-	des=html_safe(des)
-	des=replace(des,"\n"=>"<br />")
-	esc=escape_string(tup[2])
-	noreg=length(tup)!=3
-	reg=noreg ? esc : tup[3].pattern
-	return """<div class="fill-area"><p>$des</p><input type="text" placeholder="ans"><button class="submit-fill" data-ans="$reg" data-isreg="$(!noreg)">📤</button><button class="ans-fill" data-ans="$esc">🔑</button></div>"""
-	# 💡
+	dict=TOML.parse(content)
+	con=dict["content"]::String
+	con=ify_md(des, pss)
+	esc=escape_string(dict["ans"])
+	usereg=haskey(dict, "ans_regex")
+	reg=usereg ? dict["ans_regex"] : esc
+	return string(
+		"<div class='fill-area'>", con, "<input type='text' placeholder='ans'",
+		"<button class='submit-fill' data-ans='$reg' data-isreg='$usereg'>📤</button>",
+		"<button class='ans-fill' data-ans='$esc'>🔑</button>",
+		haskey(dict, "instruction") ? "<button class='instruction-fill' data-con='$(escape_string(dict["instruction"]))'>💡</button>" : "",
+		"</div>"
+	)
 end
 function highlight(::Val{Symbol("insert-highlight")}, content::AbstractString)
 	toml = TOML.parse(content)

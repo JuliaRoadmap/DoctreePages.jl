@@ -1,3 +1,5 @@
+version = "1.2"
+
 [pages]
 favicon_path = ""
 make404 = false
