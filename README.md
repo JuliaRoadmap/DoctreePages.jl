@@ -5,15 +5,16 @@
 * 轻量级：只基于 CommonMark 和 TOML
 * 交互式：包括页面讨论功能，填空题与条件激发文本
 * 简单：即使没有编程经验也能使用
-* 强大：超过30个设置项（不包括子项）
+* 强大：[各式各样的功能](docs/zh/functions.md)
+* 可配置：超过30个设置项（不包括子项）
 
 ---
 
-* [使用方式](docs/usage.md)
-* [规范](docs/guidelines.md)
-* [注意事项](docs/notice.md)
-* [设置文件](docs/settings.md)
-* [扩展](docs/extension.md)
+* [使用方式](docs/zh/usage.md)
+* [规范](docs/zh/guidelines.md)
+* [注意事项](docs/zh/notice.md)
+* [设置文件](docs/zh/settings.md)
+* [扩展](docs/zh/extension.md)
 
 ## LICENSE
 遵循MIT LICENSE，其中以下文件部分来自[Documenter](https://github.com/JuliaDocs/Documenter.jl)（MIT）
@@ -27,7 +28,7 @@ Discussion功能来自[giscus](https://github.com/giscus/giscus)
 [DoctreeBuild](https://github.com/JuliaRoadmap/zhl/blob/master/DoctreeBuild.toml) [对应测试示例](https://juliaroadmap.github.io/zh/docs/meta/doctest.html)
 
 ## todo
-- [ ] 收藏页面
+- [x] 收藏页面
 - [x] ~~双击将数据存入剪贴板~~
 	- [x] 标题使用按钮
 	- [x] 代码块使用按钮

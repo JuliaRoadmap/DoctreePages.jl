@@ -278,10 +278,10 @@ end
 function makeindexhtml(node::Node, path::String, pathv::Vector{String}; pss::PagesSetting)
 	mds="<ul>"
 	for d in node.dirs
-		mds*="<li><a href='$(d.first)/index$(pss.filesuffix)' class='li-dir'>$(d.second[2])</a></li>"
+		mds*="<li class='li-dir'><a href='$(d.first)/index$(pss.filesuffix)'>$(d.second[2])</a></li>"
 	end
 	for d in node.files
-		mds*="<li><a href='$(d.first)$(pss.filesuffix)' class='li-file'>$(d.second[2])</a></li>"
+		mds*="<li class='li-file'><a href='$(d.first)$(pss.filesuffix)'>$(d.second[2])</a></li>"
 	end
 	mds*="</ul>"
 	title = (node.par===nothing ? lw(pss, 7) : node.par.dirs[node.name][2])*lw(pss, 8)

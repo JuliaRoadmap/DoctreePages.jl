@@ -118,16 +118,16 @@ table{
 }
 
 .li-dir span::before{
-	content: "📁";
+	content: "📁 ";
 }
-.li-file span::before{
-	content: "📄";
+.li-file span:before{
+	content: "📄 ";
 }
 .li-dir span.li-marked::before{
-	content: "🗂";
+	content: "📦 ";
 }
 .li-file span.li-marked::before{
-	content: "📑";
+	content: "📑 ";
 }
 a.li-marked::after{
 	content: "🔖";

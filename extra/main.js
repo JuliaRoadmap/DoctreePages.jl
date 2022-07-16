@@ -7,6 +7,7 @@ if(theme==undefined)theme="light"
 else if(theme!="light"){
 	document.getElementById("theme-href").href=`${tURL}${tar_css}/${theme}.css`
 }
+const oril=document.location.origin.length
 
 requirejs.config({ paths: configpaths, shim: configshim});
 require(['jquery', 'headroom', 'headroom-jquery'], function ($, Headroom) {
@@ -151,12 +152,25 @@ require(main_requirement, function($, hljs){
 			}
 		}
 		// 收藏
+		let marked=JSON.parse(localStorage.getItem("marked"))
+		marked = marked==null ? (new Set()) : (new Set(marked))
 		for(let dir of $(".li-dir")){
 			let span=document.createElement("span")
 			span.onclick=function(){
-				span.toggleAttribute("li-marked")
+				span.classList.toggle("li-marked")
+				toggle_mark(dir)
 			}
+			if(marked.has(dir.firstElementChild.href.substring(oril)))span.className="li-marked"
 			dir.prepend(span)
+		}
+		for(let file of $(".li-file")){
+			let span=document.createElement("span")
+			span.onclick=function(){
+				span.classList.toggle("li-marked")
+				toggle_mark(file)
+			}
+			if(marked.has(file.firstElementChild.href.substring(oril)))span.className="li-marked"
+			file.prepend(span)
 		}
 		// buildmessage
 		$(".modal-card-foot").innerText=buildmessage
@@ -228,23 +242,26 @@ function buildmenu(){
 	for(let li of lis){
 		dm.appendChild(li)
 	}
+	let marked=JSON.parse(localStorage.getItem("marked"))
+	if(marked==null)marked=[]
 	$(".docs-chevron").bind("click", function(ev){
-		let list=ev.target.parentElement.nextElementSibling.classList
-		if(list.contains("collapsed"))list.remove("collapsed")
-		else list.add("collapsed")
+		ev.target.parentElement.nextElementSibling.classList.toggle("collapsed")
 	})
 	let loc=document.location
 	let flag=false
-	for(let a of $(".tocitem")){
-		if(a.href==loc.origin+loc.pathname){
-			flag=activate_token(a)
-			break
+	let active=undefined
+	for(let a of $(".docs-menu a.tocitem")){
+		let pathname=a.href.substring(oril)
+		if(pathname==loc.pathname){
+			active=a
+		}
+		if(marked.includes(pathname)){
+			a.parentNode.classList.add("li-marked")
 		}
 	}
-	if(flag){
-		let sidebar = $("#documenter .docs-menu").get(0)
-		let active = $("#documenter .docs-menu .is-active").get(0)
-		if (active != undefined) {
+	if(active!=undefined){
+		if(activate_token(active)){
+			let sidebar=$(".docs-menu")[0]
 			sidebar.scrollTop = active.offsetTop - sidebar.offsetTop - 15;
 		}
 	}
@@ -325,4 +342,11 @@ function activate_token(node){
 		par.appendChild(ul)
 	}
 	return flag
+}
+function toggle_mark(li){
+	let link=li.lastElementChild.href.substring(oril)
+	let marked=new Set(JSON.parse(localStorage.getItem("marked")))
+	if(marked.has(link))marked.delete(link)
+	else marked.add(link)
+	localStorage.setItem("marked", JSON.stringify([...marked]))
 }
