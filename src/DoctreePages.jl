@@ -13,7 +13,7 @@ export ify_md, md_withtitle, childrenhtml, mkhtml
 export highlight, buildcodeblock, buildhljsblock
 export makehtml
 export makescript
-export Node, gen_rec, make_rec, makemenu, makeindexhtml, make404html, makeinfo_js, file2node
+export Node, gen_rec, make_rec, makemenu, makeindex, make404, makeinfo_js, file2node
 
 function html_safe(s::AbstractString; br=true)
 	t=replace(s, "&"=>"&amp;")

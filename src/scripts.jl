@@ -353,7 +353,7 @@ const script_blocks = [
 	statementtrigger_block, gapfill_block, mark_block, locatelines_block,
 	buildmessage_block, katex_block
 ]
-function makescript(io::IO)
+function makescript(io::IO, blocks=script_blocks)
 	println(io, """
 	var tURL=document.getElementById("tURL").content
 	var theme=localStorage.getItem("theme")
@@ -364,14 +364,14 @@ function makescript(io::IO)
 	require(main_requirement, function(\$){
 		\$(document).ready(function(){
 	""")
-	for blk in script_blocks
-		println(io, blk.ready)
+	for blk in blocks
+		print(io, blk.ready)
 	end
-	println(io, """
+	print(io, """
 		})
 	})
 	""")
-	for blk in script_blocks
-		println(io, blk.funcs)
+	for blk in blocks
+		print(io, blk.funcs)
 	end
 end

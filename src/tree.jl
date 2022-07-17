@@ -115,17 +115,17 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 		pss=pss,
 		tardir=realtardir
 	)
-	# 404.html
+	# 404
 	tarundef=joinpath(tardir, pss.unfound)
 	if isfile(pss.unfound)
 		if pss.wrap_html
 			str=read(pss.unfound, String)
-			writehtml(tarundef, make404html(str, pss), pss; rawpath=true)
+			write(tarundef, make404(str, pss))
 		else
 			cp(pss.unfound, tarundef; force=true)
 		end
 	elseif pss.make404
-		writehtml(tarundef, make404html(lw(pss, 10), pss), pss; rawpath=true)
+		write(tarundef, make404(lw(pss, 10), pss))
 	end
 	# info.js
 	makeinfo_js(realtardir*"$(pss.tar_extra)/info.js", root, pss)
@@ -266,7 +266,7 @@ function make_rec(;
 		)
 	end
 	if pss.make_index
-		writehtml(tpath*"index", makeindexhtml(current, path, pathv; pss=pss), pss)
+		writehtml(tpath*"index", makeindex(current, path, pathv; pss=pss), pss)
 	end
 	# 消除影响
 	current=current.par
@@ -295,7 +295,7 @@ function _makemenu(node::Node, pss::PagesSetting)
 	return str
 end
 
-function makeindexhtml(node::Node, path::String, pathv::Vector{String}; pss::PagesSetting)
+function makeindex(node::Node, path::String, pathv::Vector{String}; pss::PagesSetting)
 	mds="<ul>"
 	for d in node.dirs
 		mds*="<li class='li-dir'><a href='$(d.first)/index$(pss.filesuffix)'>$(d.second[2])</a></li>"
@@ -317,7 +317,7 @@ function makeindexhtml(node::Node, path::String, pathv::Vector{String}; pss::Pag
 	return makehtml(pss, ps)
 end
 
-function make404html(mds::String, pss::PagesSetting)
+function make404(mds::String, pss::PagesSetting)
 	return makehtml(pss, PageSetting(
 		description="404 ($(pss.title))",
 		editpath="",
@@ -347,13 +347,8 @@ function makeinfo_js(path::String, root::Node, pss::PagesSetting)
 	end
 end
 
-function writehtml(path::String, html::String, pss::PagesSetting; rawpath::Bool=false)
-	if !rawpath
-		path*=pss.filesuffix
-	end
-	io=open(path, "w")
-	print(io, html)
-	close(io)
+function writehtml(path::String, html::String, pss::PagesSetting)
+	write(path*pss.filesuffix, html)
 end
 
 function file2node(::Val; it::String, node::Node, path::String, pathv::Vector{String}, pre::String, pss::PagesSetting, spath::String, tpath::String)
@@ -374,7 +369,6 @@ function file2node(::Union{Val{:html}, Val{:htm}}; it::String, node::Node, path:
 	str=read(spath*it, String)
 	if pss.wrap_html
 		title=node.toml["names"][pre]
-		# todo: parameters
 		str=makehtml(pss, PageSetting(
 			description="$title - $(pss.title)",
 			editpath=pss.repo_path*path*it,
