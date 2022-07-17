@@ -32,8 +32,26 @@ function Base.show(io::IO, node::Node)
 	end
 end
 
-function generate(srcdir::AbstractString, tardir::AbstractString, build_setting::AbstractString="DoctreeBuild.toml")
+function namedtuplefrom(d::Dict{String, Any})
+	v=map(collect(d)) do pair
+		Symbol(pair.first) => pair.second
+	end
+	return NamedTuple(v)
+end
+
+function generate(srcdir::AbstractString, tardir::AbstractString, build_setting::AbstractString = "DoctreeBuild.toml")
 	toml=TOML.parsefile(joinpath(srcdir, build_setting))
+	if haskey(toml, "version") && VersionNumber(toml["version"])>v"1.2.0"
+		error("version does not meet $build_setting : version")
+	end
+	pages=toml["pages"]
+	if haskey(toml, "giscus")
+		pages["giscus"]=GiscusSetting(;namedtuplefrom(toml["giscus"])...)
+	end
+	if haskey(toml, "mainscript")
+		pages["main_script"]=MainScriptSetting(;namedtuplefrom(toml["mainscript"])...)
+	end
+	pss=PagesSetting(;NamedTuple(pages)...)
 	generate(srcdir, tardir, pss)
 end
 
@@ -101,9 +119,7 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 	tarundef=joinpath(tardir, pss.unfound)
 	if isfile(pss.unfound)
 		if pss.wrap_html
-			io=open(pss.unfound, "r")
-			str=read(io, String)
-			close(io)
+			str=read(pss.unfound, String)
 			writehtml(tarundef, make404html(str, pss), pss; rawpath=true)
 		else
 			cp(pss.unfound, tarundef; force=true)
@@ -355,9 +371,7 @@ function file2node(::Val{:md}; it::String, node::Node, path::String, pathv::Vect
 end
 
 function file2node(::Union{Val{:html}, Val{:htm}}; it::String, node::Node, path::String, pathv::Vector{String}, pre::String, pss::PagesSetting, spath::String, tpath::String)
-	io=open(spath*it, "r")
-	str=read(io, String)
-	close(io)
+	str=read(spath*it, String)
 	if pss.wrap_html
 		title=node.toml["names"][pre]
 		# todo: parameters
@@ -375,15 +389,11 @@ function file2node(::Union{Val{:html}, Val{:htm}}; it::String, node::Node, path:
 end
 
 function file2node(::Val{:jl}; it::String, node::Node, path::String, pathv::Vector{String}, pre::String, pss::PagesSetting, spath::String, tpath::String)
-	io=open(spath*it, "r")
-	str=read(io, String)
-	close(io)
+	str=read(spath*it, String)
 	node.files[pre]=(highlight("julia", str, pss), pre, "jl")
 end
 
 function file2node(::Val{:txt}; it::String, node::Node, path::String, pathv::Vector{String}, pre::String, pss::PagesSetting, spath::String, tpath::String)
-	io=open(spath*it, "r")
-	str=read(io, String)
-	close(io)
+	str=read(spath*it, String)
 	node.files[pre]=(highlight("plain", str, pss), pre, "txt")
 end

@@ -4,8 +4,16 @@ A lightweight interactive document generator.
 Read `generate` `PagesSetting` `GiscusSetting`
 """
 module DoctreePages
-export GiscusSetting, PagesSetting
+export GiscusSetting, MainScriptSetting, PagesSetting
 export generate
+
+# 用于自行编写脚本的用户
+export PageSetting, default_parser
+export ify_md, md_withtitle, childrenhtml, mkhtml
+export highlight, buildcodeblock, buildhljsblock
+export makehtml
+export makescript
+export Node, gen_rec, make_rec, makemenu, makeindexhtml, make404html, makeinfo_js, file2node
 
 function html_safe(s::AbstractString; br=true)
 	t=replace(s, "&"=>"&amp;")
