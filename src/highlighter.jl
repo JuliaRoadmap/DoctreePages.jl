@@ -40,13 +40,52 @@ function highlight(::Val{Symbol("insert-fill")}, content::AbstractString)
 	usereg=haskey(dict, "ans_regex")
 	reg=usereg ? dict["ans_regex"]::String : esc
 	return string(
-		"<div class='fill-area'><p>", con, "</p><input type='text' placeholder='ans'",
+		"<div class='fill-area'><p>", con, "</p><input type='text' placeholder='ans'>",
 		"<button class='submit-fill' data-ans='$reg' data-isreg='$usereg'>📤</button>",
 		"<button class='ans-fill' data-ans='$esc'>🔑</button>",
 		haskey(dict, "instruction") ? "<button class='instruction-fill' data-con='$(escape_string(dict["instruction"]))'>💡</button>" : "",
 		"</div>"
 	)
 end
-function highlight(::Val{Symbol("insert-highlight")}, content::AbstractString)
+function highlight(::Val{Symbol("insert-test")}, content::AbstractString)
 	toml = TOML.parse(content)
+	gl = toml["global"]::Dict
+	parts = toml["parts"]::Dict
+	str = "<div class='test-area' data-tl='$(gl["time_limit"]::Real)' data-fs='$(gl["full_score"]::Number)'><p>$(html_safe(gl["name"]))</p><br />"
+	current = nothing
+	for part in parts
+		type = part["type"]
+		macro g(key, default = nothing)
+			return :(haskey(g, $key) ? part[$key] : (current !== nothing && haskey(current, $key)) ? current[$key] : haskey(gl[$key]) ? gl[$key] : $default)
+		end
+		if type == "group"
+			if haskey(part, "content")
+				str *= ify_md(part["content"], pss)
+			end
+			delete!(part, "content")
+			current = part
+		elseif type == "group-end"
+			current = nothing
+		elseif type == "text"
+			str *= ify_md(part["content"], pss)
+		elseif type == "choice"
+			score::Real = @g "score"
+			str *= "<div class='choice-area' data-"
+			str *= "<p>$(ify_md(part["content"], pss))</p>"
+			index_char = @g "index_char" "A"
+			index_suffix = @g "index_suffix" "."
+			str *= "</div>"
+		elseif type == "fill"
+			score::Real = @g "score"
+			str *= "<div class='fill-area' data-sc='$score' data-"
+			if haskey(part, "ans_regex")
+				str *= "re='$(part["ans_regex"])"
+			else
+				str *= "an='$(part["ans"])"
+			end
+			mds = ify_md(part["content"], pss)
+			str *= "'><p>$mds</p><input type='text' placeholder='ans'></div>"
+		end
+	end
+	return str * "</div>"
 end
