@@ -89,9 +89,6 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 	if isdir("script")
 		cp("script", realtardir*pss.tar_script; force=true)
 	end
-	if pss.move_favicon && pss.favicon_path!=""
-		cp(pss.favicon_path, tardir*"favicon.ico"; force=true)
-	end
 	# docs
 	root=Node(nothing, lw(pss, 5))
 	cd(srcdir*"docs")

@@ -66,7 +66,6 @@ The keywords:
 * main_script::MainScriptSetting
 * make404::Bool = true
 * make_index::Bool = true
-* move_favicon::Bool = true
 * page_foot::String = "Powered by" ...
 * parser::Parser = default_parser()
 * remove_original::Bool = true
@@ -77,7 +76,7 @@ The keywords:
 * show_info::Bool = true
 * sort_file::Bool = true
 * sub_path::String = ""
-* table_align::Symbol = :auto
+* table_align::String = "inherit"
 * throwall::Bool = false
 * title::String
 * unfound::String = "404.html"
@@ -98,7 +97,6 @@ Base.@kwdef struct PagesSetting
     main_script::MainScriptSetting = MainScriptSetting()
     make404::Bool = true
     make_index::Bool = true
-    move_favicon::Bool = true
     page_foot::String = "Powered by <a href='https://github.com/JuliaRoadmap/DoctreePages.jl'>DoctreePages.jl</a> and its dependencies."
     parser::Parser = default_parser()
     remove_original::Bool = true
@@ -112,7 +110,7 @@ Base.@kwdef struct PagesSetting
     src_script = "script"
     sort_file::Bool = true
     sub_path::String = ""
-    table_align::Symbol = :auto
+    table_align::String = "inherit"
     tar_assets = "assets"
     tar_css = "css"
     tar_extra = "extra"

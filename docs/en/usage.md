@@ -21,7 +21,6 @@ One method of the `generate` function allows three parameters:
 | main_script | setting for `main.js` |
 | make404 | whether to create a 404-page |
 | make_index | whether to create index pages |
-| move_favicon | whether to move favcon to `/favicon.ico` |
 | page_foot | html inserted at the bottom |
 | parser | CommonMark parser |
 | remove_origin | whether to remove before generating |

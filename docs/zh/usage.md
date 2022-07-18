@@ -21,7 +21,6 @@
 | main_script | `main.js`的设置 |
 | make404 | 是否创建404页面 |
 | make_index | 是否创建索引页 |
-| move_favicon | 是否把favicon移至`/favicon.ico` |
 | page_foot | 页面底端嵌入的html |
 | parser | CommonMark解析器 |
 | remove_origin | 生成前是否先移除 |

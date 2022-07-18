@@ -22,7 +22,7 @@ function md_withtitle(s::AbstractString, pss::PagesSetting)
 	return Pair(con, md.first_child.first_child.literal)
 end
 
-@inline function childrenhtml(node::CommonMark.Node, pss::PagesSetting)
+#= @inline =# function childrenhtml(node::CommonMark.Node, pss::PagesSetting)
 	current=node.first_child
 	if !isdefined(current, :t)
 		return ""
@@ -105,7 +105,11 @@ function mkhtml(node::CommonMark.Node, ::CommonMark.TableRow, pss::PagesSetting)
 	return "<tr>$(childrenhtml(node, pss))</tr>"
 end
 function mkhtml(node::CommonMark.Node, cell::CommonMark.TableCell, pss::PagesSetting)
-	align=pss.table_align==:auto ? cell.align : pss.table_align
+	ta=pss.table_align
+	if ta=="inherit"
+		return "<td>$(childrenhtml(node, pss))</td>"
+	end
+	align=pss.table_align=="auto" ? cell.align : pss.table_align
 	return "<td style='float:$align'>$(childrenhtml(node, pss))</td>"
 end
 function mkhtml(node::CommonMark.Node, ::CommonMark.DisplayMath, ::PagesSetting)
