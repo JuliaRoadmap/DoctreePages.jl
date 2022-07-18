@@ -19,6 +19,7 @@
 ## 1.2
 added:
 - `[develop]` enable config files
+- `[display]` insert tests
 - `[interact]` mark/unmark files/directories in index pages, marks will also be shown in sidebar
 
 changed:

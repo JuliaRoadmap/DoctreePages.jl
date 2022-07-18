@@ -30,4 +30,40 @@ ans_regex = "答案判定，若无此项则以“与标准答案完全相同”�
 instruction = "提示（可选，不支持Markdown）"
 ```
 
-`insert-test`表示插入测试，使用TOML格式配置
+## 插入测试
+`insert-test`代码块表示插入测试，使用TOML格式配置
+
+### 结构
+设置包含两个主要项：`global`表示全局设置，`parts`是一个表数组
+
+全局设置中，可以使用`name`表示测试名称，`time_limit`表示总时间限制（单位为秒），`full_score`为总分（**不会影响**各题分值的分配）
+
+对于每个 `part`，有一个`type`参数表明类型
+
+### 文字
+`type = "text"` 时，表明插入文字，文字内容在 `content` 项中，支持 Markdown
+
+### 选择题
+`type = "choice"` 时，表明插入选择题
+* 文字内容在 `content` 项中，支持 Markdown
+* 编号分配方式由 `index_char`，`index_suffix` 项决定，前者允许 `Aa1`（默认为`A`） ，后者允许任意字符串（默认为`.`）
+* `choices` 项表明各选项内容，支持 Markdown
+* `choice_min`，`choice_max`与`choice_num`项表明选择数的范围，会显示给使用者，其中`choice_num`项会覆盖前两者
+* `ans` 表明正确答案（形如`AC`而不允许`CA`、`ab`）
+* `score`表明分值
+* `ans_dict` 是一个字典，表明各选项及对应得分，会覆盖`ans`与`score`
+
+### 填空题
+`type = "fill"` 时，表明插入填空题
+* 文字内容在 `content` 项中，支持 Markdown
+* `ans` 表明正确答案
+* `ans_regex` 表明判断答案的正则表达式（覆盖`ans`）
+* `score`表明分值
+
+### 组
+`type = "group"` 时，表明插入组，文字内容在 `content` 项中，支持 Markdown；`type = "group-end"` 标记组结束
+
+组不会嵌套，因此不必在每个组后添加 `group-end`
+
+### 作用域
+`index_char`、`index_suffix`、`choice_min`、`choice_max`、`choice_num`、`score` 项均有作用域：即可以在全局或组中设置，同时遵循局部覆盖原则

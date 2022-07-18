@@ -29,3 +29,41 @@ ans = "standard answer"
 ans_regex = "answer judger, if this key doesn't exist, judgement is \"being the same as the standard answer\""
 instruction = "instruction (you can choose not to set this key; does not support Markdown)"
 ```
+
+## Insert Test
+Code-blocks with `insert-test` insert tests. It also uses TOML.
+
+### Structure
+There are two main keys: `global` for global setting and `pages`, a table-list.
+
+In global setting, `name` represents the name of the test, `time_limit` is the time limit (seconds) and `full_score` is the full score (does **not decide** how scores are arranged).
+
+For each *part*, the `type` key decides the type.
+
+### Text
+`type = "text"` means inserting text, content is in key `content`, supports Markdown
+
+### Choice Question
+`type = "choice"` means inserting choice question
+* content is in key `content`, supports Markdown
+* choices indexing is based on `index_char` and `index_suffix`, the first should be one of `Aa1` (defaults to `A`), the second defaults to `.`
+* `choices` defines choices, Markdown is supported
+* `choice_min`, `choice_max` and `choice_num` defines the field of the number of choices and will be shown to the user (`choice_num` overwrites the previous two)
+* `ans` defines answer (use `AC` instead of `CA` or `ab`)
+* `score` defines the score
+* `ans_dict` is a dict (`choice => score`), overwrites `ans` and `score`
+
+### Fill Question
+`type = "fill"` means inserting a filling question
+* content is in key `content`, supports Markdown
+* `ans` defines answer
+* `ans_regex` defines regex for judging, overwrites `ans`
+* `score`defines the score
+
+### Grouping
+`type = "group"` defines a group, content is in key `content`, supports Markdown; `type = "group-end"` marks the end of a group
+
+groups can't nest, so it's not necessary to add `group-end` block after every group
+
+### Scope
+`index_char`, `index_suffix`, `choice_min`, `choice_max`, `choice_num` and `score` have scopes. This means they can be defined in `global` or groups, while local definitions can still overwrite definitions in wider fields.
