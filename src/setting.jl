@@ -57,12 +57,12 @@ The keywords:
 * buildmessage::String = "built at \$(Libc.strftime(Libc.time()))"
 * charset::String = "UTF-8"
 * default_alt::String = "img"
-* favicon_path::String = "assets/images/favicon.png"
+* favicon_path::String = ""
 * filesuffix::String = ".html"
 * giscus::Union{Nothing, GiscusSetting} = nothing
 * hljs_all::Bool = true
 * lang::String = "en"
-* logo_path::Union{Nothing, String} = nothing
+* logo_path::String = ""
 * main_script::MainScriptSetting
 * make404::Bool = true
 * make_index::Bool = true
@@ -88,13 +88,13 @@ Base.@kwdef struct PagesSetting
     buildmessage::String = "built at $(Libc.strftime(Libc.time()))"
     charset::String = "UTF-8"
     default_alt::String = "img"
-	favicon_path::String = "assets/images/favicon.png"
+	favicon_path::String = ""
     filesuffix::String = ".html"
     giscus::Union{Nothing, GiscusSetting} = nothing
     # highlighter::CommonHighlightSetting = CommonHighlightSetting()
     hljs_all::Bool = true
 	lang::String = "en"
-	logo_path::Union{Nothing, String} = nothing
+	logo_path::String = ""
     main_script::MainScriptSetting = MainScriptSetting()
     make404::Bool = true
     make_index::Bool = true

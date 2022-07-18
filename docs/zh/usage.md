@@ -12,12 +12,12 @@
 | buildmessage | 构建信息 |
 | charset | 源文件的字符集 |
 | default_alt | 图像的默认替换文字 |
-| favicon_path | favicon的路径 |
+| favicon_path | favicon的路径，若无则`""` |
 | filesuffix | 生成文件的后缀 |
 | giscus | Giscus设置 |
 | hljs_all | 是否全部高亮均使用[highlight.js](https://github.com/highlightjs/highlight.js)（当前不支持`false`） |
 | lang | 使用语言（`en`、`zh`等） |
-| logo_path | logo的路径 |
+| logo_path | logo的路径，若无则`""` |
 | main_script | `main.js`的设置 |
 | make404 | 是否创建404页面 |
 | make_index | 是否创建索引页 |

@@ -116,7 +116,7 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 		tardir=realtardir
 	)
 	# 404
-	tarundef=joinpath(tardir, pss.unfound)
+	tarundef=joinpath(realtardir, pss.unfound)
 	if isfile(pss.unfound)
 		if pss.wrap_html
 			str=read(pss.unfound, String)
@@ -325,7 +325,7 @@ function make404(mds::String, pss::PagesSetting)
 		navbar_title="404",
 		nextpage="",
 		prevpage="<a class='docs-footer-prevpage' href='$(pss.use_subdir)/index$(pss.filesuffix)'>« $(lw(pss, 9))</a>",
-		tURL="$(pss.server_prefix)$(pss.use_subdir)/",
+		tURL="./",
 	))
 end
 function makeinfo_js(path::String, root::Node, pss::PagesSetting)

@@ -12,12 +12,12 @@ One method of the `generate` function allows three parameters:
 | buildmessage | build message |
 | charset | charset of source files |
 | default_alt | default alt for images |
-| favicon_path | path of favicon |
+| favicon_path | path of favicon, use `""` if none |
 | filesuffix | suffix of generated files |
 | giscus | Giscus setting |
 | hljs_all | whether all highlighting uses [highlight.js](https://github.com/highlightjs/highlight.js), `false` is not yet supported |
 | lang | language(`en`, `zh`, etc) |
-| logo_path | path of logo |
+| logo_path | path of logo, use `""` if none |
 | main_script | setting for `main.js` |
 | make404 | whether to create a 404-page |
 | make_index | whether to create index pages |

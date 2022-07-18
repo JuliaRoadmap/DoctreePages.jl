@@ -38,7 +38,7 @@ function highlight(::Val{Symbol("insert-fill")}, content::AbstractString)
 	con=ify_md(des, pss)
 	esc=escape_string(dict["ans"])
 	usereg=haskey(dict, "ans_regex")
-	reg=usereg ? dict["ans_regex"] : esc
+	reg=usereg ? dict["ans_regex"]::String : esc
 	return string(
 		"<div class='fill-area'><p>", con, "</p><input type='text' placeholder='ans'",
 		"<button class='submit-fill' data-ans='$reg' data-isreg='$usereg'>📤</button>",
