@@ -127,7 +127,6 @@ const docsmenu_block = ScriptBlock(
 			ev.target.parentElement.nextElementSibling.classList.toggle("collapsed")
 		})
 		let loc=document.location
-		let flag=false
 		let active=undefined
 		for(let a of \$(".docs-menu a.tocitem")){
 			let pathname=a.href.substring(oril)
@@ -357,6 +356,77 @@ const notification_block = ScriptBlock(
 		}
 		else{
 			window.alert(title)
+		}
+	}
+	"""
+)
+
+const test_block = ScriptBlock(
+	"""
+	for(let i of \$(".test-area")){
+		let header=document.createElement("div")
+		header.className="test-header"
+		let name=document.createElement("code")
+		name.innerText=i.dataset["name"]
+		let fullscore=document.createElement("span")
+		fullscore.innerText=` ${i.dataset["fs"]} `
+		let timer=document.createElement("span")
+		let tl=i.dataset["tl"]
+		timer.dataset["tl"]=tl
+		let button=document.createElement("button")
+		button.innerText="📤"
+		header.append(name)
+		header.append(fullscore)
+		header.append(timer)
+		header.append(button)
+		button.onclick=function(){calc_test(i)}
+		i.prepend(header)
+		const clockemojis="🕛🕐🕑🕒🕓🕔🕕🕖🕗🕘🕙🕚"
+		let n=0
+		let hour=tl/12
+		let interval=setInterval(function(){
+			if(n>tl){
+				clearInterval(interval)
+				timer.innerText=`⌛ ${tl} / ${tl}`
+				try_notify("🔔 Time Limit Exceeded")
+				calc_test(i)
+				return
+			}
+			let part=Math.floor(n/hour+0.5)
+			timer.innerText=`${clockemojis[part<<1]+clockemojis[part<<1|1]} ${n} / ${tl}`
+			n+=1
+		}, 1000)
+	}
+	""",
+	"""
+	function calc_test(node){
+		let sum=0
+		for(let ch of node.querySelectorAll(".choice-area")){
+		}
+		for(let fi of node.querySelectorAll(".fill-area")){
+			let ans=fi.dataset["an"]
+			let flag=false
+			let score=fi.dataset["sc"]
+			let input=fi.lastElementChild.value
+			if(ans==undefined){
+				let reg=RegExp(fi.dataset["re"])
+				if(reg.exec(input)[0][0]!=null)flag=true
+			}
+			else if(ans==input)flag=true
+			let first=fi.firstElementChild
+			if(flag){
+				sum+=score
+				let tag=document.createElement("span")
+				tag.style.backgroundColor="green"
+				tag.innerText=`${score}/${score}`
+				first.prepend(tag)
+			}
+			else{
+				let tag=document.createElement("span")
+				tag.style.backgroundColor="red"
+				tag.innerText=`0/${score}`
+				first.prepend(tag)
+			}
 		}
 	}
 	"""
