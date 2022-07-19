@@ -72,8 +72,7 @@ function mkhtml(node::CommonMark.Node, f::CommonMark.FootnoteDefinition, pss::Pa
 	return "<div id='footnote-$(f.id)' class='footnote'><span>$(f.id). </span>$(childrenhtml(node, pss))</div>"
 end
 function mkhtml(node::CommonMark.Node, ::CommonMark.BlockQuote, pss::PagesSetting)
-	ch=node.first_child
-	return "<blockquote>$(mkhtml(ch, ch.t, pss))</blockquote>"
+	return "<blockquote>$(childrenhtml(node, pss))</blockquote>"
 end
 function mkhtml(node::CommonMark.Node, l::CommonMark.List, pss::PagesSetting)
 	ch=childrenhtml(node, pss)

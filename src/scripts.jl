@@ -349,7 +349,7 @@ const katex_block = ScriptBlock(
 const notification_block = ScriptBlock(
 	"", """
 	function try_notify(title){
-		if(window.Notification && Notification.permission!="denied"){
+		if(window.Notification && Notification.permission=="granted"){
 			Notification.requestPermission(function(st){
 				let n=new Notification(title)
 			})
@@ -363,13 +363,14 @@ const notification_block = ScriptBlock(
 
 const test_block = ScriptBlock(
 	"""
-	for(let i of \$(".test-area")){
+	const clockemojis="🕛🕐🕑🕒🕓🕔🕕🕖🕗🕘🕙🕚"
+	for(let i of $(".test-area")){
 		let header=document.createElement("div")
 		header.className="test-header"
 		let name=document.createElement("code")
 		name.innerText=i.dataset["name"]
 		let fullscore=document.createElement("span")
-		fullscore.innerText=` ${i.dataset["fs"]} `
+		fullscore.innerText=` [${i.dataset["fs"]}] `
 		let timer=document.createElement("span")
 		let tl=i.dataset["tl"]
 		timer.dataset["tl"]=tl
@@ -379,9 +380,7 @@ const test_block = ScriptBlock(
 		header.append(fullscore)
 		header.append(timer)
 		header.append(button)
-		button.onclick=function(){calc_test(i)}
 		i.prepend(header)
-		const clockemojis="🕛🕐🕑🕒🕓🕔🕕🕖🕗🕘🕙🕚"
 		let n=0
 		let hour=tl/12
 		let interval=setInterval(function(){
@@ -396,12 +395,62 @@ const test_block = ScriptBlock(
 			timer.innerText=`${clockemojis[part<<1]+clockemojis[part<<1|1]} ${n} / ${tl}`
 			n+=1
 		}, 1000)
+		for(ch of i.querySelectorAll(".choose-area span")){
+			let cb=document.createElement("input")
+			cb.type="checkbox"
+			ch.prepend(cb)
+		}
+		button.onclick=function(){
+			clearInterval(interval)
+			calc_test(i)
+		}
 	}
 	""",
 	"""
+	function getchooseinput(node){
+		let ins=node.querySelectorAll("input")
+		let str=""
+		for(let i=0;i<ins.length;i++){
+			let input=ins[i]
+			if(input.checked)str+=String.fromCharCode(65+i)
+		}
+		return str
+	}
 	function calc_test(node){
 		let sum=0
-		for(let ch of node.querySelectorAll(".choice-area")){
+		for(let ch of node.querySelectorAll(".choose-area")){
+			let ans=ch.dataset["an"]
+			let input=getchooseinput(ch)
+			let tag=document.createElement("span")
+			if(ans==undefined){
+				let dict=JSON.parse(`{${ch.dataset["dict"]}}`)
+				let score=dict[input]
+				let maxscore=Math.max(...Object.values(dict))
+				if(score==undefined){
+					tag.style.backgroundColor="red"
+					tag.innerText=`0/${maxscore}`
+				}
+				else if(score!=maxscore){
+					tag.style.backgroundColor="yellow"
+					tag.innerText=`${score}/${maxscore}`
+				}
+				else{
+					tag.style.backgroundColor="green"
+					tag.innerText=`${score}/${score}`
+				}
+			}
+			else{
+				let score=ch.dataset["sc"]
+				if(input==ans){
+					tag.style.backgroundColor="red"
+					tag.innerText=`0/${score}`
+				}
+				else{
+					tag.style.backgroundColor="green"
+					tag.innerText=`${score}/${score}`
+				}
+			}
+			ch.prepend(tag)
 		}
 		for(let fi of node.querySelectorAll(".fill-area")){
 			let ans=fi.dataset["an"]
@@ -410,7 +459,7 @@ const test_block = ScriptBlock(
 			let input=fi.lastElementChild.value
 			if(ans==undefined){
 				let reg=RegExp(fi.dataset["re"])
-				if(reg.exec(input)[0][0]!=null)flag=true
+				if(reg.exec(input)!=null)flag=true
 			}
 			else if(ans==input)flag=true
 			let first=fi.firstElementChild
@@ -428,6 +477,7 @@ const test_block = ScriptBlock(
 				first.prepend(tag)
 			}
 		}
+		node.firstElementChild.children[1].innerText=`${sum}/${node.dataset["fs"]}`
 	}
 	"""
 )

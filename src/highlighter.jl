@@ -83,15 +83,15 @@ function highlight(::Val{Symbol("insert-test")}, content::AbstractString)
 			str *= "<div class='choice-area' data-"
 			if haskey(part, "ans_dict")
 				dict = part["ans_dict"]::Dict
-				str *= "dict='{"
+				str *= "dict='"
 				for pair in dict
-					str *= "$(pair.first):$(pair.second),"
+					str *= "\"$(pair.first)\":$(pair.second),"
 				end
-				str *= "}'>"
+				str *= "'>"
 			else
 				ans = part["ans"]
 				score::Real = g("score")
-				str *= "ans='$ans' data-score='$score'>"
+				str *= "an='$ans' data-sc='$score'>"
 			end
 			str *= "<p>$(ify_md(part["content"], pss))</p>"
 			index_char = g("index_char", "A")
