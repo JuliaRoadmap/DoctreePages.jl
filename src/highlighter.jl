@@ -55,9 +55,7 @@ function highlight(::Val{Symbol("insert-test")}, content::AbstractString)
 	current = nothing
 	for part in parts
 		type = part["type"]
-		macro g(key, default = nothing)
-			return :(haskey(g, $key) ? part[$key] : (current !== nothing && haskey(current, $key)) ? current[$key] : haskey(gl[$key]) ? gl[$key] : $default)
-		end
+		g(key, default = nothing) = (haskey(g, $key) ? part[$key] : (current !== nothing && haskey(current, $key)) ? current[$key] : haskey(gl[$key]) ? gl[$key] : $default)
 		if type == "group"
 			if haskey(part, "content")
 				str *= ify_md(part["content"], pss)
@@ -69,14 +67,14 @@ function highlight(::Val{Symbol("insert-test")}, content::AbstractString)
 		elseif type == "text"
 			str *= ify_md(part["content"], pss)
 		elseif type == "choice"
-			score::Real = @g "score"
+			score::Real = g("score")
 			str *= "<div class='choice-area' data-"
 			str *= "<p>$(ify_md(part["content"], pss))</p>"
-			index_char = @g "index_char" "A"
-			index_suffix = @g "index_suffix" "."
+			index_char = g("index_char", "A")
+			index_suffix = g("index_suffix", ".")
 			str *= "</div>"
 		elseif type == "fill"
-			score::Real = @g "score"
+			score::Real = g("score")
 			str *= "<div class='fill-area' data-sc='$score' data-"
 			if haskey(part, "ans_regex")
 				str *= "re='$(part["ans_regex"])"
