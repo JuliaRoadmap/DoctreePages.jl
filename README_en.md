@@ -8,6 +8,9 @@ This is a lightweight interactive document generator.
 * powerful: [features list](docs/en/features.md)
 * setting: 30+ setting keys (not including sub-keys)
 
+## Purpose
+This package is **not specialy designed for package documentation**. Instead, it's more suitable for educational-purpose documents, blogs, etc.
+
 ---
 
 * [docs here](https://juliaroadmap.github.io/dtpages/docs/en/usage.html)

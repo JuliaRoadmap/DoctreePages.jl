@@ -1,11 +1,12 @@
 """
 A lightweight interactive document generator.
 
-Read `generate` `PagesSetting` `GiscusSetting`
+Read `generate` `PagesSetting`
 """
 module DoctreePages
 export GiscusSetting, MainScriptSetting, PagesSetting
 export generate
+export github_action
 
 # 用于自行编写脚本的用户
 export PageSetting, default_parser
@@ -63,5 +64,6 @@ include("scripts.jl")
 
 using TOML
 include("tree.jl")
+include("git.jl")
 
 end

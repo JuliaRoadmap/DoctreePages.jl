@@ -70,30 +70,26 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 	if !endswith(tardir, '/')
 		tardir*="/"
 	end
-	realtardir=joinpath(tardir, pss.use_subdir)
-	mkpath(realtardir)
-	if !endswith(realtardir, '/')
-		realtardir*="/"
-	end
+	mkpath(tardir)
 	# 复制本项目
 	cd(@__DIR__)
 	cd("..")
-	cp("css", realtardir*pss.tar_css; force=true)
-	cp("extra", realtardir*pss.tar_extra; force=true)
+	cp("css", tardir*pss.tar_css; force=true)
+	cp("extra", tardir*pss.tar_extra; force=true)
 	# 复制来源
 	cd(srcdir)
 	if isdir(pss.src_assets)
-		cp(pss.src_assets, realtardir*pss.tar_assets; force=true)
+		cp(pss.src_assets, tardir*pss.tar_assets; force=true)
 		# cp(joinpath(@__DIR__, "../svg"), tardir*"assets/extra"; force=true)
 	end
 	if isdir("script")
-		cp("script", realtardir*pss.tar_script; force=true)
+		cp("script", tardir*pss.tar_script; force=true)
 	end
 	# docs
 	root=Node(nothing, lw(pss, 5))
 	cd(srcdir*"docs")
-	if pss.remove_original && isdir(realtardir*"docs")
-		rm(realtardir*"docs"; force=true, recursive=true)
+	if pss.remove_original && isdir(tardir*"docs")
+		rm(tardir*"docs"; force=true, recursive=true)
 	end
 	gen_rec(;
 		current=root,
@@ -102,7 +98,7 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 		pathv=["docs"],
 		pss=pss,
 		srcdir=srcdir,
-		tardir=realtardir
+		tardir=tardir
 	)
 	cd(srcdir*"docs")
 	make_rec(;
@@ -110,10 +106,10 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 		path="docs/",
 		pathv=["docs"],
 		pss=pss,
-		tardir=realtardir
+		tardir=tardir
 	)
 	# 404
-	tarundef=joinpath(realtardir, pss.unfound)
+	tarundef=joinpath(tardir, pss.unfound)
 	if isfile(pss.unfound)
 		if pss.wrap_html
 			str=read(pss.unfound, String)
@@ -125,9 +121,9 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 		write(tarundef, make404(lw(pss, 10), pss))
 	end
 	# info.js
-	makeinfo_js(realtardir*"$(pss.tar_extra)/info.js", root, pss)
+	makeinfo_js(tardir*"$(pss.tar_extra)/info.js", root, pss)
 	# main.js
-	io=open(realtardir*"$(pss.tar_extra)/main.js", "w")
+	io=open(tardir*"$(pss.tar_extra)/main.js", "w")
 	makescript(io)
 	close(io)
 	# 消除影响
@@ -321,7 +317,7 @@ function make404(mds::String, pss::PagesSetting)
 		mds=mds,
 		navbar_title="404",
 		nextpage="",
-		prevpage="<a class='docs-footer-prevpage' href='$(pss.use_subdir)/index$(pss.filesuffix)'>« $(lw(pss, 9))</a>",
+		prevpage="<a class='docs-footer-prevpage' href='index$(pss.filesuffix)'>« $(lw(pss, 9))</a>",
 		tURL="./",
 	))
 end

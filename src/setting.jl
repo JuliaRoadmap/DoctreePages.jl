@@ -75,12 +75,10 @@ The keywords:
 * repo\\_path::String = `"https://github.com/\$repo_owner/\$repo_name/tree/\$repo_branch/"`
 * show_info::Bool = true
 * sort_file::Bool = true
-* sub_path::String = ""
 * table_align::String = "inherit"
 * throwall::Bool = false
 * title::String
 * unfound::String = "404.html"
-* use_subdir::String = ""
 * wrap_html::Bool = true
 """
 Base.@kwdef struct PagesSetting
@@ -109,7 +107,6 @@ Base.@kwdef struct PagesSetting
     src_assets = "assets"
     src_script = "script"
     sort_file::Bool = true
-    sub_path::String = ""
     table_align::String = "inherit"
     tar_assets = "assets"
     tar_css = "css"
@@ -118,14 +115,10 @@ Base.@kwdef struct PagesSetting
     throwall::Bool = false
     title::String
     unfound::String = "404.html"
-    use_subdir::String = ""
     wrap_html::Bool = true
 end
 function Base.show(io::IO, pss::PagesSetting)
     print(io, "PagesSetting for <$(pss.title)>")
-    if pss.use_subdir!=""
-        print(io, " under $(pss.use_subdir)/")
-    end
 end
 
 Base.@kwdef struct PageSetting

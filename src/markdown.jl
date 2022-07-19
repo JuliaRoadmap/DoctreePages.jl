@@ -136,7 +136,7 @@ function mkhtml(node::CommonMark.Node, link::CommonMark.Link, pss::PagesSetting)
 	if startswith(url, '#')
 		return "<a href='#header-$(url[2:end])'>$htm</a>"
 	elseif startswith(url, '/')
-		url="$(pss.server_prefix)$(pss.sub_path)/$(url[2:end])"
+		url="$(pss.server_prefix)/$(url[2:end])"
 	elseif !startswith(url, "https://") && !startswith(url, "http://")
 		dot=findlast('.', url)
 		if dot !== nothing

@@ -32,7 +32,6 @@
 | sort_file | 是否给文件排序 |
 | src_assets | 参阅[guidelines](guidelines.md#目录管理) |
 | src_script | 参阅[guidelines](guidelines.md#目录管理) |
-| sub_path | 若位于一个项目的子目录，给出从项目根目录到源目录的路径 |
 | table_align | 表格对齐方式 |
 | tar_assets | 生成的包含`assets`的目录名 |
 | tar_css | 生成的包含`css`的目录名 |
@@ -41,7 +40,6 @@
 | throwall | 是否抛出非致命错误 |
 | title | 标题 |
 | unfound | 404错误时重定向的页面（若无文件则自动生成） |
-| use_subdir | 在构建独立部分时使用`joinpath(tardir, pss.use_subdir)` |
 | wrap_html | 是否对html文件进行包裹 |
 
 1. 未提供默认值的键包括`repo_name`，`repo_owner`和`title`

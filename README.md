@@ -8,6 +8,9 @@
 * 强大：[各式各样的功能](docs/zh/features.md)
 * 可配置：超过30个设置项（不包括子项）
 
+## 用途
+此包**不是专为包文档设计**，更适合用于教育性文档/博客等
+
 ---
 
 * [在此阅读文档](https://juliaroadmap.github.io/dtpages/docs/zh/usage.html)

@@ -32,7 +32,6 @@ One method of the `generate` function allows three parameters:
 | sort_file | whether to sort files |
 | src_assets | refer to [guidelines](guidelines.md#dir-managing |
 | src_script | refer to [guidelines](guidelines.md#dir-managing) |
-| sub_path | when it's subdir of a project, gives the path down from the root directory |
 | table_align | table align setting |
 | tar_assets | name of dir of generated `assets` |
 | tar_css | name of dir of generated css files |
@@ -40,7 +39,6 @@ One method of the `generate` function allows three parameters:
 | tar_script | name of dir of generated scripts |
 | throwall | whether to throw non-fatal errors |
 | title | title |
-| use_subdir | uses `joinpath(tardir, pss.use_subdir)` when building independent parts |
 | unfound | page to redirect when 404 error occurs (page will be automatically generated if not found) |
 | wrap_html | whether to wrap html files |
 
