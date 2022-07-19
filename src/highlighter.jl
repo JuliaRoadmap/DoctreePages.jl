@@ -3,8 +3,8 @@ function highlight(language::AbstractString, code::AbstractString, pss::PagesSet
 		return "<div class='checkis' data-check='$(language)'>$(ify_md(code, pss))</div>"
 	end
 	sym=Symbol(language)
-	if hasmethod(highlight, Tuple{Val{sym}, typeof(code)})
-		return highlight(Val(sym), code)
+	if hasmethod(highlight, Tuple{Val{sym}, typeof(code), PagesSetting})
+		return highlight(Val(sym), code, pss)
 	elseif pss.hljs_all
 		return buildhljsblock(language, code)
 	#=
@@ -29,13 +29,13 @@ function buildhljsblock(language::AbstractString, str::AbstractString)
 	return "<div data-lang='$language'><div class='codeblock-header'></div><pre class='codeblock-body language-$language'><code>$str</code></pre></div><br />"
 end
 
-function highlight(::Val{Symbol("insert-html")}, content::AbstractString)
+function highlight(::Val{Symbol("insert-html")}, content::AbstractString, ::PagesSetting)
 	return content
 end
-function highlight(::Val{Symbol("insert-fill")}, content::AbstractString)
+function highlight(::Val{Symbol("insert-fill")}, content::AbstractString, pss::PagesSetting)
 	dict=TOML.parse(content)
 	con=dict["content"]::String
-	con=ify_md(des, pss)
+	con=ify_md(con, pss)
 	esc=escape_string(dict["ans"])
 	usereg=haskey(dict, "ans_regex")
 	reg=usereg ? dict["ans_regex"]::String : esc
@@ -57,10 +57,10 @@ function makeindex_char(char::AbstractString, id::Integer)
 		return string(id)
 	end
 end
-function highlight(::Val{Symbol("insert-test")}, content::AbstractString)
+function highlight(::Val{Symbol("insert-test")}, content::AbstractString, pss::PagesSetting)
 	toml = TOML.parse(content)
 	gl = toml["global"]::Dict
-	parts = toml["parts"]::Dict
+	parts = toml["parts"]::Vector
 	tl = gl["time_limit"]::Real
 	fs = gl["full_score"]::Number
 	name = replace(gl["name"], '\'' => "\\\'")
@@ -90,7 +90,7 @@ function highlight(::Val{Symbol("insert-test")}, content::AbstractString)
 				str *= "'>"
 			else
 				ans = part["ans"]
-				score::Real = g("score")
+				score = g("score")::Real
 				str *= "an='$ans' data-sc='$score'>"
 			end
 			str *= "<p>$(ify_md(part["content"], pss))</p>"
@@ -103,7 +103,7 @@ function highlight(::Val{Symbol("insert-test")}, content::AbstractString)
 			end
 			str *= "</div>"
 		elseif type == "fill"
-			score::Real = g("score")
+			score = g("score")::Real
 			str *= "<div class='fill-area' data-sc='$score' data-"
 			if haskey(part, "ans_regex")
 				str *= "re='$(part["ans_regex"])"

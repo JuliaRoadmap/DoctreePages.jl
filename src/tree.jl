@@ -51,7 +51,7 @@ function readbuildsetting(path::AbstractString)
 	if haskey(toml, "mainscript")
 		pages["main_script"]=MainScriptSetting(;namedtuplefrom(toml["mainscript"])...)
 	end
-	return NamedTuple(pages)
+	return namedtuplefrom(pages)
 end
 
 function generate(srcdir::AbstractString, tardir::AbstractString, build_setting::AbstractString = "DoctreeBuild.toml")

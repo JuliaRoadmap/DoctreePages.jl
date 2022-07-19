@@ -364,13 +364,13 @@ const notification_block = ScriptBlock(
 const test_block = ScriptBlock(
 	"""
 	const clockemojis="🕛🕐🕑🕒🕓🕔🕕🕖🕗🕘🕙🕚"
-	for(let i of $(".test-area")){
+	for(let i of \$(".test-area")){
 		let header=document.createElement("div")
 		header.className="test-header"
 		let name=document.createElement("code")
 		name.innerText=i.dataset["name"]
 		let fullscore=document.createElement("span")
-		fullscore.innerText=` [${i.dataset["fs"]}] `
+		fullscore.innerText=" ?/"+i.dataset["fs"]+" "
 		let timer=document.createElement("span")
 		let tl=i.dataset["tl"]
 		timer.dataset["tl"]=tl
@@ -386,13 +386,13 @@ const test_block = ScriptBlock(
 		let interval=setInterval(function(){
 			if(n>tl){
 				clearInterval(interval)
-				timer.innerText=`⌛ ${tl} / ${tl}`
+				timer.innerText="⌛ "+tl+"/"+tl
 				try_notify("🔔 Time Limit Exceeded")
 				calc_test(i)
 				return
 			}
 			let part=Math.floor(n/hour+0.5)
-			timer.innerText=`${clockemojis[part<<1]+clockemojis[part<<1|1]} ${n} / ${tl}`
+			timer.innerText=clockemojis[part<<1]+clockemojis[part<<1|1]+" "+n+"/"+tl
 			n+=1
 		}, 1000)
 		for(ch of i.querySelectorAll(".choose-area span")){
@@ -423,31 +423,31 @@ const test_block = ScriptBlock(
 			let input=getchooseinput(ch)
 			let tag=document.createElement("span")
 			if(ans==undefined){
-				let dict=JSON.parse(`{${ch.dataset["dict"]}}`)
+				let dict=JSON.parse("{"+ch.dataset["dict"]+"}")
 				let score=dict[input]
 				let maxscore=Math.max(...Object.values(dict))
 				if(score==undefined){
 					tag.style.backgroundColor="red"
-					tag.innerText=`0/${maxscore}`
+					tag.innerText="0/"+maxscore
 				}
 				else if(score!=maxscore){
 					tag.style.backgroundColor="yellow"
-					tag.innerText=`${score}/${maxscore}`
+					tag.innerText=score+"/"+maxscore
 				}
 				else{
 					tag.style.backgroundColor="green"
-					tag.innerText=`${score}/${score}`
+					tag.innerText=score+"/"+score
 				}
 			}
 			else{
 				let score=ch.dataset["sc"]
 				if(input==ans){
 					tag.style.backgroundColor="red"
-					tag.innerText=`0/${score}`
+					tag.innerText="0/"+score
 				}
 				else{
 					tag.style.backgroundColor="green"
-					tag.innerText=`${score}/${score}`
+					tag.innerText=score+"/"+score
 				}
 			}
 			ch.prepend(tag)
@@ -467,17 +467,17 @@ const test_block = ScriptBlock(
 				sum+=score
 				let tag=document.createElement("span")
 				tag.style.backgroundColor="green"
-				tag.innerText=`${score}/${score}`
+				tag.innerText=score+"/"+score
 				first.prepend(tag)
 			}
 			else{
 				let tag=document.createElement("span")
 				tag.style.backgroundColor="red"
-				tag.innerText=`0/${score}`
+				tag.innerText="0/"+score
 				first.prepend(tag)
 			}
 		}
-		node.firstElementChild.children[1].innerText=`${sum}/${node.dataset["fs"]}`
+		node.firstElementChild.children[1].innerText=sum+"/"+node.dataset["fs"]
 	}
 	"""
 )
