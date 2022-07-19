@@ -61,7 +61,10 @@ function highlight(::Val{Symbol("insert-test")}, content::AbstractString)
 	toml = TOML.parse(content)
 	gl = toml["global"]::Dict
 	parts = toml["parts"]::Dict
-	str = "<div class='test-area' data-tl='$(gl["time_limit"]::Real)' data-fs='$(gl["full_score"]::Number)'><p>$(html_safe(gl["name"]))</p><br />"
+	tl = gl["time_limit"]::Real
+	fs = gl["full_score"]::Number
+	name = replace(gl["name"], '\'' => "\\\'")
+	str = "<div class='test-area' data-tl='$tl' data-fs='$fs' data-name='$name'><br />"
 	current = nothing
 	for part in parts
 		type = part["type"]

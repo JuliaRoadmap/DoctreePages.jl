@@ -132,3 +132,7 @@ table{
 .li-marked a::after{
 	content: "🔖";
 }
+
+.test-area span::after{
+	content: " ";
+}

@@ -347,6 +347,21 @@ const katex_block = ScriptBlock(
 	"""
 )
 
+const notification_block = ScriptBlock(
+	"", """
+	function try_notify(title){
+		if(window.Notification && Notification.permission!="denied"){
+			Notification.requestPermission(function(st){
+				let n=new Notification(title)
+			})
+		}
+		else{
+			window.alert(title)
+		}
+	}
+	"""
+)
+
 const script_blocks = [
 	headroom_block, setting_block, sidebar_block,
 	themepick_block, copyheadinglink_block, hljs_block, docsmenu_block,

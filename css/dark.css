@@ -7572,7 +7572,7 @@ a.has-text-danger:hover, a.has-text-danger:focus {
 .language{
 	background-color: black;
 }
-.content .fill-area{
+.content .fill-area:not(.test-area *), .test-area{
 	background-color: #282f2f;
 	border-left: 5px solid #5e6d6f;
 	padding: 1.25em 1.5em;
