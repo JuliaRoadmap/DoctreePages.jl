@@ -3,9 +3,8 @@
 ## 关于
 这是一个轻量级交互式文档生成器
 * 轻量级：只基于 CommonMark 和 TOML
-* 交互式：包括页面讨论功能，填空题与条件激发文本
 * 简单：即使没有编程经验也能使用
-* 强大：[各式各样的功能](docs/zh/features.md)
+* 强大&可交互：[各式各样的功能](docs/zh/features.md)
 * 可配置：超过30个设置项（不包括子项）
 
 ## 用途
@@ -24,7 +23,7 @@
 Discussion功能来自[giscus](https://github.com/giscus/giscus)
 
 ## 使用实例
-[DoctreeBuild](https://github.com/JuliaRoadmap/zhl/blob/master/DoctreeBuild.toml) [对应测试示例](https://juliaroadmap.github.io/zh/docs/meta/doctest.html)
+[DoctreeBuild](https://github.com/JuliaRoadmap/zh/blob/master/DoctreeBuild.toml) [对应测试示例](https://juliaroadmap.github.io/zh/docs/meta/doctest.html)
 
 ## todo
 - [ ] giscus theme调整
@@ -35,7 +34,6 @@ Discussion功能来自[giscus](https://github.com/giscus/giscus)
 - [ ] 空间压缩
 - [ ] 快捷键
 	- [ ] t 到页面顶端
-- [ ] 插入测试
 - [ ] 部分内容加密
 - [ ] 根据fetch到的页面内容自动生成链接块
 - [ ] 允许将代码块拖动到侧边

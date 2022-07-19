@@ -39,8 +39,8 @@ function namedtuplefrom(d::Dict{String, Any})
 	return NamedTuple(v)
 end
 
-function generate(srcdir::AbstractString, tardir::AbstractString, build_setting::AbstractString = "DoctreeBuild.toml")
-	toml=TOML.parsefile(joinpath(srcdir, build_setting))
+function readbuildsetting(path::AbstractString)
+	toml=TOML.parsefile(path)
 	if haskey(toml, "version") && VersionNumber(toml["version"])>v"1.2.0"
 		error("version does not meet $build_setting : version")
 	end
@@ -51,8 +51,12 @@ function generate(srcdir::AbstractString, tardir::AbstractString, build_setting:
 	if haskey(toml, "mainscript")
 		pages["main_script"]=MainScriptSetting(;namedtuplefrom(toml["mainscript"])...)
 	end
-	pss=PagesSetting(;NamedTuple(pages)...)
-	generate(srcdir, tardir, pss)
+	return NamedTuple(pages)
+end
+
+function generate(srcdir::AbstractString, tardir::AbstractString, build_setting::AbstractString = "DoctreeBuild.toml")
+	namedtuple=readbuildsetting(joinpath(srcdir, build_setting))
+	generate(srcdir, tardir, PagesSetting(;namedtuple...))
 end
 
 function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSetting)
@@ -131,6 +135,7 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 	# 返回
 	return root
 end
+
 function gen_rec(;
 	current::Node,
 	outline::Bool,

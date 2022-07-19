@@ -3,9 +3,8 @@
 ## About
 This is a lightweight interactive document generator.
 * lightweight: only two dependencies (CommonMark and TOML)
-* interactive: including page-discussion, answer-board and statement-trigger text
 * easy: even those with out programming experience can use it
-* powerful: [features list](docs/en/features.md)
+* powerful & interactive: [features list](docs/en/features.md)
 * setting: 30+ setting keys (not including sub-keys)
 
 ## Purpose
@@ -24,4 +23,4 @@ MIT LICENSE, and these files partly come from [Documenter](https://github.com/Ju
 Page-discussion is powered by [giscus](https://github.com/giscus/giscus)
 
 ## Sample
-[DoctreeBuild](https://github.com/JuliaRoadmap/zhl/blob/master/DoctreeBuild.toml) [Result](https://juliaroadmap.github.io/zh/docs/meta/doctest.html)
+[DoctreeBuild](https://github.com/JuliaRoadmap/zh/blob/master/DoctreeBuild.toml) [Result](https://juliaroadmap.github.io/zh/docs/meta/doctest.html)
