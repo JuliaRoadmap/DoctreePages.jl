@@ -40,12 +40,29 @@ function highlight(::Val{Symbol("insert-fill")}, content::AbstractString, pss::P
 	usereg=haskey(dict, "ans_regex")
 	reg=usereg ? dict["ans_regex"]::String : esc
 	return string(
-		"<div class='fill-area'><p>", con, "</p><input type='text' placeholder='ans'>",
+		"<div class='fill-area'><div>", con, "</div><input type='text' placeholder='ans'>",
 		"<button class='submit-fill' data-ans='$reg' data-isreg='$usereg'>📤</button>",
 		"<button class='ans-fill' data-ans='$esc'>🔑</button>",
 		haskey(dict, "instruction") ? "<button class='instruction-fill' data-con='$(escape_string(dict["instruction"]))'>💡</button>" : "",
 		"</div>"
 	)
+end
+function highlight(::Val{Symbol("insert-setting")}, content::AbstractString, pss::PagesSetting)
+	toml = TOML.parse(content)
+	type = toml["type"]
+	str = ""
+	if type=="select-is"
+		str = "<div class='select-is modal-card-body' data-chs='"
+		for pair in toml["choices"]
+			str *= "$(pair.first):\"$(pair.second)\""
+		end
+		str *= "' data-st='"
+		for pair in toml["store"]
+			str *= "$(pair.first):\"$(pair.second)\""
+		end
+		str *= "'><p>$(html_safe(toml["content"]))</p></div>"
+	end
+	return str
 end
 
 function makeindex_char(char::AbstractString, id::Integer)

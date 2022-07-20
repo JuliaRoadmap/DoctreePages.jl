@@ -37,7 +37,7 @@ Code-blocks with `insert-setting` insert tests. It uses TOML and the `type` key 
 Currently, `type = "select-is"` is the only supported mode.
 * content is in key `content`, does not support Markdown
 * `choices` defines a `value` => `display text` dict
-* `score` defines a `value` => `localStorage key` dict
+* `store` defines a `value` => `localStorage key` dict
 
 ## Insert Test
 Code-blocks with `insert-test` insert tests. It also uses TOML.

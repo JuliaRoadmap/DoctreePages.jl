@@ -482,6 +482,33 @@ const test_block = ScriptBlock(
 	"""
 )
 
+const insertsetting_block = ScriptBlock(
+	"""
+	for(let i of \$(".select-is")){
+		let choices=JSON.parse("{"+i.dataset["chs"]+"}")
+		let store=JSON.parse("{"+i.dataset["st"]+"}")
+		let select=document.createElement("select")
+		for(let k in choices){
+			let option=document.createElement("option")
+			option.value=k
+			option.innerText=choices[k]
+			select.append(option)
+		}
+		select.change(function(){
+			let v=select.value
+			let stk=store[v]
+			if(stk!=undefined){
+				localStorage.setItem(stk, "true")
+				if(stk.startsWith("is-")){
+					upd_trigger(stk)
+				}
+			}
+		})
+		i.append(select)
+	}
+	"""
+)
+
 const script_blocks = [
 	headroom_block, setting_block, sidebar_block,
 	themepick_block, copyheadinglink_block, hljs_block, docsmenu_block,

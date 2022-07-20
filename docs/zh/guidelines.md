@@ -37,7 +37,7 @@ instruction = "提示（可选，不支持Markdown）"
 `type = "select-is"`是当前唯一支持的设置模式
 * 文字内容在 `content` 项中，不支持Markdown
 * `choices` 项为字典，表示 `value` 到显示文字的映射
-* `score` 项为字典，表示 `value` 到 `localStorage key` 的映射
+* `store` 项为字典，表示 `value` 到 `localStorage key` 的映射
 
 ## 插入测试
 `insert-test`代码块表示插入测试，使用TOML格式配置
