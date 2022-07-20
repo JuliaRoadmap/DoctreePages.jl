@@ -52,7 +52,7 @@ function highlight(::Val{Symbol("insert-setting")}, content::AbstractString, pss
 	type = toml["type"]
 	str = ""
 	if type=="select-is"
-		str = "<div class='select-is modal-card-body' data-chs='"
+		str = "<div class='select-is modal-card-body' data-de='$(toml["default"])' data-chs='"
 		for pair in toml["choices"]
 			str *= "\"$(pair.first)\":\"$(pair.second)\","
 		end

@@ -375,15 +375,17 @@ const notification_block = ScriptBlock(
 
 const test_block = ScriptBlock(
 	"""
-	const clockemojis="🕛🕐🕑🕒🕓🕔🕕🕖🕗🕘🕙🕚⌛"
+	const clockemojis="🕛🕐🕑🕒🕓🕔🕕🕖🕗🕘🕙🕚⌛ "
 	for(let i of \$(".test-area")){
 		let header=document.createElement("div")
 		header.className="test-header"
 		let name=document.createElement("code")
 		name.innerText=i.dataset["name"]
 		let fullscore=document.createElement("span")
+		fullscore.className="tag"
 		fullscore.innerText=" ?/"+i.dataset["fs"]+" "
 		let timer=document.createElement("span")
+		timer.className="tag"
 		let tl=i.dataset["tl"]
 		timer.dataset["tl"]=tl
 		let button=document.createElement("button")
@@ -433,6 +435,7 @@ const test_block = ScriptBlock(
 			let ans=ch.dataset["an"]
 			let input=getchooseinput(ch)
 			let tag=document.createElement("span")
+			tag.className="tag"
 			if(ans==undefined){
 				let dict=dictparse(ch.dataset["dict"])
 				let score=dict[input]
@@ -442,17 +445,20 @@ const test_block = ScriptBlock(
 					tag.innerText="0/"+maxscore
 				}
 				else if(score!=maxscore){
+					sum+=score
 					tag.style.backgroundColor="yellow"
 					tag.innerText=score+"/"+maxscore
 				}
 				else{
+					sum+=score
 					tag.style.backgroundColor="green"
 					tag.innerText=score+"/"+score
 				}
 			}
 			else{
-				let score=ch.dataset["sc"]
+				let score=Number(ch.dataset["sc"])
 				if(input==ans){
+					sum+=score
 					tag.style.backgroundColor="red"
 					tag.innerText="0/"+score
 				}
@@ -461,12 +467,12 @@ const test_block = ScriptBlock(
 					tag.innerText=score+"/"+score
 				}
 			}
-			ch.prepend(tag)
+			ch.firstElementChild.prepend(tag)
 		}
 		for(let fi of node.querySelectorAll(".fill-area")){
 			let ans=fi.dataset["an"]
 			let flag=false
-			let score=fi.dataset["sc"]
+			let score=Number(fi.dataset["sc"])
 			let input=fi.lastElementChild.value
 			if(ans==undefined){
 				let reg=RegExp(fi.dataset["re"])
@@ -474,21 +480,20 @@ const test_block = ScriptBlock(
 			}
 			else if(ans==input)flag=true
 			let first=fi.firstElementChild
+			let tag=document.createElement("span")
+			tag.className="tag"
 			if(flag){
 				sum+=score
-				let tag=document.createElement("span")
 				tag.style.backgroundColor="green"
 				tag.innerText=score+"/"+score
-				first.prepend(tag)
 			}
 			else{
-				let tag=document.createElement("span")
 				tag.style.backgroundColor="red"
 				tag.innerText="0/"+score
-				first.prepend(tag)
 			}
+			first.prepend(tag)
 		}
-		node.firstElementChild.children[1].innerText=sum+"/"+node.dataset["fs"]
+		node.firstElementChild.children[1].innerText=" "+sum+"/"+node.dataset["fs"]
 	}
 	"""
 )
@@ -505,11 +510,25 @@ const insertsetting_block = ScriptBlock(
 			option.innerText=choices[k]
 			select.append(option)
 		}
+		let defval=i.dataset["de"]
+		select.value=defval
+		let defkey=store[defval]
+		if(defkey!=undefined){
+			if(defkey[0]=="!"){
+				defkey=defkey.substring(1)
+				if(localStorage.getItem(defkey)==null)localStorage.setItem(defkey, "false")
+			}
+			else if(localStorage.getItem(defkey)==null)localStorage.setItem(defkey, "true")
+		}
 		select.onchange=function(){
 			let v=select.value
 			let stk=store[v]
 			if(stk!=undefined){
-				localStorage.setItem(stk, "true")
+				if(stk[0]=="!"){
+					stk=stk.substring(1)
+					localStorage.setItem(stk, "false")
+				}
+				else localStorage.setItem(stk, "true")
 				if(stk.startsWith("is-")){
 					upd_trigger(stk)
 				}
