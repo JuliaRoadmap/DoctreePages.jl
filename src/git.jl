@@ -1,6 +1,7 @@
-function github_action(srcbranch::AbstractString = "master", tarbranch::AbstractString = "gh-pages", setting::Union{AbstractString, PagesSetting} = "DoctreeBuild.toml")
-	srcdir="" # ?
+function github_action(setting::Union{AbstractString, PagesSetting} = "DoctreeBuild.toml")
 	if !isa(setting, PagesSetting)
-		setting=PagesSetting(;readbuildsetting(joinpath(srcdir, setting))...)
+		setting=PagesSetting(;readbuildsetting(setting)...)
 	end
+	mkpath("public")
+	generate(".", "public", setting)
 end

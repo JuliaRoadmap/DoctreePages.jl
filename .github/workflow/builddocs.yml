@@ -19,4 +19,9 @@ jobs:
             Pkg.add(name="DoctreePages", version="1.2")
             using DoctreePages
             github_action()
+        - uses: peaceiris/actions-gh-pages@v3
+          with:
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+            publish_dir: "./public"
+            force_orphan: true
           '
