@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<title>English Docs/Usage - DoctreePages</title>
+	<meta name="tURL" id="tURL" content="../../"/>
+	<meta name="description" content="English Docs/Usage - DoctreePages">
+	<script src="../../extra/info.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../extra/main.js"></script>
+	<link id="theme-href" rel="stylesheet" type="text/css" href="../../css/light.css">
+	<link rel="stylesheet" type="text/css" href="../../css/general.css">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/fontawesome.min.css"/>
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/solid.min.css"/>
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/brands.min.css"/>
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css">
+</head>
+<body>
+	<div id="documenter">
+		<nav class="docs-sidebar">
+			<div class="docs-package-name">
+			<span class="docs-autofit">DoctreePages</span>
+			</div>
+			<ul class="docs-menu"></ul>
+		</nav>
+		<div class="docs-main">
+			<header class="docs-navbar">
+				<nav class="breadcrumb">
+					<ul class="is-hidden-mobile"><li class="is-active">English Docs / Usage</li></ul>
+					<ul class="is-hidden-tablet"><li class="is-active">English Docs / Usage</li></ul>
+				</nav>
+				<div class="docs-right"><a class='docs-edit-link' href='https://github.com/JuliaRoadmap/DoctreePages.jl/tree/master/docs/en/usage.md' target='_blank'><span class='docs-label is-hidden-touch'>edit this</span></a>
+					<a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="setting"></a>
+					<a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a>
+				</div>
+			</header>
+			<article class="content"><h1 id='header-Usage'>Usage<a class='docs-heading-anchor-permalink'></a></h1><h2 id='header-Generate with Parameter'>Generate with Parameter<a class='docs-heading-anchor-permalink'></a></h2><p>One method of the <code>generate</code> function allows three parameters:</p><ul><li><p>srcdir: dir containing raw data (markdown, etc)</p></li><li><p>tardir: dir to store result (html, etc)</p></li><li><p>pss: instance of <code>PagesSetting</code></p></li></ul><p><code>PagesSetting</code> constructor uses keywords. These are introductions while type and default values shall be mentioned in docstring. More detailed information shall refer to source code.</p><table style='float:center'><thead><tr><td>key name</td><td>description</td></tr></thead><tbody><tr><td>buildmessage</td><td>build message</td></tr><tr><td>charset</td><td>charset of source files</td></tr><tr><td>default_alt</td><td>default alt for images</td></tr><tr><td>favicon_path</td><td>path of favicon, use <code>""</code> if none</td></tr><tr><td>filesuffix</td><td>suffix of generated files</td></tr><tr><td>giscus</td><td>Giscus setting</td></tr><tr><td>hljs_all</td><td>whether all highlighting uses <a href='https://github.com/highlightjs/highlight.js' target='_blank'>highlight.js</a>, <code>false</code> is not yet supported</td></tr><tr><td>lang</td><td>language(<code>en</code>, <code>zh</code>, etc)</td></tr><tr><td>logo_path</td><td>path of logo, use <code>""</code> if none</td></tr><tr><td>main_script</td><td>setting for <code>main.js</code></td></tr><tr><td>make404</td><td>whether to create a 404-page</td></tr><tr><td>make_index</td><td>whether to create index pages</td></tr><tr><td>page_foot</td><td>html inserted at the bottom</td></tr><tr><td>parser</td><td>CommonMark parser</td></tr><tr><td>remove_origin</td><td>whether to remove before generating</td></tr><tr><td>repo_branch</td><td>default branch name of repo</td></tr><tr><td>repo_name</td><td>name of repo</td></tr><tr><td>repo_owner</td><td>owner name of repo</td></tr><tr><td>repo_path</td><td>full path to repo default branch</td></tr><tr><td>show_info</td><td>whether to call <code>@info</code></td></tr><tr><td>sort_file</td><td>whether to sort files</td></tr><tr><td>src_assets</td><td>refer to [guidelines](guidelines.md#dir-managing</td></tr><tr><td>src_script</td><td>refer to <a href='guidelines.html#header-dir-managing' target='_blank'>guidelines</a></td></tr><tr><td>table_align</td><td>table align setting</td></tr><tr><td>tar_assets</td><td>name of dir of generated <code>assets</code></td></tr><tr><td>tar_css</td><td>name of dir of generated css files</td></tr><tr><td>tar_extra</td><td>name of dir of generated extra data</td></tr><tr><td>tar_script</td><td>name of dir of generated scripts</td></tr><tr><td>throwall</td><td>whether to throw non-fatal errors</td></tr><tr><td>title</td><td>title</td></tr><tr><td>unfound</td><td>page to redirect when 404 error occurs (page will be automatically generated if not found)</td></tr><tr><td>wrap_html</td><td>whether to wrap html files</td></tr></tbody></table><ol><li><p><code>title</code> is the only key without default value.</p></li><li><p>File that value <code>unfound</code> refer to shall be under the same directory.</p></li><li><p>Values of keys starting with <code>src_</code> or <code>tar_</code> shall only be a dir-name without <code>/</code>(dir-split symbol)</p></li><li><p>If source data is in a repository, you should remember to set <code>repo_name</code> and <code>repo_owner</code></p></li></ol><h2 id='header-Config File'>Config File<a class='docs-heading-anchor-permalink'></a></h2><p>The third parameter of the other method is a string, representing the path to the config file, and defaults to <code>DoctreeBuild.toml</code>.<br /><br />The config file uses TOML format, where</p><ul><li><p><code>version</code> represents the lowest supported <code>DoctreePages</code> version</p></li><li><p><code>pages</code>, <code>giscus</code> and <code>mainscript</code> represents Pages-setting, Giscus-setting and MainScript-Setting</p></li><li><p>despite strings and booleans, no advanced function is provided</p></li></ul><h2 id='header-Github Action'>Github Action<a class='docs-heading-anchor-permalink'></a></h2><p>You can use github action to build pages into github pages. View sample <a href='https://github.com/JuliaRoadmap/DoctreePages.jl/blob/master/.github/workflows/builddocs.yml' target='_blank'>builddocs.yml</a></p><h2 id='header-Builder Script'>Builder Script<a class='docs-heading-anchor-permalink'></a></h2><p>If you want, you can also call the functions and write a builder script yourself.</p></article>
+			<nav class="docs-footer"><a class="docs-footer-prevpage" href="index.html">« index</a><a class='docs-footer-nextpage' href='guidelines.html'>« Guidelines</a><div class='flexbox-break'></div><p class='footer-message'>Powered by <a href='https://github.com/JuliaRoadmap/DoctreePages.jl'>DoctreePages.jl</a> and its dependencies.</p></nav>
+			
+		</div>
+	</div>
+</body>
+</html>

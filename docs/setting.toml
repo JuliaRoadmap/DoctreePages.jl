@@ -1,7 +1,0 @@
-outline = [
-	"zh",
-	"en",
-]
-[names]
-zh = "中文文档"
-en = "English Docs"
