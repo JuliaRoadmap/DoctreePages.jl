@@ -375,7 +375,7 @@ const notification_block = ScriptBlock(
 
 const test_block = ScriptBlock(
 	"""
-	const clockemojis="🕛🕐🕑🕒🕓🕔🕕🕖🕗🕘🕙🕚"
+	const clockemojis="🕛🕐🕑🕒🕓🕔🕕🕖🕗🕘🕙🕚⌛"
 	for(let i of \$(".test-area")){
 		let header=document.createElement("div")
 		header.className="test-header"
@@ -398,7 +398,6 @@ const test_block = ScriptBlock(
 		let interval=setInterval(function(){
 			if(n>tl){
 				clearInterval(interval)
-				timer.innerText="⌛ "+tl+"/"+tl
 				try_notify("🔔 Time Limit Exceeded")
 				calc_test(i)
 				return
@@ -435,7 +434,7 @@ const test_block = ScriptBlock(
 			let input=getchooseinput(ch)
 			let tag=document.createElement("span")
 			if(ans==undefined){
-				let dict=JSON.parse("{"+ch.dataset["dict"]+"}")
+				let dict=dictparse(ch.dataset["dict"])
 				let score=dict[input]
 				let maxscore=Math.max(...Object.values(dict))
 				if(score==undefined){
@@ -497,8 +496,8 @@ const test_block = ScriptBlock(
 const insertsetting_block = ScriptBlock(
 	"""
 	for(let i of \$(".select-is")){
-		let choices=JSON.parse("{"+i.dataset["chs"]+"}")
-		let store=JSON.parse("{"+i.dataset["st"]+"}")
+		let choices=dictparse(i.dataset["chs"])
+		let store=dictparse(i.dataset["st"])
 		let select=document.createElement("select")
 		for(let k in choices){
 			let option=document.createElement("option")
@@ -506,7 +505,7 @@ const insertsetting_block = ScriptBlock(
 			option.innerText=choices[k]
 			select.append(option)
 		}
-		select.change(function(){
+		select.onchange=function(){
 			let v=select.value
 			let stk=store[v]
 			if(stk!=undefined){
@@ -515,8 +514,17 @@ const insertsetting_block = ScriptBlock(
 					upd_trigger(stk)
 				}
 			}
-		})
+		}
 		i.append(select)
+	}
+	"""
+)
+
+const tools_block = ScriptBlock(
+	"", """
+	function dictparse(str){
+		if(str.endsWith(','))str=str.substring(0, str.length-1)
+		return JSON.parse("{"+str+"}")
 	}
 	"""
 )
@@ -525,7 +533,8 @@ const script_blocks = [
 	headroom_block, setting_block, sidebar_block,
 	themepick_block, copyheadinglink_block, hljs_block, docsmenu_block,
 	statementtrigger_block, gapfill_block, mark_block, locatelines_block,
-	buildmessage_block, katex_block
+	buildmessage_block, katex_block,
+	notification_block, test_block, insertsetting_block, tools_block
 ]
 function makescript(io::IO, blocks=script_blocks)
 	println(io, """
