@@ -44,25 +44,6 @@ function makehtml(pss::PagesSetting, ps::PageSetting)
 				<nav class="docs-footer">$(ps.prevpage)$(ps.nextpage)$(pss.page_foot=="" ? "" : "<div class='flexbox-break'></div><p class='footer-message'>$(pss.page_foot)</p>")</nav>
 				$(gis===nothing ? "" : "<div class='giscus'></div>")
 			</div>
-			<div class="modal" id="documenter-settings">
-				<div class="modal-background"></div>
-				<div class="modal-card">
-					<header class="modal-card-head">
-						<p class="modal-card-title">$(lw(pss, 3))</p>
-						<button class="delete"></button>
-					</header>
-					<section class="modal-card-body">
-						<p><label class="label">$(lw(pss, 4))</label>
-							<div class="select">
-								<select id="documenter-themepicker">
-									<option value="light">light</option><option value="dark">dark</option>
-								</select>
-							</div>
-						</p>
-					</section>
-					<footer class="modal-card-foot"></footer>
-				</div>
-			</div>
 		</div>
 	</body>
 	</html>
