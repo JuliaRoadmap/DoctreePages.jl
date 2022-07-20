@@ -273,7 +273,7 @@ const gapfill_block = ScriptBlock(
 	})
 	""",
 	"""
-	function submit_fill(){
+	function submit_fill(i){
 		let input=i.parentNode.children[1]
 		let isreg=i.dataset["isreg"]=="true"
 		if(isreg){
@@ -459,12 +459,12 @@ const test_block = ScriptBlock(
 				let score=Number(ch.dataset["sc"])
 				if(input==ans){
 					sum+=score
-					tag.style.backgroundColor="red"
-					tag.innerText="0/"+score
-				}
-				else{
 					tag.style.backgroundColor="green"
 					tag.innerText=score+"/"+score
+				}
+				else{
+					tag.style.backgroundColor="red"
+					tag.innerText="0/"+score
 				}
 			}
 			ch.firstElementChild.prepend(tag)
@@ -516,9 +516,15 @@ const insertsetting_block = ScriptBlock(
 		if(defkey!=undefined){
 			if(defkey[0]=="!"){
 				defkey=defkey.substring(1)
-				if(localStorage.getItem(defkey)==null)localStorage.setItem(defkey, "false")
+				if(localStorage.getItem(defkey)==null){
+					localStorage.setItem(defkey, "false")
+					upd_trigger(defkey)
+				}
 			}
-			else if(localStorage.getItem(defkey)==null)localStorage.setItem(defkey, "true")
+			else if(localStorage.getItem(defkey)==null){
+				localStorage.setItem(defkey, "true")
+				upd_trigger(defkey)
+			}
 		}
 		select.onchange=function(){
 			let v=select.value

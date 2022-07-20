@@ -62,15 +62,11 @@ end
 function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSetting)
 	# 支持相对路径
 	pwds=pwd()
-	if srcdir[1]=='.'
-		srcdir=joinpath(pwds,srcdir)
-	end
+	srcdir=abspath(srcdir)
 	if !endswith(srcdir, '/')
 		srcdir*="/"
 	end
-	if tardir[1]=='.'
-		tardir=joinpath(pwds, tardir)
-	end
+	tardir=abspath(tardir)
 	if !endswith(tardir, '/')
 		tardir*="/"
 	end

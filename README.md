@@ -10,6 +10,11 @@
 ## 用途
 此包**不是专为包文档设计**，更适合用于教育性文档/博客等
 
+## 与Documenter比较
+* 不同的结构
+* 由上述可知，本包在特定领域支持更多特性
+* Documenter自动支持多版本文档、文档搜索与pr预览，它们可能在特定情形实用
+
 ---
 
 * [在此阅读文档](https://juliaroadmap.github.io/dtpages/docs/zh/usage.html)

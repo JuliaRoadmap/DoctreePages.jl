@@ -10,6 +10,11 @@ This is a lightweight interactive document generator.
 ## Purpose
 This package is **not specialy designed for package documentation**. Instead, it's more suitable for educational-purpose documents, blogs, etc.
 
+## Compare with Documenter
+* different structure
+* as listed above, DoctreePages has more features in certain fields
+* Documenter automatically supports multi-version docs, docs search and pr review, which may be useful under certain occasions
+
 ---
 
 * [docs here](https://juliaroadmap.github.io/dtpages/docs/en/usage.html)

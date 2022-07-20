@@ -120,7 +120,7 @@ table{
 .li-dir span::before{
 	content: "📁 ";
 }
-.li-file span:before{
+.li-file span::before{
 	content: "📄 ";
 }
 .li-dir span.li-marked::before{
@@ -135,4 +135,10 @@ table{
 
 .test-area > span::after{
 	content: " ";
+}
+.test-area{
+	display: block;
+}
+.test-area p:nth-child(2){
+	display: inline;
 }

@@ -116,7 +116,11 @@ function highlight(::Val{Symbol("insert-test")}, content::AbstractString, pss::P
 			choices = part["choices"]
 			for i in 1:length(choices)
 				ch = choices[i]
-				str *= "<span>$(makeindex_char(index_char, i))$(index_suffix)$(html_safe(ch))</span>"
+				htm = html_safe(ch)
+				if length(ch)>2
+					htm *= "<br />"
+				end
+				str *= "<span>$(makeindex_char(index_char, i))$(index_suffix)$htm</span>"
 			end
 			str *= "</div>"
 		elseif type == "fill"
