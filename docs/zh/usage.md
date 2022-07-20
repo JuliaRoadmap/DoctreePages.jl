@@ -55,7 +55,7 @@
 * 除字符串与布尔值以外，不支持更高级的值配置
 
 ## Github Action
-可以使用github action创建github pages，配置可参考 [builddocs.yml](https://github.com/JuliaRoadmap/DoctreePages.jl/blob/master/.github/workflow/builddocs.yml)
+可以使用github action创建github pages，配置可参考 [builddocs.yml](https://github.com/JuliaRoadmap/DoctreePages.jl/blob/master/.github/workflows/builddocs.yml)
 
 ## 构建脚本
 如果你想，你可以选择自己调用提供的函数编写构建脚本

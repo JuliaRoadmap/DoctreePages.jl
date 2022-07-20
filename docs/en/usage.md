@@ -55,7 +55,7 @@ The config file uses TOML format, where
 - despite strings and booleans, no advanced function is provided
 
 ## Github Action
-You can use github action to build pages into github pages. View sample [builddocs.yml](https://github.com/JuliaRoadmap/DoctreePages.jl/blob/master/.github/workflow/builddocs.yml)
+You can use github action to build pages into github pages. View sample [builddocs.yml](https://github.com/JuliaRoadmap/DoctreePages.jl/blob/master/.github/workflows/builddocs.yml)
 
 ## Builder Script
 If you want, you can also call the functions and write a builder script yourself.

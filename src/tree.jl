@@ -41,7 +41,7 @@ end
 
 function readbuildsetting(path::AbstractString)
 	toml=TOML.parsefile(path)
-	if haskey(toml, "version") && VersionNumber(toml["version"])>v"1.2.0"
+	if haskey(toml, "version") && VersionNumber(toml["version"])>v"1.2.1"
 		error("version does not meet $build_setting : version")
 	end
 	pages=toml["pages"]
@@ -75,7 +75,6 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 	cd(@__DIR__)
 	cd("..")
 	cp("css", tardir*pss.tar_css; force=true)
-	cp("extra", tardir*pss.tar_extra; force=true)
 	# 复制来源
 	cd(srcdir)
 	if isdir(pss.src_assets)
