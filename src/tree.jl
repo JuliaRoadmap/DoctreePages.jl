@@ -241,7 +241,7 @@ function make_rec(;
 		end
 		ps=PageSetting(
 			description="$(current.par.dirs[current.name][2])/$title - $(pss.title)",
-			editpath="$(pss.repo_path*path)$id.$(pa.second[3])",
+			editpath=pss.repo_path=="" ? "" : "$(pss.repo_path*path)$id.$(pa.second[3])",
 			mds=pa.second[1],
 			navbar_title="$(current.par.dirs[current.name][2]) / $title",
 			nextpage=nextpage,
@@ -267,7 +267,6 @@ function make_rec(;
 		writehtml(tpath*"index", makeindex(current, path, pathv; pss=pss), pss)
 	end
 	# 消除影响
-	current=current.par
 	path=path[1:end-1-length(last(pathv))]
 	pop!(pathv)
 	cd("..")
@@ -305,7 +304,7 @@ function makeindex(node::Node, path::String, pathv::Vector{String}; pss::PagesSe
 	title = (node.par===nothing ? lw(pss, 7) : node.par.dirs[node.name][2])*lw(pss, 8)
 	ps=PageSetting(
 		description="$title - $(pss.title)",
-		editpath=pss.repo_path*path,
+		editpath=pss.repo_path=="" ? "" : pss.repo_path*path,
 		mds=mds,
 		navbar_title=title,
 		nextpage="",
@@ -369,7 +368,7 @@ function file2node(::Union{Val{:html}, Val{:htm}}; it::String, node::Node, path:
 		title=node.toml["names"][pre]
 		str=makehtml(pss, PageSetting(
 			description="$title - $(pss.title)",
-			editpath=pss.repo_path*path*it,
+			editpath=pss.repo_path=="" ? "" : pss.repo_path*path*it,
 			mds=str,
 			navbar_title=title,
 			nextpage="",

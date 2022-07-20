@@ -2,6 +2,6 @@ function github_action(setting::Union{AbstractString, PagesSetting} = "DoctreeBu
 	if !isa(setting, PagesSetting)
 		setting=PagesSetting(;readbuildsetting(setting)...)
 	end
-	mkpath("public")
+	# mkpath("public")
 	generate(".", "public", setting)
 end

@@ -133,6 +133,6 @@ table{
 	content: "🔖";
 }
 
-.test-area span::after{
+.test-area > span::after{
 	content: " ";
 }

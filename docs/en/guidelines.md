@@ -30,6 +30,15 @@ ans_regex = "answer judger, if this key doesn't exist, judgement is \"being the 
 instruction = "instruction (you can choose not to set this key; does not support Markdown)"
 ```
 
+## Insert Setting
+Code-blocks with `insert-setting` insert tests. It uses TOML and the `type` key decides the type.
+
+### select-is
+Currently, `type = "select-is"` is the only supported mode.
+* content is in key `content`, does not support Markdown
+* `choices` defines a `value` => `display text` dict
+* `score` defines a `value` => `localStorage key` dict
+
 ## Insert Test
 Code-blocks with `insert-test` insert tests. It also uses TOML.
 
@@ -44,16 +53,15 @@ For each *part*, the `type` key decides the type.
 `type = "text"` means inserting text, content is in key `content`, supports Markdown
 
 ### Choice Question
-`type = "choice"` means inserting choice question
+`type = "choose"` means inserting choice question
 * content is in key `content`, supports Markdown
-* choices indexing is based on `index_char` and `index_suffix`, the first should be one of `Aa1` (defaults to `A`), the second defaults to `.`
+* choices indexing is based on `index_char` and `index_suffix`, the first should be one of `Aa1` (defaults to `A`), the second defaults to `. `
 * `choices` defines choices, Markdown is supported
-* `choice_min`, `choice_max` and `choice_num` defines the field of the number of choices and will be shown to the user (`choice_num` overwrites the previous two)
 * `ans` defines answer (use `AC` instead of `CA` or `ab`)
 * `score` defines the score
 * `ans_dict` is a dict (`choice => score`), overwrites `ans` and `score`
 
-### Fill Question
+### Filling Question
 `type = "fill"` means inserting a filling question
 * content is in key `content`, supports Markdown
 * `ans` defines answer
@@ -66,4 +74,4 @@ For each *part*, the `type` key decides the type.
 groups can't nest, so it's not necessary to add `group-end` block after every group
 
 ### Scope
-`index_char`, `index_suffix`, `choice_min`, `choice_max`, `choice_num` and `score` have scopes. This means they can be defined in `global` or groups, while local definitions can still overwrite definitions in wider fields.
+`index_char`, `index_suffix` and `score` have scopes. This means they can be defined in `global` or groups, while local definitions can still overwrite definitions in wider fields.

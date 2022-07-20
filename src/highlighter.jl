@@ -79,8 +79,8 @@ function highlight(::Val{Symbol("insert-test")}, content::AbstractString, pss::P
 			current = nothing
 		elseif type == "text"
 			str *= ify_md(part["content"], pss)
-		elseif type == "choice"
-			str *= "<div class='choice-area' data-"
+		elseif type == "choose"
+			str *= "<div class='choose-area' data-"
 			if haskey(part, "ans_dict")
 				dict = part["ans_dict"]::Dict
 				str *= "dict='"
@@ -93,13 +93,13 @@ function highlight(::Val{Symbol("insert-test")}, content::AbstractString, pss::P
 				score = g("score")::Real
 				str *= "an='$ans' data-sc='$score'>"
 			end
-			str *= "<p>$(ify_md(part["content"], pss))</p>"
+			str *= "<div>$(ify_md(part["content"], pss))</div>"
 			index_char = g("index_char", "A")
-			index_suffix = g("index_suffix", ".")
+			index_suffix = g("index_suffix", ". ")
 			choices = part["choices"]
 			for i in 1:length(choices)
 				ch = choices[i]
-				str *= "<span>$(makeindex_char(index_char, i))$index_suffix $(ify_md(ch, pss))</span>"
+				str *= "<span>$(makeindex_char(index_char, i))$(index_suffix)$(ify_md(ch, pss))</span>"
 			end
 			str *= "</div>"
 		elseif type == "fill"
@@ -111,7 +111,7 @@ function highlight(::Val{Symbol("insert-test")}, content::AbstractString, pss::P
 				str *= "an='$(part["ans"])"
 			end
 			mds = ify_md(part["content"], pss)
-			str *= "'><p>$mds</p><input type='text' placeholder='ans'></div>"
+			str *= "'><div>$mds</div><input type='text' placeholder='ans'></div>"
 		end
 	end
 	return str * "</div>"

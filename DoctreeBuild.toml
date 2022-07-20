@@ -1,9 +1,8 @@
 version = "1.2"
 
 [pages]
-make404 = false
 lang = "en"
 repo_name = "DoctreePages.jl"
 repo_owner = "JuliaRoadmap"
 server_prefix = "/DoctreePages.jl"
-title = "DoctreePages.jl"
+title = "DoctreePages"

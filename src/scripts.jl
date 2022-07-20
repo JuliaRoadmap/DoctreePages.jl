@@ -114,7 +114,7 @@ const hljs_block = ScriptBlock(
 )
 
 const docsmenu_block = ScriptBlock(
-	"buildmenu()", """
+	"buildmenu()\n", """
 	function buildmenu(){
 		let lis=_buildmenu(menu, "docs/", 0)
 		let dm=\$(".docs-menu")[0]
@@ -327,7 +327,7 @@ const locatelines_block = ScriptBlock(
 )
 
 const buildmessage_block = ScriptBlock(
-	"\$('.modal-card-foot').innerText=buildmessage"
+	"\$('.modal-card-foot').innerText=buildmessage\n"
 )
 
 const katex_block = ScriptBlock(
