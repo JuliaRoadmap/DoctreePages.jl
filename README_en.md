@@ -17,7 +17,7 @@ This package is **not specialy designed for package documentation**. Instead, it
 
 ---
 
-* [docs here](https://juliaroadmap.github.io/dtpages/docs/en/usage.html)
+* [docs here](https://juliaroadmap.github.io/DoctreePages.jl/docs/en/usage.html)
 
 ## LICENSE
 MIT LICENSE, and these files partly come from [Documenter](https://github.com/JuliaDocs/Documenter.jl) (MIT)

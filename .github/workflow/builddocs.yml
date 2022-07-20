@@ -1,5 +1,9 @@
 name: Build Docs
-on: ~
+on:
+  push:
+    branches: [master]
+  merge:
+    branches: [master]
 
 jobs:
   runs-on: ubuntu-latest

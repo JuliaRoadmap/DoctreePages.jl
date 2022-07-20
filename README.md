@@ -17,7 +17,7 @@
 
 ---
 
-* [在此阅读文档](https://juliaroadmap.github.io/dtpages/docs/zh/usage.html)
+* [在此阅读文档](https://juliaroadmap.github.io/DoctreePages.jl/docs/zh/usage.html)
 
 ## LICENSE
 遵循MIT LICENSE，其中以下文件部分来自[Documenter](https://github.com/JuliaDocs/Documenter.jl)（MIT）
