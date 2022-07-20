@@ -4,7 +4,7 @@
 This is a lightweight interactive document generator.
 * lightweight: only two dependencies (CommonMark and TOML)
 * easy: even those with out programming experience can use it
-* powerful & interactive: [features list](docs/en/features.md)
+* powerful & interactive: [features list](https://juliaroadmap.github.io/DoctreePages.jl/docs/en/features.md)
 * setting: 30+ setting keys (not including sub-keys)
 
 ## Purpose
@@ -13,7 +13,7 @@ This package is **not specialy designed for package documentation**. Instead, it
 ## Compare with Documenter
 * different structure
 * as listed above, DoctreePages has more features in certain fields
-* Documenter automatically supports multi-version docs, docs search and pr review, which may be useful under certain occasions
+* Documenter automatically supports multi-version docs, docs search and pr review, etc, which may be useful under certain occasions
 
 ---
 

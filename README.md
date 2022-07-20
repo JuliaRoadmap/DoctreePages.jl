@@ -4,7 +4,7 @@
 这是一个轻量级交互式文档生成器
 * 轻量级：只基于 CommonMark 和 TOML
 * 简单：即使没有编程经验也能使用
-* 强大&可交互：[各式各样的功能](docs/zh/features.md)
+* 强大&可交互：[各式各样的功能](https://juliaroadmap.github.io/DoctreePages.jl/docs/zh/features.md)
 * 可配置：超过30个设置项（不包括子项）
 
 ## 用途
@@ -13,7 +13,7 @@
 ## 与Documenter比较
 * 不同的结构
 * 由上述可知，本包在特定领域支持更多特性
-* Documenter自动支持多版本文档、文档搜索与pr预览，它们可能在特定情形实用
+* Documenter自动支持多版本文档、文档搜索与pr预览等，它们可能在特定情形实用
 
 ---
 
