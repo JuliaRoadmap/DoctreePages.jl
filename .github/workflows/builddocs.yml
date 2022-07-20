@@ -11,7 +11,8 @@ jobs:
       - run: |
           julia -e '
             using Pkg
-            Pkg.add(name="DoctreePages", version="1.2")
+            Pkg.add(name="DoctreePages", version="1.2.1")
+            mkpath("./public/extra")
             using DoctreePages
             github_action()
           '
