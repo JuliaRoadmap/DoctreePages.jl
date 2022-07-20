@@ -56,7 +56,7 @@ instruction = "提示（可选，不支持Markdown）"
 `type = "choose"` 时，表明插入选择题
 * 文字内容在 `content` 项中，支持 Markdown
 * 编号分配方式由 `index_char`，`index_suffix` 项决定，前者允许 `Aa1`（默认为`A`） ，后者允许任意字符串（默认为`. `）
-* `choices` 项表明各选项内容，支持 Markdown
+* `choices` 项表明各选项内容，不支持 Markdown
 * `ans` 表明正确答案（形如`AC`而不允许`CA`、`ab`）
 * `score`表明分值
 * `ans_dict` 是一个字典，表明各选项及对应得分，会覆盖`ans`与`score`

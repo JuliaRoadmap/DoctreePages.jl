@@ -99,9 +99,9 @@ Base.@kwdef struct PagesSetting
     parser::Parser = default_parser()
     remove_original::Bool = true
     repo_branch::String = "master"
-    repo_name::String
-    repo_owner::String
-    repo_path::String = "https://github.com/$repo_owner/$repo_name/tree/$repo_branch/"
+    repo_name::String = ""
+    repo_owner::String = ""
+    repo_path::String = repo_name=="" ? "" : "https://github.com/$repo_owner/$repo_name/tree/$repo_branch/"
     server_prefix::String = "/"
     show_info::Bool = true
     src_assets = "assets"

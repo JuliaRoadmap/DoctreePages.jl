@@ -56,7 +56,7 @@ For each *part*, the `type` key decides the type.
 `type = "choose"` means inserting choice question
 * content is in key `content`, supports Markdown
 * choices indexing is based on `index_char` and `index_suffix`, the first should be one of `Aa1` (defaults to `A`), the second defaults to `. `
-* `choices` defines choices, Markdown is supported
+* `choices` defines choices, Markdown isn't supported
 * `ans` defines answer (use `AC` instead of `CA` or `ab`)
 * `score` defines the score
 * `ans_dict` is a dict (`choice => score`), overwrites `ans` and `score`

@@ -42,9 +42,10 @@ One method of the `generate` function allows three parameters:
 | unfound | page to redirect when 404 error occurs (page will be automatically generated if not found) |
 | wrap_html | whether to wrap html files |
 
-1. Keys without default values include `repo_name`, `repo_owner` and `title`.
+1. `title` is the only key without default value.
 2. File that value `unfound` refer to shall be under the same directory.
 3. Values of keys starting with `src_` or `tar_` shall only be a dir-name without `/`(dir-split symbol)
+4. If source data is in a repository, you should remember to set `repo_name` and `repo_owner`
 
 ## Config File
 The third parameter of the other method is a string, representing the path to the config file, and defaults to `DoctreeBuild.toml`.\
@@ -52,6 +53,9 @@ The config file uses TOML format, where
 - `version` represents the lowest supported `DoctreePages` version
 - `pages`, `giscus` and `mainscript` represents Pages-setting, Giscus-setting and MainScript-Setting
 - despite strings and booleans, no advanced function is provided
+
+## Github Action
+You can use github action to build pages into github pages. View sample [builddocs.yml](https://github.com/JuliaRoadmap/DoctreePages.jl/blob/master/.github/workflow/builddocs.yml)
 
 ## Builder Script
 If you want, you can also call the functions and write a builder script yourself.

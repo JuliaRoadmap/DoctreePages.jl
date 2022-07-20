@@ -42,9 +42,10 @@
 | unfound | 404错误时重定向的页面（若无文件则自动生成） |
 | wrap_html | 是否对html文件进行包裹 |
 
-1. 未提供默认值的键包括`repo_name`，`repo_owner`和`title`
+1. `title` 是唯一未提供默认值的键
 2. `unfound`值表示的文件应在同一目录下
 3. 以`src_`或`tar_`开头的对应值应只是目录名，不应含有`/`（目录分隔符）
+4. 如果源数据在仓库中，应提供 `repo_name` 与 `repo_owner`
 
 ## 配置文件
 `generate`函数的另一个方法的第三个参数为字符串，表示配置文件的路径，默认是`DoctreeBuild.toml`\
@@ -52,6 +53,9 @@
 * `version` 项表明最低支持的`DoctreePages`版本
 * `pages`、`giscus`、`mainscript`表分别表示总设置、`giscus`设置与`main_script`设置
 * 除字符串与布尔值以外，不支持更高级的值配置
+
+## Github Action
+可以使用github action创建github pages，配置可参考 [builddocs.yml](https://github.com/JuliaRoadmap/DoctreePages.jl/blob/master/.github/workflow/builddocs.yml)
 
 ## 构建脚本
 如果你想，你可以选择自己调用提供的函数编写构建脚本
