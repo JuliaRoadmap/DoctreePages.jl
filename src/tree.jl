@@ -119,6 +119,7 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 	elseif pss.make404
 		write(tarundef, make404(lw(pss, 10), pss))
 	end
+	mkdir(tardir*pss.tar_extra)
 	# info.js
 	makeinfo_js(tardir*"$(pss.tar_extra)/info.js", root, pss)
 	# main.js

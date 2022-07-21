@@ -119,6 +119,8 @@ function highlight(::Val{Symbol("insert-test")}, content::AbstractString, pss::P
 				htm = html_safe(ch)
 				if length(ch)>2
 					htm *= "<br />"
+				else
+					htm *= "  "
 				end
 				str *= "<span>$(makeindex_char(index_char, i))$(index_suffix)$htm</span>"
 			end
