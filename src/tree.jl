@@ -41,7 +41,7 @@ end
 
 function readbuildsetting(path::AbstractString)
 	toml=TOML.parsefile(path)
-	if haskey(toml, "version") && VersionNumber(toml["version"])>v"1.2.1"
+	if haskey(toml, "version") && VersionNumber(toml["version"])>v"1.2.2"
 		error("version does not meet $build_setting : version")
 	end
 	pages=toml["pages"]
@@ -119,7 +119,7 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 	elseif pss.make404
 		write(tarundef, make404(lw(pss, 10), pss))
 	end
-	mkdir(tardir*pss.tar_extra)
+	mkpath(tardir*pss.tar_extra)
 	# info.js
 	makeinfo_js(tardir*"$(pss.tar_extra)/info.js", root, pss)
 	# main.js

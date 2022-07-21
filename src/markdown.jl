@@ -135,7 +135,7 @@ function mkhtml(node::CommonMark.Node, link::CommonMark.Link, pss::PagesSetting)
 	if startswith(url, '#')
 		return "<a href='#header-$(url[2:end])'>$htm</a>"
 	elseif startswith(url, '/')
-		url="$(pss.server_prefix)/$(url[2:end])"
+		url=joinpath(pss.server_prefix, url[2:end])
 	elseif !startswith(url, "https://") && !startswith(url, "http://")
 		dot=findlast('.', url)
 		if dot !== nothing
@@ -159,7 +159,11 @@ function mkhtml(node::CommonMark.Node, img::CommonMark.Image, pss::PagesSetting)
 	if alt==""
 		alt=pss.default_alt
 	end
-	return "<img src='$(img.destination)' alt='$alt'>"
+	dest = img.destination
+	if startswith(dest, "/")
+		dest=joinpath(pss.server_prefix, dest[2:end])
+	end
+	return "<img src='$dest' alt='$alt'>"
 end
 function mkhtml(::CommonMark.Node, ::Union{CommonMark.Backslash, CommonMark.LineBreak}, ::PagesSetting)
 	return "<br />"
