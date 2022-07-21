@@ -155,10 +155,8 @@ function mkhtml(node::CommonMark.Node, link::CommonMark.Link, pss::PagesSetting)
 	return "<a href='$url' target='_blank'>$htm</a>"
 end
 function mkhtml(node::CommonMark.Node, img::CommonMark.Image, pss::PagesSetting)
-	alt = node.first_child.literal
-	if alt==""
-		alt=pss.default_alt
-	end
+	fc = node.first_child
+	alt = isdefined(fc, :literal) ? fc.literal : pss.default_alt
 	dest = img.destination
 	if startswith(dest, "/")
 		dest=joinpath(pss.server_prefix, dest[2:end])
