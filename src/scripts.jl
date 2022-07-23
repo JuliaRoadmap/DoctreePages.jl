@@ -523,14 +523,17 @@ const insertsetting_block = ScriptBlock(
 		let choices=dictparse(i.dataset["chs"])
 		let store=dictparse(i.dataset["st"])
 		let select=document.createElement("select")
+		let defval=i.dataset["de"]
+		select.value=defval
 		for(let k in choices){
 			let option=document.createElement("option")
 			option.value=k
+			if(k==defval){
+				option.selected="selected"
+			}
 			option.innerText=choices[k]
 			select.append(option)
 		}
-		let defval=i.dataset["de"]
-		select.value=defval
 		let defkey=store[defval]
 		if(defkey!=undefined){
 			if(defkey[0]=="!"){

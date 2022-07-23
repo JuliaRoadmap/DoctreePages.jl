@@ -1,7 +1,7 @@
 name = "DoctreePages"
 uuid = "22309a8f-d5e2-54ec-9ec8-201313e31489"
 authors = ["Rratic"]
-version = "1.2.2"
+version = "1.2.3"
 
 [deps]
 CommonMark = "a80b9123-70ca-4bc0-993e-6e3bcb318db6"

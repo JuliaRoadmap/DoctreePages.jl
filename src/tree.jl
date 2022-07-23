@@ -41,7 +41,7 @@ end
 
 function readbuildsetting(path::AbstractString)
 	toml=TOML.parsefile(path)
-	if haskey(toml, "version") && VersionNumber(toml["version"])>v"1.2.2"
+	if haskey(toml, "version") && VersionNumber(toml["version"])>v"1.2.3"
 		error("version does not meet $build_setting : version")
 	end
 	pages=toml["pages"]
