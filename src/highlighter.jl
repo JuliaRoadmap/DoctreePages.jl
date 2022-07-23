@@ -120,7 +120,7 @@ function highlight(::Val{Symbol("insert-test")}, content::AbstractString, pss::P
 				if length(ch)>2
 					htm *= "<br />"
 				else
-					htm *= "  "
+					htm *= "\t"
 				end
 				str *= "<span>$(makeindex_char(index_char, i))$(index_suffix)$htm</span>"
 			end
