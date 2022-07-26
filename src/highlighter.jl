@@ -114,7 +114,7 @@ function highlight(::Val{Symbol("insert-test")}, content::AbstractString, pss::P
 			index_char = g("index_char", "A")
 			index_suffix = g("index_suffix", ". ")
 			choices = part["choices"]
-			for i in 1:length(choices)
+			for i in eachindex(choices)
 				ch = choices[i]
 				htm = html_safe(ch)
 				if length(ch)>2

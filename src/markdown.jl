@@ -52,6 +52,9 @@ end
 function mkhtml(node::CommonMark.Node, ::CommonMark.Document, pss::PagesSetting)
 	return childrenhtml(node, pss)
 end
+function mkhtml(node::CommonMark.Node, ::CommonMark.HtmlBlock, ::PagesSetting)
+	return node.literal
+end
 function mkhtml(node::CommonMark.Node, ::CommonMark.Paragraph, pss::PagesSetting; inline=false)
 	return inline ? "<span>$(childrenhtml(node, pss))</span>" : "<p>$(childrenhtml(node, pss))</p>"
 end
@@ -119,6 +122,9 @@ function mkhtml(node::CommonMark.Node, ::Union{CommonMark.HtmlInline, CommonMark
 end
 
 # inline
+function mkhtml(node::CommonMark.Node, ::CommonMark.HtmlInline, ::PagesSetting)
+	return node.literal
+end
 function mkhtml(node::CommonMark.Node, ::CommonMark.Text, ::PagesSetting)
 	return html_safe(node.literal)
 end
