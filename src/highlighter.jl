@@ -19,6 +19,7 @@ function highlight(language::AbstractString, code::AbstractString, pss::PagesSet
 end
 
 function buildcodeblock(language::AbstractString, str::AbstractString)
+	str = html_safe(str)
 	return "<div class='data-lang='$language'><div class='codeblock-header'></div><pre class='codeblock-body language-$language nohighlight'><code>$str</code></pre></div><br />"
 end
 #= function buildcodeblock(language::AbstractString, lines::HighlightLines)
@@ -26,6 +27,7 @@ end
 end =#
 
 function buildhljsblock(language::AbstractString, str::AbstractString)
+	str = html_safe(str)
 	return "<div data-lang='$language'><div class='codeblock-header'></div><pre class='codeblock-body language-$language'><code>$str</code></pre></div><br />"
 end
 
