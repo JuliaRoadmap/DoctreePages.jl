@@ -13,8 +13,8 @@ function makehtml(pss::PagesSetting, ps::PageSetting)
 			gis===nothing ? "" :
 			"<script id='giscus' src='https://giscus.app/client.js' data-repo='$(gis.repo)' data-repo-id='$(gis.repo_id)' data-category='$(gis.category)' data-category-id='$(gis.category_id)' data-mapping='$(gis.mapping)' data-reactions-enabled='$(gis.reactions_enabled)' data-emit-metadata='$(gis.emit_metadata)' data-input-position='$(gis.input_position)' data-theme='$(gis.theme)' data-lang='$(gis.lang)' crossorigin='$(gis.crossorigin)' async></script>"
 		)
-		<script src="$(pss.main_script.requirejs.url)" data-main="$(ps.tURL)$(pss.tar_extra)/main.js"></script>
 		<link id="theme-href" rel="stylesheet" type="text/css" href=\"$(ps.tURL)css/light.css\">
+		<script src="$(pss.main_script.requirejs.url)" data-main="$(ps.tURL)$(pss.tar_extra)/main.js"></script>
 		<link rel="stylesheet" type="text/css" href="$(ps.tURL)css/general.css">
 		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/fontawesome.min.css"/>
 		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/solid.min.css"/>

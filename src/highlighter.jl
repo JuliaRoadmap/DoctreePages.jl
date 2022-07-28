@@ -86,6 +86,7 @@ function highlight(::Val{Symbol("insert-test")}, content::AbstractString, pss::P
 	str = "<div class='test-area' data-tl='$tl' data-fs='$fs' data-name='$name'><br />"
 	current = nothing
 	num = 1
+	q_pre_n = haskey(gl, "q_pre") ? gl["q_pre"]=="number" : true
 	for part in parts
 		type = haskey(part, "type") ? part["type"] : current["ch_type"]
 		g(key, default = nothing) = (haskey(part, key) ? part[key] : (current !== nothing && haskey(current, key)) ? current[key] : haskey(gl, key) ? gl[key] : default)
@@ -114,7 +115,7 @@ function highlight(::Val{Symbol("insert-test")}, content::AbstractString, pss::P
 				str *= "an='$ans' data-sc='$score'>"
 			end
 			mds = ify_md(part["content"], pss)
-			if toml["q_pre"]=="number"
+			if q_pre_n
 				mds = "$(num). $mds"
 				num += 1
 			end
@@ -132,7 +133,7 @@ function highlight(::Val{Symbol("insert-test")}, content::AbstractString, pss::P
 				end
 				str *= "<span>$(makeindex_char(index_char, i))$(index_suffix)$htm</span>"
 			end
-			str *= "</div>"
+			str *= "<br /></div>"
 		elseif type == "fill"
 			score = g("score")::Real
 			str *= "<div class='fill-area' data-sc='$score' data-"
@@ -142,7 +143,7 @@ function highlight(::Val{Symbol("insert-test")}, content::AbstractString, pss::P
 				str *= "an='$(part["ans"])"
 			end
 			mds = ify_md(part["content"], pss)
-			if toml["q_pre"]=="number"
+			if q_pre_n
 				mds = "$(num). $mds"
 				num += 1
 			end
