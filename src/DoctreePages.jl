@@ -42,6 +42,8 @@ const language_tags=[
 	(en="Requested source unfound :(", zh="请求的资源未找到"),
 ]
 
+const DTP_VERSION = v"1.3.0"
+
 using CommonMark
 # using CommonHighlight
 include("setting.jl")
@@ -63,6 +65,7 @@ include("tohtml.jl")
 include("scripts.jl")
 
 using TOML
+using Pkg
 include("tree.jl")
 include("git.jl")
 

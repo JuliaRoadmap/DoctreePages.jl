@@ -50,7 +50,7 @@ One method of the `generate` function allows three parameters:
 ## Config File
 The third parameter of the other method is a string, representing the path to the config file, and defaults to `DoctreeBuild.toml`.\
 The config file uses TOML format, where
-- `version` represents the lowest supported `DoctreePages` version
+- `version` represents the lowest supported `DoctreePages` version, more complicated setting like [this](https://pkgdocs.julialang.org/v1/compatibility/) is supported after v1.3
 - `pages`, `giscus` and `mainscript` represents Pages-setting, Giscus-setting and MainScript-Setting
 - despite strings and booleans, no advanced function is provided
 

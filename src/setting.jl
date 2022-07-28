@@ -54,7 +54,7 @@ end
 Pages settings, call `PagesSetting(; keyword=value...)`
 
 The keywords:
-* buildmessage::String = "built at \$(Libc.strftime(Libc.time()))"
+* buildmessage::String = "built at \$(Libc.strftime(Libc.time())) by v\$(DTP_VERSION)"
 * charset::String = "UTF-8"
 * default_alt::String = "img"
 * favicon_path::String = ""
@@ -82,7 +82,7 @@ The keywords:
 * wrap_html::Bool = true
 """
 Base.@kwdef struct PagesSetting
-    buildmessage::String = "built at $(Libc.strftime(Libc.time()))"
+    buildmessage::String = "built at $(Libc.strftime(Libc.time())) by v$(DTP_VERSION)"
     charset::String = "UTF-8"
     default_alt::String = "img"
 	favicon_path::String = ""

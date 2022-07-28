@@ -26,3 +26,8 @@ added:
 
 changed:
 - `[develop]` gap-fill board config format
+
+## 1.3
+added:
+- `[develop]` better version compatibility in build setting
+- `[interact]` better features for test blocks
