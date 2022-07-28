@@ -48,6 +48,8 @@ There are two main keys: `global` for global setting and `pages`, a table-list.
 
 In global setting, `name` represents the name of the test, `time_limit` is the time limit (seconds) and `full_score` is the full score (does **not decide** how scores are arranged).
 
+The `q_pre` key decides the question-prefix method, currently only `none` and `number`(default) are supported.
+
 For each *part*, the `type` key decides the type.
 
 ### Text

@@ -48,6 +48,8 @@ instruction = "提示（可选，不支持Markdown）"
 
 全局设置中，可以使用`name`表示测试名称，`time_limit`表示总时间限制（单位为秒），`full_score`为总分（**不会影响**各题分值的分配）
 
+`q_pre` 键表明题面的前缀模式，仅支持 `none` 与 `number`（默认）。
+
 对于每个 `part`，有一个`type`参数表明类型
 
 ### 文字
