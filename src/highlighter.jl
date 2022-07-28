@@ -86,7 +86,7 @@ function highlight(::Val{Symbol("insert-test")}, content::AbstractString, pss::P
 	str = "<div class='test-area' data-tl='$tl' data-fs='$fs' data-name='$name'><br />"
 	current = nothing
 	for part in parts
-		type = part["type"]
+		type = haskey(part, "type") ? part["type"] : current["ch_type"]
 		g(key, default = nothing) = (haskey(part, key) ? part[key] : (current !== nothing && haskey(current, key)) ? current[key] : haskey(gl, key) ? gl[key] : default)
 		if type == "group"
 			if haskey(part, "content")

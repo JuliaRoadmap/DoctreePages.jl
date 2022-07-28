@@ -72,7 +72,8 @@ For each *part*, the `type` key decides the type.
 ### Grouping
 `type = "group"` defines a group, content is in key `content`, supports Markdown; `type = "group-end"` marks the end of a group
 
-groups can't nest, so it's not necessary to add `group-end` block after every group
+* groups can't nest, so it's not necessary to add `group-end` block after every group
+* `ch_type` provides default type for parts in the group without `type` key
 
 ### Scope
 `index_char`, `index_suffix` and `score` have scopes. This means they can be defined in `global` or groups, while local definitions can still overwrite definitions in wider fields.

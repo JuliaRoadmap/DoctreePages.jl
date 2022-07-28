@@ -72,7 +72,8 @@ instruction = "提示（可选，不支持Markdown）"
 ### 组
 `type = "group"` 时，表明插入组，文字内容在 `content` 项中，支持 Markdown；`type = "group-end"` 标记组结束
 
-组不会嵌套，因此不必在每个组后添加 `group-end`
+* 组不会嵌套，因此不必在每个组后添加 `group-end`
+* `ch_type` 给组中无 `type` 键的项目提供默认类型
 
 ### 作用域
 `index_char`、`index_suffix`、`score` 项均有作用域：即可以在全局或组中设置，同时遵循局部覆盖原则
