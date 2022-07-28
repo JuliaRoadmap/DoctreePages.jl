@@ -424,6 +424,8 @@ const test_block = ScriptBlock(
 		button.onclick=function(){
 			clearInterval(inter)
 			calc_test(i)
+			button.innerText="🔍"
+			button.onclick=function(){}
 		}
 		lock.onclick=function(){
 			if(locked){
