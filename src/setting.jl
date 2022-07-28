@@ -12,7 +12,7 @@ Base.@kwdef struct GiscusSetting
 	reactions_enabled::String = "1"
 	emit_metadata::String = "0"
 	input_position::String = "top"
-	theme::String = "preferred_color_scheme"
+	theme::String = "auto" # "preferred_color_scheme"
 	lang::String
 	crossorigin::String = "anonymous"
 end

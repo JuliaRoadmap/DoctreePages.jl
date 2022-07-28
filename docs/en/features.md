@@ -30,4 +30,5 @@ changed:
 ## 1.3
 added:
 - `[develop]` better version compatibility in build setting
+- `[display]` automatically adjust giscus-theme
 - `[interact]` better features for test blocks

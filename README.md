@@ -31,7 +31,8 @@ Discussion功能来自[giscus](https://github.com/giscus/giscus)
 [DoctreeBuild](https://github.com/JuliaRoadmap/zh/blob/master/DoctreeBuild.toml) [对应测试示例](https://juliaroadmap.github.io/zh/docs/meta/doctest.html)
 
 ## todo
-- [ ] giscus theme调整
+- [ ] 复制时添加后缀
+- [ ] 水印
 - [ ] 允许调整字体大小
 - [ ] 二维码
 - [ ] 复制纯源代码

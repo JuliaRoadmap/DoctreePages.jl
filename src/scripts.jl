@@ -579,12 +579,14 @@ const script_blocks = [
 	buildmessage_block, katex_block,
 	notification_block, test_block, insertsetting_block, tools_block
 ]
-function makescript(io::IO, blocks=script_blocks)
+function makescript(io::IO, pss::PagesSetting, blocks=script_blocks)
+	gis_auto = pss.giscus!==nothing && pss.giscus.theme=="auto"
 	println(io, """
 	var tURL=document.getElementById("tURL").content
 	var theme=localStorage.getItem("theme")
 	if(theme==undefined)theme="light"
 	else if(theme!="light")document.getElementById("theme-href").href=`\${tURL}\${tar_css}/\${theme}.css`
+	$(gis_auto ? "document.getElementById('giscus').dataset['theme']=theme" : "")
 	const oril=document.location.origin.length
 	requirejs.config({ paths: configpaths, shim: configshim})
 	require(main_requirement, function(\$){
