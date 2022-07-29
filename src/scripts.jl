@@ -1,9 +1,10 @@
 struct ScriptBlock
-	ready::String
-	funcs::String
+	data::Any
 end
-ScriptBlock(str::String)= ScriptBlock(str, "")
+ScriptBlock(ready::String, func::String)= ScriptBlock((ready, func))
+get_data(s::ScriptBlock, pss::PagesSetting)= isa(s.data, Function) ? s.data(pss) : s.data
 
+# 基础组件
 const headroom_block = ScriptBlock(
 	"",
 	"""
@@ -572,6 +573,30 @@ const tools_block = ScriptBlock(
 	"""
 )
 
+# 函数式组件
+const giscus_block = ScriptBlock() do pss::PagesSetting
+	gis = pss.giscus
+	if gis===nothing
+		return ""
+	end
+	return """
+	let gsc=document.createElement("script")
+	gsc.src="https://giscus.app/client.js"
+	gsc.dataset["repo"]="$(gis.repo)"
+	gsc.dataset["repo-id"]="$(gis.repo_id)"
+	gsc.dataset["category"]="$(gis.category)"
+	gsc.dataset["category-id"]="$(gis.category_id)"
+	gsc.dataset["mapping"]="$(gis.mapping)"
+	gsc.dataset["reactions-enabled"]="$(gis.reactions_enabled)"
+	gsc.dataset["emit-metadata"]="$(gis.emit_metadata)"
+	gsc.dataset["input-position"]="$(gis.input_position)"
+	gsc.dataset["theme"]=theme
+	gsc.dataset["lang"]="$(gis.lang)"
+	gsc.crossOrigin="$(gis.crossorigin)"
+	document.append(gsc)
+	"""
+end
+
 const script_blocks = [
 	headroom_block, setting_block, sidebar_block,
 	themepick_block, copyheadinglink_block, hljs_block, docsmenu_block,
@@ -580,14 +605,12 @@ const script_blocks = [
 	notification_block, test_block, insertsetting_block, tools_block
 ]
 function makescript(io::IO, pss::PagesSetting, blocks=script_blocks)
-	gis_auto = pss.giscus!==nothing && pss.giscus.theme=="auto"
 	println(io, """
 	var tURL=document.getElementById("tURL").content
 	var theme=localStorage.getItem("theme")
 	if(theme==undefined)theme="light"
 	else if(theme!="light"){
 		document.getElementById("theme-href").href=`\${tURL}\${tar_css}/\${theme}.css`
-		$(gis_auto ? "document.getElementById('giscus').dataset['theme']=theme" : "")
 	}
 	const oril=document.location.origin.length
 	requirejs.config({ paths: configpaths, shim: configshim})
@@ -602,6 +625,6 @@ function makescript(io::IO, pss::PagesSetting, blocks=script_blocks)
 	})
 	""")
 	for blk in blocks
-		print(io, blk.funcs)
+		print(io, blk.funcs())
 	end
 end
