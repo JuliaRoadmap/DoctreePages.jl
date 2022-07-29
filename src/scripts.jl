@@ -590,20 +590,48 @@ const giscus_block = ScriptBlock() do pss::PagesSetting
 	gsc.dataset["reactions-enabled"]="$(gis.reactions_enabled)"
 	gsc.dataset["emit-metadata"]="$(gis.emit_metadata)"
 	gsc.dataset["input-position"]="$(gis.input_position)"
-	gsc.dataset["theme"]=theme
+	gsc.dataset["theme"]=$(gis.theme=="auto" ? "theme" : "\"$(gis.theme)\"")
 	gsc.dataset["lang"]="$(gis.lang)"
 	gsc.crossOrigin="$(gis.crossorigin)"
 	document.append(gsc)
 	"""
 end
 
-const script_blocks = [
-	headroom_block, setting_block, sidebar_block,
-	themepick_block, copyheadinglink_block, hljs_block, docsmenu_block,
-	statementtrigger_block, gapfill_block, mark_block, locatelines_block,
-	buildmessage_block, katex_block,
-	notification_block, test_block, insertsetting_block, tools_block
-]
+const requirejs_block = ScriptBlock() do pss::PagesSetting, io::IO, blocks = [
+		headroom_block, setting_block, sidebar_block, themepick_block,
+		copyheadinglink_block, hljs_block, docsmenu_block,
+		statementtrigger_block, gapfill_block, mark_block, locatelines_block,
+		buildmessage_block, katex_block,
+		notification_block, test_block, insertsetting_block, tools_block,
+		giscus_block,
+	]
+	println(io, """
+	requirejs.config({ paths: configpaths, shim: configshim})
+	require(main_requirement, function(\$){
+		\$(document).ready(function(){
+	""")
+	for blk in blocks
+		data = blk.data
+		if isa(data, Function)
+			println(io, data(pss))
+		elseif isa(data, Tuple)
+			println(io, data[1])
+		else
+			println(io, data)
+		end
+	end
+	println(io, """
+		})
+	})
+	""")
+	for blk in blocks
+		data = blk.data
+		if isa(data, Tuple)
+			println(io, data[2])
+		end
+	end
+end
+
 function makescript(io::IO, pss::PagesSetting, blocks=script_blocks)
 	println(io, """
 	var tURL=document.getElementById("tURL").content
@@ -613,18 +641,6 @@ function makescript(io::IO, pss::PagesSetting, blocks=script_blocks)
 		document.getElementById("theme-href").href=`\${tURL}\${tar_css}/\${theme}.css`
 	}
 	const oril=document.location.origin.length
-	requirejs.config({ paths: configpaths, shim: configshim})
-	require(main_requirement, function(\$){
-		\$(document).ready(function(){
 	""")
-	for blk in blocks
-		print(io, blk.ready)
-	end
-	print(io, """
-		})
-	})
-	""")
-	for blk in blocks
-		print(io, blk.funcs())
-	end
+	requirejs_block.data(pss, io, blocks)
 end

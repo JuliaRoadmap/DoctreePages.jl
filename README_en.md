@@ -28,4 +28,4 @@ MIT LICENSE, and these files partly come from [Documenter](https://github.com/Ju
 Page-discussion is powered by [giscus](https://github.com/giscus/giscus)
 
 ## Sample
-[DoctreeBuild](https://github.com/JuliaRoadmap/zh/blob/master/DoctreeBuild.toml) [Result](https://juliaroadmap.github.io/zh/docs/meta/doctest.html)
+[DoctreeBuild](https://github.com/JuliaRoadmap/zh/blob/master/DoctreeBuild.toml) [Result](https://learn.juliacn.com/docs/meta/doctest.html)
