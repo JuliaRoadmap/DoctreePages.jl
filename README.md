@@ -39,7 +39,7 @@ Discussion功能来自[giscus](https://github.com/giscus/giscus)
 - [ ] live2d
 - [ ] 空间压缩
 - [ ] 快捷键
-	- [ ] t 到页面顶端
+- [ ] to-顶端-rocket
 - [ ] 部分内容加密
 - [ ] 根据fetch到的页面内容自动生成链接块
 - [ ] 允许将代码块拖动到侧边

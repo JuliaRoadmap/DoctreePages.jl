@@ -11,7 +11,7 @@ This is a lightweight interactive document generator.
 This package is **not specialy designed for package documentation**. Instead, it's more suitable for educational-purpose documents, blogs, etc.
 
 ## Compare with Documenter
-* different structure
+* different structures
 * as listed above, DoctreePages has more features in certain fields
 * Documenter automatically supports multi-version docs, docs search and pr review, etc, which may be useful under certain occasions
 
