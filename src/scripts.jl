@@ -582,29 +582,22 @@ const giscus_block = ScriptBlock() do pss::PagesSetting
 	return """
 	let gsc=document.createElement("script")
 	gsc.src="https://giscus.app/client.js"
-	gsc.dataset["repo"]="$(gis.repo)"
-	gsc.dataset["repo-id"]="$(gis.repo_id)"
-	gsc.dataset["category"]="$(gis.category)"
-	gsc.dataset["category-id"]="$(gis.category_id)"
-	gsc.dataset["mapping"]="$(gis.mapping)"
-	gsc.dataset["reactions-enabled"]="$(gis.reactions_enabled)"
-	gsc.dataset["emit-metadata"]="$(gis.emit_metadata)"
-	gsc.dataset["input-position"]="$(gis.input_position)"
-	gsc.dataset["theme"]=$(gis.theme=="auto" ? "theme" : "\"$(gis.theme)\"")
-	gsc.dataset["lang"]="$(gis.lang)"
+	gsc.dataset.repo="$(gis.repo)"
+	gsc.dataset.repoId="$(gis.repo_id)"
+	gsc.dataset.category="$(gis.category)"
+	gsc.dataset.categoryId="$(gis.category_id)"
+	gsc.dataset.mapping="$(gis.mapping)"
+	gsc.dataset.reactionsEnabled="$(gis.reactions_enabled)"
+	gsc.dataset.emitMetadata="$(gis.emit_metadata)"
+	gsc.dataset.inputPosition="$(gis.input_position)"
+	gsc.dataset.theme=$(gis.theme=="auto" ? "theme" : "\"$(gis.theme)\"")
+	gsc.dataset.lang="$(gis.lang)"
 	gsc.crossOrigin="$(gis.crossorigin)"
-	document.append(gsc)
+	document.body.append(gsc)
 	"""
 end
 
-const requirejs_block = ScriptBlock() do pss::PagesSetting, io::IO, blocks = [
-		headroom_block, setting_block, sidebar_block, themepick_block,
-		copyheadinglink_block, hljs_block, docsmenu_block,
-		statementtrigger_block, gapfill_block, mark_block, locatelines_block,
-		buildmessage_block, katex_block,
-		notification_block, test_block, insertsetting_block, tools_block,
-		giscus_block,
-	]
+const requirejs_block = ScriptBlock() do pss::PagesSetting, io::IO, blocks
 	println(io, """
 	requirejs.config({ paths: configpaths, shim: configshim})
 	require(main_requirement, function(\$){
@@ -632,7 +625,15 @@ const requirejs_block = ScriptBlock() do pss::PagesSetting, io::IO, blocks = [
 	end
 end
 
-function makescript(io::IO, pss::PagesSetting, blocks=script_blocks)
+const default_blocks = [
+	headroom_block, setting_block, sidebar_block, themepick_block,
+	copyheadinglink_block, hljs_block, docsmenu_block,
+	statementtrigger_block, gapfill_block, mark_block, locatelines_block,
+	buildmessage_block, katex_block,
+	notification_block, test_block, insertsetting_block, tools_block,
+	giscus_block,
+]
+function makescript(io::IO, pss::PagesSetting, blocks=default_blocks)
 	println(io, """
 	var tURL=document.getElementById("tURL").content
 	var theme=localStorage.getItem("theme")
