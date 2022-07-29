@@ -221,10 +221,10 @@ function make_rec(;
 						nextid=@inbounds vec[i+1]
 						if haskey(current.files, nextid)
 							ntitle=current.files[nextid][2]
-							nextpage="<a class='docs-footer-nextpage' href='$(nextid)$(pss.filesuffix)'>« $ntitle</a>"
+							nextpage="<a class='docs-footer-nextpage' href='$(nextid)$(pss.filesuffix)'>$ntitle »</a>"
 						elseif haskey(current.dirs, nextid)
 							ntitle=current.dirs[nextid][2]
-							nextpage="<a class='docs-footer-nextpage' href='$(nextid)/index$(pss.filesuffix)'>« $ntitle</a>"
+							nextpage="<a class='docs-footer-nextpage' href='$(nextid)/index$(pss.filesuffix)'>$ntitle »</a>"
 						else
 							msg = "nothing matches [$id] in $current"
 							pss.throwall ? error(msg) : (@error msg)
