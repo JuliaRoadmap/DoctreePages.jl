@@ -11,7 +11,7 @@ function makehtml(pss::PagesSetting, ps::PageSetting)
 		<meta name="description" content="$(ps.description)">
 		<script src="$(ps.tURL)$(pss.tar_extra)/info.js"></script>$(
 			gis===nothing ? "" :
-			"<script id='giscus' src='https://giscus.app/client.js' data-repo='$(gis.repo)' data-repo-id='$(gis.repo_id)' data-category='$(gis.category)' data-category-id='$(gis.category_id)' data-mapping='$(gis.mapping)' data-reactions-enabled='$(gis.reactions_enabled)' data-emit-metadata='$(gis.emit_metadata)' data-input-position='$(gis.input_position)' data-theme='$(gis.theme)' data-lang='$(gis.lang)' crossorigin='$(gis.crossorigin)' async></script>"
+			"<script id='giscus' src='https://giscus.app/client.js' data-repo='$(gis.repo)' data-repo-id='$(gis.repo_id)' data-category='$(gis.category)' data-category-id='$(gis.category_id)' data-mapping='$(gis.mapping)' data-reactions-enabled='$(gis.reactions_enabled)' data-emit-metadata='$(gis.emit_metadata)' data-input-position='$(gis.input_position)' (data-theme='$(gis.theme=="auto" ? "light" : gis.theme)' data-lang='$(gis.lang)' crossorigin='$(gis.crossorigin)' async></script>"
 		)
 		<link id="theme-href" rel="stylesheet" type="text/css" href=\"$(ps.tURL)css/light.css\">
 		<script src="$(pss.main_script.requirejs.url)" data-main="$(ps.tURL)$(pss.tar_extra)/main.js"></script>

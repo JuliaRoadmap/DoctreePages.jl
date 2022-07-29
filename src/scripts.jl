@@ -585,8 +585,10 @@ function makescript(io::IO, pss::PagesSetting, blocks=script_blocks)
 	var tURL=document.getElementById("tURL").content
 	var theme=localStorage.getItem("theme")
 	if(theme==undefined)theme="light"
-	else if(theme!="light")document.getElementById("theme-href").href=`\${tURL}\${tar_css}/\${theme}.css`
-	$(gis_auto ? "document.getElementById('giscus').dataset['theme']=theme" : "")
+	else if(theme!="light"){
+		document.getElementById("theme-href").href=`\${tURL}\${tar_css}/\${theme}.css`
+		$(gis_auto ? "document.getElementById('giscus').dataset['theme']=theme" : "")
+	}
 	const oril=document.location.origin.length
 	requirejs.config({ paths: configpaths, shim: configshim})
 	require(main_requirement, function(\$){
