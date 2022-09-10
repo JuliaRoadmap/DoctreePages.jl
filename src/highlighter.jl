@@ -152,3 +152,7 @@ function highlight(::Val{Symbol("insert-test")}, content::AbstractString, pss::P
 	end
 	return str * "</div>"
 end
+
+# https://github.com/inkle/ink
+function highlight(::Val{Symbol("insert-ink")}, content::AbstractString, pss::PagesSetting)
+end

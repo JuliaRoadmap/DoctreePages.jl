@@ -4,7 +4,7 @@
 这是一个轻量级交互式文档生成器
 * 轻量级，快速
 * 简单：即使没有编程经验也能使用
-* 强大&可交互：[各式各样的功能](https://juliaroadmap.github.io/DoctreePages.jl/docs/zh/features.md)
+* 强大&可交互：[各式各样的功能](https://juliaroadmap.github.io/DoctreePages.jl/docs/zh/features.html)
 * 可配置：超过30个设置项（不包括子项）
 
 ## 用途

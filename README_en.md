@@ -4,7 +4,7 @@
 This is a lightweight interactive document generator.
 * lightweight & fast
 * easy: even those with out programming experience can use it
-* powerful & interactive: [features list](https://juliaroadmap.github.io/DoctreePages.jl/docs/en/features.md)
+* powerful & interactive: [features list](https://juliaroadmap.github.io/DoctreePages.jl/docs/en/features.html)
 * setting: 30+ setting keys (not including sub-keys)
 
 ## Purpose
