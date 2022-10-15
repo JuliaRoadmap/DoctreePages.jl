@@ -1,10 +1,10 @@
-function ify_md(s::AbstractString, pss::PagesSetting)
-	s=replace(s, "\r"=>"")
+function ify_md(s::AbstractString, pss::PagesSetting, accept_crlf::Bool = true)
+	if accept_crlf s=replace(s, "\r"=>"") end
 	md=pss.parser(s)
 	return mkhtml(md, md.t, pss)
 end
-function md_withtitle(s::AbstractString, pss::PagesSetting)
-	s=replace(s, "\r"=>"")
+function md_withtitle(s::AbstractString, pss::PagesSetting, accept_crlf::Bool = true)
+	if accept_crlf s=replace(s, "\r"=>"") end
 	md=pss.parser(s)
 	con=""
 	try

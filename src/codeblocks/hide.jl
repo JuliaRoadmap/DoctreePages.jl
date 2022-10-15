@@ -1,6 +1,6 @@
-function highlight(::Val{Symbol("insert-fill")}, content::AbstractString, ::PagesSetting)
-	return hidehtml("click to reveal", content)
+function highlight(::Val{:hide}, content::AbstractString, pss::PagesSetting)
+	return hidehtml("click to reveal", ify_md(content, pss, false))
 end
 function hidehtml(title, content)
-	return "<span class='hide'>$title<div class='hidebox'>$content</div></span>"
+	return "<div class='box-hide' onclick='unhide(event)'><span>$title</span><div>$content</div></div>"
 end
