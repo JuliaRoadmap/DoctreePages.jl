@@ -35,6 +35,7 @@ include("codeblocks/insert_html.jl")
 include("codeblocks/insert_fill.jl")
 include("codeblocks/insert_setting.jl")
 include("codeblocks/insert_test.jl")
+include("codeblocks/hide.jl")
 
 # https://github.com/inkle/ink
 function highlight(::Val{Symbol("insert-ink")}, content::AbstractString, pss::PagesSetting)
