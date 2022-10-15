@@ -34,7 +34,6 @@ Discussion功能来自[giscus](https://github.com/giscus/giscus)
 - [ ] 复制时添加后缀
 - [ ] 水印
 - [ ] 允许调整字体大小
-- [ ] 二维码
 - [ ] 复制纯源代码
 - [ ] live2d
 - [ ] 空间压缩
