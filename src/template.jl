@@ -31,7 +31,7 @@ jobs:
           '
       - uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: \${{ secrets.GITHUB_TOKEN }}
           publish_dir: "./public"\n""")
 	print("Remember to fill in DoctreeBuild.toml")
 end
