@@ -69,4 +69,6 @@ using Pkg
 include("tree.jl")
 include("git.jl")
 
+include("template.jl")
+
 end
