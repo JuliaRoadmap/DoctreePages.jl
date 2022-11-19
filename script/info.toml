@@ -1,0 +1,30 @@
+inlines = [
+	"setting",
+	"sidebar",
+	"themepick",
+	"copyheadinglink",
+	"hljs",
+	"docsmenu",
+	"statement_trigger",
+	"gapfill",
+	"mark",
+	"locatelines",
+	"buildmessage",
+	"test",
+	"insert_setting",
+]
+blocks = [
+	"headroom",
+	"katex",
+]
+
+[require]
+docsmenu = ["activate_token", "buildmenu"]
+gapfill = ["submit_fill"]
+hljs = ["copycodeblock"]
+insert_setting = ["dictparse", "upd_trigger"]
+locatelines = ["scroll_to_lines"]
+mark = ["toggle_mark"]
+sidebar = ["resize"]
+statement_trigger = ["upd_trigger"]
+test = ["calc_test", "dictparse", "getchooseinput", "try_notify"]
