@@ -72,9 +72,7 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 	end
 	mkpath(tardir)
 	# 复制本项目
-	cd(@__DIR__)
-	cd("..")
-	cp("css", tardir*pss.tar_css; force=true)
+	cp(joinpath(@__DIR__, "../css"), tardir*pss.tar_css; force=true)
 	# 复制来源
 	cd(srcdir)
 	if isdir(pss.src_assets)
@@ -86,27 +84,29 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 	end
 	# docs
 	root=Node(nothing, lw(pss, 5))
-	cd(srcdir*"docs")
 	if pss.remove_original && isdir(tardir*"docs")
 		rm(tardir*"docs"; force=true, recursive=true)
 	end
-	gen_rec(;
-		current=root,
-		outline=true,
-		path="docs/",
-		pathv=["docs"],
-		pss=pss,
-		srcdir=srcdir,
-		tardir=tardir
-	)
-	cd(srcdir*"docs")
-	make_rec(;
-		current=root,
-		path="docs/",
-		pathv=["docs"],
-		pss=pss,
-		tardir=tardir
-	)
+	cd(srcdir*"docs") do
+		gen_rec(;
+			current=root,
+			outline=true,
+			path="docs/",
+			pathv=["docs"],
+			pss=pss,
+			srcdir=srcdir,
+			tardir=tardir
+		)
+	end
+	cd(srcdir*"docs") do
+		make_rec(;
+			current=root,
+			path="docs/",
+			pathv=["docs"],
+			pss=pss,
+			tardir=tardir
+		)
+	end
 	# 404
 	tarundef=joinpath(tardir, pss.unfound)
 	if isfile(pss.unfound)
@@ -290,17 +290,17 @@ end
 
 function makeindex(node::Node, path::String, pathv::Vector{String}; pss::PagesSetting)
 	mds="<ul>"
-	dkeys = keys(node.dirs)
-	fkeys = keys(node.files)
+	dkeys = collect(keys(node.dirs))
+	fkeys = collect(keys(node.files))
 	if pss.sort_file
 		sort!(dkeys)
 		sort!(fkeys)
 	end
 	for dkey in dkeys
-		mds*="<li class='li-dir'><a href='$(dkey)/index$(pss.filesuffix)'>$(dkeys[dkey][2])</a></li>"
+		mds*="<li class='li-dir'><a href='$(dkey)/index$(pss.filesuffix)'>$(node.dirs[dkey][2])</a></li>"
 	end
 	for fkey in fkeys
-		mds*="<li class='li-file'><a href='$(fkey)$(pss.filesuffix)'>$(fkeys[fkey][2])</a></li>"
+		mds*="<li class='li-file'><a href='$(fkey)$(pss.filesuffix)'>$(node.files[fkey][2])</a></li>"
 	end
 	mds*="</ul>"
 	title = (node.par===nothing ? lw(pss, 7) : node.par.dirs[node.name][2])*lw(pss, 8)

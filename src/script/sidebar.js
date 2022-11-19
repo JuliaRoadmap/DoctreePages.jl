@@ -9,7 +9,6 @@ $("#documenter > .docs-main").bind('click', function(ev){
 	if($(ev.target).is(sidebar_button))return
 	if(sidebar.hasClass('visible'))sidebar.removeClass('visible')
 })
-// let e=$("#documenter .docs-autofit")
 resize()
 $(window).resize(resize)
 $(window).on('orientationchange', resize)

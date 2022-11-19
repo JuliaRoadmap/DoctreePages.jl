@@ -25,12 +25,12 @@ function prepare_scripts()
 	inline_str = ""
 	block_str = ""
 	required = Set{String}()
-	cd("script") do
+	cd(joinpath(@__DIR__, "script")) do
 		toml = TOML.parsefile("info.toml")
-		requirements = toml["require"]
+		requirements = toml["require"]::Dict
 		for inline::String in toml["inlines"]
 			inline_str *= read(inline*".js", String)
-			for req::String in requirements[inline]
+			for req::String in get(requirements, inline, [])
 				push!(required, req)
 			end
 		end

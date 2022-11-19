@@ -59,8 +59,9 @@ function mkhtml(node::CommonMark.Node, ::CommonMark.Paragraph, pss::PagesSetting
 	return inline ? "<span>$(childrenhtml(node, pss))</span>" : "<p>$(childrenhtml(node, pss))</p>"
 end
 function mkhtml(node::CommonMark.Node, h::CommonMark.Heading, pss::PagesSetting)
-	lv=h.level
-	text=childrenhtml(node, pss)
+	lv = h.level
+	text = childrenhtml(node, pss)
+	text = replace(lowercase(text), ' ' => '-')
 	return "<h$lv id='header-$text'>$text<a class='docs-heading-anchor-permalink'></a></h$lv>"
 end
 function mkhtml(node::CommonMark.Node, c::CommonMark.CodeBlock, pss::PagesSetting)

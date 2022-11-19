@@ -1,4 +1,5 @@
 function resize(){
+	let e=$("#documenter .docs-autofit")
 	let L=parseInt(e.css('max-width'))
 	let L0=e.width()
 	if(L0>L){

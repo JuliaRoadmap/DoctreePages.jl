@@ -16,6 +16,7 @@ inlines = [
 blocks = [
 	"headroom",
 	"katex",
+	"unhide",
 ]
 
 [require]

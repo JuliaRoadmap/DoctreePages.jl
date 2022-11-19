@@ -59,3 +59,10 @@ table{
 .test-area p:nth-child(2){
 	display: inline;
 }
+
+.box-hide>div{
+	display: none;
+}
+.box-unhide>span{
+	display: none;
+}
