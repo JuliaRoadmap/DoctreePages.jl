@@ -50,37 +50,6 @@ function default_parser()
     return p
 end
 
-"""
-Pages settings, call `PagesSetting(; keyword=value...)`
-
-The keywords:
-* buildmessage::String = "built at \$(Libc.strftime(Libc.time())) by v\$(DTP_VERSION)"
-* charset::String = "UTF-8"
-* default_alt::String = "img"
-* favicon_path::String = ""
-* filesuffix::String = ".html"
-* giscus::Union{Nothing, GiscusSetting} = nothing
-* hljs_all::Bool = true
-* lang::String = "en"
-* logo_path::String = ""
-* main_script::MainScriptSetting
-* make404::Bool = true
-* make_index::Bool = true
-* page_foot::String = "Powered by" ...
-* parser::Parser = default_parser()
-* remove_original::Bool = true
-* repo_branch::String = "master"
-* repo_name::String
-* repo_owner::String
-* repo\\_path::String = `"https://github.com/\$repo_owner/\$repo_name/tree/\$repo_branch/"`
-* show_info::Bool = true
-* sort_file::Bool = true
-* table_align::String = "inherit"
-* throwall::Bool = false
-* title::String
-* unfound::String = "404.html"
-* wrap_html::Bool = true
-"""
 Base.@kwdef struct PagesSetting
     buildmessage::String = "built at $(Libc.strftime(Libc.time())) by v$(DTP_VERSION)"
     charset::String = "UTF-8"

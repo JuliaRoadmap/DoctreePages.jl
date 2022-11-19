@@ -48,7 +48,7 @@
 4. 如果源数据在仓库中，应提供 `repo_name` 与 `repo_owner`
 
 ## 配置文件
-`generate`函数的另一个方法的第三个参数为字符串，表示配置文件的路径，默认是`DoctreeBuild.toml`\
+`generate` 函数的另一个方法的第三个参数为字符串，表示配置文件的路径，默认是`DoctreeBuild.toml`\
 配置文件应使用TOML格式，其中
 * `version` 项表明最低支持的`DoctreePages`版本，1.3 之后支持[像这样的更复杂的设置](https://pkgdocs.julialang.org/v1/compatibility/)
 * `pages`、`giscus`、`mainscript`表分别表示总设置、`giscus`设置与`main_script`设置
@@ -56,6 +56,8 @@
 
 ## Github Action
 可以使用github action创建github pages，配置可参考 [builddocs.yml](https://github.com/JuliaRoadmap/DoctreePages.jl/blob/master/.github/workflows/builddocs.yml)
+
+利用 `template()`，可以在当前目录生成一个用于文档自动构建的模板。
 
 ## 构建脚本
 如果你想，你可以选择自己调用提供的函数编写构建脚本

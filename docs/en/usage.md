@@ -57,5 +57,7 @@ The config file uses TOML format, where
 ## Github Action
 You can use github action to build pages into github pages. View sample [builddocs.yml](https://github.com/JuliaRoadmap/DoctreePages.jl/blob/master/.github/workflows/builddocs.yml)
 
+You can use `template()` to generate a template for document automatic building in the current directory.
+
 ## Builder Script
 If you want, you can also call the functions and write a builder script yourself.

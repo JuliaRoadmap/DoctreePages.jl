@@ -32,3 +32,8 @@ added:
 - `[develop]` better version compatibility in build setting
 - `[display]` automatically adjust giscus-theme
 - `[interact]` better features for test blocks
+
+## 1.4
+added:
+- `[develop]` template generating function
+- `[display]` enable sorting in index files

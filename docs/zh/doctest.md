@@ -5,7 +5,7 @@
 ---
 
 ## 标题2
-![](../../assets/svg/benchmarks.svg)
+![](https://github.com/favicon.ico)
 
 1. 1
 	* a
@@ -106,6 +106,10 @@ content = "文字"
 
 ```is-developer
 欢迎开发者！
+```
+
+```hide
+hidden
 ```
 
 [^1]: footnote
