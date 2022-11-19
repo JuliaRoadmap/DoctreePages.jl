@@ -67,6 +67,7 @@ include("scripts.jl")
 using TOML
 using Pkg
 include("tree.jl")
+include("file2node.jl")
 include("git.jl")
 
 include("template.jl")

@@ -82,12 +82,15 @@ Base.@kwdef struct PagesSetting
     tar_extra = "extra"
     tar_script = "script"
     throwall::Bool = false
-    title::String
+    title::String = "Untitled"
     unfound::String = "404.html"
     wrap_html::Bool = true
 end
 function Base.show(io::IO, pss::PagesSetting)
     print(io, "PagesSetting for <$(pss.title)>")
+    if pss.repo_name != ""
+        print(io, " $(pss.repo_owner)/$(pss.repo_name)")
+    end
 end
 
 Base.@kwdef struct PageSetting

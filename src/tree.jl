@@ -245,7 +245,7 @@ function make_rec(;
 			tURL="../"^length(pathv)
 		)
 		html=makehtml(pss, ps)
-		writehtml(tpath*pa.first, html, pss)
+		write(tpath*pa.first*pss.filesuffix, html)
 	end
 	for pa in current.dirs
 		name=pa.first
@@ -260,7 +260,7 @@ function make_rec(;
 		)
 	end
 	if pss.make_index
-		writehtml(tpath*"index", makeindex(current, path, pathv; pss=pss), pss)
+		write(tpath*"index"*pss.filesuffix, makeindex(current, path, pathv; pss=pss))
 	end
 	# 消除影响
 	path=path[1:end-1-length(last(pathv))]
@@ -344,49 +344,4 @@ function makeinfo_js(path::String, root::Node, pss::PagesSetting)
 	finally
 		close(io)
 	end
-end
-
-function writehtml(path::String, html::String, pss::PagesSetting)
-	write(path*pss.filesuffix, html)
-end
-
-function file2node(::Val; it::String, node::Node, path::String, pathv::Vector{String}, pre::String, pss::PagesSetting, spath::String, tpath::String)
-	cp(spath*it, tpath*it; force=true)
-end
-
-function file2node(::Val{:md}; it::String, node::Node, path::String, pathv::Vector{String}, pre::String, pss::PagesSetting, spath::String, tpath::String)
-	io=open(spath*it, "r")
-	try
-		pair=md_withtitle(read(io, String), pss)
-		node.files[pre]=(pair.first, pair.second, "md")
-	finally
-		close(io)
-	end
-end
-
-function file2node(::Union{Val{:html}, Val{:htm}}; it::String, node::Node, path::String, pathv::Vector{String}, pre::String, pss::PagesSetting, spath::String, tpath::String)
-	str=read(spath*it, String)
-	if pss.wrap_html
-		title=node.toml["names"][pre]
-		str=makehtml(pss, PageSetting(
-			description="$title - $(pss.title)",
-			editpath=pss.repo_path=="" ? "" : pss.repo_path*path*it,
-			mds=str,
-			navbar_title=title,
-			nextpage="",
-			prevpage=node.par===nothing ? "" : "<a class='docs-footer-prevpage' href='../index$(pss.filesuffix)'>« $(lw(pss, 9))</a>",
-			tURL="../"^length(pathv)
-		))
-	end
-	writehtml(tpath*it, str, pss)
-end
-
-function file2node(::Val{:jl}; it::String, node::Node, path::String, pathv::Vector{String}, pre::String, pss::PagesSetting, spath::String, tpath::String)
-	str=read(spath*it, String)
-	node.files[pre]=(highlight("julia", str, pss), pre, "jl")
-end
-
-function file2node(::Val{:txt}; it::String, node::Node, path::String, pathv::Vector{String}, pre::String, pss::PagesSetting, spath::String, tpath::String)
-	str=read(spath*it, String)
-	node.files[pre]=(highlight("plain", str, pss), pre, "txt")
 end
