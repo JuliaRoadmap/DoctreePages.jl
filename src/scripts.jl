@@ -1,13 +1,4 @@
-struct ScriptBlock
-	data::Any
-end
-ScriptBlock(ready::String, func::String)= ScriptBlock((ready, func))
-get_data(s::ScriptBlock, pss::PagesSetting)= isa(s.data, Function) ? s.data(pss) : s.data
-
-# 基础组件
-
-# 函数式组件
-const giscus_block = ScriptBlock() do pss::PagesSetting
+function giscus_script(pss::PagesSetting)
 	gis = pss.giscus
 	if gis===nothing
 		return ""
@@ -30,43 +21,31 @@ const giscus_block = ScriptBlock() do pss::PagesSetting
 	"""
 end
 
-const requirejs_block = ScriptBlock() do pss::PagesSetting, io::IO, blocks
-	println(io, """
-	requirejs.config({ paths: configpaths, shim: configshim})
-	require(main_requirement, function(\$){
-		\$(document).ready(function(){
-	""")
-	for blk in blocks
-		data = blk.data
-		if isa(data, Function)
-			println(io, data(pss))
-		elseif isa(data, Tuple)
-			println(io, data[1])
-		else
-			println(io, data)
+function prepare_scripts()
+	inline_str = ""
+	block_str = ""
+	required = Set{String}()
+	cd("script") do
+		toml = TOML.parsefile("info.toml")
+		requirements = toml["require"]
+		for inline::String in toml["inlines"]
+			inline_str *= read(inline*".js", String)
+			for req::String in requirements[inline]
+				push!(required, req)
+			end
+		end
+		for block::String in toml["blocks"]
+			block_str *= read(block*".js", String)
+		end
+		for block::String in required
+			block_str *= read(block*".js", String)
 		end
 	end
-	println(io, """
-		})
-	})
-	""")
-	for blk in blocks
-		data = blk.data
-		if isa(data, Tuple)
-			println(io, data[2])
-		end
-	end
+	return Pair(inline_str, block_str)
 end
 
-const default_blocks = [
-	headroom_block, setting_block, sidebar_block, themepick_block,
-	copyheadinglink_block, hljs_block, docsmenu_block,
-	statementtrigger_block, gapfill_block, mark_block, locatelines_block,
-	buildmessage_block, katex_block,
-	notification_block, test_block, insertsetting_block, tools_block,
-	giscus_block,
-]
-function makescript(io::IO, pss::PagesSetting, blocks=default_blocks)
+function makescript(io::IO, pss::PagesSetting)
+	prepared = prepare_scripts()
 	println(io, """
 	var tURL=document.getElementById("tURL").content
 	var theme=localStorage.getItem("theme")
@@ -75,6 +54,15 @@ function makescript(io::IO, pss::PagesSetting, blocks=default_blocks)
 		document.getElementById("theme-href").href=`\${tURL}\${tar_css}/\${theme}.css`
 	}
 	const oril=document.location.origin.length
+	requirejs.config({ paths: configpaths, shim: configshim})
+	require(main_requirement, function(\$){
+		\$(document).ready(function(){
 	""")
-	requirejs_block.data(pss, io, blocks)
+	print(io, prepared.first)
+	println(io, """
+		})
+	})
+	""")
+	print(io, prepared.second)
+	print(io, giscus_script(pss))
 end
