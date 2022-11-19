@@ -20,6 +20,8 @@ The name part should be unique, and
 ## Code Block Format
 * Language name should not be empty. Use `plain` instead.
 * Use `insert-html` to insert HTML.
+* Use `hide` to let something show only after clicking a button.
+* Use `encoded` to tag that something has been encode, and parsing is still done assuming the format is Markdown.
 * Use `is-xxx` to insert markdown which will be shown iff `localStorage.getItem("is-xxx") == "true"`. A setting page shall be given for readers using `insert-html` block.
 
 `insert-fill` inserts a gap-filling answer board. Use TOML:

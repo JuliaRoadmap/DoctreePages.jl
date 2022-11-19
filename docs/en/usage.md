@@ -5,7 +5,7 @@ One method of the `generate` function allows three parameters:
 * tardir: dir to store result (html, etc)
 * pss: instance of `PagesSetting`
 
-`PagesSetting` constructor uses keywords. These are introductions while type and default values shall be mentioned in docstring. More detailed information shall refer to source code.
+`PagesSetting` constructor uses keywords. These are just introductions, please refer to the source code for details.
 
 | key name | description |
 | --- | --- |

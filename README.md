@@ -5,7 +5,7 @@
 * 轻量级，快速
 * 简单：即使没有编程经验也能使用
 * 强大&可交互：[各式各样的功能](https://juliaroadmap.github.io/DoctreePages.jl/docs/zh/features.html)
-* 可配置：超过30个设置项（不包括子项）
+* 可配置：超过 30 个设置项（不包括子项）
 
 ## 用途
 此包**不是专为包文档设计**，更适合用于教育性文档/博客等
@@ -13,7 +13,7 @@
 ## 与Documenter比较
 * 不同的结构
 * 由上述可知，本包在特定领域支持更多特性
-* Documenter自动支持多版本文档、文档搜索与pr预览等，它们可能在特定情形实用
+* Documenter自动支持多版本文档、文档搜索与 pull request 效果预览等，它们可能在特定情形实用
 
 ---
 
@@ -40,7 +40,6 @@ Discussion功能来自[giscus](https://github.com/giscus/giscus)
 - [ ] 快捷键
 - [ ] to-顶端-rocket
 - [ ] 部分内容加密
-- [ ] 根据fetch到的页面内容自动生成链接块
+- [ ] 根据 fetch 到的页面内容自动生成链接块
 - [ ] 允许将代码块拖动到侧边
-- [ ] 支持 “click-to-reveal”
 - [ ] 支持插入 ink

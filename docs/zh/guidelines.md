@@ -18,11 +18,13 @@
 	* 允许使用 `#Lx-Ly` 表明文件首个代码块的 x~y 行
 
 ## 代码块规范
-* 不建议留空（使用`plain`）
-* `insert-html`表示插入HTML
-* `is-xxx`表示仅在`localStorage.getItem("is-xxx")`为`true`时显示的Markdown
+* 不建议留空（使用 `plain`）
+* `insert-html` 表示插入HTML
+* `hide` 表示点击按钮后才会显示
+* `encoded` 标注该部分内容已被加密，仍使用 Markdown 解析
+* `is-xxx` 表示仅在 `localStorage.getItem("is-xxx")` 为 `true` 时显示的 Markdown 内容
 
-`insert-fill`表示插入填空题，使用TOML格式配置
+`insert-fill` 表示插入填空题，使用 TOML 格式配置
 ```toml
 content = "题目描述，**使用 Markdown**"
 ans = "标准答案"
@@ -31,26 +33,26 @@ instruction = "提示（可选，不支持Markdown）"
 ```
 
 ## 插入设置
-`insert-setting`代码块表示插入设置，使用TOML格式配置，其中`type`项表示设置类型
+`insert-setting` 代码块表示插入设置，使用 TOML 格式配置，其中 `type` 项表示设置类型
 
 ### select-is
-`type = "select-is"`是当前唯一支持的设置模式
-* 文字内容在 `content` 项中，不支持Markdown
+`type = "select-is"` 是当前唯一支持的设置模式
+* 文字内容在 `content` 项中，不支持 Markdown
 * `choices` 项为字典，表示 `value` 到显示文字的映射
 * `default` 项定义默认 `value`
-* `store` 项为字典，表示 `value` 到 `localStorage key` 的映射，若key名前有`!`，表示将指代的键存为`false`
+* `store` 项为字典，表示 `value` 到 `localStorage key` 的映射，若 key 名前有 `!`，表示将指代的键存为 `false`
 
 ## 插入测试
-`insert-test`代码块表示插入测试，使用TOML格式配置
+`insert-test` 代码块表示插入测试，使用 TOML 格式配置
 
 ### 结构
-设置包含两个主要项：`global`表示全局设置，`parts`是一个表数组
+设置包含两个主要项：`global` 表示全局设置，`parts` 是一个表数组
 
-全局设置中，可以使用`name`表示测试名称，`time_limit`表示总时间限制（单位为秒），`full_score`为总分（**不会影响**各题分值的分配）
+全局设置中，可以使用 `name` 表示测试名称，`time_limit` 表示总时间限制（单位为秒），`full_score` 为总分（**不会影响**各题分值的分配）
 
 `q_pre` 键表明题面的前缀模式，仅支持 `none` 与 `number`（默认）。
 
-对于每个 `part`，有一个`type`参数表明类型
+对于每个 `part`，有一个 `type` 参数表明类型
 
 ### 文字
 `type = "text"` 时，表明插入文字，文字内容在 `content` 项中，支持 Markdown

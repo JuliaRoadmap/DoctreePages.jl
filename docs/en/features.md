@@ -37,3 +37,4 @@ added:
 added:
 - `[develop]` template generating function
 - `[display]` enable sorting in index files
+- `[interact]` enable "click to reveal"
