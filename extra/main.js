@@ -1,7 +1,9 @@
 var tURL=document.getElementById("tURL").content
 var theme=localStorage.getItem("theme")
 if(theme==undefined)theme="light"
-else if(theme!="light")document.getElementById("theme-href").href=`${tURL}${tar_css}/${theme}.css`
+else if(theme!="light"){
+	document.getElementById("theme-href").href=`${tURL}${tar_css}/${theme}.css`
+}
 const oril=document.location.origin.length
 requirejs.config({ paths: configpaths, shim: configshim})
 require(main_requirement, function($){
@@ -15,7 +17,10 @@ settings.innerHTML=`
 <div class="modal-card">
 	<header class="modal-card-head"><p class="modal-card-title">⚙</p><button class="delete"></button></header>
 	<section class="modal-card-body">
-		<div class="select"><select id="documenter-themepicker"><option value="light">light</option><option value="dark">dark</option></select></div>
+		<div class="select"><select id="documenter-themepicker">
+			<option value="light">light</option>
+			<option value="dark">dark</option>
+		</select></div>
 	</section>
 	<footer class="modal-card-foot"></footer>
 </div>`
@@ -23,8 +28,8 @@ document.body.append(settings)
 $("#documenter-settings-button").click(() => settings.classList.toggle("is-active"))
 $("#documenter-settings button.delete").click(() => settings.classList.remove("is-active"))
 $(document).keyup((e) => {if(e.keyCode==27)settings.classList.remove("is-active")})
-var sidebar = $("#documenter > .docs-sidebar")
-var sidebar_button = $("#documenter-sidebar-button")
+let sidebar = $("#documenter > .docs-sidebar")
+let sidebar_button = $("#documenter-sidebar-button")
 sidebar_button.click(function(ev){
 	ev.preventDefault()
 	sidebar.toggleClass('visible')
@@ -34,26 +39,18 @@ $("#documenter > .docs-main").bind('click', function(ev){
 	if($(ev.target).is(sidebar_button))return
 	if(sidebar.hasClass('visible'))sidebar.removeClass('visible')
 })
-let e=$("#documenter .docs-autofit")
-function resize(){
-	let L=parseInt(e.css('max-width'))
-	let L0=e.width()
-	if(L0>L){
-		let h0=parseInt(e.css('font-size'))
-		e.css('font-size', L*h0/L0)
-	}
-}
 resize()
 $(window).resize(resize)
 $(window).on('orientationchange', resize)
 let pi=$("#documenter-themepicker")
 for(let tag of pi[0].children){
 	if(tag.value==theme){
-		tag.selected=true; break
+		tag.selected=true
+		break
 	}
 }
 pi.change(function(){
-	var theme=pi[0].value
+	theme=pi[0].value
 	$("#theme-href")[0].href=`${tURL}${tar_css}/${theme}.css`
 	localStorage.setItem("theme", theme)
 })
@@ -80,9 +77,7 @@ for(let i of $(".checkis")){
 		i.style.display="block"
 	}
 }
-$(".submit-fill").click(function(ev){
-	submit_fill(ev.target)
-})
+$(".submit-fill").click(function(ev){submit_fill(ev.target)})
 $(".ans-fill").click(function(ev){
 	let i=ev.target
 	i.parentNode.children[1].value=i.dataset["ans"]
@@ -128,58 +123,76 @@ for(let i of $(".test-area")){
 	timer.dataset["tl"]=tl
 	let button=document.createElement("button")
 	button.innerText="📤"
+	let lock=document.createElement("button")
+	let locked=false
+	lock.innerText="🔓"
 	header.append(name)
 	header.append(fullscore)
 	header.append(timer)
 	header.append(button)
+	header.append(lock)
 	i.prepend(header)
 	let n=0
 	let hour=tl/12
-	let interval=setInterval(function(){
-		if(n>tl){
-			clearInterval(interval)
-			try_notify("🔔 Time Limit Exceeded")
-			calc_test(i)
-			return
-		}
-		let part=Math.floor(n/hour+0.5)
-		timer.innerText=clockemojis[part<<1]+clockemojis[part<<1|1]+" "+n+"/"+tl
-		n+=1
-	}, 1000)
+	let timeron = () => {
+		let interval=setInterval(function(){
+			if(n>tl){
+				clearInterval(interval)
+				try_notify("🔔 Time Limit Exceeded")
+				calc_test(i)
+				return
+			}
+			let part=Math.floor(n/hour+0.5)
+			timer.innerText=clockemojis[part<<1]+clockemojis[part<<1|1]+" "+n+"/"+tl
+			n+=1
+		}, 1000)
+		return interval
+	}
 	for(ch of i.querySelectorAll(".choose-area span")){
 		let cb=document.createElement("input")
 		cb.type="checkbox"
 		ch.prepend(cb)
 	}
+	let inter=timeron()
 	button.onclick=function(){
-		clearInterval(interval)
+		clearInterval(inter)
 		calc_test(i)
+		button.innerText="🔍"
+		button.onclick=function(){}
+	}
+	lock.onclick=function(){
+		if(locked){
+			lock.innerText="🔓"
+			inter=timeron()
+		}
+		else{
+			lock.innerText="🔒"
+			clearInterval(inter)
+		}
+		locked=!locked
 	}
 }
 for(let i of $(".select-is")){
 	let choices=dictparse(i.dataset["chs"])
 	let store=dictparse(i.dataset["st"])
 	let select=document.createElement("select")
+	let defval=i.dataset["de"]
 	for(let k in choices){
 		let option=document.createElement("option")
 		option.value=k
 		option.innerText=choices[k]
 		select.append(option)
 	}
-	let defval=i.dataset["de"]
-	select.value=defval
+	select.value=null
 	let defkey=store[defval]
 	if(defkey!=undefined){
 		if(defkey[0]=="!"){
 			defkey=defkey.substring(1)
-			if(localStorage.getItem(defkey)==null){
-				localStorage.setItem(defkey, "false")
-				upd_trigger(defkey)
-			}
+			if(localStorage.getItem(defkey)==null)localStorage.setItem(defkey, "false")
 		}
 		else if(localStorage.getItem(defkey)==null){
 			localStorage.setItem(defkey, "true")
-			upd_trigger(defkey)
+			select.value=defval
 		}
 	}
 	select.onchange=function(){
@@ -200,27 +213,116 @@ for(let i of $(".select-is")){
 }
 	})
 })
+
 require(['jquery', 'headroom', 'headroom-jquery'], function($, Headroom){
 	window.Headroom = Headroom
 	$(document).ready(function(){
-		$("#documenter .docs-navbar").headroom({tolerance: {up: 10, down: 10 }})
+		$("#documenter .docs-navbar").headroom({tolerance:{up:10,down:10}})
 	})
 })
+require(['jquery', 'katex'], function($, katex){
+	$(document).ready(function(){
+		for(let e of $(".math"))katex.render(e.innerText, e,
+			{ displayMode:false, throwOnError:false }
+		)
+		for(let e of $(".display-math"))katex.render(e.innerText, e,
+			{ displayMode:true, throwOnError:false }
+		)
+	})
+})
+function unhide(ev){
+	ev.srcElement.className="box-unhide"
+}
+function toggle_mark(li){
+	let link=li.lastElementChild.href.substring(oril)
+	let marked=new Set(JSON.parse(localStorage.getItem("marked")))
+	if(marked.has(link))marked.delete(link)
+	else marked.add(link)
+	localStorage.setItem("marked", JSON.stringify([...marked]))
+}
 function copycodeblock(ev){
 	let tar=ev.target
 	let body=tar.parentNode.nextSibling
 	let codes=body.querySelectorAll(".hljs-ln-code")
 	let s=""
-	for(let code of codes)s+=code.innerText+"\n"
+	for(let code of codes)s+=code.innerText+"\\n"
 	navigator.clipboard.writeText(s).then(
 		function(){
 			tar.innerText="✔"
-			setTimeout(function(){
-				tar.innerText="📋"
-			},2000)
+			setTimeout(function(){tar.innerText="📋"}, 2000)
 		},
 		function(){window.alert("failed")}
 	)
+}
+function scroll_to_lines(from, to){
+	let cb=$("code.hljs")[0]
+	let nums=cb.querySelectorAll(".hljs-ln-numbers")
+	for(let i=from; i<=to; i++){
+		nums[i-1].style.backgroundColor="lightgreen"
+	}
+	nums[from-1].scrollIntoView()
+}
+function activate_token(node){
+	let par=node.parentNode
+	par.classList.add("is-active")
+	let ul=document.createElement("ul")
+	let flag=false
+	for(let e of $(".content > h2")){
+		let text=e.innerText
+		let li=document.createElement("li")
+		let a=document.createElement("a")
+		a.className="tocitem"
+		a.href=`#header-\${text}`
+		a.innerText=text
+		li.appendChild(a)
+		ul.appendChild(li)
+		flag=true
+	}
+	if(flag){
+		ul.className="internal"
+		par.appendChild(ul)
+	}
+	return flag
+}
+function submit_fill(i){
+	let inv=i.parentNode.children[1].value
+	let isreg=i.dataset["isreg"]=="true"
+	if(isreg){
+		let reg=RegExp(i.dataset["ans"])
+		i.style.backgroundColor= reg.exec(inv)===null ? "#f05020" : "#80af00"
+	}
+	else{
+		let str=i.dataset["ans"]
+		i.style.backgroundColor= inv==str ? "#80af00" : "#f05020"
+	}
+	setTimeout(function(){i.style.backgroundColor=null}, 2000)
+}
+function resize(){
+	let e=$("#documenter .docs-autofit")
+	let L=parseInt(e.css('max-width'))
+	let L0=e.width()
+	if(L0>L){
+		let h0=parseInt(e.css('font-size'))
+		e.css('font-size', L*h0/L0)
+	}
+}
+function upd_trigger(key){
+	let mode=localStorage.getItem(key)=="true" ? "block" : "none"
+	for(let i of $(".checkis")){
+		var chk=i.dataset["check"]
+		if(chk==key){
+			i.style.display=mode
+		}
+	}
+}
+function getchooseinput(node){
+	let ins=node.querySelectorAll("input")
+	let str=""
+	for(let i=0;i<ins.length;i++){
+		let input=ins[i]
+		if(input.checked)str+=String.fromCharCode(65+i)
+	}
+	return str
 }
 function buildmenu(){
 	let lis=_buildmenu(menu, "docs/", 0)
@@ -293,9 +395,7 @@ function _buildmenu(vec, path, level){
 				label.appendChild(i)
 				li.appendChild(label)
 			}
-			else{
-				li.appendChild(a)
-			}
+			else li.appendChild(a)
 			let clis=_buildmenu(e, `${path}${tup[0]}/`, level+1)
 			let ul=document.createElement("ul")
 			for(let cli of clis)ul.appendChild(cli)
@@ -306,92 +406,13 @@ function _buildmenu(vec, path, level){
 	}
 	return ans
 }
-function activate_token(node){
-	let par=node.parentNode
-	par.classList.add("is-active")
-	let ul=document.createElement("ul")
-	let flag=false
-	for(let e of $(".content > h2")){
-		let text=e.innerText
-		let li=document.createElement("li")
-		let a=document.createElement("a")
-		a.className="tocitem"
-		a.href=`#header-${text}`
-		a.innerText=text
-		li.appendChild(a)
-		ul.appendChild(li)
-		flag=true
-	}
-	if(flag){
-		ul.className="internal"
-		par.appendChild(ul)
-	}
-	return flag
-}
-function upd_trigger(key){
-	let mode=localStorage.getItem(key)=="true" ? "block" : "none"
-	for(let i of $(".checkis")){
-		var chk=i.dataset["check"]
-		if(chk==key){
-			i.style.display=mode
-		}
-	}
-}
-function submit_fill(i){
-	let input=i.parentNode.children[1]
-	let isreg=i.dataset["isreg"]=="true"
-	if(isreg){
-		let reg=RegExp(i.dataset["ans"])
-		i.style.backgroundColor= reg.exec(input.value)===null ? "#f05020" : "#80af00"
-	}else{
-		let str=i.dataset["ans"]
-		i.style.backgroundColor= input.value==str ? "#f05020" : "#80af00"
-	}
-	setTimeout(function(){ i.style.backgroundColor=null }, 2000)
-}
-function toggle_mark(li){
-	let link=li.lastElementChild.href.substring(oril)
-	let marked=new Set(JSON.parse(localStorage.getItem("marked")))
-	if(marked.has(link))marked.delete(link)
-	else marked.add(link)
-	localStorage.setItem("marked", JSON.stringify([...marked]))
-}
-function scroll_to_lines(from, to){
-	let cb=$("code.hljs")[0]
-	let nums=cb.querySelectorAll(".hljs-ln-numbers")
-	for(let i=from; i<=to; i++){
-		nums[i-1].style.backgroundColor="lightgreen"
-	}
-	nums[from-1].scrollIntoView()
-}
-require(['jquery', 'katex'], function($, katex){
-	$(document).ready(function(){
-		for(let e of $(".math"))katex.render(e.innerText, e,
-			{ displayMode:false, throwOnError:false }
-		)
-		for(let e of $(".display-math"))katex.render(e.innerText, e,
-			{ displayMode:true, throwOnError:false }
-		)
-	})
-})
 function try_notify(title){
 	if(window.Notification && Notification.permission=="granted"){
 		Notification.requestPermission(function(st){
 			let n=new Notification(title)
 		})
 	}
-	else{
-		window.alert(title)
-	}
-}
-function getchooseinput(node){
-	let ins=node.querySelectorAll("input")
-	let str=""
-	for(let i=0;i<ins.length;i++){
-		let input=ins[i]
-		if(input.checked)str+=String.fromCharCode(65+i)
-	}
-	return str
+	else window.alert(title)
 }
 function calc_test(node){
 	let sum=0

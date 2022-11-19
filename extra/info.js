@@ -1,4 +1,4 @@
-const buildmessage=`built at Sat Nov 19 12:17:53 2022`
+const buildmessage=`built at Sat Nov 19 12:32:56 2022 by v1.4.0`
 const page_foot=`Powered by <a href='https://github.com/JuliaRoadmap/DoctreePages.jl'>DoctreePages.jl</a> and its dependencies.`
 const tar_css=`css`
 const filesuffix=`.html`
