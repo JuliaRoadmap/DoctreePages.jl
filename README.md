@@ -1,4 +1,4 @@
-中文README | [English README](README_en.md)
+中文 README | [English README](README_en.md)
 
 ## 关于
 这是一个轻量级交互式文档生成器
@@ -13,17 +13,19 @@
 ## 与Documenter比较
 * 不同的结构
 * 由上述可知，本包在特定领域支持更多特性
-* Documenter自动支持多版本文档、文档搜索与 pull request 效果预览等，它们可能在特定情形实用
+* Documenter 自动支持多版本文档、文档搜索与 pull request 效果预览等，它们可能在特定情形实用
 
 ---
 
 * [在此阅读文档](https://juliaroadmap.github.io/DoctreePages.jl/docs/zh/usage.html)
 
 ## LICENSE
-遵循MIT LICENSE，其中以下文件部分来自[Documenter](https://github.com/JuliaDocs/Documenter.jl)（MIT）
+遵循 MIT LICENSE，其中以下文件部分来自[Documenter](https://github.com/JuliaDocs/Documenter.jl)（MIT）
 * css/dark.css
 * css/light.css
-* src/scripts.jl
+* src/script/headroom.js
+* src/script/resize.js
+* src/script/sidebar.js
 
 Discussion功能来自[giscus](https://github.com/giscus/giscus)
 
@@ -31,6 +33,7 @@ Discussion功能来自[giscus](https://github.com/giscus/giscus)
 [DoctreeBuild](https://github.com/JuliaRoadmap/zh/blob/master/DoctreeBuild.toml) [对应测试示例](https://learn.juliacn.com/docs/meta/doctest.html)
 
 ## todo
+- [ ] 主索引页
 - [ ] 复制时添加后缀
 - [ ] 水印
 - [ ] 允许调整字体大小

@@ -1,4 +1,4 @@
-[中文README](README.md) | English README
+[中文 README](README.md) | English README
 
 ## About
 This is a lightweight interactive document generator.
@@ -23,7 +23,9 @@ This package is **not specialy designed for package documentation**. Instead, it
 MIT LICENSE, and these files partly come from [Documenter](https://github.com/JuliaDocs/Documenter.jl) (MIT)
 * css/dark.css
 * css/light.css
-* src/scripts.jl
+* src/script/headroom.js
+* src/script/resize.js
+* src/script/sidebar.js
 
 Page-discussion is powered by [giscus](https://github.com/giscus/giscus)
 
