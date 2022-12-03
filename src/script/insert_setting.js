@@ -11,16 +11,13 @@ for(let i of $(".select-is")){
 	}
 	select.value=null
 	let defkey=store[defval]
-	if(defkey!=undefined){
-		if(defkey[0]=="!"){
-			defkey=defkey.substring(1)
-			if(localStorage.getItem(defkey)==null)localStorage.setItem(defkey, "false")
-		}
-		else if(localStorage.getItem(defkey)==null){
-			localStorage.setItem(defkey, "true")
-			select.value=defval
-		}
+	$(select).val(defval)
+	// defkey != undefined
+	if(defkey[0]=="!"){
+		defkey=defkey.substring(1)
+		if(localStorage.getItem(defkey)==null)localStorage.setItem(defkey, "false")
 	}
+	else if(localStorage.getItem(defkey)==null)localStorage.setItem(defkey, "true")
 	select.onchange=function(){
 		let v=select.value
 		let stk=store[v]

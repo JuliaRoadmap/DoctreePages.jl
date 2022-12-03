@@ -22,8 +22,8 @@ Base.@kwdef struct MainScriptSetting
     main_requirement::AbstractString = "['jquery', 'highlight', 'hljs-julia', 'hljs-julia-repl', 'hljs-line-numbers']"
     requirejs::NamedTuple = (
         url = "https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js",
-        configpaths = """
-        {'headroom': 'https://cdnjs.cloudflare.com/ajax/libs/headroom/0.10.3/headroom.min',
+        configpaths = """{
+        'headroom': 'https://cdnjs.cloudflare.com/ajax/libs/headroom/0.10.3/headroom.min',
 		'jquery': 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min',
 		'headroom-jquery': 'https://cdnjs.cloudflare.com/ajax/libs/headroom/0.10.3/jQuery.headroom.min',
 		'katex': 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min',
