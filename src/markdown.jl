@@ -60,9 +60,9 @@ function mkhtml(node::CommonMark.Node, ::CommonMark.Paragraph, pss::PagesSetting
 end
 function mkhtml(node::CommonMark.Node, h::CommonMark.Heading, pss::PagesSetting)
 	lv = h.level
-	text = childrenhtml(node, pss)
-	text = replace(lowercase(text), ' ' => '-')
-	return "<h$lv id='header-$text'>$text<a class='docs-heading-anchor-permalink'></a></h$lv>"
+	orgtext = childrenhtml(node, pss)
+	text = replace(lowercase(orgtext), ' ' => '-')
+	return "<h$lv id='header-$text'>$orgtext<a class='docs-heading-anchor-permalink'></a></h$lv>"
 end
 function mkhtml(node::CommonMark.Node, c::CommonMark.CodeBlock, pss::PagesSetting)
 	lang=c.info

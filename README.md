@@ -27,7 +27,7 @@
 * src/script/resize.js
 * src/script/sidebar.js
 
-Discussion功能来自[giscus](https://github.com/giscus/giscus)
+Discussion 功能来自[giscus](https://github.com/giscus/giscus)
 
 ## 使用实例
 [DoctreeBuild](https://github.com/JuliaRoadmap/zh/blob/master/DoctreeBuild.toml) [对应测试示例](https://learn.juliacn.com/docs/meta/doctest.html)
