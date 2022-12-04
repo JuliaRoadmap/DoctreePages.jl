@@ -49,3 +49,5 @@ Discussion 功能来自[giscus](https://github.com/giscus/giscus)
 - [ ] 支持 `logical_order` 设置项
 - [ ] 支持同文档在多路径下共享
 - [ ] 用 ant-design 重写部分组件
+- [ ] 支持 `random` 代码块
+- [ ] 支持更复杂的条件触发代码块

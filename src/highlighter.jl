@@ -1,4 +1,8 @@
 function highlight(language::AbstractString, code::AbstractString, pss::PagesSetting)
+	space = findfirst(' ', language)
+	if space!==nothing
+		language = language[1:space-1]
+	end
 	if startswith(language, "is-")
 		return "<div class='checkis' data-check='$(language)'>$(ify_md(code, pss))</div>"
 	end
