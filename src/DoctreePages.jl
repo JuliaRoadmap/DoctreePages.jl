@@ -11,20 +11,12 @@ export github_action
 # 用于自行编写脚本的用户
 export PageSetting, default_parser
 export ify_md, md_withtitle, childrenhtml, mkhtml
-export highlight, buildcodeblock, buildhljsblock
+export highlight, buildhljsblock
 export makehtml
 export makescript
 export Node, readbuildsetting, gen_rec, make_rec, makemenu, makeindex, make404, makeinfo_js, file2node
 
-function html_safe(s::AbstractString; br=true)
-	t=replace(s, "&"=>"&amp;")
-	t=replace(t, "<"=>"&lt;")
-	t=replace(t, ">"=>"&gt;")
-	if br
-		t=replace(t, "\n"=>"<br />")
-	end
-	return t
-end
+include("htmlmanage.jl")
 function rep(str::AbstractString)
 	return replace(str, '`' => "\\`")
 end
@@ -42,7 +34,7 @@ const language_tags=[
 	(en="Requested source unfound :(", zh="请求的资源未找到"),
 ]
 
-const DTP_VERSION = v"1.4.0"
+const DTP_VERSION = v"1.4.1"
 
 using CommonMark
 # using CommonHighlight

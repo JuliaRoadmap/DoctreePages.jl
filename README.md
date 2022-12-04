@@ -10,7 +10,7 @@
 ## 用途
 此包**不是专为包文档设计**，更适合用于教育性文档/博客等
 
-## 与Documenter比较
+## 与 Documenter 比较
 * 不同的结构
 * 由上述可知，本包在特定领域支持更多特性
 * Documenter 自动支持多版本文档、文档搜索与 pull request 效果预览等，它们可能在特定情形实用
@@ -18,6 +18,7 @@
 ---
 
 * [在此阅读文档](https://juliaroadmap.github.io/DoctreePages.jl/docs/zh/usage.html)
+* [测试示例](https://juliaroadmap.github.io/DoctreePages.jl/docs/zh/doctest.html)
 
 ## LICENSE
 遵循 MIT LICENSE，其中以下文件部分来自[Documenter](https://github.com/JuliaDocs/Documenter.jl)（MIT）
@@ -28,9 +29,6 @@
 * src/script/sidebar.js
 
 Discussion 功能来自[giscus](https://github.com/giscus/giscus)
-
-## 使用实例
-[DoctreeBuild](https://github.com/JuliaRoadmap/zh/blob/master/DoctreeBuild.toml) [对应测试示例](https://learn.juliacn.com/docs/meta/doctest.html)
 
 ## todo
 - [ ] 主索引页

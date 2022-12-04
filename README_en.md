@@ -10,7 +10,7 @@ This is a lightweight interactive document generator.
 ## Purpose
 This package is **not specialy designed for package documentation**. Instead, it's more suitable for educational-purpose documents, blogs, etc.
 
-## Compare with Documenter
+## Compare with Documenter.jl
 * different structures
 * as listed above, DoctreePages has more features in certain fields
 * Documenter automatically supports multi-version docs, docs search and pr review, etc, which may be useful under certain occasions
@@ -18,6 +18,7 @@ This package is **not specialy designed for package documentation**. Instead, it
 ---
 
 * [docs here](https://juliaroadmap.github.io/DoctreePages.jl/docs/en/usage.html)
+* [test sample](https://juliaroadmap.github.io/DoctreePages.jl/docs/zh/doctest.html)
 
 ## LICENSE
 MIT LICENSE, and these files partly come from [Documenter](https://github.com/JuliaDocs/Documenter.jl) (MIT)
@@ -28,6 +29,3 @@ MIT LICENSE, and these files partly come from [Documenter](https://github.com/Ju
 * src/script/sidebar.js
 
 Page-discussion is powered by [giscus](https://github.com/giscus/giscus)
-
-## Sample
-[DoctreeBuild](https://github.com/JuliaRoadmap/zh/blob/master/DoctreeBuild.toml) [Result](https://learn.juliacn.com/docs/meta/doctest.html)

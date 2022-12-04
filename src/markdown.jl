@@ -171,7 +171,7 @@ function mkhtml(node::CommonMark.Node, img::CommonMark.Image, pss::PagesSetting)
 	return "<img src='$dest' alt='$alt'>"
 end
 function mkhtml(::CommonMark.Node, ::Union{CommonMark.Backslash, CommonMark.LineBreak}, ::PagesSetting)
-	return "<br />"
+	return "<br />\n"
 end
 mkhtml(::CommonMark.Node, ::CommonMark.SoftBreak, ::PagesSetting)=""
 function mkhtml(node::CommonMark.Node, ::CommonMark.Code, ::PagesSetting)
