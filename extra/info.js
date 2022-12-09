@@ -1,9 +1,10 @@
-const buildmessage=`built at Sat Nov 19 12:32:56 2022 by v1.4.0`
+const buildmessage=`built at Fri Dec  9 12:08:11 2022 by v1.4.1`
 const page_foot=`Powered by <a href='https://github.com/JuliaRoadmap/DoctreePages.jl'>DoctreePages.jl</a> and its dependencies.`
 const tar_css=`css`
 const filesuffix=`.html`
-const menu=['',[`zh/中文文档`,`usage/使用方式`,`guidelines/规范`,`notice/注意事项`,`settings/设置`,`extension/扩展`,],[`en/English Docs`,`usage/Usage`,`guidelines/Guidelines`,`notice/Notice`,`settings/Settings`,`extension/Extension`,],]
-const configpaths=        {'headroom': 'https://cdnjs.cloudflare.com/ajax/libs/headroom/0.10.3/headroom.min',
+const menu=['',[`zh/中文文档`,`usage/使用方式`,`guidelines/规范`,`notice/注意事项`,`settings/设置`,],[`en/English Docs`,`usage/Usage`,`guidelines/Guidelines`,`notice/Notice`,`settings/Settings`,],]
+const configpaths={
+        'headroom': 'https://cdnjs.cloudflare.com/ajax/libs/headroom/0.10.3/headroom.min',
 		'jquery': 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min',
 		'headroom-jquery': 'https://cdnjs.cloudflare.com/ajax/libs/headroom/0.10.3/jQuery.headroom.min',
 		'katex': 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min',
