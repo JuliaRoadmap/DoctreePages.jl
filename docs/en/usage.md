@@ -60,4 +60,4 @@ You can use github action to build pages into github pages. View sample [builddo
 You can use `template()` to generate a template for document automatic building in the current directory.
 
 ## Builder Script
-If you want, you can also call the functions and write a builder script yourself.
+If you want, you can also call the provided functions and write a builder script yourself.
