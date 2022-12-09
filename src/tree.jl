@@ -39,9 +39,29 @@ function namedtuplefrom(d::Dict{String, Any})
 	return NamedTuple(v)
 end
 
+# It is advised to paste functions not shown in documents.
+# pasted from Pkg.Types, with edits
+function semver_spec(s::String)
+    ranges = Pkg.VersionRange[]
+    for ver in strip.(split(strip(s), ','))
+        range = nothing
+        found_match = false
+        for (ver_reg, f) in ver_regs
+            if occursin(ver_reg, ver)
+                range = f(match(ver_reg, ver))
+                found_match = true
+                break
+            end
+        end
+        found_match || error("invalid version specifier: $s")
+        push!(ranges, range)
+    end
+    return VersionSpec(ranges)
+end
+
 function readbuildsetting(path::AbstractString)
 	toml=TOML.parsefile(path)
-	if haskey(toml, "version") && !(DTP_VERSION in Pkg.Types.semver_spec(toml["version"]))
+	if haskey(toml, "version") && !(DTP_VERSION in semver_spec(toml["version"]))
 		error("version does not meet $build_setting : version")
 	end
 	pages=toml["pages"]
@@ -121,7 +141,7 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 	end
 	mkpath(tardir*pss.tar_extra)
 	# info.js
-	makeinfo_js(tardir*"$(pss.tar_extra)/info.js", root, pss)
+	makeinfo_script(tardir*"$(pss.tar_extra)/info.js", root, pss)
 	# main.js
 	io=open(tardir*"$(pss.tar_extra)/main.js", "w")
 	makescript(io, pss)
@@ -327,7 +347,7 @@ function make404(mds::String, pss::PagesSetting)
 		tURL="./",
 	))
 end
-function makeinfo_js(path::String, root::Node, pss::PagesSetting)
+function makeinfo_script(path::String, root::Node, pss::PagesSetting)
 	io=open(path, "w")
 	try
 		println(io, "const buildmessage=`$(rep(pss.buildmessage))`")

@@ -14,7 +14,7 @@ export ify_md, md_withtitle, childrenhtml, mkhtml
 export highlight, buildhljsblock
 export makehtml
 export makescript
-export Node, readbuildsetting, gen_rec, make_rec, makemenu, makeindex, make404, makeinfo_js, file2node
+export Node, readbuildsetting, gen_rec, make_rec, makemenu, makeindex, make404, makeinfo_script, file2node
 
 include("htmlmanage.jl")
 function rep(str::AbstractString)
