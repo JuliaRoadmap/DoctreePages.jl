@@ -1,3 +1,3 @@
 function unhide(ev){
-	ev.srcElement.className="box-unhide"
+	ev.srcElement.parentElement.className="box-unhide"
 }

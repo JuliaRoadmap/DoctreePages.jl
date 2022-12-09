@@ -7,9 +7,9 @@ function highlight(language::AbstractString, code::AbstractString, pss::PagesSet
 	if startswith(language, "is-") # 兼容旧版本
 		return "<div class='checkis' data-check='$(language)'>$(ify_md(code, pss))</div>"
 	end
-	@inbounds language = langs[1]
+	@inbounds language = popfirst!(langs)
 	sym = Symbol(language)
-	return highlight(Val(sym), code, pss)
+	return highlight(Val(sym), code, pss, langs)
 end
 
 function buildhljsblock(language::AbstractString, str::AbstractString)

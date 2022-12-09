@@ -61,9 +61,9 @@ table{
 	display: inline;
 }
 
-.box-hide>div{
+.box-hide>.display-hide{
 	display: none;
 }
-.box-unhide>span{
+.box-unhide>.button-hide{
 	display: none;
 }

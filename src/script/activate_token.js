@@ -4,12 +4,12 @@ function activate_token(node){
 	let ul=document.createElement("ul")
 	let flag=false
 	for(let e of $(".content > h2")){
-		let text=e.innerText
+		let text=e.id
 		let li=document.createElement("li")
 		let a=document.createElement("a")
 		a.className="tocitem"
-		a.href=`#header-\${text}`
-		a.innerText=text
+		a.href=`#${text}`
+		a.innerText=text.substring(7)
 		li.appendChild(a)
 		ul.appendChild(li)
 		flag=true

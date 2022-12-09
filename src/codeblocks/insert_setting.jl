@@ -1,4 +1,4 @@
-function highlight(::Val{Symbol("insert-setting")}, content::AbstractString, pss::PagesSetting)
+function highlight(::Val{Symbol("insert-setting")}, content::AbstractString, pss::PagesSetting, args)
 	toml = TOML.parse(content)
 	type = toml["type"]
 	str = ""

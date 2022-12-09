@@ -1,4 +1,4 @@
-function highlight(::Val{Symbol("insert-fill")}, content::AbstractString, pss::PagesSetting)
+function highlight(::Val{Symbol("insert-fill")}, content::AbstractString, pss::PagesSetting, args)
 	dict=TOML.parse(content)
 	con=dict["content"]::String
 	con=ify_md(con, pss)
