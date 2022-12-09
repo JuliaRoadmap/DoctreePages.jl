@@ -40,7 +40,6 @@ Discussion 功能来自[giscus](https://github.com/giscus/giscus)
 - [ ] 空间压缩
 - [ ] 快捷键
 - [ ] to-顶端-rocket
-- [ ] 部分内容加密
 - [ ] 根据 fetch 到的页面内容自动生成链接块
 - [ ] 允许将代码块拖动到侧边
 - [ ] 支持插入 ink

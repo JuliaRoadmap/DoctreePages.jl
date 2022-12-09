@@ -1,30 +1,30 @@
 function highlight(language::AbstractString, code::AbstractString, pss::PagesSetting)
-	space = findfirst(' ', language)
-	if space!==nothing
-		language = language[1:space-1]
+	langs = split(language, '.'; keepempty=false)
+	if isempty(langs)
+		@warn "No codeblock type information given."
+		return buildhljsblock("plain", code)
 	end
-	if startswith(language, "is-")
+	if startswith(language, "is-") # 兼容旧版本
 		return "<div class='checkis' data-check='$(language)'>$(ify_md(code, pss))</div>"
 	end
-	sym=Symbol(language)
-	if hasmethod(highlight, Tuple{Val{sym}, typeof(code), PagesSetting})
-		return highlight(Val(sym), code, pss)
-	elseif pss.hljs_all
-		return buildhljsblock(language, code)
-	#=
-	elseif hasmethod(highlight_lines, Tuple{Val{sym}, typeof(code), CommonHighlightSetting})
-		return buildcodeblock(language, highlight_lines(sym, code, pss.highlighter))
-	=#
-	else
-		msg = "pss.hljs_all = false not yet supported"
-		pss.throwall ? error(msg) : (@warn msg)
-		return buildhljsblock(language, code)
-	end
+	@inbounds language = langs[1]
+	sym = Symbol(language)
+	return highlight(Val(sym), code, pss)
 end
 
 function buildhljsblock(language::AbstractString, str::AbstractString)
 	code = html_nobr_safe(str)
 	return "<div data-lang='$language'><div class='codeblock-header'></div><pre class='codeblock-body language-$language'><code>$code</code></pre></div><br />"
+end
+
+function highlight(::Val, language::AbstractString, pss::PagesSetting, args)
+	if pss.hljs_all
+		return buildhljsblock(language, code)
+	else
+		msg = "pss.hljs_all = false not yet supported"
+		pss.throwall ? error(msg) : (@warn msg)
+		return buildhljsblock(language, code)
+	end
 end
 
 include("codeblocks/insert_html.jl")
