@@ -39,29 +39,10 @@ function namedtuplefrom(d::Dict{String, Any})
 	return NamedTuple(v)
 end
 
-# It is advised to paste functions not shown in documents.
-# pasted from Pkg.Types, with edits
-function semver_spec(s::String)
-    ranges = Pkg.VersionRange[]
-    for ver in strip.(split(strip(s), ','))
-        range = nothing
-        found_match = false
-        for (ver_reg, f) in ver_regs
-            if occursin(ver_reg, ver)
-                range = f(match(ver_reg, ver))
-                found_match = true
-                break
-            end
-        end
-        found_match || error("invalid version specifier: $s")
-        push!(ranges, range)
-    end
-    return VersionSpec(ranges)
-end
-
 function readbuildsetting(path::AbstractString)
 	toml=TOML.parsefile(path)
-	if haskey(toml, "version") && !(DTP_VERSION in semver_spec(toml["version"]))
+	# The semver -related function set is too large
+	if haskey(toml, "version") && !(DTP_VERSION in Pkg.Types.semver_spec(toml["version"]))
 		error("version does not meet $build_setting : version")
 	end
 	pages=toml["pages"]
