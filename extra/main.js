@@ -228,7 +228,7 @@ require(['jquery', 'katex'], function($, katex){
 	})
 })
 function unhide(ev){
-	ev.srcElement.parentElement.className="box-unhide"
+	ev.path[2].classList.replace("box-hide", "box-unhide")
 }
 function toggle_mark(li){
 	let link=li.lastElementChild.href.substring(oril)

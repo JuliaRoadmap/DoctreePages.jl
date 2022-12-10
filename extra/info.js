@@ -1,8 +1,8 @@
-const buildmessage=`built at Fri Dec  9 12:12:48 2022 by v1.4.2`
+const buildmessage=`built at Sat Dec 10 04:27:45 2022 by v1.4.3`
 const page_foot=`Powered by <a href='https://github.com/JuliaRoadmap/DoctreePages.jl'>DoctreePages.jl</a> and its dependencies.`
 const tar_css=`css`
 const filesuffix=`.html`
-const menu=['',[`zh/中文文档`,`usage/使用方式`,`guidelines/规范`,`notice/注意事项`,`settings/设置`,],[`en/English Docs`,`usage/Usage`,`guidelines/Guidelines`,`notice/Notice`,`settings/Settings`,],]
+const menu=['',`welcome/README`,[`zh/中文文档`,`usage/使用方式`,`guidelines/规范`,`notice/注意事项`,`settings/设置`,],[`en/English Docs`,`usage/Usage`,`guidelines/Guidelines`,`notice/Notice`,`settings/Settings`,],]
 const configpaths={
         'headroom': 'https://cdnjs.cloudflare.com/ajax/libs/headroom/0.10.3/headroom.min',
 		'jquery': 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min',
