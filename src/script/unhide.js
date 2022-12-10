@@ -1,3 +1,3 @@
 function unhide(ev){
-	ev.srcElement.parentElement.className="box-unhide"
+	ev.path[2].classList.replace("box-hide", "box-unhide")
 }

@@ -50,8 +50,8 @@
 ## 配置文件
 `generate` 函数的另一个方法的第三个参数为字符串，表示配置文件的路径，默认是`DoctreeBuild.toml`\
 配置文件应使用TOML格式，其中
-* `version` 项表明最低支持的`DoctreePages`版本，1.3 之后支持[像这样的更复杂的设置](https://pkgdocs.julialang.org/v1/compatibility/)
-* `pages`、`giscus`、`mainscript`表分别表示总设置、`giscus`设置与`main_script`设置
+* `version` 项表明最低支持的 `DoctreePages` 版本，1.3 之后支持[像这样的更复杂的设置](https://pkgdocs.julialang.org/v1/compatibility/)
+* `pages`、`giscus`、`mainscript` 表分别表示总设置、`giscus` 设置与 `main_script` 设置
 * 除字符串与布尔值以外，不支持更高级的值配置
 
 ## Github Action

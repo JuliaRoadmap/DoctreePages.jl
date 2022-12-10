@@ -1,5 +1,5 @@
 function highlight(language::AbstractString, code::AbstractString, pss::PagesSetting)
-	langs = split(language, '.'; keepempty=false)
+	langs = split(language, ' '; keepempty=false)
 	if isempty(langs)
 		@warn "No codeblock type information given."
 		return buildhljsblock("plain", code)

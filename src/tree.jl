@@ -31,6 +31,19 @@ function Base.show(io::IO, node::Node)
 		end
 	end
 end
+chapter_name(node::Node) = node.par.dirs[node.name][2]
+function describe_page(node::Node, title, pss)
+	if node.par !== nothing
+		return chapter_name(node)*"/$title - $(pss.title)"
+	end
+	return "$title - $(pss.title)"
+end
+function navbartext_page(node::Node, title)
+	if node.par !== nothing
+		return chapter_name(node)*" / "*title
+	end
+	return String(title)
+end
 
 function namedtuplefrom(d::Dict{String, Any})
 	v=map(collect(d)) do pair
@@ -237,10 +250,10 @@ function make_rec(;
 			prevpage="<a class=\"docs-footer-prevpage\" href=\"index$(pss.filesuffix)\">« $(lw(pss, 6))</a>"
 		end
 		ps=PageSetting(
-			description="$(current.par.dirs[current.name][2])/$title - $(pss.title)",
+			description = describe_page(current, title, pss),
 			editpath=pss.repo_path=="" ? "" : "$(pss.repo_path*path)$id.$(pa.second[3])",
 			mds=pa.second[1],
-			navbar_title="$(current.par.dirs[current.name][2]) / $title",
+			navbar_title = navbartext_page(current, title),
 			nextpage=nextpage,
 			prevpage=prevpage,
 			tURL="../"^length(pathv)

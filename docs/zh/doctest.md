@@ -41,7 +41,7 @@ $$\sum_{i=1}^n i^{i+1}$$
 plain
 ```
 
-```jl
+```julia-repl
 julia> begin foo(nothing,"$(Int)\n") end # comment
 
 help?> 32+`15`#= =# @bar
@@ -66,6 +66,10 @@ content = "您是否是开发者？"
 default = "no"
 choices = {"yes"="是", "no"="否"}
 store = {"yes"="is-developer","no"="!is-developer"}
+```
+
+```is-developer
+欢迎开发者！
 ```
 
 ```insert-fill
@@ -104,12 +108,8 @@ type = "text"
 content = "文字"
 ```
 
-```is-developer
-欢迎开发者！
-```
-
-```hide
-hidden
+```hide 点击显示内容
+内容
 ```
 
 [^1]: footnote
