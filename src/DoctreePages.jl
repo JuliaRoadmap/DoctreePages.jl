@@ -52,11 +52,12 @@ end
 
 include("markdown.jl")
 
+using JSON3
+using TOML
 include("highlighter.jl")
 include("tohtml.jl")
 include("scripts.jl")
 
-using TOML
 using Pkg
 include("tree.jl")
 include("file2node.jl")
