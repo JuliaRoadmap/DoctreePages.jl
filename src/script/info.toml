@@ -12,6 +12,7 @@ inlines = [
 	"buildmessage",
 	"test",
 	"insert_setting",
+	"random_word",
 ]
 blocks = [
 	"headroom",
