@@ -112,5 +112,16 @@ content = "文字"
 内容
 ```
 
+```random-word
+id = "rw1"
+pool = [
+	{
+		text = "罗素是教皇。",
+		original = "1 + 1 = 3",
+	},
+	"猫猫",
+]
+```
+
 [^1]: footnote
 [^2]: 脚注2

@@ -1,6 +1,8 @@
 for(let tag of $(".random-word")){
 	let id = tag.dataset["id"]
-	let data = magic(id)
+	let data = fetch(`${tURL}/extra/data_random_word/${id}.json`).then(function(response){
+		return response.json()
+	})
 	let ind = floor(Math.random()*data.length)
 	let chosen = data[ind]
 	if(chosen instanceof String)chosen = {text: chosen}

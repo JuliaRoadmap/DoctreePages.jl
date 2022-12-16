@@ -36,42 +36,84 @@ function default_parser()
     return p
 end
 
-Base.@kwdef struct PagesSetting
-    buildmessage::String = "built at $(Libc.strftime(Libc.time())) by DoctreePages.jl v$(DTP_VERSION)"
-    charset::String = "UTF-8"
-    default_alt::String = "img"
-	favicon_path::String = ""
-    filesuffix::String = ".html"
-    giscus::Union{Nothing, GiscusSetting} = nothing
-    # highlighter::CommonHighlightSetting = CommonHighlightSetting()
-    hljs_all::Bool = true
-	lang::String = "en"
-	logo_path::String = ""
-    main_script::MainScriptSetting = MainScriptSetting()
-    make404::Bool = true
-    make_index::Bool = true
-    page_foot::String = "Powered by <a href='https://github.com/JuliaRoadmap/DoctreePages.jl'>DoctreePages.jl</a> and its dependencies."
-    parser::Parser = default_parser()
-    remove_original::Bool = true
-    repo_branch::String = "master"
-    repo_name::String = ""
-    repo_owner::String = ""
-    repo_path::String = repo_name=="" ? "" : "https://github.com/$repo_owner/$repo_name/tree/$repo_branch/"
-    server_prefix::String = "/"
-    show_info::Bool = true
-    src_assets = "assets"
-    src_script = "script"
-    sort_file::Bool = true
-    table_align::String = "inherit"
-    tar_assets = "assets"
-    tar_css = "css"
-    tar_extra = "extra"
-    tar_script = "script"
-    throwall::Bool = false
-    title::String = "Untitled"
-    unfound::String = "404.html"
-    wrap_html::Bool = true
+mutable struct PagesSetting
+    dict::Dict{Symbol, Any}
 end
+Base.getproperty(pss::PagesSetting, key::Symbol) = getfield(pss, :dict)[key]
+Base.setproperty!(pss::PagesSetting, key::Symbol, x) = getfield(pss, :dict)[key] = x
+function PagesSetting(;
+    buildmessage = "built at $(Libc.strftime(Libc.time())) by DoctreePages.jl v$(DTP_VERSION)",
+    charset = "UTF-8",
+    default_alt = "img",
+	favicon_path = "",
+    filesuffix = ".html",
+    giscus::Union{Nothing, GiscusSetting} = nothing,
+    # highlighter::CommonHighlightSetting = CommonHighlightSetting(),
+    hljs_all::Bool = true,
+	lang = "en",
+	logo_path = "",
+    main_script::MainScriptSetting = MainScriptSetting(),
+    make404::Bool = true,
+    make_index::Bool = true,
+    page_foot = "Powered by <a href='https://github.com/JuliaRoadmap/DoctreePages.jl'>DoctreePages.jl</a> and its dependencies.",
+    parser::Parser = default_parser(),
+    remove_original::Bool = true,
+    repo_branch = "master",
+    repo_name = "",
+    repo_owner = "",
+    repo_path = repo_name=="" ? "" : "https://github.com/$repo_owner/$repo_name/tree/$repo_branch/",
+    server_prefix = "/",
+    show_info::Bool = true,
+    src_assets = "assets",
+    src_script = "script",
+    sort_file::Bool = true,
+    table_align::String = "inherit",
+    tar_assets = "assets",
+    tar_css = "css",
+    tar_extra = "extra",
+    tar_script = "script",
+    throwall::Bool = false,
+    title = "Untitled",
+    unfound = "404.html",
+    wrap_html::Bool = true,
+)
+    return PagesSetting(Dict{Symbol, Any}(
+        :buildmessage    => buildmessage,
+        :charset         => charset,
+        :default_alt     => default_alt,
+        :favicon_path    => favicon_path,
+        :filesuffix      => filesuffix,
+        :giscus          => giscus,
+        :hljs_all        => hljs_all,
+        :lang            => lang,
+        :logo_path       => logo_path,
+        :main_script     => main_script,
+        :make404         => make404,
+        :make_index      => make_index,
+        :page_foot       => page_foot,
+        :parser          => parser,
+        :remove_original => remove_original,
+        :repo_branch     => repo_branch,
+        :repo_name       => repo_name,
+        :repo_owner      => repo_owner,
+        :repo_path       => repo_path,
+        :server_prefix   => server_prefix,
+        :show_info       => show_info,
+        :src_assets      => src_assets,
+        :src_script      => src_script,
+        :sort_file       => sort_file,
+        :table_align     => table_align,
+        :tar_assets      => tar_assets,
+        :tar_css         => tar_css,
+        :tar_extra       => tar_extra,
+        :tar_script      => tar_script,
+        :throwall        => throwall,
+        :title           => title,
+        :unfound         => unfound,
+        :wrap_html       => wrap_html
+    ))
+end
+
 function Base.show(io::IO, pss::PagesSetting)
     print(io, "PagesSetting for <$(pss.title)>")
     if pss.repo_name != ""

@@ -76,14 +76,8 @@ end
 function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSetting)
 	# 支持相对路径
 	pwds=pwd()
-	srcdir=abspath(srcdir)
-	if !endswith(srcdir, '/')
-		srcdir*="/"
-	end
-	tardir=abspath(tardir)
-	if !endswith(tardir, '/')
-		tardir*="/"
-	end
+	pss.srcdir = srcdir = rpad(abspath(srcdir), 1, '/')
+	pss.tardir = tardir = rpad(abspath(tardir), 1, '/')
 	mkpath(tardir)
 	# 复制本项目
 	cp(joinpath(@__DIR__, "../css"), tardir*pss.tar_css; force=true)

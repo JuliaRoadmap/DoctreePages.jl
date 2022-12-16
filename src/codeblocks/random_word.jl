@@ -2,8 +2,10 @@ function highlight(::Val{Symbol("random-word")}, content::AbstractString, ::Page
 	toml = TOML.parse(content)
 	id = toml["id"]
 	pool = toml["pool"]
-	open(".json", "w") do file
-		JSON3.write(file, pool)
+	cd(pss.tardir) do
+		open("extra/data_random_word/$id.json", "w") do file
+			JSON3.write(file, pool)
+		end
 	end
 	return "<div class='random-word' data-id='$id'></div>\n"
 end
