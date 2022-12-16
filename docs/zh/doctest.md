@@ -114,13 +114,7 @@ content = "文字"
 
 ```random-word
 id = "rw1"
-pool = [
-	{
-		text = "罗素是教皇。",
-		original = "1 + 1 = 3",
-	},
-	"猫猫",
-]
+pool = [{text = "罗素是教皇。", original = "1 + 1 = 3"}, {text = "猫猫"}]
 ```
 
 [^1]: footnote

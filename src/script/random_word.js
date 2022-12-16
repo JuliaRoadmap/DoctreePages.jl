@@ -5,7 +5,6 @@ for(let tag of $(".random-word")){
 	})
 	let ind = floor(Math.random()*data.length)
 	let chosen = data[ind]
-	if(chosen instanceof String)chosen = {text: chosen}
 	let span = document.createElement("span")
 	span.innerText = data[ind].text
 	tag.appendChild(span)

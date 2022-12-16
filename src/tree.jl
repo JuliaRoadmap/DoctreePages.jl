@@ -73,11 +73,16 @@ function generate(srcdir::AbstractString, tardir::AbstractString, build_setting:
 	generate(srcdir, tardir, PagesSetting(;namedtuple...))
 end
 
+function expend_slash(str)
+	return str[end] == '/' ? str : str*'/'
+end
+
 function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSetting)
 	# 支持相对路径
 	pwds=pwd()
-	pss.srcdir = srcdir = rpad(abspath(srcdir), 1, '/')
-	pss.tardir = tardir = rpad(abspath(tardir), 1, '/')
+	pss.srcdir = srcdir = expend_slash(abspath(srcdir))
+	pss.tardir = tardir = expend_slash(abspath(tardir))
+	@info "Route" srcdir tardir
 	mkpath(tardir)
 	# 复制本项目
 	cp(joinpath(@__DIR__, "../css"), tardir*pss.tar_css; force=true)
