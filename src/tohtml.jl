@@ -16,16 +16,11 @@ function makehtml(pss::PagesSetting, ps::PageSetting)
 		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/fontawesome.min.css"/>
 		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/solid.min.css"/>
 		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/brands.min.css"/>
-		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css">
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/katex.min.css">
 	</head>
 	<body>
 		<div id="documenter">
-			<nav class="docs-sidebar">$(pss.logo_path=="" ? "" : "<a class='docs-logo'><img src='$(ps.tURL)$(pss.logo_path)' alt='logo' height='96' width='144'></a>")
-				<div class="docs-package-name">
-				<span class="docs-autofit">$(pss.title)</span>
-				</div>
-				<ul class="docs-menu"></ul>
-			</nav>
+			$(singlehtml_sidebar(pss, ps))
 			<div class="docs-main">
 				<header class="docs-navbar">
 					<nav class="breadcrumb">
@@ -38,11 +33,19 @@ function makehtml(pss::PagesSetting, ps::PageSetting)
 					</div>
 				</header>
 				<article class="content">$(ps.mds)</article>
-				<nav class="docs-footer">$(ps.prevpage)$(ps.nextpage)$(pss.page_foot=="" ? "" : "<div class='flexbox-break'></div><p class='footer-message'>$(pss.page_foot)</p>")</nav>
+				$(singlehtml_footer(pss, ps))
 				$(gis===nothing ? "" : "<div class='giscus'></div>")
 			</div>
 		</div>
 	</body>
 	</html>
 	"""
+end
+
+function singlehtml_sidebar(pss::PagesSetting, ps::PageSetting)
+	return """<nav class="docs-sidebar">$(pss.logo_path=="" ? "" : "<a class='docs-logo'><img src='$(ps.tURL)$(pss.logo_path)' alt='logo' height='96' width='144'></a>")<div class="docs-package-name"><span class="docs-autofit">$(pss.title)</span></div><ul class="docs-menu"></ul></nav>"""
+end
+
+function singlehtml_footer(pss::PagesSetting, ps::PageSetting)
+	return """<nav class="docs-footer">$(ps.prevpage)$(ps.nextpage)$(pss.page_foot=="" ? "" : "<div class='flexbox-break'></div><p class='footer-message'>$(pss.page_foot)</p>")</nav>"""
 end
