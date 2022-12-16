@@ -38,3 +38,10 @@ added:
 - `[develop]` template generating function
 - `[display]` enable sorting in index files
 - `[interact]` enable "click to reveal"
+
+## 1.5
+added:
+- `[interact]` support "random-word"
+
+changed:
+- `[develop]` let `PagesSetting` type mutable
