@@ -107,7 +107,7 @@ $(".hljs-ln-numbers").ready(function(){
 		scroll_to_lines(from, to)
 	}
 })
-$('.modal-card-foot').innerText=buildmessage
+$('.modal-card-foot')[0].innerText=buildmessage
 const clockemojis="🕛🕐🕑🕒🕓🕔🕕🕖🕗🕘🕙🕚⌛ "
 for(let i of $(".test-area")){
 	let header=document.createElement("div")
@@ -207,6 +207,25 @@ for(let i of $(".select-is")){
 		}
 	}
 	i.append(select)
+}
+for(let tag of $(".random-word")){
+	let id = tag.dataset["id"]
+	let data = fetch(`${tURL}/extra/data_random_word/${id}.json`).then(function(response){
+		return response.json()
+	})
+	let ind = floor(Math.random()*data.length)
+	let chosen = data[ind]
+	let span = document.createElement("span")
+	span.innerText = data[ind].text
+	tag.appendChild(span)
+	delete chosen.text
+	for(let k of Object.keys(chosen)){
+		tag.appendChild(document.createElement("br"))
+		let box = document.createElement("div")
+		box.className = "box-hide"
+		box.innerHTML = `<button class='button-hide' onclick='unhide(event)'><span>${k}</span></button><div class='display-hide'>${chosen[k]}</div>`
+		tag.appendChild(box)
+	}
 }
 	})
 })
