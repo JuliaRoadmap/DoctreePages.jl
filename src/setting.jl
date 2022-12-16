@@ -51,7 +51,7 @@ function default_parser()
 end
 
 Base.@kwdef struct PagesSetting
-    buildmessage::String = "built at $(Libc.strftime(Libc.time())) by v$(DTP_VERSION)"
+    buildmessage::String = "built at $(Libc.strftime(Libc.time())) by DoctreePages.jl v$(DTP_VERSION)"
     charset::String = "UTF-8"
     default_alt::String = "img"
 	favicon_path::String = ""
