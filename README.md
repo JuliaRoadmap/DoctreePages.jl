@@ -48,3 +48,4 @@ Discussion 功能来自[giscus](https://github.com/giscus/giscus)
 - [ ] 用 ant-design 重写部分组件
 - [ ] 支持插入[幻灯](https://wpmore.cn/resources/slick/)内容
 - [ ] 支持更复杂的条件触发代码块
+- [ ] 支持坐标系展示模块
