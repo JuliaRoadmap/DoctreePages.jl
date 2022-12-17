@@ -1,4 +1,7 @@
 # Usage
+## Sample
+The setting configuration in this repo is a good example, you can implement yours according to the format.
+
 ## Generate with Parameter
 One method of the `generate` function allows three parameters:
 * srcdir: dir containing raw data (markdown, etc)

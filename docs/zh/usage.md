@@ -1,4 +1,7 @@
 # 使用方式
+## 样例
+这个仓库的文档设置配置就是一个很好的样例（[这是功能测试页](doctest.md)），您可以参照格式完成。
+
 ## 基于参数生成
 `generate` 函数的核心方法接受三个参数：源目录 srcdir、目标目录 tardir、设置数据 pss
 * 源目录：包含待处理的数据（Markdown、纯文本等）
@@ -48,14 +51,15 @@
 4. 如果源数据在仓库中，应提供 `repo_name` 与 `repo_owner`
 
 ## 配置文件
-`generate` 函数的另一个方法的第三个参数为字符串，表示配置文件的路径，默认是`DoctreeBuild.toml`\
-配置文件应使用TOML格式，其中
+`generate` 函数的另一个方法的第三个参数为字符串，表示配置文件的路径，默认是`DoctreeBuild.toml`。
+
+配置文件应使用 TOML 格式，其中
 * `version` 项表明最低支持的 `DoctreePages` 版本，1.3 之后支持[像这样的更复杂的设置](https://pkgdocs.julialang.org/v1/compatibility/)
 * `pages`、`giscus`、`mainscript` 表分别表示总设置、`giscus` 设置与 `main_script` 设置
 * 除字符串与布尔值以外，不支持更高级的值配置
 
 ## Github Action
-可以使用github action创建github pages，配置可参考 [builddocs.yml](https://github.com/JuliaRoadmap/DoctreePages.jl/blob/master/.github/workflows/builddocs.yml)
+可以使用 github action 创建 github pages，配置可参考 [builddocs.yml](https://github.com/JuliaRoadmap/DoctreePages.jl/blob/master/.github/workflows/builddocs.yml)
 
 利用 `template()`，可以在当前目录生成一个用于文档自动构建的模板。
 

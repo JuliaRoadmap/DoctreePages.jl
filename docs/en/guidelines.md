@@ -81,3 +81,7 @@ For each *part*, the `type` key decides the type.
 
 ### Scope
 `index_char`, `index_suffix` and `score` have scopes. This means they can be defined in `global` or groups, while local definitions can still overwrite definitions in wider fields.
+
+## Insert Random Word
+Code-blocks with `random-word` insert random words. It uses TOML and the `id` key decides the identifier.
+`pool` is an array of dictionaries. For each dictionary, the `text` key is the text content, and will not be html-unescape.
