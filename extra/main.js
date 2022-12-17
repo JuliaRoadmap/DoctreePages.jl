@@ -210,10 +210,13 @@ for(let i of $(".select-is")){
 }
 for(let tag of $(".random-word")){
 	let id = tag.dataset["id"]
-	let data = fetch(`${tURL}/extra/data_random_word/${id}.json`).then(function(response){
+	let data
+	fetch(`${tURL}/extra/data_random_word/${id}.json`).then(function(response){
 		return response.json()
+	}).then(function(x){
+		data = x
 	})
-	let ind = floor(Math.random()*data.length)
+	let ind = Math.floor(Math.random()*data.length)
 	let chosen = data[ind]
 	let span = document.createElement("span")
 	span.innerText = data[ind].text
