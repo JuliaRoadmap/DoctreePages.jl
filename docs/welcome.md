@@ -1,5 +1,5 @@
 # README
-![](https://img.shields.io/badge/LICENSE-MIT-lightgrey) ![](https://img.shields.io/badge/Doctree-v1.4-green)
+![](https://img.shields.io/badge/LICENSE-MIT-lightgrey) ![](https://img.shields.io/badge/Doctree-v1.5-green)
 
 ## 中文
 这是一个轻量级交互式文档生成器
