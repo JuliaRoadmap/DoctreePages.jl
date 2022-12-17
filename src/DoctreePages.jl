@@ -11,7 +11,7 @@ export github_action
 # 用于自行编写脚本的用户
 export PageSetting, default_parser
 export ify_md, md_withtitle, childrenhtml, mkhtml
-export highlight, buildhljsblock
+export highlight, highlight_directly, buildhljsblock
 export makehtml
 export makescript
 export Node, readbuildsetting, gen_rec, make_rec, makemenu, makeindex, make404, makeinfo_script, file2node

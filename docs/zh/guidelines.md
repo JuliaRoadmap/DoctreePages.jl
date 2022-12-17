@@ -60,11 +60,11 @@ instruction = "提示（可选，不支持Markdown）"
 ### 选择题
 `type = "choose"` 时，表明插入选择题
 * 文字内容在 `content` 项中，支持 Markdown
-* 编号分配方式由 `index_char`，`index_suffix` 项决定，前者允许 `Aa1`（默认为`A`） ，后者允许任意字符串（默认为`. `）
+* 编号分配方式由 `index_char`，`index_suffix` 项决定，前者允许 `Aa1`（默认为 `A`） ，后者允许任意字符串（默认为 `. `）
 * `choices` 项表明各选项内容，不支持 Markdown
 * `ans` 表明正确答案（形如`AC`而不允许`CA`、`ab`）
-* `score`表明分值
-* `ans_dict` 是一个字典，表明各选项及对应得分，会覆盖`ans`与`score`
+* `score` 表明分值
+* `ans_dict` 是一个字典，表明各选项及对应得分，会覆盖 `ans` 与 `score`
 
 ### 填空题
 `type = "fill"` 时，表明插入填空题
@@ -81,3 +81,7 @@ instruction = "提示（可选，不支持Markdown）"
 
 ### 作用域
 `index_char`、`index_suffix`、`score` 项均有作用域：即可以在全局或组中设置，同时遵循局部覆盖原则
+
+## 插入随机句子
+`random-word` 表示插入随机句子，使用 TOML 格式配置。
+`id` 表示辨识编号，`pool` 是一个表数组，其中每个 `text` 项表示文字内容，不会被 html-unescape 处理。
