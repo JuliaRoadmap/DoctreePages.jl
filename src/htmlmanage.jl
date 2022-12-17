@@ -24,3 +24,11 @@ function html_nobr_safe(s::AbstractString)
 end
 
 # tagclass_safe
+
+function filename_safe(s::AbstractString)
+	if contains(s, '/') || contains(s, '\\')
+		error("filename contains slash")
+	else
+		return s
+	end
+end

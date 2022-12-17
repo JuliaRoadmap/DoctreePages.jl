@@ -1,6 +1,6 @@
 # 文档功能测试
 文字，**粗体**，*斜体*，`行内代码`，[内部链接](#标题2)[^1]，[外部链接](http://info.cern.ch/)\
-第二行，[其它文档链接](usage.md)，[标题链接](usage.md#github-action)，[纯代码文件链接](https://learn.juliacn.com/docs/lists/typetree1.6.txt#L20-L50)
+第二行，[其它文档链接](usage.md)，[标题链接](usage.md#github-action)，[txt 文件测试](txtfiletest.txt)，[纯代码文件链接](https://learn.juliacn.com/docs/lists/typetree1.8.html#L20-L50)
 
 ---
 
@@ -114,7 +114,14 @@ content = "文字"
 
 ```random-word
 id = "rw1"
-pool = [{text = "罗素是教皇。", original = "1 + 1 = 3"}, {text = "猫猫"}]
+
+[[pool]]
+text = "罗素是教皇。"
+original = "1 + 1 = 3"
+source = "missing"
+
+[[pool]]
+text = "猫猫"
 ```
 
 [^1]: footnote

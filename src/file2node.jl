@@ -29,10 +29,10 @@ end
 
 function file2node(::Val{:jl}; it, node::Node, path, pathv, pre, pss::PagesSetting, spath, tpath)
 	str=read(spath*it, String)
-	node.files[pre]=(highlight("julia", str, pss), pre, "jl")
+	node.files[pre]=(highlight_directly(:julia, str, pss), pre, "jl")
 end
 
 function file2node(::Val{:txt}; it, node::Node, path, pathv, pre, pss::PagesSetting, spath, tpath)
 	str=read(spath*it, String)
-	node.files[pre]=(highlight("plain", str, pss), pre, "txt")
+	node.files[pre]=(highlight_directly(:plain, str, pss), pre, "txt")
 end

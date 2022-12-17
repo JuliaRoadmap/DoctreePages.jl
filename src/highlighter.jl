@@ -57,6 +57,10 @@ function split_codeblocktitle(title::AbstractString)
 	return v
 end
 
+function highlight_directly(language, code::AbstractString, pss::PagesSetting)
+	return highlight(Val(Symbol(language)), code, pss, [language])
+end
+
 function highlight(language::AbstractString, code::AbstractString, pss::PagesSetting)
 	langs = split_codeblocktitle(language)
 	if isempty(langs)
@@ -77,7 +81,7 @@ function buildhljsblock(language::AbstractString, str::AbstractString)
 end
 
 function highlight(::Val, code::AbstractString, pss::PagesSetting, args)
-	language = args[1]
+	language = String(args[1])
 	if pss.hljs_all
 		return buildhljsblock(language, code)
 	else
