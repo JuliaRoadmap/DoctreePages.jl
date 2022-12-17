@@ -2,7 +2,7 @@
 Generate basic structure for docs building.
 Use `cd(template, path)` if the target is not the current path.
 """
-function template()
+function template(print_help::Bool = true)
 	mkpath("docs")
 	mkpath("assets")
 	mkpath(".github/workflows")
@@ -33,5 +33,7 @@ jobs:
         with:
           github_token: \${{ secrets.GITHUB_TOKEN }}
           publish_dir: "./public"\n""")
-	print("Remember to fill in DoctreeBuild.toml")
+	if print_help
+		print("Remember to fill in DoctreeBuild.toml")
+	end
 end
