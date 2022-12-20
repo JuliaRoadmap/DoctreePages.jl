@@ -343,6 +343,7 @@ end
 function makeinfo_script(path::String, root::Node, pss::PagesSetting)
 	io=open(path, "w")
 	try
+		println(io, "const __lang=`$(rep(pss.lang))`")
 		println(io, "const buildmessage=`$(rep(pss.buildmessage))`")
 		println(io, "const page_foot=`$(rep(pss.page_foot))`")
 		println(io, "const tar_css=`$(rep(pss.tar_css))`")
