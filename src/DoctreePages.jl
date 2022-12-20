@@ -59,6 +59,7 @@ include("tohtml.jl")
 include("scripts.jl")
 
 using Pkg
+include("node.jl")
 include("tree.jl")
 include("file2node.jl")
 include("git.jl")
