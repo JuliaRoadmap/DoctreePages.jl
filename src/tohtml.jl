@@ -4,18 +4,18 @@ function makehtml(pss::PagesSetting, ps::PageSetting)
 	<!DOCTYPE html>
 	<html lang="$(pss.lang)">
 	<head>
-		<meta charset="$(pss.charset)"/>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<meta charset="$(pss.charset)">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>$(ps.description)</title>$(pss.favicon_path=="" ? "" : "<link rel='icon' type='image/x-icon' href='$(pss.favicon_path)'>")
-		<meta name="tURL" id="tURL" content="$(ps.tURL)"/>
+		<meta name="tURL" id="tURL" content="$(ps.tURL)">
 		<meta name="description" content="$(ps.description)">
 		<script src="$(ps.tURL)$(pss.tar_extra)/info.js"></script>
-		<link id="theme-href" rel="stylesheet" type="text/css" href=\"$(ps.tURL)css/light.css\">
+		<link id="theme-href" rel="stylesheet" type="text/css" href="$(ps.tURL)css/light.css">
 		<script src="$(pss.main_script.requirejs.url)" data-main="$(ps.tURL)$(pss.tar_extra)/main.js"></script>
 		<link rel="stylesheet" type="text/css" href="$(ps.tURL)css/general.css">
-		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/fontawesome.min.css"/>
-		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/solid.min.css"/>
-		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/brands.min.css"/>
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/fontawesome.min.css">
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/solid.min.css">
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/brands.min.css">
 		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/katex.min.css">
 	</head>
 	<body>

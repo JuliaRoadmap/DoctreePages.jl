@@ -1,7 +1,13 @@
 function ify_md(s::AbstractString, pss::PagesSetting, accept_crlf::Bool = true)
 	if accept_crlf s=replace(s, "\r"=>"") end
-	md=pss.parser(s)
-	return mkhtml(md, md.t, pss)
+	md = pss.parser(s)
+	pss.footnote_region_start = false
+	str = mkhtml(md, md.t, pss)
+	if pss.footnote_region_start
+		pss.footnote_region_start = false
+		str*="</div>"
+	end
+	return str
 end
 function md_withtitle(s::AbstractString, pss::PagesSetting, accept_crlf::Bool = true)
 	if accept_crlf s=replace(s, "\r"=>"") end
@@ -16,7 +22,7 @@ function md_withtitle(s::AbstractString, pss::PagesSetting, accept_crlf::Bool = 
 		buf=IOBuffer()
 		showerror(buf, er)
 		str=String(take!(buf))
-		con="<p>$(html_safe(str))</p>"
+		con="<p style='color:red'>ERROR handled by DoctreePages.jl :<br />$(html_safe(str))</p>"
 		@error str
 	end
 	return Pair(con, md.first_child.first_child.literal)
@@ -42,9 +48,8 @@ function mkhtml(node::CommonMark.Node, c::CommonMark.AbstractContainer, pss::Pag
 	str="no method for Markdown Container ($(typeof(c)))"
 	if pss.throwall
 		error(str)
-	else
-		@warn str
 	end
+	@warn str
 	return html(node)
 end
 
@@ -73,7 +78,12 @@ function mkhtml(::CommonMark.Node, ::CommonMark.ThematicBreak, ::PagesSetting)
 	return "<hr />"
 end
 function mkhtml(node::CommonMark.Node, f::CommonMark.FootnoteDefinition, pss::PagesSetting)
-	return "<div id='footnote-$(f.id)' class='footnote'><span>$(f.id). </span>$(childrenhtml(node, pss))</div>"
+	foot = "<div id='footnote-$(f.id)' class='footnote'><span>$(f.id). </span>$(childrenhtml(node, pss))</div>"
+	if !pss.footnote_region_start
+		pss.footnote_region_start = true
+		foot = "\n<div class='footnote_region'>"*foot
+	end
+	return foot
 end
 function mkhtml(node::CommonMark.Node, ::CommonMark.BlockQuote, pss::PagesSetting)
 	return "<blockquote>$(childrenhtml(node, pss))</blockquote>"
@@ -96,7 +106,7 @@ function mkhtml(node::CommonMark.Node, ad::CommonMark.Admonition, pss::PagesSett
 	return "<div class='admonition is-$cat'><header class='admonition-header'>$title</header><div class='admonition-body'>$(childrenhtml(node, pss))</div></div>"
 end
 function mkhtml(node::CommonMark.Node, ::CommonMark.Table, pss::PagesSetting)
-	return "<table style='float:center'>$(childrenhtml(node, pss))</table>"
+	return "<table>$(childrenhtml(node, pss))</table>"
 end
 function mkhtml(node::CommonMark.Node, ::CommonMark.TableHeader, pss::PagesSetting)
 	return "<thead>$(childrenhtml(node, pss))</thead>"
@@ -108,12 +118,11 @@ function mkhtml(node::CommonMark.Node, ::CommonMark.TableRow, pss::PagesSetting)
 	return "<tr>$(childrenhtml(node, pss))</tr>"
 end
 function mkhtml(node::CommonMark.Node, cell::CommonMark.TableCell, pss::PagesSetting)
-	ta=pss.table_align
-	if ta=="inherit"
-		return "<td>$(childrenhtml(node, pss))</td>"
-	end
-	align=pss.table_align=="auto" ? cell.align : pss.table_align
-	return "<td style='float:$align'>$(childrenhtml(node, pss))</td>"
+	ta = pss.table_align
+	chtml = childrenhtml(node, pss)
+	ta == "inherit" && return "<td>$chtml</td>"
+	al = pss.table_align=="auto" ? cell.align : pss.table_align
+	return "<td style='float:$al'>$chtml</td>"
 end
 function mkhtml(node::CommonMark.Node, ::CommonMark.DisplayMath, ::PagesSetting)
 	return "<div class='display-math tex'>$(html_safe(node.literal))</div>"

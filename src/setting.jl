@@ -67,7 +67,7 @@ function PagesSetting(;
     src_assets = "assets",
     src_script = "script",
     sort_file::Bool = true,
-    table_align::String = "inherit",
+    table_align::String = "auto",
     tar_assets = "assets",
     tar_css = "css",
     tar_extra = "extra",
