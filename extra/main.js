@@ -219,14 +219,25 @@ for(let tag of $(".random-word")){
 		let ind = Math.floor(Math.random()*data.length)
 		let chosen = data[ind]
 		let span = document.createElement("span")
-		span.innerText = data[ind].text
+		span.innerHTML = data[ind].text
 		tag.appendChild(span)
 		tag.appendChild(document.createElement("br"))
 		delete chosen.text
 		for(let k of Object.keys(chosen)){
-			let box = document.createElement("div")
-			box.className = "box-hide"
-			box.innerHTML = `<button class='button-hide' onclick='unhide(event)'><span>${k}</span></button><div class='display-hide'>${chosen[k]}</div>`
+			let name = k
+			if(__lang == "zh"){
+				name = {
+					original: "原文",
+					source: "来源",
+					license: "许可证类型",
+				}[k]
+			}
+			let box = document.createElement("button")
+			box.innerText = name
+			box.onclick = function(){
+				box.innerHTML = `${name}: ${chosen[k]}`
+				box.onclick = undefined
+			}
 			tag.appendChild(box)
 		}
 	})
