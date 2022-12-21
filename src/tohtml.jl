@@ -13,9 +13,9 @@ function makehtml(pss::PagesSetting, ps::PageSetting)
 		<link id="theme-href" rel="stylesheet" type="text/css" href="$(ps.tURL)css/light.css">
 		<script src="$(pss.main_script.requirejs.url)" data-main="$(ps.tURL)$(pss.tar_extra)/main.js"></script>
 		<link rel="stylesheet" type="text/css" href="$(ps.tURL)css/general.css">
-		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/fontawesome.min.css">
-		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/solid.min.css">
-		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/brands.min.css">
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/fontawesome.min.css">
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/solid.min.css">
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/brands.min.css">
 		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/katex.min.css">
 	</head>
 	<body>
@@ -35,6 +35,7 @@ function makehtml(pss::PagesSetting, ps::PageSetting)
 				<article class="content">$(ps.mds)</article>
 				$(singlehtml_footer(pss, ps))
 				$(gis===nothing ? "" : "<div class='giscus'></div>")
+				<div id='rocket' class='fa-brands fa-space-awesome' onclick='scrollTo(0, 0)'></div>
 			</div>
 		</div>
 	</body>

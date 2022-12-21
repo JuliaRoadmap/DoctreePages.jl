@@ -4,7 +4,7 @@ settings.id="documenter-settings"
 settings.innerHTML=`
 <div class="modal-background"></div>
 <div class="modal-card">
-	<header class="modal-card-head"><p class="modal-card-title">⚙</p><button class="delete"></button></header>
+	<header class="modal-card-head"><p class="modal-card-title fas fa-cog"></p><button class="delete"></button></header>
 	<section class="modal-card-body">
 		<div class="select"><select id="documenter-themepicker">
 			<option value="light">light</option>
