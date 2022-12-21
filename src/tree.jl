@@ -40,13 +40,9 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 	# 复制本项目
 	cp(joinpath(@__DIR__, "../css"), tardir*pss.tar_css; force=true)
 	# 复制来源
-	cd(srcdir)
-	if isdir(pss.src_assets)
-		cp(pss.src_assets, tardir*pss.tar_assets; force=true)
-		# cp(joinpath(@__DIR__, "../svg"), tardir*"assets/extra"; force=true)
-	end
-	if isdir("script")
-		cp("script", tardir*pss.tar_script; force=true)
+	cd(srcdir) do
+		isdir(pss.src_assets) && cp(pss.src_assets, tardir*pss.tar_assets; force=true)
+		isdir("script") && cp("script", tardir*pss.tar_script; force=true)
 	end
 	# docs
 	root=Node(nothing, lw(pss, 5))
@@ -89,11 +85,9 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 	# info.js
 	makeinfo_script(tardir*"$(pss.tar_extra)/info.js", root, pss)
 	# main.js
-	io=open(tardir*"$(pss.tar_extra)/main.js", "w")
-	makescript(io, pss)
-	close(io)
-	# 消除影响
-	cd(pwds)
+	open(tardir*"$(pss.tar_extra)/main.js", "w") do io
+		makescript(io, pss)
+	end
 	# 返回
 	return root
 end
@@ -286,7 +280,7 @@ function make404(mds::String, pss::PagesSetting)
 	return makehtml(pss, PageSetting(
 		description="404 ($(pss.title))",
 		editpath="",
-		mds=mds,
+		mds="<p style='color:red'>$mds</p>",
 		navbar_title="404",
 		nextpage="",
 		prevpage="<a class='docs-footer-prevpage' href='index$(pss.filesuffix)'>« $(lw(pss, 9))</a>",

@@ -31,10 +31,10 @@ const language_tags=[
 	(en="main", zh="主页"),
 	(en=" index", zh="索引"),
 	(en="parent index", zh="上层索引"),
-	(en="Requested source unfound :(", zh="请求的资源未找到"),
+	(en="Requested source not found :(", zh="请求的资源未找到"),
 ]
 
-const DTP_VERSION = v"1.5.3"
+const DTP_VERSION = v"1.5.4"
 
 using CommonMark
 # using CommonHighlight
