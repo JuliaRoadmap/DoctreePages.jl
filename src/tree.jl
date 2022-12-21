@@ -31,8 +31,6 @@ function expend_slash(str)
 end
 
 function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSetting)
-	# 支持相对路径
-	pwds=pwd()
 	pss.srcdir = srcdir = expend_slash(abspath(srcdir))
 	pss.tardir = tardir = expend_slash(abspath(tardir))
 	@info "Route" srcdir tardir
@@ -110,7 +108,7 @@ function gen_rec(;
 	current.toml=toml
 	# 遍历
 	for it in vec
-		if it=="setting.toml"
+		if it=="setting.toml" || (in(it, toml["dismiss"]))
 			continue
 		elseif isfile(it)
 			pss.show_info && @info it
@@ -144,56 +142,53 @@ function gen_rec(;
 	pop!(pathv)
 	cd("..")
 end
-function make_rec(;
-	current::Node,
-	path::String,
-	pathv::Vector{String},
-	pss::PagesSetting,
-	tardir::String)
-	tpath=tardir*path
-	toml=current.toml
+
+function get_pagestr(id, current, pss, type)
+	if haskey(current.files, id)
+		title = current.files[id][2]
+		return "<a class='docs-footer-$(type)page' href='$(id)$(pss.filesuffix)'>$(type=="prev" ? "« $title" : "$title »")</a>"
+	end
+	if haskey(current.dirs, id)
+		title = current.dirs[id][2]
+		return "<a class='docs-footer-$(type)page' href='$(id)/index$(pss.filesuffix)'>$(type=="prev" ? "« $title" : "$title »")</a>"
+	end
+	error("Check setting files: nothing matches [$id] in $current")
+end
+function make_rec(;current::Node, path::String, pathv::Vector{String}, pss::PagesSetting, tardir::String)
+	tpath = tardir*path
+	toml = current.toml
+	vec = get(toml, "outline", [])
+	footdirect = get(toml, "foot_direct", Dict())
 	for pa in current.files
-		id=pa.first
-		title=pa.second[2]
-		prevpage=""
-		nextpage=""
-		if haskey(toml, "outline")
-			vec=toml["outline"]
-			len=length(vec)
-			for i in 1:len
-				if vec[i]==id
-					if i!=1
-						previd=@inbounds vec[i-1]
-						if haskey(current.files, previd)
-							ptitle=current.files[previd][2]
-							prevpage="<a class='docs-footer-prevpage' href='$(previd)$(pss.filesuffix)'>« $ptitle</a>"
-						elseif haskey(current.dirs, previd)
-							ptitle=current.dirs[previd][2]
-							prevpage="<a class='docs-footer-prevpage' href='$(previd)/index$(pss.filesuffix)'>« $ptitle</a>"
-						else
-							msg = "nothing matches [$id] in $current"
-							pss.throwall ? error(msg) : (@error msg)
-						end
-					else
-						prevpage="<a class=\"docs-footer-prevpage\" href=\"index$(pss.filesuffix)\">« $(lw(pss, 6))</a>"
-					end
-					if i!=len
-						nextid=@inbounds vec[i+1]
-						if haskey(current.files, nextid)
-							ntitle=current.files[nextid][2]
-							nextpage="<a class='docs-footer-nextpage' href='$(nextid)$(pss.filesuffix)'>$ntitle »</a>"
-						elseif haskey(current.dirs, nextid)
-							ntitle=current.dirs[nextid][2]
-							nextpage="<a class='docs-footer-nextpage' href='$(nextid)/index$(pss.filesuffix)'>$ntitle »</a>"
-						else
-							msg = "nothing matches [$id] in $current"
-							pss.throwall ? error(msg) : (@error msg)
-						end
-					end
-				end
+		id = pa.first
+		title = pa.second[2]
+		prevpage = ""
+		nextpage = ""
+		outline_index = indexin(id, vec)
+		if outline_index === nothing
+			prevpage = """<a class="docs-footer-prevpage" href="index$(pss.filesuffix)">« $(lw(pss, 6))</a>"""
+		elseif haskey(footdirect, id)
+			thisdirect = footdirect[id]
+			if haskey(thisdirect, "prev")
+				previd = thisdirect["prev"]
+				prevpage = get_pagestr(previd, current, pss, "prev")
+			end
+			if haskey(thisdirect, "next")
+				nextid = thisdirect["next"]
+				nextpage = get_pagestr(nextid, current, pss, "next")
 			end
 		else
-			prevpage="<a class=\"docs-footer-prevpage\" href=\"index$(pss.filesuffix)\">« $(lw(pss, 6))</a>"
+			i = outline_index[]
+			if i==1
+				prevpage = """<a class="docs-footer-prevpage" href="index$(pss.filesuffix)">« $(lw(pss, 6))</a>"""
+			else
+				@inbounds previd = vec[i-1]
+				prevpage = get_pagestr(previd, current, pss, "prev")
+			end
+			if i!=len
+				@inbounds nextid = vec[i+1]
+				nextpage = get_pagestr(nextid, current, pss, "next")
+			end
 		end
 		ps=PageSetting(
 			description = describe_page(current, title, pss),

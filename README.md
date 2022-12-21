@@ -43,8 +43,6 @@ Discussion 功能来自[giscus](https://github.com/giscus/giscus)
 - [ ] 根据 fetch 到的页面内容自动生成链接块
 - [ ] 允许将代码块拖动到侧边
 - [ ] 支持插入 ink
-- [ ] 支持 `logical_order` 设置项
-- [ ] 支持 `dismiss` 设置项
 - [ ] 支持同文档在多路径下共享
 - [ ] 用 ant-design 重写部分组件
 - [ ] 支持插入[幻灯](https://wpmore.cn/resources/slick/)内容
