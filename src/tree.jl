@@ -98,7 +98,7 @@ function gen_rec(;current::Node, outline::Bool, path::String, pathv::Vector{Stri
 	toml = in("setting.toml", vec) ? TOML.parsefile("setting.toml") : Dict()
 	current.toml=toml
 	for it in vec
-		if it=="setting.toml" || (in(it, toml["dismiss"]))
+		if it=="setting.toml" || (in(it, toml["ignore"]))
 			continue
 		elseif isfile(it)
 			pss.show_info

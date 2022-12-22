@@ -4,3 +4,9 @@ outline = [
 	"notice",
 	"settings",
 ]
+ignore = [
+	"ignoreme",
+]
+
+[foot_direct.doctest]
+next = "txtfiletest"
