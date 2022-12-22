@@ -74,6 +74,7 @@ function PagesSetting(;
     tar_script = "script",
     throwall::Bool = false,
     title = "Untitled",
+    theme = "documenter-default",
     unfound = "404.html",
     wrap_html::Bool = true,
 )
@@ -109,6 +110,7 @@ function PagesSetting(;
         :tar_script      => tar_script,
         :throwall        => throwall,
         :title           => title,
+        :theme           => theme,
         :unfound         => unfound,
         :wrap_html       => wrap_html
     ))

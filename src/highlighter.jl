@@ -62,15 +62,15 @@ function highlight_directly(language, code::AbstractString, pss::PagesSetting)
 end
 
 function highlight(language::AbstractString, code::AbstractString, pss::PagesSetting)
+	if startswith(language, "is-") # 兼容旧版本
+		return "<div class='checkis' data-check='$(language)'>$(ify_md(code, pss))</div>"
+	end
 	langs = split_codeblocktitle(language)
 	if isempty(langs)
 		@warn "No codeblock type information given."
 		return buildhljsblock("plain", code)
 	end
-	if startswith(language, "is-") # 兼容旧版本
-		return "<div class='checkis' data-check='$(language)'>$(ify_md(code, pss))</div>"
-	end
-	language = langs[1]
+	language = langs[1] = replace(lowercase(langs[1]), '-' => '_')
 	sym = Symbol(language)
 	return highlight(Val(sym), code, pss, langs)
 end

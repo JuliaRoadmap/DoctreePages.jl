@@ -8,7 +8,7 @@ function makeindex_char(char::AbstractString, id::Integer)
 	end
 end
 
-function highlight(::Val{Symbol("insert-test")}, content::AbstractString, pss::PagesSetting, args)
+function highlight(::Val{:insert_test}, content::AbstractString, pss::PagesSetting, args)
 	toml = TOML.parse(content)
 	gl = toml["global"]::Dict
 	parts = toml["parts"]::Vector

@@ -1,4 +1,4 @@
-function highlight(::Val{Symbol("random-word")}, content::AbstractString, pss::PagesSetting, args)
+function highlight(::Val{:random_word}, content::AbstractString, pss::PagesSetting, args)
 	toml = TOML.parse(content)
 	id = toml["id"]
 	div = "<div class='random-word' data-id='$id'></div>\n"

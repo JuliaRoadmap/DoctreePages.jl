@@ -17,7 +17,7 @@
 | default_alt | 图像的默认替换文字 |
 | favicon_path | favicon 的路径，若无则为 `""` |
 | filesuffix | 生成文件的后缀 |
-| giscus | Giscus设置 |
+| giscus | Giscus 设置 |
 | hljs_all | 是否全部高亮均使用[highlight.js](https://github.com/highlightjs/highlight.js)（当前不支持 `false`） |
 | lang | 使用语言（`en`、`zh`等） |
 | logo_path | logo 的路径，若无则为 `""` |
@@ -26,7 +26,7 @@
 | make_index | 是否创建索引页 |
 | page_foot | 页面底端嵌入的 html |
 | parser | CommonMark 解析器 |
-| remove_origin | 生成前是否先移除 |
+| remove_origin | 生成前是否先移除过去生成的内容 |
 | repo_branch | 仓库的分支名称 |
 | repo_name | 仓库的名称 |
 | repo_owner | 仓库的所有者名称 |
@@ -42,7 +42,8 @@
 | tar_script | 生成的包含脚本的目录名 |
 | throwall | 是否抛出非致命错误 |
 | title | 标题 |
-| unfound | 404错误时重定向的页面（若无文件则自动生成） |
+| theme | 展示的 css 主题 |
+| unfound | 404 错误时可显示的页面链接（若无文件则自动生成） |
 | wrap_html | 是否对html文件进行包裹 |
 
 1. `title` 是唯一未提供默认值的键
