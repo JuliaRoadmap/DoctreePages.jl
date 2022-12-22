@@ -90,23 +90,13 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 	return root
 end
 
-function gen_rec(;
-	current::Node,
-	outline::Bool,
-	path::String,
-	pathv::Vector{String},
-	pss::PagesSetting,
-	srcdir::String,
-	tardir::String)
-	# 准备
+function gen_rec(;current::Node, outline::Bool, path::String, pathv::Vector{String}, pss::PagesSetting, srcdir::String, tardir::String)
 	spath=srcdir*path
 	tpath=tardir*path
 	mkpath(tpath)
-	# TOML
-	vec=readdir("."; sort=false)
+	vec = readdir("."; sort=false)
 	toml = in("setting.toml", vec) ? TOML.parsefile("setting.toml") : Dict()
 	current.toml=toml
-	# 遍历
 	for it in vec
 		if it=="setting.toml" || (in(it, toml["dismiss"]))
 			continue
@@ -136,7 +126,6 @@ function gen_rec(;
 			)
 		end
 	end
-	# 消除影响
 	current=current.par
 	path=path[1:end-1-length(last(pathv))]
 	pop!(pathv)
@@ -158,6 +147,7 @@ function make_rec(;current::Node, path::String, pathv::Vector{String}, pss::Page
 	tpath = tardir*path
 	toml = current.toml
 	vec = get(toml, "outline", [])
+	len = length(vec)
 	footdirect = get(toml, "foot_direct", Dict())
 	for pa in current.files
 		id = pa.first
@@ -215,10 +205,9 @@ function make_rec(;current::Node, path::String, pathv::Vector{String}, pss::Page
 		)
 	end
 	if pss.make_index
-		write(tpath*"index"*pss.filesuffix, makeindex(current, path, pathv; pss=pss))
+		write(tpath*"index"*pss.filesuffix, makeindex(current, path, pathv, pss))
 	end
-	# 消除影响
-	path=path[1:end-1-length(last(pathv))]
+	path = path[1:end-1-length(last(pathv))]
 	pop!(pathv)
 	cd("..")
 end
@@ -243,7 +232,7 @@ function _makemenu(node::Node, pss::PagesSetting)
 	return str
 end
 
-function makeindex(node::Node, path::String, pathv::Vector{String}; pss::PagesSetting)
+function makeindex(node::Node, path::String, pathv::Vector{String}, pss::PagesSetting)
 	mds="<ul>"
 	dkeys = collect(keys(node.dirs))
 	fkeys = collect(keys(node.files))
@@ -282,6 +271,7 @@ function make404(mds::String, pss::PagesSetting)
 		tURL="./",
 	))
 end
+
 function makeinfo_script(path::String, root::Node, pss::PagesSetting)
 	io=open(path, "w")
 	try
