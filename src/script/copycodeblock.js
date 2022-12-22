@@ -6,8 +6,8 @@ function copycodeblock(ev){
 	for(let code of codes)s+=code.innerText+"\\n"
 	navigator.clipboard.writeText(s).then(
 		function(){
-			tar.innerText="✔"
-			setTimeout(function(){tar.innerText="📋"}, 2000)
+			tar.classList.replace("fa-clipboard", "fa-clipboard-check")
+			setTimeout(function(){tar.classList.replace("fa-clipboard-check", "fa-clipboard")}, 2000)
 		},
 		function(){window.alert("failed")}
 	)

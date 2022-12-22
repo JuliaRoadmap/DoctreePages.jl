@@ -42,7 +42,7 @@ Discussion 功能来自[giscus](https://github.com/giscus/giscus)
 - [ ] 复制纯源代码
 - [ ] 允许将代码块拖动到侧边
 - [ ] 根据 fetch 到的页面内容自动生成链接块
-- [ ] 支持插入 ink
+- [ ] 支持插入 [ink](https://github.com/inkle/ink)
 - [ ] 支持插入[幻灯](https://wpmore.cn/resources/slick/)内容
 - [ ] 支持更复杂的条件触发代码块
 - [ ] 支持坐标系展示模块

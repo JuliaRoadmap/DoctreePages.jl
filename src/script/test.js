@@ -12,10 +12,10 @@ for(let i of $(".test-area")){
 	let tl=i.dataset["tl"]
 	timer.dataset["tl"]=tl
 	let button=document.createElement("button")
-	button.innerText="📤"
+	button.className = "fa-solid fa-upload"
 	let lock=document.createElement("button")
 	let locked=false
-	lock.innerText="🔓"
+	lock.classList="fa-solid fa-lock-open"
 	header.append(name)
 	header.append(fullscore)
 	header.append(timer)
@@ -47,16 +47,16 @@ for(let i of $(".test-area")){
 	button.onclick=function(){
 		clearInterval(inter)
 		calc_test(i)
-		button.innerText="🔍"
-		button.onclick=function(){}
+		button.classList.replace("fa-upload", "fa-magnifying-glass")
+		button.onclick=undefined
 	}
 	lock.onclick=function(){
 		if(locked){
-			lock.innerText="🔓"
+			lock.classList.replace("fa-lock", "fa-lock-open")
 			inter=timeron()
 		}
 		else{
-			lock.innerText="🔒"
+			lock.classList.replace("fa-lock-open", "fa-lock")
 			clearInterval(inter)
 		}
 		locked=!locked
