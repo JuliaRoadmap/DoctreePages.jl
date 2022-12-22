@@ -6,8 +6,22 @@ function file2node(::Val; it, node::Node, path, pathv, pre, pss::PagesSetting, s
 end
 
 function file2node(::Val{:md}; it, node::Node, path, pathv, pre, pss::PagesSetting, spath, tpath)
-	pair = md_withtitle(read(spath*it, String), pss)
-	node.files[pre] = (pair.first, pair.second, "md")
+	con = ""
+	s = replace(read(spath*it, String), "\r"=>"")
+	try
+		md = pss.parser(s)
+		con = mkhtml(md, md.t, pss)
+	catch er
+		if pss.throwall
+			error(er)
+		end
+		buf = IOBuffer()
+		showerror(buf, er)
+		str = String(take!(buf))
+		@error "Markdown Parse Error" it str
+		con = "<p style='color:red'>ERROR handled by DoctreePages.jl :<br />$(html_safe(str))</p>"
+	end
+	node.files[pre] = (con, md.first_child.first_child.literal, "md")
 end
 
 function file2node(::Union{Val{:html}, Val{:htm}}; it, node::Node, path, pathv, pre, pss::PagesSetting, spath, tpath)

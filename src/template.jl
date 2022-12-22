@@ -2,7 +2,7 @@
 Generate basic structure for docs building.
 Use `cd(template, path)` if the target is not the current path.
 """
-function template(print_help::Bool = true)
+function template(;print_help::Bool = true)
 	mkpath("docs")
 	mkpath("assets")
 	mkpath(".github/workflows")

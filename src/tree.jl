@@ -27,7 +27,7 @@ function generate(srcdir::AbstractString, tardir::AbstractString, build_setting:
 end
 
 function expend_slash(str)
-	return str[end] == '/' ? str : str*'/'
+	return (str[end] in ['/', '\\']) ? str : str*'/'
 end
 
 function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSetting)
@@ -101,13 +101,13 @@ function gen_rec(;current::Node, outline::Bool, path::String, pathv::Vector{Stri
 		if it=="setting.toml" || (in(it, toml["dismiss"]))
 			continue
 		elseif isfile(it)
-			pss.show_info && @info it
+			pss.show_info
 			dot=findlast('.', it)
 			pre=it[1:dot-1]
 			suf=it[dot+1:end]
 			file2node(Val(Symbol(suf)); it=it, node=current, path=path, pathv=pathv, pre=pre, pss=pss, spath=spath, tpath=tpath)
 		else # isdir
-			pss.show_info && @info it*"/"
+			pss.show_info
 			ns=current.toml["names"]
 			ns::Dict
 			node=Node(current,it)

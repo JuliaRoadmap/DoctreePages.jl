@@ -23,7 +23,9 @@ function html_nobr_safe(s::AbstractString)
 	return t
 end
 
-# tagclass_safe
+function tagclass_safe(s::AbstractString)
+	return replace(s, "'" => "\\'")
+end
 
 function filename_safe(s::AbstractString)
 	if contains(s, '/') || contains(s, '\\')

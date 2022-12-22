@@ -9,24 +9,6 @@ function ify_md(s::AbstractString, pss::PagesSetting, accept_crlf::Bool = true)
 	end
 	return str
 end
-function md_withtitle(s::AbstractString, pss::PagesSetting, accept_crlf::Bool = true)
-	if accept_crlf s=replace(s, "\r"=>"") end
-	md=pss.parser(s)
-	con=""
-	try
-		con=mkhtml(md, md.t, pss)
-	catch er
-		if pss.throwall
-			throw(er)
-		end
-		buf=IOBuffer()
-		showerror(buf, er)
-		str=String(take!(buf))
-		con="<p style='color:red'>ERROR handled by DoctreePages.jl :<br />$(html_safe(str))</p>"
-		@error str
-	end
-	return Pair(con, md.first_child.first_child.literal)
-end
 
 #= @inline =# function childrenhtml(node::CommonMark.Node, pss::PagesSetting)
 	current=node.first_child
