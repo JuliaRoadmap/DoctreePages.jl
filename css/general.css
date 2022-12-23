@@ -96,7 +96,7 @@ table{
 	position: fixed;
 	right: 5px;
 	bottom: 50px;
-	font-size: 50px;
+	font-size: 40px;
 	z-index: 101;
 }
 #rocket:hover{

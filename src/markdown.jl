@@ -1,13 +1,7 @@
 function ify_md(s::AbstractString, pss::PagesSetting, accept_crlf::Bool = true)
 	if accept_crlf s=replace(s, "\r"=>"") end
 	md = pss.parser(s)
-	pss.footnote_region_start = false
-	str = mkhtml(md, md.t, pss)
-	if pss.footnote_region_start
-		pss.footnote_region_start = false
-		str*="</ul></section>"
-	end
-	return str
+	return mkhtml(md, md.t, pss)
 end
 
 #= @inline =# function childrenhtml(node::CommonMark.Node, pss::PagesSetting)
@@ -37,7 +31,13 @@ end
 
 # block
 function mkhtml(node::CommonMark.Node, ::CommonMark.Document, pss::PagesSetting)
-	return childrenhtml(node, pss)
+	pss.footnote_region_start = false
+	str = childrenhtml(node, pss)
+	if pss.footnote_region_start
+		pss.footnote_region_start = false
+		str*="</ul></section>"
+	end
+	return str
 end
 function mkhtml(node::CommonMark.Node, ::CommonMark.HtmlBlock, ::PagesSetting)
 	return node.literal
