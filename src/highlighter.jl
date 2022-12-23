@@ -70,7 +70,11 @@ function highlight(language::AbstractString, code::AbstractString, pss::PagesSet
 		@warn "No codeblock type information given."
 		return buildhljsblock("plain", code)
 	end
-	language = langs[1] = replace(lowercase(langs[1]), '-' => '_')
+	langs[1] = lowercase(langs[1])
+	if langs[1] != "julia-repl"
+		langs[1] = replace(langs[1], '-' => '_')
+	end
+	language = langs[1]
 	sym = Symbol(language)
 	return highlight(Val(sym), code, pss, langs)
 end

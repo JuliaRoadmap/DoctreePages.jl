@@ -11,6 +11,7 @@ function file2node(::Val{:md}; it, node::Node, path, pathv, pre, pss::PagesSetti
 	try
 		md = pss.parser(s)
 		con = mkhtml(md, md.t, pss)
+		node.files[pre] = (con, md.first_child.first_child.literal, "md")
 	catch er
 		if pss.throwall
 			error(er)
@@ -21,7 +22,7 @@ function file2node(::Val{:md}; it, node::Node, path, pathv, pre, pss::PagesSetti
 		@error "Markdown Parse Error" it str
 		con = "<p style='color:red'>ERROR handled by DoctreePages.jl :<br />$(html_safe(str))</p>"
 	end
-	node.files[pre] = (con, md.first_child.first_child.literal, "md")
+	
 end
 
 function file2node(::Union{Val{:html}, Val{:htm}}; it, node::Node, path, pathv, pre, pss::PagesSetting, spath, tpath)

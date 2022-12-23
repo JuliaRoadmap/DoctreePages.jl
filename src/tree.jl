@@ -96,9 +96,23 @@ function gen_rec(;current::Node, outline::Bool, path::String, pathv::Vector{Stri
 	mkpath(tpath)
 	vec = readdir("."; sort=false)
 	toml = in("setting.toml", vec) ? TOML.parsefile("setting.toml") : Dict()
+	if haskey(toml, "ignore")
+		for name in toml["ignore"]
+			i = 0
+			for j in eachindex(vec)
+				@inbounds if vec[j]==name
+					i=j
+					break
+				end
+			end
+			if i!=0
+				deleteat!(vec, i)
+			end
+		end
+	end
 	current.toml=toml
 	for it in vec
-		if it=="setting.toml" || (in(it, toml["ignore"]))
+		if it=="setting.toml"
 			continue
 		elseif isfile(it)
 			pss.show_info
@@ -154,8 +168,14 @@ function make_rec(;current::Node, path::String, pathv::Vector{String}, pss::Page
 		title = pa.second[2]
 		prevpage = ""
 		nextpage = ""
-		outline_index = indexin(id, vec)
-		if outline_index === nothing
+		outline_index = 0
+		for i in eachindex(vec)
+			@inbounds if vec[i]==id
+				outline_index = i
+				break
+			end
+		end
+		if outline_index == 0
 			prevpage = """<a class="docs-footer-prevpage" href="index$(pss.filesuffix)">« $(lw(pss, 6))</a>"""
 		elseif haskey(footdirect, id)
 			thisdirect = footdirect[id]

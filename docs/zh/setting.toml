@@ -5,7 +5,7 @@ outline = [
 	"settings",
 ]
 ignore = [
-	"ignoreme",
+	"ignoreme.md",
 ]
 
 [foot_direct.doctest]
