@@ -24,7 +24,7 @@ blocks = [
 [require]
 docsmenu = ["activate_token", "buildmenu"]
 gapfill = ["submit_fill"]
-hljs = ["copycodeblock"]
+hljs = ["copycodeblock", "purecopycodeblock"]
 insert_setting = ["dictparse", "upd_trigger"]
 locatelines = ["scroll_to_lines"]
 mark = ["toggle_mark"]

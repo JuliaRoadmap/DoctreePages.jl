@@ -88,6 +88,9 @@ table{
 .codeblock-paste{
 	color: gray;
 }
+.codeblock-purepaste{
+	color: cornsilk;
+}
 
 #rocket{
 	position: fixed;
