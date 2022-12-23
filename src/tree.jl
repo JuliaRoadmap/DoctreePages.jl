@@ -90,6 +90,16 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 	return root
 end
 
+function first_invec(x, vec::Vector)
+	i = 0
+	for j in eachindex(vec)
+		@inbounds if vec[j]==x
+			i=j
+			break
+		end
+	end
+	return i
+end
 function gen_rec(;current::Node, outline::Bool, path::String, pathv::Vector{String}, pss::PagesSetting, srcdir::String, tardir::String)
 	spath=srcdir*path
 	tpath=tardir*path
@@ -98,13 +108,7 @@ function gen_rec(;current::Node, outline::Bool, path::String, pathv::Vector{Stri
 	toml = in("setting.toml", vec) ? TOML.parsefile("setting.toml") : Dict()
 	if haskey(toml, "ignore")
 		for name in toml["ignore"]
-			i = 0
-			for j in eachindex(vec)
-				@inbounds if vec[j]==name
-					i=j
-					break
-				end
-			end
+			i = first_invec(name, vec)
 			if i!=0
 				deleteat!(vec, i)
 			end
@@ -168,16 +172,8 @@ function make_rec(;current::Node, path::String, pathv::Vector{String}, pss::Page
 		title = pa.second[2]
 		prevpage = ""
 		nextpage = ""
-		outline_index = 0
-		for i in eachindex(vec)
-			@inbounds if vec[i]==id
-				outline_index = i
-				break
-			end
-		end
-		if outline_index == 0
-			prevpage = """<a class="docs-footer-prevpage" href="index$(pss.filesuffix)">« $(lw(pss, 6))</a>"""
-		elseif haskey(footdirect, id)
+		outline_index = first_invec(id, vec)
+		if haskey(footdirect, id)
 			thisdirect = footdirect[id]
 			if haskey(thisdirect, "prev")
 				previd = thisdirect["prev"]
@@ -187,6 +183,8 @@ function make_rec(;current::Node, path::String, pathv::Vector{String}, pss::Page
 				nextid = thisdirect["next"]
 				nextpage = get_pagestr(nextid, current, pss, "next")
 			end
+		elseif outline_index == 0
+			prevpage = """<a class="docs-footer-prevpage" href="index$(pss.filesuffix)">« $(lw(pss, 6))</a>"""
 		else
 			i = outline_index[]
 			if i==1

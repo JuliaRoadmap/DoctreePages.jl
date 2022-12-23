@@ -44,7 +44,7 @@ plain
 ```julia-repl
 julia> begin foo(nothing,"$(Int)\n") end # comment
 
-help?> 32+`15`#= =# @bar
+julia> @bar 32 == `15` #= =#
 ```
 
 ```html
@@ -75,6 +75,7 @@ store = {"yes"="is-developer","no"="!is-developer"}
 ```insert-fill
 content = "1+1等于几？"
 ans = "2"
+instruction = "3-1"
 ```
 
 ```insert-fill
@@ -109,7 +110,9 @@ content = "文字"
 ```
 
 ```hide 点击显示内容
-内容
+- 「开发」ignore 设置项
+- 「开发」foot_direct 设置项
+- 「交互」支持“回到顶端”火箭
 ```
 
 ```random-word

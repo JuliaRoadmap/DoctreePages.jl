@@ -18,7 +18,6 @@ One method of the `generate` function allows three parameters:
 | favicon_path | path of favicon, use `""` if none |
 | filesuffix | suffix of generated files |
 | giscus | Giscus setting |
-| hljs_all | whether all highlighting uses [highlight.js](https://github.com/highlightjs/highlight.js), `false` is not yet supported |
 | lang | language(`en`, `zh`, etc) |
 | logo_path | path of logo, use `""` if none |
 | main_script | setting for `main.js` |

@@ -31,7 +31,7 @@ function makehtml(pss::PagesSetting, ps::PageSetting)
 				<article class="content">$(ps.mds)</article>
 				$(singlehtml_footer(pss, ps))
 				$(gis===nothing ? "" : "<div class='giscus'></div>")
-				<div id='rocket' onclick='scrollTo(0, 0)'></div>
+				<div id='rocket' onclick='boom()'></div>
 			</div>
 		</div>
 	</body>

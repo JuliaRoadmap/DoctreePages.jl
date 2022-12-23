@@ -18,7 +18,6 @@
 | favicon_path | favicon 的路径，若无则为 `""` |
 | filesuffix | 生成文件的后缀 |
 | giscus | Giscus 设置 |
-| hljs_all | 是否全部高亮均使用[highlight.js](https://github.com/highlightjs/highlight.js)（当前不支持 `false`） |
 | lang | 使用语言（`en`、`zh`等） |
 | logo_path | logo 的路径，若无则为 `""` |
 | main_script | `main.js` 的设置 |

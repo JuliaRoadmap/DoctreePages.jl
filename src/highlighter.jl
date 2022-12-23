@@ -86,13 +86,12 @@ end
 
 function highlight(::Val, code::AbstractString, pss::PagesSetting, args)
 	language = String(args[1])
-	if pss.hljs_all
-		return buildhljsblock(language, code)
-	else
+	return buildhljsblock(language, code)
+	#= else
 		msg = "pss.hljs_all = false not yet supported"
 		pss.throwall ? error(msg) : (@warn msg)
 		return buildhljsblock(language, code)
-	end
+	end =#
 end
 
 include("codeblocks/encoded.jl")

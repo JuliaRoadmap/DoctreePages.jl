@@ -18,6 +18,7 @@ blocks = [
 	"headroom",
 	"katex",
 	"unhide",
+	"boom",
 ]
 
 [require]
