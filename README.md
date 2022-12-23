@@ -1,24 +1,24 @@
 中文 README | [English README](README_en.md)
 
 ## 关于
-这是一个轻量级交互式文档生成器
+这是一个文档生成器。
 * 轻量级，快速
-* 简单：即使没有编程经验也能使用
-* 强大&可交互：[各式各样的功能](https://juliaroadmap.github.io/DoctreePages.jl/docs/zh/features.html)
+* 简单：可以完全基于配置而无需编写生成脚本
+* 强大：[各式各样的功能](https://juliaroadmap.github.io/DoctreePages.jl/docs/zh/features.html)
 * 可配置：超过 30 个设置项（不包括子项）
 
 ## 用途
-此包**不是专为包文档设计**，更适合用于教育性文档/博客等
+此包**不是专为包文档设计**，当前更适合用于教育性的文档、博客等
 
 ## 与 Documenter 比较
 * 不同的结构
 * 由上述可知，本包在特定领域支持更多特性
-* Documenter 自动支持多版本文档、文档搜索与 pull request 效果预览等，它们可能在特定情形实用
+* Documenter 自动支持多版本文档、文档搜索与 pull request 效果预览等，它们可能在特定情形更适用
 
 ---
 
 * [在此阅读文档](https://juliaroadmap.github.io/DoctreePages.jl/docs/zh/usage.html)
-* [测试示例](https://juliaroadmap.github.io/DoctreePages.jl/docs/zh/doctest.html)
+* [测试示例](https://juliaroadmap.github.io/DoctreePages.jl/docs/tests/doctest.html)
 
 ## LICENSE
 遵循 MIT LICENSE，其中以下文件部分来自[Documenter](https://github.com/JuliaDocs/Documenter.jl)（MIT）

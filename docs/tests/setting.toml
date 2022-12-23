@@ -1,0 +1,6 @@
+ignore = [
+	"ignoreme.md",
+]
+
+[foot_direct.doctest]
+next = "txtfiletest"

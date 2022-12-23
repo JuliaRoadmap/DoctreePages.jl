@@ -1,12 +1,7 @@
 outline = [
 	"usage",
 	"guidelines",
-	"notice",
 	"settings",
+	"spec_codeblocks",
+	"notice",
 ]
-ignore = [
-	"ignoreme.md",
-]
-
-[foot_direct.doctest]
-next = "txtfiletest"

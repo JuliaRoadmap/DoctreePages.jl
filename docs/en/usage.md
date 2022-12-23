@@ -1,4 +1,7 @@
 # Usage
+!!! note
+	English documentation may be slower or more lack-in-detail than Chinese documentation, translation prs welcome.
+
 ## Sample
 The setting configuration in this repo is a good example, you can implement yours according to the format.
 

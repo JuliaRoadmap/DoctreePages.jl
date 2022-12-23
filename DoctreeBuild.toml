@@ -1,7 +1,7 @@
-version = ">= 1.5.2"
+version = ">= 1.6"
 
 [pages]
-lang = "en"
+lang = "zh"
 repo_name = "DoctreePages.jl"
 repo_owner = "JuliaRoadmap"
 server_prefix = "/DoctreePages.jl"
