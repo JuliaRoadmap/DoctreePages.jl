@@ -3,7 +3,7 @@ function copycodeblock(ev){
 	let body=tar.parentNode.nextSibling
 	let codes=body.querySelectorAll(".hljs-ln-code")
 	let s=""
-	for(let code of codes)s+=code.innerText+"\\n"
+	for(let code of codes)s+=code.innerText+"\n"
 	navigator.clipboard.writeText(s).then(
 		function(){
 			tar.classList.replace("fa-clipboard", "fa-clipboard-check")

@@ -12,10 +12,10 @@ for(let i of $(".test-area")){
 	let tl=i.dataset["tl"]
 	timer.dataset["tl"]=tl
 	let button=document.createElement("button")
-	button.className = "fa-solid fa-upload"
+	button.className = "fa-solid fa-upload submit-testfill"
 	let lock=document.createElement("button")
 	let locked=false
-	lock.classList="fa-solid fa-lock-open"
+	lock.classList="fa-solid fa-lock-open lock-testfill"
 	header.append(name)
 	header.append(fullscore)
 	header.append(timer)

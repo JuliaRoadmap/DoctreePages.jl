@@ -5,7 +5,7 @@ function ify_md(s::AbstractString, pss::PagesSetting, accept_crlf::Bool = true)
 	str = mkhtml(md, md.t, pss)
 	if pss.footnote_region_start
 		pss.footnote_region_start = false
-		str*="</div>"
+		str*="</ul></section>"
 	end
 	return str
 end
@@ -60,10 +60,10 @@ function mkhtml(::CommonMark.Node, ::CommonMark.ThematicBreak, ::PagesSetting)
 	return "<hr />"
 end
 function mkhtml(node::CommonMark.Node, f::CommonMark.FootnoteDefinition, pss::PagesSetting)
-	foot = "<div id='footnote-$(f.id)' class='footnote'><span>$(f.id). </span>$(childrenhtml(node, pss))</div>"
+	foot = "<li id='footnote-$(f.id)' class='footnote'><a class='tag is-link' href='#citeref-$(f.id)'>$(f.id)</a>\n$(childrenhtml(node, pss))</li>"
 	if !pss.footnote_region_start
 		pss.footnote_region_start = true
-		foot = "\n<div class='footnote_region'>"*foot
+		foot = "\n<section class='footnotes is-size-7'><ul>"*foot
 	end
 	return foot
 end
@@ -169,7 +169,7 @@ function mkhtml(node::CommonMark.Node, ::CommonMark.Code, ::PagesSetting)
 	return "<code>$(html_safe(node.literal))</code>"
 end
 function mkhtml(::CommonMark.Node, l::CommonMark.FootnoteLink, ::PagesSetting)
-	return "<sup><a href=\"#footnote-$(l.id)\">[$(l.id)]</a></sup>"
+	return """<sup><a id="citeref-$(l.id)" href="#footnote-$(l.id)">[$(l.id)]</a></sup>"""
 end
 function mkhtml(node::CommonMark.Node, ::CommonMark.Math, ::PagesSetting)
 	return "<span class='math tex'>$(html_safe(node.literal))</span>"

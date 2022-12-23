@@ -27,7 +27,7 @@ code.hljs td{
 	display: none;
 }
 
-.codeblock-paste {
+.codeblock-paste, .codeblock-purepaste{
 	background-color: transparent;
 	float: right;
 }
@@ -76,10 +76,10 @@ table{
 	display: none;
 }
 
-.submit-fill{
+.submit-fill, .submit-testfill{
 	color: darkcyan;
 }
-.ans-fill{
+.ans-fill, .lock-testfill{
 	color: darkgoldenrod;
 }
 .instruction-fill{
@@ -89,7 +89,7 @@ table{
 	color: gray;
 }
 .codeblock-purepaste{
-	color: cornsilk;
+	color: firebrick;
 }
 
 #rocket{
@@ -98,6 +98,8 @@ table{
 	bottom: 50px;
 	font-size: 50px;
 	z-index: 101;
+}
+#rocket:hover{
 	color: red;
 }
 #rocket::before{
