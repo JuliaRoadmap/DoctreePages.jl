@@ -38,6 +38,7 @@
 | src_assets | 参阅[guidelines](guidelines.md#目录管理) |
 | src_script | 参阅[guidelines](guidelines.md#目录管理) |
 | table_align | 表格对齐方式 |
+| table_tight | 是否让表格更紧凑 |
 | tar_assets | 生成的包含 `assets` 的目录名 |
 | tar_css | 生成的包含 `css` 的目录名 |
 | tar_extra | 生成的包含本包额外数据的目录名 |
