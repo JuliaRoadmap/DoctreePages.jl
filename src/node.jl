@@ -1,46 +1,69 @@
-mutable struct Node
-	par::Union{Node, Nothing}
+mutable struct FileInfo
+	is_dir::Bool
+	is_outlined::Bool
+	id::String # without suffix
+	suffix::String
 	name::String
-	toml::Dict
-	dirs::Dict{String, Tuple{Node, String}} # data name
-	files::Dict{String, Tuple{String, String, String}} # data name suffix
+	target::String
+	data::String
 end
-Node(par::Union{Node,Nothing}, name::String, toml::Dict=Dict{String, Any}())=Node(par, name, toml, Dict{String, Pair{Node, String}}(), Dict{String, Pair{String, String}}())
-function Base.show(io::IO, node::Node)
+
+FileInfo(name) = FileInfo(false, false, "", "", name, "", "")
+DirInfo(name, is_outlined=false) = FileInfo(true, is_outlined, "", "", name, "", "")
+
+mutable struct DoctreeBase
+	info::FileInfo
+	parent::Int
+	children::Vector{Int}
+	setting::Dict
+end
+id(tb::DoctreeBase) = tb.info.id
+name(tb::DoctreeBase) = tb.info.name
+isroot(tb::DoctreeBase) = tb.parent==0
+
+abstract type AbstractDoctree end
+mutable struct Doctree <: AbstractDoctree
+	# root::Int
+	current::Int
+	data::Vector{DoctreeBase}
+end
+function Doctree(name)
+	return Doctree(1, [DoctreeBase(DirInfo(name, true), 0, Int[], Dict())])
+end
+
+self(tree::Doctree) = tree.data[tree.current]
+backtoparent!(tree::Doctree) = tree.current = self(tree).parent
+backtoroot!(tree::Doctree) = tree.current = 1
+
+#= mutable struct SubDoctree <: AbstractDoctree
+	point::Int
+	reference::Doctree
+end =#
+
+function Base.show(io::IO, tree::Doctree)
 	if get(io, :compat, false)
-		println(io, node.name)
+		print(io, id(tree.data[1]))
 		return
 	end
-	if node.par === nothing
-		println(io, "Root Node")
+	print(io, "Doctree at ")
+	current = self(tree)
+	if current.parent == 0
+		println(io, "<ROOT>")
 	else
-		println(io, "Directory ", node.name)
-		par=node.par
-		println(io, "parent: ", par.par===nothing ? "< root >" : par.name)
+		println(io, "Directory ", id(tree.data[current.parent]))
 	end
-	if !isempty(node.dirs)
-		println(io, "sub directories:")
-		for it in node.dirs
-			println(io, "| ", it.first, " ($(it.second[2]))")
-		end
-	end
-	if !isempty(node.files)
-		println(io, "files:")
-		for it in node.files
-			println(io, "| ", it.first, " ($(it.second[2]))")
-		end
+	for i in current.children
+		tb = tree.data[i]
+		println(io, "| $(id(tb)) ($(name(tb)))")
 	end
 end
-chapter_name(node::Node) = node.par.dirs[node.name][2]
-function describe_page(node::Node, title, pss)
-	if node.par !== nothing
-		return chapter_name(node)*"/$title - $(pss.title)"
-	end
-	return "$title - $(pss.title)"
+
+chapter_name(tree::AbstractDoctree) = name(self(tree))
+function describe_page(tree::AbstractDoctree, title, pss)
+	tb = self(tree)
+	return isroot(tb) ? "$title - $(title(pss))" : name(tb)*"/$title - $(title(pss))"
 end
-function navbartext_page(node::Node, title)
-	if node.par !== nothing
-		return chapter_name(node)*" / "*title
-	end
-	return String(title)
+function navbartext_page(tree::AbstractDoctree, title)
+	tb = self(tree)
+	return isroot(tb) ? String(title) : name(tb)*" / "*title
 end

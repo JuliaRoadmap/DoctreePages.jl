@@ -1,10 +1,3 @@
-function namedtuplefrom(d::Dict{String, Any})
-	v=map(collect(d)) do pair
-		Symbol(pair.first) => pair.second
-	end
-	return NamedTuple(v)
-end
-
 function readbuildsetting(path::AbstractString)
 	toml=TOML.parsefile(path)
 	# The semver -related function set is too large
@@ -28,10 +21,6 @@ function generate(srcdir::AbstractString, tardir::AbstractString, build_setting:
 	generate(srcdir, tardir, pss)
 end
 
-function expend_slash(str)
-	return (str[end] in ['/', '\\']) ? str : str*'/'
-end
-
 function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSetting)
 	pss.srcdir = srcdir = expend_slash(abspath(srcdir))
 	pss.tardir = tardir = expend_slash(abspath(tardir))
@@ -41,14 +30,12 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 	end
 	mkpath(tardir)
 	#= 核心部分：生成文档 =#
-	root = Node(nothing, lw(pss, 5))
+	tree = Doctree(lw(pss, 5))
 	cd(srcdir*"docs") do
-		gen_rec(;
-			current=root,
+		gen_rec(tree, pss;
 			outline=true,
 			path="docs/",
 			pathv=["docs"],
-			pss=pss,
 			srcdir=srcdir,
 			tardir=tardir
 		)
@@ -88,62 +75,45 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 	return root
 end
 
-function first_invec(x, vec::Vector)
-	i = 0
-	for j in eachindex(vec)
-		@inbounds if vec[j]==x
-			i=j
-			break
-		end
-	end
-	return i
-end
-function gen_rec(;current::Node, outline::Bool, path::String, pathv::Vector{String}, pss::PagesSetting, srcdir::String, tardir::String)
-	spath=srcdir*path
-	tpath=tardir*path
+function gen_rec(tree::Doctree, pss::PagesSetting; outline::Bool, path::String, pathv::Vector{String}, srcdir::String, tardir::String)
+	spath = srcdir*path
+	tpath = tardir*path
 	mkpath(tpath)
 	vec = readdir("."; sort=false)
 	toml = in("setting.toml", vec) ? TOML.parsefile("setting.toml") : Dict()
+	tb = self(tree)
+	tb.setting = toml
 	if haskey(toml, "ignore")
+		delete_invec!(vec, "setting.toml")
 		for name in toml["ignore"]
-			i = first_invec(name, vec)
-			if i!=0
-				deleteat!(vec, i)
-			end
+			delete_invec!(vec, name)
 		end
 	end
-	current.toml=toml
 	for it in vec
-		if it=="setting.toml"
-			continue
-		elseif isfile(it)
-			pss.show_info
-			dot=findlast('.', it)
-			pre=it[1:dot-1]
-			suf=it[dot+1:end]
+		if isfile(it)
+			dot = findlast('.', it)
+			pre = dot===nothing ? it : it[1:dot-1]
+			suf = dot===nothing ? "" : it[dot+1:end]
 			file2node(Val(Symbol(suf)); it=it, node=current, path=path, pathv=pathv, pre=pre, pss=pss, spath=spath, tpath=tpath)
-		else # isdir
-			pss.show_info
-			ns = current.toml["names"]
+		else
+			ns = toml["names"]
 			typeassert(ns, Dict)
 			node = Node(current, it)
 			current.dirs[it] = (node, get(ns, it, it))
 			push!(pathv, it)
 			cd(it)
 			o=outline || (haskey(toml,"outline") && in(it, toml["outline"]))
-			gen_rec(
-				current=node,
+			gen_rec(tree, pss;
 				outline=o,
 				path="$(path)$(it)/",
 				pathv=pathv,
-				pss=pss,
 				srcdir=srcdir,
 				tardir=tardir
 			)
 		end
 	end
-	current=current.par
-	path=path[1:end-1-length(last(pathv))]
+	backtoparent!(tree)
+	path = path[1:end-1-length(last(pathv))]
 	pop!(pathv)
 	cd("..")
 end
