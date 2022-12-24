@@ -17,9 +17,6 @@ export makescript
 export Node, readbuildsetting, gen_rec, make_rec, makemenu, makeindex, make404, makeinfo_script, file2node
 
 include("htmlmanage.jl")
-function rep(str::AbstractString)
-	return replace(str, '`' => "\\`")
-end
 
 const language_tags=[
 	(en="content empty", zh="内容为空"),

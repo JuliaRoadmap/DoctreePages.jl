@@ -1,3 +1,6 @@
+function rep(str::AbstractString)
+	return replace(str, '`' => "\\`")
+end
 function expend_slash(str)
 	return (str[end] in ['/', '\\']) ? str : str*'/'
 end
