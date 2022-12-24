@@ -33,7 +33,7 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 	tree = Doctree(lw(pss, 5))
 	cd(srcdir*"docs") do
 		gen_rec(tree, pss;
-			outline=true,
+			outlined=true,
 			path="docs/",
 			pathv=["docs"],
 			srcdir=srcdir,
@@ -75,41 +75,65 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 	return root
 end
 
-function gen_rec(tree::Doctree, pss::PagesSetting; outline::Bool, path::String, pathv::Vector{String}, srcdir::String, tardir::String)
+function gen_rec(tree::Doctree, pss::PagesSetting; outlined::Bool, path::String, pathv::Vector{String}, srcdir::String, tardir::String)
 	spath = srcdir*path
 	tpath = tardir*path
 	mkpath(tpath)
 	vec = readdir("."; sort=false)
-	toml = in("setting.toml", vec) ? TOML.parsefile("setting.toml") : Dict()
+	children = Set(vec)
+	toml = in("setting.toml", children) ? TOML.parsefile("setting.toml") : Dict()
 	tb = self(tree)
 	tb.setting = toml
 	if haskey(toml, "ignore")
-		delete_invec!(vec, "setting.toml")
-		for name in toml["ignore"]
-			delete_invec!(vec, name)
+		delete!(children, "setting.toml")
+		for id in toml["ignore"]
+			delete!(children, id)
 		end
 	end
-	for it in vec
+	outline = outlined ? get(toml, "outline", [])::Vector : []
+	for x in outline
+		delete!(children, x)
+	end
+	unoutlined = collect(children)
+	if pss.sort_file
+		sort!(unoutlined)
+	end
+	omode = true
+	num = length(tree.data)
+	i = 1
+	len = length(outline), len2 = length(unoutlined)
+	ns = get(toml, "names", Dict())::Dict
+	while true
+		num += 1
+		@inbounds it = (omode ? outline : unoutlined)[i]
 		if isfile(it)
 			dot = findlast('.', it)
 			pre = dot===nothing ? it : it[1:dot-1]
 			suf = dot===nothing ? "" : it[dot+1:end]
-			file2node(Val(Symbol(suf)); it=it, node=current, path=path, pathv=pathv, pre=pre, pss=pss, spath=spath, tpath=tpath)
+			info = FileInfo(false, omode, pre, suf, get(ns, pre, ""), "", "")
+			push!(tree.data, FileBase(tree.current, info))
+			file2node(Val(Symbol(suf)); info=info, it=it, path=path, pathv=pathv, pre=pre, pss=pss, spath=spath, tpath=tpath)
 		else
-			ns = toml["names"]
-			typeassert(ns, Dict)
+			info = FileInfo(true, omode, it, "", ns[it], "", "")
 			node = Node(current, it)
 			current.dirs[it] = (node, get(ns, it, it))
 			push!(pathv, it)
 			cd(it)
-			o=outline || (haskey(toml,"outline") && in(it, toml["outline"]))
+			o=outline || (haskey(toml, "outline") && in(it, toml["outline"]))
 			gen_rec(tree, pss;
-				outline=o,
+				outlined=o,
 				path="$(path)$(it)/",
 				pathv=pathv,
 				srcdir=srcdir,
 				tardir=tardir
 			)
+		end
+		if i == len
+			omode = false
+		elseif i == len2
+			break
+		else
+			i +=1
 		end
 	end
 	backtoparent!(tree)

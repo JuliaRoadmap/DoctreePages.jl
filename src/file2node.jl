@@ -1,17 +1,19 @@
 """
 Transforms source file to target file according to the type of the file.
 """
-function file2node(::Val; it, node::Node, path, pathv, pre, pss::PagesSetting, spath, tpath)
+function file2node(::Val; info::FileInfo, it, path, pathv, pre, pss::PagesSetting, spath, tpath)
 	cp(spath*it, tpath*it; force=true)
+	info.target = it
 end
 
-function file2node(::Val{:md}; it, node::Node, path, pathv, pre, pss::PagesSetting, spath, tpath)
+function file2node(::Val{:md}; info::FileInfo, it, path, pathv, pre, pss::PagesSetting, spath, tpath)
 	con = ""
 	s = replace(read(spath*it, String), "\r"=>"")
 	try
 		md = pss.parser(s)
-		con = mkhtml(md, md.t, pss)
-		node.files[pre] = (con, md.first_child.first_child.literal, "md")
+		info.name = md.first_child.first_child.literal
+		info.target = pre*pss.filesuffix
+		info.data = mkhtml(md, md.t, pss)
 	catch er
 		if pss.throwall
 			error(er)
@@ -22,13 +24,12 @@ function file2node(::Val{:md}; it, node::Node, path, pathv, pre, pss::PagesSetti
 		@error "Markdown Parse Error" it str
 		con = "<p style='color:red'>ERROR handled by DoctreePages.jl :<br />$(html_safe(str))</p>"
 	end
-	
 end
 
-function file2node(::Union{Val{:html}, Val{:htm}}; it, node::Node, path, pathv, pre, pss::PagesSetting, spath, tpath)
-	str=read(spath*it, String)
+function file2node(::Union{Val{:html}, Val{:htm}}; info::FileInfo, it, path, pathv, pre, pss::PagesSetting, spath, tpath)
+	str = read(spath*it, String)
 	if pss.wrap_html
-		title=node.toml["names"][pre]
+		title = info.name
 		str=makehtml(pss, PageSetting(
 			description="$title - $(pss.title)",
 			editpath=pss.repo_path=="" ? "" : pss.repo_path*path*it,

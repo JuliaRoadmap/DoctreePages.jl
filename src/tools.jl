@@ -11,12 +11,6 @@ function first_invec(x, vec::Vector)
 	end
 	return i
 end
-function delete_invec!(vec::Vector, x)
-	i = first_invec(name, vec)
-	if i!=0
-		deleteat!(vec, i)
-	end
-end
 
 function namedtuplefrom(d::Dict{String, Any})
 	v=map(collect(d)) do pair

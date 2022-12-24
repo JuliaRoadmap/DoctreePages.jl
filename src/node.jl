@@ -11,9 +11,14 @@ end
 FileInfo(name) = FileInfo(false, false, "", "", name, "", "")
 DirInfo(name, is_outlined=false) = FileInfo(true, is_outlined, "", "", name, "", "")
 
-mutable struct DoctreeBase
-	info::FileInfo
+abstract type DoctreeBase end
+mutable struct FileBase <: DoctreeBase
 	parent::Int
+	info::FileInfo
+end
+mutable struct DirBase <: DoctreeBase
+	parent::Int
+	info::FileInfo
 	children::Vector{Int}
 	setting::Dict
 end
@@ -28,7 +33,7 @@ mutable struct Doctree <: AbstractDoctree
 	data::Vector{DoctreeBase}
 end
 function Doctree(name)
-	return Doctree(1, [DoctreeBase(DirInfo(name, true), 0, Int[], Dict())])
+	return Doctree(1, [DirBase(DirInfo(name, true), 0, Int[], Dict())])
 end
 
 self(tree::Doctree) = tree.data[tree.current]
