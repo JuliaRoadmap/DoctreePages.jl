@@ -27,7 +27,7 @@ code.hljs td{
 	display: none;
 }
 
-.codeblock-paste {
+.codeblock-paste, .codeblock-purepaste{
 	background-color: transparent;
 	float: right;
 }
@@ -53,8 +53,10 @@ table{
 .li-file span.li-marked::before{
 	content: "📑 ";
 }
-.li-marked a::after{
-	content: "🔖";
+.li-marked a::before{
+	font-family: "Font Awesome 6 Free";
+	content: "\f02e  "; /* fa-bookmark */
+	color: gold;
 }
 
 .test-area > span::after{
@@ -72,4 +74,35 @@ table{
 }
 .box-unhide>.button-hide{
 	display: none;
+}
+
+.submit-fill, .submit-testfill{
+	color: darkcyan;
+}
+.ans-fill, .lock-testfill{
+	color: darkgoldenrod;
+}
+.instruction-fill{
+	color: goldenrod;
+}
+.codeblock-paste{
+	color: gray;
+}
+.codeblock-purepaste{
+	color: firebrick;
+}
+
+#rocket{
+	position: fixed;
+	right: 5px;
+	bottom: 50px;
+	font-size: 40px;
+	z-index: 101;
+}
+#rocket:hover{
+	color: red;
+}
+#rocket::before{
+	font-family: "Font Awesome 6 Free";
+	content: '\f135'; /* fa-rocket ; fa-rocket-launch not free */
 }

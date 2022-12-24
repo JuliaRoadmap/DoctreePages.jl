@@ -15,7 +15,7 @@ settings.id="documenter-settings"
 settings.innerHTML=`
 <div class="modal-background"></div>
 <div class="modal-card">
-	<header class="modal-card-head"><p class="modal-card-title">⚙</p><button class="delete"></button></header>
+	<header class="modal-card-head"><p class="modal-card-title fas fa-cog"></p><button class="delete"></button></header>
 	<section class="modal-card-body">
 		<div class="select"><select id="documenter-themepicker">
 			<option value="light">light</option>
@@ -68,7 +68,20 @@ hljs.highlightAll()
 for(let i of $("code.hljs")){
 	hljs.lineNumbersBlock(i, {singleLine: true})
 	let header=i.parentElement.parentElement.firstElementChild
-	header.innerHTML=`<span class='codeblock-paste' onclick='copycodeblock(event)'>📋</span>`
+	let copybut = document.createElement("span")
+	copybut.className = "codeblock-paste fa-solid fa-clipboard"
+	copybut.onclick = function(ev){
+		copycodeblock(ev)
+	}
+	header.append(copybut)
+	if(i.classList.contains("language-julia-repl")){
+		let purebut = document.createElement("span")
+		purebut.className = "codeblock-purepaste fa-solid fa-clipboard"
+		purebut.onclick = function(ev){
+			purecopycodeblock(ev)
+		}
+		header.append(purebut)
+	}
 }
 buildmenu()
 for(let i of $(".checkis")){
@@ -122,10 +135,10 @@ for(let i of $(".test-area")){
 	let tl=i.dataset["tl"]
 	timer.dataset["tl"]=tl
 	let button=document.createElement("button")
-	button.innerText="📤"
+	button.className = "fa-solid fa-upload submit-testfill"
 	let lock=document.createElement("button")
 	let locked=false
-	lock.innerText="🔓"
+	lock.classList="fa-solid fa-lock-open lock-testfill"
 	header.append(name)
 	header.append(fullscore)
 	header.append(timer)
@@ -157,16 +170,16 @@ for(let i of $(".test-area")){
 	button.onclick=function(){
 		clearInterval(inter)
 		calc_test(i)
-		button.innerText="🔍"
-		button.onclick=function(){}
+		button.classList.replace("fa-upload", "fa-magnifying-glass")
+		button.onclick=undefined
 	}
 	lock.onclick=function(){
 		if(locked){
-			lock.innerText="🔓"
+			lock.classList.replace("fa-lock", "fa-lock-open")
 			inter=timeron()
 		}
 		else{
-			lock.innerText="🔒"
+			lock.classList.replace("fa-lock-open", "fa-lock")
 			clearInterval(inter)
 		}
 		locked=!locked
@@ -264,6 +277,9 @@ require(['jquery', 'katex'], function($, katex){
 function unhide(ev){
 	ev.path[2].classList.replace("box-hide", "box-unhide")
 }
+function boom(){
+	scrollTo(0, 0)
+}
 function toggle_mark(li){
 	let link=li.lastElementChild.href.substring(oril)
 	let marked=new Set(JSON.parse(localStorage.getItem("marked")))
@@ -276,11 +292,11 @@ function copycodeblock(ev){
 	let body=tar.parentNode.nextSibling
 	let codes=body.querySelectorAll(".hljs-ln-code")
 	let s=""
-	for(let code of codes)s+=code.innerText+"\\n"
+	for(let code of codes)s+=code.innerText+"\n"
 	navigator.clipboard.writeText(s).then(
 		function(){
-			tar.innerText="✔"
-			setTimeout(function(){tar.innerText="📋"}, 2000)
+			tar.classList.replace("fa-clipboard", "fa-clipboard-check")
+			setTimeout(function(){tar.classList.replace("fa-clipboard-check", "fa-clipboard")}, 2000)
 		},
 		function(){window.alert("failed")}
 	)
@@ -510,6 +526,24 @@ function calc_test(node){
 		first.prepend(tag)
 	}
 	node.firstElementChild.children[1].innerText=" "+sum+"/"+node.dataset["fs"]
+}
+function purecopycodeblock(ev){
+	let tar = ev.target
+	let body = tar.parentNode.nextSibling
+	let codes = body.querySelectorAll(".hljs-ln-code")
+	let s = ""
+	for(let code of codes){
+		let txt = code.innerText
+		let start = txt.substring(0, 7)
+		if(start=="julia> " || start=="help?> " || start=="shell> " || start=="       ")s+=txt.substring(7)+"\n"
+	}
+	navigator.clipboard.writeText(s).then(
+		function(){
+			tar.classList.replace("fa-clipboard", "fa-clipboard-check")
+			setTimeout(function(){tar.classList.replace("fa-clipboard-check", "fa-clipboard")}, 2000)
+		},
+		function(){window.alert("failed")}
+	)
 }
 function dictparse(str){
 	if(str.endsWith(','))str=str.substring(0, str.length-1)

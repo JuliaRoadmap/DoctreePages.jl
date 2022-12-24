@@ -7170,7 +7170,7 @@ a.has-text-danger:hover, a.has-text-danger:focus {
 		margin-left: 0.5em;
 		font-size: 0.7rem; }
 		h1 .docs-heading-anchor-permalink::before, h2 .docs-heading-anchor-permalink::before, h3 .docs-heading-anchor-permalink::before, h4 .docs-heading-anchor-permalink::before, h5 .docs-heading-anchor-permalink::before, h6 .docs-heading-anchor-permalink::before {
-			font-family: "Font Awesome 5 Free";
+			font-family: "Font Awesome 6 Free";
 			font-weight: 900;
 			content: "\f0c1"; }
 	h1:hover .docs-heading-anchor-permalink, h2:hover .docs-heading-anchor-permalink, h3:hover .docs-heading-anchor-permalink, h4:hover .docs-heading-anchor-permalink, h5:hover .docs-heading-anchor-permalink, h6:hover .docs-heading-anchor-permalink {
@@ -7231,7 +7231,7 @@ a.has-text-danger:hover, a.has-text-danger:focus {
 		padding: 0.75em;
 		position: relative; }
 		.admonition-header:before {
-			font-family: "Font Awesome 5 Free";
+			font-family: "Font Awesome 6 Free";
 			font-weight: 900;
 			margin-right: 0.75em;
 			content: "\f06a"; }
@@ -7489,7 +7489,7 @@ a.has-text-danger:hover, a.has-text-danger:focus {
 					margin-top: auto;
 					margin-bottom: auto; }
 					#documenter .docs-sidebar ul.docs-menu label.tocitem .docs-chevron::before {
-						font-family: "Font Awesome 5 Free";
+						font-family: "Font Awesome 6 Free";
 						font-weight: 900;
 						content: "\f054"; }
 			#documenter .docs-sidebar ul.docs-menu input:checked ~ label.tocitem .docs-chevron::before {

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>测试/文档功能测试 - DoctreePages</title>
+	<meta name="tURL" id="tURL" content="../../">
+	<meta name="description" content="测试/文档功能测试 - DoctreePages">
+	<script src="../../extra/info.js"></script>
+	<link id="theme-href" rel="stylesheet" type="text/css" href="../../css/light.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../extra/main.js"></script>
+	<link rel="stylesheet" type="text/css" href="../../css/general.css">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/fontawesome.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/solid.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/brands.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/katex.min.css">
+</head>
+<body>
+	<div id="documenter">
+		<nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit">DoctreePages</span></div><ul class="docs-menu"></ul></nav>
+		<div class="docs-main">
+			<header class="docs-navbar">
+				<nav class="breadcrumb"><ul><li class="is-active">测试 / 文档功能测试</li></ul></nav>
+				<div class="docs-right"><a class='docs-edit-link' href='https://github.com/JuliaRoadmap/DoctreePages.jl/tree/master/docs/tests/doctest.md' target='_blank'><span class='docs-label is-hidden-touch'>编辑此页面</span></a>
+					<a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="设置"></a>
+				</div>
+			</header>
+			<article class="content"><h1 id='header-文档功能测试'>文档功能测试<a class='docs-heading-anchor-permalink'></a></h1><p>文字，<strong>粗体</strong>，<em>斜体</em>，<code>行内代码</code>，<a href='#header-%E6%A0%87%E9%A2%982'>内部链接</a><sup><a id="citeref-1" href="#footnote-1">[1]</a></sup>，<a href='http://info.cern.ch/' target='_blank'>外部链接</a><br />
+<br />
+第二行，<a href='../zh/usage.html' target='_blank'>其它文档链接</a>，<a href='../zh/usage.html#header-github-action' target='_blank'>标题链接</a>，<a href='txtfiletest.html' target='_blank'>txt 文件测试</a>，<a href='https://learn.juliacn.com/docs/lists/typetree1.8.html#L20-L50' target='_blank'>纯代码文件链接</a></p><hr /><h2 id='header-标题2'>标题2<a class='docs-heading-anchor-permalink'></a></h2><p><img src='https://github.com/favicon.ico' alt='img'></p><ol><li><p>1</p><ul><li><p>a</p></li><li><p>b</p><ol><li><p>1</p></li><li><p>2</p></li></ol></li></ul></li><li><p>2</p><ul><li><p>a</p><ul><li><p>a</p><ul><li><p><span class='math tex'>x^2</span></p></li></ul></li></ul></li></ul></li></ol><blockquote><p>引用</p><blockquote><p>二级引用</p><ul><li><p>a</p></li></ul></blockquote></blockquote><table><thead><tr><td style='float:center'>表格</td><td style='float:left'>第二个</td></tr></thead><tbody><tr><td style='float:center'><code>a</code></td><td style='float:left'>1<strong>+</strong>2</td></tr><tr><td style='float:center'><span class='math tex'>b</span></td><td style='float:left'>末尾</td></tr></tbody></table><div class='display-math tex'>\sum_{i=1}^n i^{i+1}</div><div class='admonition is-info'><header class='admonition-header'>Note</header><div class='admonition-body'><p>note</p></div></div><div class='admonition is-warning'><header class='admonition-header'>Warn</header><div class='admonition-body'><p>warn</p></div></div><div class='admonition is-compat'><header class='admonition-header'>DoctreePages v1.1</header><div class='admonition-body'><p>compat</p></div></div><div data-lang='plain'><div class='codeblock-header'></div><pre class='codeblock-body language-plain'><code>plain
+</code></pre></div><br /><div data-lang='julia-repl'><div class='codeblock-header'></div><pre class='codeblock-body language-julia-repl'><code>julia&gt; begin foo(nothing,"$(Int)\n") end # comment
+
+julia&gt; @bar 32 == `15` #= =#
+</code></pre></div><br /><div data-lang='html'><div class='codeblock-header'></div><pre class='codeblock-body language-html'><code>&lt;a&gt;&lt;/a&gt; &lt;div&gt;
+</code></pre></div><br /><div data-lang='shell'><div class='codeblock-header'></div><pre class='codeblock-body language-shell'><code>$ activate vfs
+
+vfs&gt; init
+initialized
+
+vfs&gt; quit
+</code></pre></div><br /><div class='select-is modal-card-body' data-de='no' data-chs='"yes":"是","no":"否",' data-st='"yes":"is-developer","no":"!is-developer",'><p>您是否是开发者？</p></div><div class='checkis' data-check='is-developer'><p>欢迎开发者！</p></div><div class='fill-area'><div><p>1+1等于几？</p></div><input type='text' placeholder='ans'><button class='submit-fill fa-solid fa-upload' data-ans='2' data-isreg='false'></button><button class='ans-fill fa-solid fa-key' data-ans='2'></button><button class='instruction-fill fa-solid fa-lightbulb' data-con='3-1'></button></div><div class='fill-area'><div><p>1+1等于几？<strong>允许末尾额外空格</strong></p></div><input type='text' placeholder='ans'><button class='submit-fill fa-solid fa-upload' data-ans='^2 {0,}$' data-isreg='true'></button><button class='ans-fill fa-solid fa-key' data-ans='2'></button></div><p>&lt;p&gt;&amp;lt;</p><div class='test-area' data-tl='600' data-fs='10' data-name='文档测试测试'><br /><div class='choose-area' data-dict='"ABC":3,"A":1,"ABCD":4,"AB":2,'><div>1. <p>选择</p></div><span>A. a	</span><span>B. b	</span><span>C. c	</span><span>D. d	</span><br /></div><div class='fill-area' data-sc='6' data-re='^ {3,5}$'><div>2. <p>3~5个空格</p></div><input type='text' placeholder='ans'></div><p>文字</p></div><div class='box-hide'><button class='button-hide' onclick='unhide(event)'><span>点击显示内容</span></button><div class='display-hide'><ul><li><p>「开发」ignore 设置项</p></li><li><p>「开发」foot_direct 设置项</p></li><li><p>「交互」支持“回到顶端”火箭</p></li></ul></div></div><div class='random-word' data-id='rw1'></div>
+
+<section class='footnotes is-size-7'><ul><li id='footnote-1' class='footnote'><a class='tag is-link' href='#citeref-1'>1</a>
+<p>footnote</p></li><li id='footnote-2' class='footnote'><a class='tag is-link' href='#citeref-2'>2</a>
+<p>脚注2</p></li></ul></section></article>
+			<nav class="docs-footer"><a class='docs-footer-nextpage' href='txtfiletest.html'>txtfiletest »</a><div class='flexbox-break'></div><p class='footer-message'>Powered by <a href='https://github.com/JuliaRoadmap/DoctreePages.jl'>DoctreePages.jl</a> and its dependencies.</p></nav>
+			
+			<div id='rocket' onclick='boom()'></div>
+		</div>
+	</div>
+</body>
+</html>
