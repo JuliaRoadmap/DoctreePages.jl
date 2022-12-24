@@ -121,6 +121,7 @@ function Base.show(io::IO, pss::PagesSetting)
     if pss.repo_name != ""
         print(io, " $(pss.repo_owner)/$(pss.repo_name)")
     end
+    print(io, " | $(pss.lang), $(pss.charset), $(pss.theme)")
 end
 
 Base.@kwdef struct PageSetting

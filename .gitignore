@@ -24,4 +24,4 @@ docs/site/
 Manifest.toml
 
 # Files for local testing
-test/
+public/

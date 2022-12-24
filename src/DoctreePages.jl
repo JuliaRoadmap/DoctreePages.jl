@@ -34,7 +34,7 @@ const language_tags=[
 	(en="Requested source not found :(", zh="请求的资源未找到"),
 ]
 
-const DTP_VERSION = v"1.6.0"
+const DTP_VERSION = v"1.6.1"
 
 using CommonMark
 # using CommonHighlight

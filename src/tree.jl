@@ -9,7 +9,7 @@ function readbuildsetting(path::AbstractString)
 	toml=TOML.parsefile(path)
 	# The semver -related function set is too large
 	if haskey(toml, "version") && !(DTP_VERSION in Pkg.Types.semver_spec(toml["version"]))
-		error("version does not meet $build_setting : version")
+		error("version does not meet setting ($(toml["version"]))")
 	end
 	pages=toml["pages"]
 	if haskey(toml, "giscus")
@@ -22,8 +22,10 @@ function readbuildsetting(path::AbstractString)
 end
 
 function generate(srcdir::AbstractString, tardir::AbstractString, build_setting::AbstractString = "DoctreeBuild.toml")
-	namedtuple=readbuildsetting(joinpath(srcdir, build_setting))
-	generate(srcdir, tardir, PagesSetting(;namedtuple...))
+	namedtuple = readbuildsetting(joinpath(srcdir, build_setting))
+	pss = PagesSetting(;namedtuple...)
+	@info "Setting" pss
+	generate(srcdir, tardir, pss)
 end
 
 function expend_slash(str)
@@ -126,11 +128,11 @@ function gen_rec(;current::Node, outline::Bool, path::String, pathv::Vector{Stri
 			file2node(Val(Symbol(suf)); it=it, node=current, path=path, pathv=pathv, pre=pre, pss=pss, spath=spath, tpath=tpath)
 		else # isdir
 			pss.show_info
-			ns=current.toml["names"]
-			ns::Dict
-			node=Node(current,it)
-			current.dirs[it]=(node,ns[it])
-			push!(pathv,it)
+			ns = current.toml["names"]
+			typeassert(ns, Dict)
+			node = Node(current, it)
+			current.dirs[it] = (node, get(ns, it, it))
+			push!(pathv, it)
 			cd(it)
 			o=outline || (haskey(toml,"outline") && in(it, toml["outline"]))
 			gen_rec(

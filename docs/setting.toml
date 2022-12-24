@@ -6,3 +6,4 @@ outline = [
 [names]
 zh = "中文文档"
 en = "English Docs"
+tests = "测试"
