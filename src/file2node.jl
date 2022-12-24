@@ -1,12 +1,13 @@
 """
 Transforms source file to target file according to the type of the file.
 """
-function file2node(::Val; info::FileInfo, it, path, pathv, pre, pss::PagesSetting, spath, tpath)
+function file2node(::Val; info::FileBase, it, path, pathv, pre, pss::PagesSetting, spath, tpath)
 	cp(spath*it, tpath*it; force=true)
+	info.generated = true
 	info.target = it
 end
 
-function file2node(::Val{:md}; info::FileInfo, it, path, pathv, pre, pss::PagesSetting, spath, tpath)
+function file2node(::Val{:md}; info::FileBase, it, path, pathv, pre, pss::PagesSetting, spath, tpath)
 	con = ""
 	s = replace(read(spath*it, String), "\r"=>"")
 	try
@@ -26,29 +27,25 @@ function file2node(::Val{:md}; info::FileInfo, it, path, pathv, pre, pss::PagesS
 	end
 end
 
-function file2node(::Union{Val{:html}, Val{:htm}}; info::FileInfo, it, path, pathv, pre, pss::PagesSetting, spath, tpath)
+function file2node(::Union{Val{:html}, Val{:htm}}; info::FileBase, it, path, pathv, pre, pss::PagesSetting, spath, tpath)
 	str = read(spath*it, String)
+	info.target = it*pss.filesuffix
 	if pss.wrap_html
-		title = info.name
-		str=makehtml(pss, PageSetting(
-			description="$title - $(pss.title)",
-			editpath=pss.repo_path=="" ? "" : pss.repo_path*path*it,
-			mds=str,
-			navbar_title=title,
-			nextpage="",
-			prevpage=node.par===nothing ? "" : "<a class='docs-footer-prevpage' href='../index$(pss.filesuffix)'>« $(lw(pss, 9))</a>",
-			tURL="../"^length(pathv)
-		))
+		info.data = str
+	else
+		info.generated = true
+		write(tpath*info.target, str)
 	end
-	write(tpath*it*pss.filesuffix, str)
 end
 
-function file2node(::Val{:jl}; it, node::Node, path, pathv, pre, pss::PagesSetting, spath, tpath)
-	str=read(spath*it, String)
-	node.files[pre]=(highlight_directly(:julia, str, pss), pre, "jl")
+function file2node(::Val{:jl}; info::FileBase, it, path, pathv, pre, pss::PagesSetting, spath, tpath)
+	str = read(spath*it, String)
+	info.target = it*pss.filesuffix
+	info.data = highlight_directly(:julia, str, pss)
 end
 
-function file2node(::Val{:txt}; it, node::Node, path, pathv, pre, pss::PagesSetting, spath, tpath)
-	str=read(spath*it, String)
-	node.files[pre]=(highlight_directly(:plain, str, pss), pre, "txt")
+function file2node(::Val{:txt}; info::FileBase, it, path, pathv, pre, pss::PagesSetting, spath, tpath)
+	str = read(spath*it, String)
+	info.target = it*pss.filesuffix
+	info.data = highlight_directly(:plain, str, pss)
 end

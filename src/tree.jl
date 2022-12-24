@@ -102,6 +102,7 @@ function gen_rec(tree::Doctree, pss::PagesSetting; outlined::Bool, path::String,
 	num = length(tree.data)
 	i = 1
 	len = length(outline), len2 = length(unoutlined)
+	tb.children = num+1:num+len+len2
 	ns = get(toml, "names", Dict())::Dict
 	while true
 		num += 1
@@ -110,18 +111,15 @@ function gen_rec(tree::Doctree, pss::PagesSetting; outlined::Bool, path::String,
 			dot = findlast('.', it)
 			pre = dot===nothing ? it : it[1:dot-1]
 			suf = dot===nothing ? "" : it[dot+1:end]
-			info = FileInfo(false, omode, pre, suf, get(ns, pre, ""), "", "")
-			push!(tree.data, FileBase(tree.current, info))
+			info = FileBase(omode, false, tree.current, pre, suf, get(ns, pre, ""), "", "")
+			push!(tree.data, info)
 			file2node(Val(Symbol(suf)); info=info, it=it, path=path, pathv=pathv, pre=pre, pss=pss, spath=spath, tpath=tpath)
 		else
-			info = FileInfo(true, omode, it, "", ns[it], "", "")
-			node = Node(current, it)
-			current.dirs[it] = (node, get(ns, it, it))
+			info = DirBase(omode, tree.current, it, get(ns, it, it), nothing, Dict())
 			push!(pathv, it)
 			cd(it)
-			o=outline || (haskey(toml, "outline") && in(it, toml["outline"]))
 			gen_rec(tree, pss;
-				outlined=o,
+				outlined=omode,
 				path="$(path)$(it)/",
 				pathv=pathv,
 				srcdir=srcdir,

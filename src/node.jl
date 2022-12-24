@@ -1,25 +1,20 @@
-mutable struct FileInfo
-	is_dir::Bool
+abstract type DoctreeBase end
+mutable struct FileBase <: DoctreeBase
 	is_outlined::Bool
+	generated::Bool # for make_rec control
+	parent::Int
 	id::String # without suffix
 	suffix::String
 	name::String
 	target::String
 	data::String
 end
-
-FileInfo(name) = FileInfo(false, false, "", "", name, "", "")
-DirInfo(name, is_outlined=false) = FileInfo(true, is_outlined, "", "", name, "", "")
-
-abstract type DoctreeBase end
-mutable struct FileBase <: DoctreeBase
-	parent::Int
-	info::FileInfo
-end
 mutable struct DirBase <: DoctreeBase
+	is_outlined::Bool
 	parent::Int
-	info::FileInfo
-	children::Vector{Int}
+	id::String # without suffix
+	name::String
+	children
 	setting::Dict
 end
 id(tb::DoctreeBase) = tb.info.id
@@ -33,7 +28,7 @@ mutable struct Doctree <: AbstractDoctree
 	data::Vector{DoctreeBase}
 end
 function Doctree(name)
-	return Doctree(1, [DirBase(DirInfo(name, true), 0, Int[], Dict())])
+	return Doctree(1, [DirBase(true, 0, "", name, nothing, Dict())])
 end
 
 self(tree::Doctree) = tree.data[tree.current]
