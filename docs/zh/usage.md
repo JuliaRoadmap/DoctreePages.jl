@@ -1,6 +1,7 @@
 # 使用方式
-## 样例
-这个仓库的文档设置配置就是一个很好的样例（[这是功能测试页](tests/doctest.md)），您可以参照格式完成。
+## 导引
+当你使用这个包生成一批 HTML 时，需要待处理数据与文档设置配置。对于前者，您可以自行学习 Markdown 等文档格式。
+对于后者，这个仓库的文档设置配置就是一个很好的样例（[这是功能测试页](../tests/doctest.md)），您可以参照格式完成。如有疑问，可发布在仓库的 issue 处。
 
 ## 基于参数生成
 `generate` 函数的核心方法接受三个参数：源目录 srcdir、目标目录 tardir、设置数据 pss
@@ -48,12 +49,12 @@
 | wrap_html | 是否对html文件进行包裹 |
 
 1. `title` 是唯一未提供默认值的键
-2. `unfound`值表示的文件应在同一目录下
+2. `unfound` 值表示的文件应在同一目录下
 3. 以 `src_` 或 `tar_` 开头的对应值应只是目录名，不应含有 `/`（目录分隔符）
 4. 如果源数据在仓库中，应提供 `repo_name` 与 `repo_owner`，它们用于填写“编辑”按钮的链接
 
 ## 配置文件
-`generate` 函数的另一个方法的第三个参数为字符串，表示配置文件的路径，默认是`DoctreeBuild.toml`。
+`generate` 函数的另一个方法的第三个参数为字符串，表示配置文件的路径，默认是 `DoctreeBuild.toml`。
 
 配置文件应使用 TOML 格式，其中
 * `version` 项表明最低支持的 `DoctreePages` 版本，1.3 之后支持[像这样的更复杂的设置](https://pkgdocs.julialang.org/v1/compatibility/)
