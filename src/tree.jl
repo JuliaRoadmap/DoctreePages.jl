@@ -36,19 +36,12 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 	pss.srcdir = srcdir = expend_slash(abspath(srcdir))
 	pss.tardir = tardir = expend_slash(abspath(tardir))
 	@info "Route" srcdir tardir
+	if pss.remove_original && isdir(tardir)
+		rm(tardir; force=true, recursive=true)
+	end
 	mkpath(tardir)
-	# 复制本项目
-	cp(joinpath(@__DIR__, "../css"), tardir*pss.tar_css; force=true)
-	# 复制来源
-	cd(srcdir) do
-		isdir(pss.src_assets) && cp(pss.src_assets, tardir*pss.tar_assets; force=true)
-		isdir("script") && cp("script", tardir*pss.tar_script; force=true)
-	end
-	# docs
-	root=Node(nothing, lw(pss, 5))
-	if pss.remove_original && isdir(tardir*"docs")
-		rm(tardir*"docs"; force=true, recursive=true)
-	end
+	#= 核心部分：生成文档 =#
+	root = Node(nothing, lw(pss, 5))
 	cd(srcdir*"docs") do
 		gen_rec(;
 			current=root,
@@ -69,8 +62,14 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 			tardir=tardir
 		)
 	end
-	# 404
-	tarundef=joinpath(tardir, pss.unfound)
+	#= 生成各种杂物 =#
+	cp(joinpath(@__DIR__, "../css"), tardir*pss.tar_css; force=true)
+	cd(srcdir) do
+		isdir(pss.src_assets) && cp(pss.src_assets, tardir*pss.tar_assets; force=true)
+		isdir("script") && cp("script", tardir*pss.tar_script; force=true)
+	end
+	makemainpage()
+	tarundef = joinpath(tardir, pss.unfound)
 	if isfile(pss.unfound)
 		if pss.wrap_html
 			str=read(pss.unfound, String)
@@ -82,13 +81,10 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 		write(tarundef, make404(lw(pss, 10), pss))
 	end
 	mkpath(tardir*pss.tar_extra)
-	# info.js
 	makeinfo_script(tardir*"$(pss.tar_extra)/info.js", root, pss)
-	# main.js
 	open(tardir*"$(pss.tar_extra)/main.js", "w") do io
 		makescript(io, pss)
 	end
-	# 返回
 	return root
 end
 
@@ -200,7 +196,7 @@ function make_rec(;current::Node, path::String, pathv::Vector{String}, pss::Page
 				nextpage = get_pagestr(nextid, current, pss, "next")
 			end
 		end
-		ps=PageSetting(
+		ps = PageSetting(
 			description = describe_page(current, title, pss),
 			editpath=pss.repo_path=="" ? "" : "$(pss.repo_path*path)$id.$(pa.second[3])",
 			mds=pa.second[1],
@@ -310,4 +306,21 @@ function makeinfo_script(path::String, root::Node, pss::PagesSetting)
 	finally
 		close(io)
 	end
+end
+
+function makemainpage()
+	outline = get(root.toml, "outline", [])
+	if isempty(outline)
+		return
+	end
+	pagename = outline[1]
+	ps = PageSetting(
+		description = "$title - $(pss.title)",
+		editpath = pss.repo_path=="" ? "" : pss.repo_path*path,
+		mds = mds,
+		navbar_title = title,
+		nextpage = "",
+		prevpage = "",
+		tURL="./"^length(pathv)
+	)
 end

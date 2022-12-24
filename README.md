@@ -34,7 +34,6 @@ Discussion 功能来自[giscus](https://github.com/giscus/giscus)
 ### 主队列
 - [ ] 用 ant-design 重写部分组件
 - [ ] 支持同文档在多路径下共享
-- [ ] 主索引页
 - [ ] 更模块化
 - [ ] 空间压缩
 

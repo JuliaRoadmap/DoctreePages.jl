@@ -1,5 +1,5 @@
 function makehtml(pss::PagesSetting, ps::PageSetting)
-	gis=pss.giscus
+	gis = pss.giscus
 	return """
 	<!DOCTYPE html>
 	<html lang="$(pss.lang)">
