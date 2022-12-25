@@ -9,12 +9,14 @@ mutable struct FileBase <: DoctreeBase
 	target::String
 	data::String
 end
+fullname(tb::FileBase) = tb.suffix=="" ? tb.id : "$(tb.id).$(tb.suffix)"
+
 mutable struct DirBase <: DoctreeBase
 	is_outlined::Bool
 	parent::Int
 	id::String # without suffix
 	name::String
-	children
+	children # iterable, order: outlined (logical order), unoutlined (dictionary order)
 	setting::Dict
 end
 id(tb::DoctreeBase) = tb.info.id
@@ -34,6 +36,30 @@ end
 self(tree::Doctree) = tree.data[tree.current]
 backtoparent!(tree::Doctree) = tree.current = self(tree).parent
 backtoroot!(tree::Doctree) = tree.current = 1
+function findchild(tree::Doctree, from::Int, name::String)
+	tb = tree.data[from]
+	for ind in tb.children
+		if tree.data[ind].name == name
+			return ind
+		end
+	end
+	return 0
+end
+function first_outlined(tree::Doctree, ind::Int = 1)
+	tb = tree.data[ind]
+	if tb::FileBase && tb.is_outlined
+		return ind
+	elseif !tb.is_outlined || tb.children===nothing
+		return 0
+	end
+	return first_outlined(tree, first(tb.children))
+end
+# assume that target is the first of the chapter
+function prev_outlined(tree::Doctree, ind::Int)
+end
+# assume that target is the last of the chapter
+function next_outlined(tree::Doctree, ind::Int)
+end
 
 #= mutable struct SubDoctree <: AbstractDoctree
 	point::Int

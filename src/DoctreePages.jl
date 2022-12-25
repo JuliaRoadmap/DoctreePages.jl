@@ -14,7 +14,7 @@ export ify_md, childrenhtml, mkhtml
 export highlight, highlight_directly, buildhljsblock
 export makehtml
 export makescript
-export Node, readbuildsetting, gen_rec, make_rec, makemenu, makeindex, make404, makeinfo_script, file2node
+export Node, readbuildsetting, scan_rec, make_rec, makemenu, makeindex, make404, makeinfo_script, file2node
 
 include("htmlmanage.jl")
 

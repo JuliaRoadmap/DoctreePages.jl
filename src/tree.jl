@@ -22,29 +22,27 @@ function generate(srcdir::AbstractString, tardir::AbstractString, build_setting:
 end
 
 function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSetting)
+	#= 处理路径 =#
 	pss.srcdir = srcdir = expend_slash(abspath(srcdir))
 	pss.tardir = tardir = expend_slash(abspath(tardir))
 	@info "Route" srcdir tardir
 	if pss.remove_original && isdir(tardir)
 		rm(tardir; force=true, recursive=true)
 	end
-	mkpath(tardir)
+	mkpath(tardir*pss.tar_extra)
 	#= 核心部分：生成文档 =#
 	tree = Doctree(lw(pss, 5))
 	cd(srcdir*"docs") do
-		gen_rec(tree, pss;
+		scan_rec(tree, pss;
 			outlined=true,
 			path="docs/",
 			pathv=["docs"],
-			srcdir=srcdir,
-			tardir=tardir
 		)
 	end
 	cd(srcdir*"docs") do
 		make_rec(tree, pss;
 			path="docs/",
 			pathv=["docs"],
-			tardir=tardir
 		)
 	end
 	#= 生成各种杂物 =#
@@ -54,28 +52,15 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 		isdir("script") && cp("script", tardir*pss.tar_script; force=true)
 	end
 	makemainpage(tree, pss)
-	tarundef = joinpath(tardir, pss.unfound)
-	if isfile(pss.unfound)
-		if pss.wrap_html
-			str=read(pss.unfound, String)
-			write(tarundef, make404(str, pss))
-		else
-			cp(pss.unfound, tarundef; force=true)
-		end
-	elseif pss.make404
-		write(tarundef, make404(lw(pss, 10), pss))
-	end
-	mkpath(tardir*pss.tar_extra)
-	makeinfo_script(tardir*"$(pss.tar_extra)/info.js", root, pss)
-	open(tardir*"$(pss.tar_extra)/main.js", "w") do io
-		makescript(io, pss)
-	end
-	return root
+	make404(tree, pss)
+	makescript(tree, pss)
+	makeinfo_script(tree, pss)
+	tree
 end
 
-function gen_rec(tree::Doctree, pss::PagesSetting; outlined::Bool, path::String, pathv::Vector{String}, srcdir::String, tardir::String)
-	spath = srcdir*path
-	tpath = tardir*path
+function scan_rec(tree::Doctree, pss::PagesSetting; outlined::Bool, path::String, pathv::Vector{String})
+	spath = pss.srcdir*path
+	tpath = pss.tardir*path
 	mkpath(tpath)
 	vec = readdir("."; sort=false)
 	children = Set(vec)
@@ -117,11 +102,7 @@ function gen_rec(tree::Doctree, pss::PagesSetting; outlined::Bool, path::String,
 			push!(pathv, it)
 			tree.current = num
 			cd(it)
-			gen_rec(tree, pss;
-				outlined=omode,
-				path="$(path)$(it)/", pathv=pathv,
-				srcdir=srcdir, tardir=tardir
-			)
+			scan_rec(tree, pss; outlined=omode, path="$(path)$(it)/", pathv=pathv,)
 			pop!(pathv)
 			backtoparent!(tree)
 			cd("..")
@@ -137,84 +118,84 @@ function gen_rec(tree::Doctree, pss::PagesSetting; outlined::Bool, path::String,
 	end
 end
 
-function get_pagestr(id, current, pss, type)
-	if haskey(current.files, id)
-		title = current.files[id][2]
-		return "<a class='docs-footer-$(type)page' href='$(id)$(pss.filesuffix)'>$(type=="prev" ? "« $title" : "$title »")</a>"
-	end
-	if haskey(current.dirs, id)
-		title = current.dirs[id][2]
-		return "<a class='docs-footer-$(type)page' href='$(id)/index$(pss.filesuffix)'>$(type=="prev" ? "« $title" : "$title »")</a>"
-	end
-	error("Check setting files: nothing matches [$id] in $current")
+function get_pagestr(tree, pss, id::Int, is_prev)
+	tb = tree.data[id]
+	href = isa(id, FileBase) ? tb.target : "$(tb.name)/index$(pss.filesuffix)"
+	return "<a class='docs-footer-$(is_prev ? "prev" : "next")page' href='$(href)'>$(is_prev ? "« $title" : "$title »")</a>"
 end
-function make_rec(tree::Doctree, pss::PagesSetting; path::String, pathv::Vector{String}, tardir::String)
-	tpath = tardir*path
-	toml = current.toml
+function get_pagestr(tree, pss, name::String, is_prev)
+	id = findchild(tree, tree.current, name)
+	if id == 0
+		@info tree
+		error("Check setting files [foot_direct]: nothing matches <$name>")
+	end
+	return get_pagestr(tree, pss, id, is_prev)
+end
+function make_rec(tree::Doctree, pss::PagesSetting; path::String, pathv::Vector{String})
+	tpath = pss.tardir*path
+	tb = self(tree)
+	toml = tb.setting
 	vec = get(toml, "outline", [])::Vector
 	len = length(vec)
 	footdirect = get(toml, "foot_direct", Dict())
-	for pa in current.files
-		id = pa.first
-		title = pa.second[2]
+	for nid in tb.children
+		base = tree.data[nid]
+		if base::DirBase
+			push!(pathv, base.id)
+			tree.current = nid
+			cd(base.id)
+			make_rec(tree, pss; path="$(path)$(base.id)/", pathv=pathv)
+			pop!(pathv)
+			backtoparent!(tree)
+			cd("..")
+			continue
+		end
+		if base.generated
+			continue
+		end
+		id = base.id
+		title = base.name
 		prevpage = ""
 		nextpage = ""
 		outline_index = first_invec(id, vec)
 		if haskey(footdirect, id)
 			thisdirect = footdirect[id]
 			if haskey(thisdirect, "prev")
-				previd = thisdirect["prev"]
-				prevpage = get_pagestr(previd, current, pss, "prev")
+				prevpage = get_pagestr(tree, pss, thisdirect["prev"], true)
 			end
 			if haskey(thisdirect, "next")
-				nextid = thisdirect["next"]
-				nextpage = get_pagestr(nextid, current, pss, "next")
+				nextpage = get_pagestr(tree, pss, thisdirect["next"], false)
 			end
 		elseif outline_index == 0
 			prevpage = """<a class="docs-footer-prevpage" href="index$(pss.filesuffix)">« $(lw(pss, 6))</a>"""
 		else
 			i = outline_index[]
 			if i==1
-				prevpage = """<a class="docs-footer-prevpage" href="index$(pss.filesuffix)">« $(lw(pss, 6))</a>"""
+				prevnid = prev_outlined(tree, nid)
+				prevpage = prevnid==0 ? """<a class="docs-footer-prevpage" href="index$(pss.filesuffix)">« $(lw(pss, 6))</a>""" : get_pagestr(tree, pss, prevnid, true)
 			else
-				@inbounds previd = vec[i-1]
-				prevpage = get_pagestr(previd, current, pss, "prev")
+				prevpage = get_pagestr(tree, pss, @inbounds(vec[i-1]), true)
 			end
-			if i!=len
-				@inbounds nextid = vec[i+1]
-				nextpage = get_pagestr(nextid, current, pss, "next")
+			if i==len
+				nextnid = next_outlined(tree, nid)
+				nextpage = nextnid==0 ? "" : get_pagestr(tree, pss, nextnid, false)
+			else
+				nextpage = get_pagestr(tree, pss, @inbounds(vec[i+1]), false)
 			end
 		end
 		ps = PageSetting(
-			description = describe_page(current, title, pss),
-			editpath=pss.repo_path=="" ? "" : "$(pss.repo_path*path)$id.$(pa.second[3])",
-			mds=pa.second[1],
-			navbar_title = navbartext_page(current, title),
-			nextpage=nextpage,
-			prevpage=prevpage,
-			tURL="../"^length(pathv)
+			description = describe_page(tree, title, pss),
+			editpath = pss.repo_path=="" ? "" : "$(pss.repo_path*path)$(fullname(base))",
+			mds = base.data,
+			navbar_title = navbartext_page(tree, title),
+			nextpage = nextpage,
+			prevpage = prevpage,
+			tURL = "../"^length(pathv)
 		)
-		html=makehtml(pss, ps)
-		write(tpath*pa.first*pss.filesuffix, html)
+		html = makehtml(pss, ps)
+		write(tpath*base.target, html)
 	end
-	for pa in current.dirs
-		name=pa.first
-		cd(name)
-		push!(pathv, name)
-		make_rec(;
-			current=pa.second[1],
-			path=path*name*"/",
-			pathv=pathv,
-			pss=pss,
-			tardir=tardir
-		)
-	end
-	if pss.make_index
-		write(tpath*"index"*pss.filesuffix, makeindex(tree, pss; path=path, pathv=pathv))
-	end
-	path = path[1:end-1-length(last(pathv))]
-	pop!(pathv)
-	cd("..")
+	makeindex(tree, pss; path=path, pathv=pathv)
 end
 
 function makemenu(tree::Doctree, pss::PagesSetting; ind::Int = 1)
@@ -237,6 +218,9 @@ function _makemenu(tree::Doctree, pss::PagesSetting; ind::Int)
 end
 
 function makeindex(tree::Doctree, pss::PagesSetting; path::String, pathv::Vector{String})
+	if !pss.make_index
+		return
+	end
 	mds = "<ul>"
 	tb = self(tree)
 	for nid in tb.children
@@ -258,11 +242,23 @@ function makeindex(tree::Doctree, pss::PagesSetting; path::String, pathv::Vector
 		prevpage=isroot(tb) ? "" : "<a class='docs-footer-prevpage' href='../index$(pss.filesuffix)'>« $(lw(pss, 9))</a>",
 		tURL="../"^length(pathv)
 	)
-	return makehtml(pss, ps)
+	write(pss.tardir*path*"index"*pss.filesuffix, makehtml(pss, ps))
 end
 
-function make404(mds::String, pss::PagesSetting)
-	return makehtml(pss, PageSetting(
+function make404(_::AbstractDoctree, pss::PagesSetting)
+	tarundef = joinpath(pss.tardir, pss.unfound)
+	str = ""
+	if isfile(pss.unfound)
+		if pss.wrap_html
+			str = read(pss.unfound, String)
+		else
+			cp(pss.unfound, tarundef; force=true)
+			return
+		end
+	elseif pss.make404
+		str = lw(pss, 10)
+	end
+	write(tarundef, makehtml(pss, PageSetting(
 		description="404 ($(pss.title))",
 		editpath="",
 		mds="<p style='color:red'>$mds</p>",
@@ -270,11 +266,11 @@ function make404(mds::String, pss::PagesSetting)
 		nextpage="",
 		prevpage="<a class='docs-footer-prevpage' href='index$(pss.filesuffix)'>« $(lw(pss, 9))</a>",
 		tURL="./",
-	))
+	)))
 end
 
-function makeinfo_script(tree::Doctree, pss::PagesSetting; path::String)
-	io = open(path, "w")
+function makeinfo_script(tree::Doctree, pss::PagesSetting)
+	io = open("$(pss.tardir)$(pss.tar_extra)/info.js", "w")
 	try
 		println(io, "const __lang=`$(rep(pss.lang))`")
 		println(io, "const buildmessage=`$(rep(pss.buildmessage))`")
