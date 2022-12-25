@@ -45,19 +45,11 @@ function findchild(tree::Doctree, from::Int, name::String)
 	end
 	return 0
 end
-function first_outlined(tree::Doctree, ind::Int = 1)
-	tb = tree.data[ind]
-	if tb::FileBase && tb.is_outlined
-		return ind
-	elseif !tb.is_outlined || tb.children===nothing
-		return 0
-	end
-	return first_outlined(tree, first(tb.children))
-end
-# assume that target is the first of the chapter
+
+# assume that the target is the first of the chapter
 function prev_outlined(tree::Doctree, ind::Int)
 end
-# assume that target is the last of the chapter
+# assume that the target is the last of the chapter
 function next_outlined(tree::Doctree, ind::Int)
 end
 
@@ -87,7 +79,7 @@ end
 chapter_name(tree::AbstractDoctree) = name(self(tree))
 function describe_page(tree::AbstractDoctree, title, pss)
 	tb = self(tree)
-	return isroot(tb) ? "$title - $(title(pss))" : name(tb)*"/$title - $(title(pss))"
+	return isroot(tb) ? "$title - $(title(pss))" : "$(name(tb))/$title - $(title(pss))"
 end
 function navbartext_page(tree::AbstractDoctree, title)
 	tb = self(tree)

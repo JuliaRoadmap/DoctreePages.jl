@@ -290,18 +290,34 @@ function makeinfo_script(tree::Doctree, pss::PagesSetting)
 end
 
 function makemainpage(tree::Doctree, pss::PagesSetting)
-	outline = get(self(tree).setting, "outline", [])::Vector
-	if isempty(outline)
-		return
+	path = ""
+	nid = 1
+	tb = tree.data[1]
+	# iter = 0
+	while true
+		path *= tb.name
+		# nid, iter = iterate(tb.children)
+		nid = first(tb.children)
+		tb = tree.data[nid]
+		if !tb.is_outlined
+			return
+		end
+		if tb::FileBase
+			break
+		end
 	end
-	pagename = outline[1]
+	# par = tb.parent
+	# @inbounds partb = tree.data[par]
+	# next = iterate(partb.children, iter)
+	# nextnid = next===nothing ? next_outlined(tree, nid) : next[1]
 	ps = PageSetting(
-		description = "$title - $(pss.title)",
+		description = "$(tb.name) - $(pss.title)",
 		editpath = pss.repo_path=="" ? "" : pss.repo_path*path,
-		mds = mds,
-		navbar_title = title,
+		mds = tb.data,
+		navbar_title = tb.name,
 		nextpage = "",
 		prevpage = "",
-		tURL="./"^length(pathv)
+		tURL = "./"
 	)
+	write(pss.tardir*"index"*pss.filesuffix, makehtml(pss, ps))
 end
