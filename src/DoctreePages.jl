@@ -9,12 +9,17 @@ export generate
 export github_action
 
 # 用于自行编写脚本的用户
-export PageSetting, default_parser
+export GiscusSetting, MainScriptSetting, default_parser
+export PageSetting
+export PageSetting
 export ify_md, childrenhtml, mkhtml
 export highlight, highlight_directly, buildhljsblock
 export makehtml
 export makescript
-export Node, readbuildsetting, scan_rec, make_rec, makemenu, makeindex, make404, makeinfo_script, file2node
+export DoctreeBase, FileBase, DirBase, AbstractDoctree, Doctree
+export generate, scan_rec, make_rec
+export makemenu, makeindex, make404, makeinfo_script, makemainpage
+export file2node, github_action, template
 
 include("htmlmanage.jl")
 

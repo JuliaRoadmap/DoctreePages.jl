@@ -23,7 +23,7 @@ function file2node(::Val{:md}; info::FileBase, it, path, pathv, pre, pss::PagesS
 		showerror(buf, er)
 		str = String(take!(buf))
 		@error "Markdown Parse Error" it str
-		con = "<p style='color:red'>ERROR handled by DoctreePages.jl :<br />$(html_safe(str))</p>"
+		con = "<h2 id='header-error'>ERROR handled by DoctreePages</h2><p style='color:red'>$(html_safe(str))</p>"
 	end
 end
 
