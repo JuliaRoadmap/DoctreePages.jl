@@ -15,11 +15,12 @@ for(let tag of $(".random-word")){
 		delete chosen.text
 		for(let k of Object.keys(chosen)){
 			let name = k
+			if(name=="tag" || name=="rate")continue
 			if(__lang == "zh"){
 				name = {
 					original: "原文",
 					source: "来源",
-					license: "许可证类型",
+					license: "许可信息",
 				}[k]
 			}
 			let box = document.createElement("button")

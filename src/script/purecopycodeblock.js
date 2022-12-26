@@ -3,10 +3,15 @@ function purecopycodeblock(ev){
 	let body = tar.parentNode.nextSibling
 	let codes = body.querySelectorAll(".hljs-ln-code")
 	let s = ""
+	let region = true
 	for(let code of codes){
 		let txt = code.innerText
 		let start = txt.substring(0, 7)
-		if(start=="julia> " || start=="help?> " || start=="shell> " || start=="       ")s+=txt.substring(7)+"\n"
+		if(start=="julia> " || start=="help?> " || start=="shell> " || start=="       "){
+			region = false
+			s+=txt.substring(7)+"\n"
+		}
+		else if(region)s+=txt+"\n"
 	}
 	navigator.clipboard.writeText(s).then(
 		function(){
