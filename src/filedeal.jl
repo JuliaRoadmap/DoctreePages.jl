@@ -1,13 +1,13 @@
 """
 Transforms source file to target file according to the type of the file.
 """
-function file2node(::Val; info::FileBase, it, path, pathv, pre, pss::PagesSetting, spath, tpath)
+function filedeal(::Val; info::FileBase, it, path, pathv, pre, pss::PagesSetting, spath, tpath)
 	cp(spath*it, tpath*it; force=true)
 	info.generated = true
 	info.target = it
 end
 
-function file2node(::Val{:md}; info::FileBase, it, path, pathv, pre, pss::PagesSetting, spath, tpath)
+function filedeal(::Val{:md}; info::FileBase, it, path, pathv, pre, pss::PagesSetting, spath, tpath)
 	con = ""
 	s = replace(read(spath*it, String), "\r"=>"")
 	try
@@ -27,7 +27,7 @@ function file2node(::Val{:md}; info::FileBase, it, path, pathv, pre, pss::PagesS
 	end
 end
 
-function file2node(::Union{Val{:html}, Val{:htm}}; info::FileBase, it, path, pathv, pre, pss::PagesSetting, spath, tpath)
+function filedeal(::Union{Val{:html}, Val{:htm}}; info::FileBase, it, path, pathv, pre, pss::PagesSetting, spath, tpath)
 	str = read(spath*it, String)
 	info.target = it*pss.filesuffix
 	if pss.wrap_html
@@ -38,13 +38,13 @@ function file2node(::Union{Val{:html}, Val{:htm}}; info::FileBase, it, path, pat
 	end
 end
 
-function file2node(::Val{:jl}; info::FileBase, it, path, pathv, pre, pss::PagesSetting, spath, tpath)
+function filedeal(::Val{:jl}; info::FileBase, it, path, pathv, pre, pss::PagesSetting, spath, tpath)
 	str = read(spath*it, String)
 	info.target = it*pss.filesuffix
 	info.data = highlight_directly(:julia, str, pss)
 end
 
-function file2node(::Val{:txt}; info::FileBase, it, path, pathv, pre, pss::PagesSetting, spath, tpath)
+function filedeal(::Val{:txt}; info::FileBase, it, path, pathv, pre, pss::PagesSetting, spath, tpath)
 	str = read(spath*it, String)
 	info.target = it*pss.filesuffix
 	info.data = highlight_directly(:plain, str, pss)

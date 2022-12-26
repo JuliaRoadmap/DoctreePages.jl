@@ -96,7 +96,7 @@ function scan_rec(tree::Doctree, pss::PagesSetting; outlined::Bool, path::String
 			suf = dot===nothing ? "" : it[dot+1:end]
 			info = FileBase(omode, false, tree.current, pre, suf, get(ns, pre, ""), "", "")
 			push!(tree.data, info)
-			file2node(Val(Symbol(suf)); info=info, it=it, path=path, pathv=pathv, pre=pre, pss=pss, spath=spath, tpath=tpath)
+			filedeal(Val(Symbol(suf)); info=info, it=it, path=path, pathv=pathv, pre=pre, pss=pss, spath=spath, tpath=tpath)
 		else
 			info = DirBase(omode, tree.current, it, get(ns, it, it), nothing, Dict())
 			push!(pathv, it)

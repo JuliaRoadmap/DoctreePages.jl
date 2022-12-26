@@ -19,7 +19,7 @@ export makescript
 export DoctreeBase, FileBase, DirBase, AbstractDoctree, Doctree
 export generate, scan_rec, make_rec
 export makemenu, makeindex, make404, makeinfo_script, makemainpage
-export file2node, github_action, template
+export filedeal, github_action, template
 
 include("htmlmanage.jl")
 
@@ -61,10 +61,10 @@ include("tohtml.jl")
 include("scripts.jl")
 
 using Pkg
-include("node.jl")
+include("doctree.jl")
 include("tools.jl")
-include("tree.jl")
-include("file2node.jl")
+include("treedeal.jl")
+include("filedeal.jl")
 include("git.jl")
 
 include("template.jl")
