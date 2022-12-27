@@ -4,4 +4,5 @@ outline = [
 	"settings",
 	"spec_codeblocks",
 	"notice",
+	"api",
 ]

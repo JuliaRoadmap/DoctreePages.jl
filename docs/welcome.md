@@ -2,8 +2,8 @@
 ![](https://img.shields.io/badge/LICENSE-MIT-lightgrey) ![](https://img.shields.io/badge/Doctree-v1.6-green)
 
 !!! note
-	由于 1.6 版本对代码进行了大幅更改，本文档以 1.6 版本为基准。
-	Since there's great changes in the code in version 1.6, this documentation is based on version 1.6.
+	由于 1.6 与 1.7 版本对代码进行了大幅更改，本文档以 1.7 版本为基准。
+	Since there's great changes in the code in version 1.6 and 1.7, this documentation is based on version 1.7.
 
 ## 中文
 这是一个文档生成器。

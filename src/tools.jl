@@ -21,3 +21,10 @@ function namedtuplefrom(d::Dict{String, Any})
 	end
 	return NamedTuple(v)
 end
+function split_filesuffix(str::String)
+	dot = findlast('.', it)
+	@inbounds return dot===nothing ? (str, "") : (str[1:dot-1], str[dot+1:end])
+end
+function share_file(x)
+	return x
+end

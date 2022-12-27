@@ -91,9 +91,7 @@ function scan_rec(tree::Doctree, pss::PagesSetting; outlined::Bool, path::String
 		num += 1
 		@inbounds it = (omode ? outline : unoutlined)[i]
 		if isfile(it)
-			dot = findlast('.', it)
-			pre = dot===nothing ? it : it[1:dot-1]
-			suf = dot===nothing ? "" : it[dot+1:end]
+			pre, suf = split_filesuffix(it)
 			info = FileBase(omode, false, tree.current, pre, suf, get(ns, pre, ""), "", "")
 			push!(tree.data, info)
 			filedeal(Val(Symbol(suf)); info=info, it=it, path=path, pathv=pathv, pre=pre, pss=pss, spath=spath, tpath=tpath)
@@ -313,7 +311,7 @@ function makemainpage(tree::Doctree, pss::PagesSetting)
 	ps = PageSetting(
 		description = "$(tb.name) - $(pss.title)",
 		editpath = pss.repo_path=="" ? "" : pss.repo_path*path,
-		mds = tb.data,
+		mds = share_file(tb.data),
 		navbar_title = tb.name,
 		nextpage = "",
 		prevpage = "",

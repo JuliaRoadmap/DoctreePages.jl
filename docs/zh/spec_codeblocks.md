@@ -70,6 +70,6 @@ instruction = "提示（可选，不支持Markdown）"
 ## is-xxx 条件激发
 代码块内是仅在 `localStorage.getItem("is-xxx")` 为 `true` 时显示的 Markdown 内容
 
-## 插入随机句子
+## random-word 插入随机句子
 `random-word` 表示插入随机句子，使用 TOML 格式配置。
 `id` 表示辨识编号，`pool` 是一个表数组，其中每个 `text` 项表示文字内容，不会被 html-unescape 处理。
