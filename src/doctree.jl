@@ -46,11 +46,114 @@ function findchild(tree::Doctree, from::Int, name::String)
 	return 0
 end
 
+#= Doctree model:
+[1*]---------+-----+--------+
+ |           |     |        |
+ |           |     |        |
+[2*]-----+  [3*]  [4*]--+  [5]
+ |   |   |         |    |
+ |   |   |         |    |
+[6*][7*][8]      [10*] [11]
+     |
+	 |
+	[9*]
+=#
+
+function previous_sibling(tree::Doctree, me::Int, par::Int)
+	children = tree.data[par].children
+	prev = 0
+	for i in children
+		if i==me
+			return prev
+		end
+		prev = i
+	end
+	error("tree: $me itself is not a child of $par")
+end
+function next_outlined_sibling(tree::Doctree, me::Int, par::Int)
+	children = tree.data[par].children
+	next = iterate(children)
+	while next !== nothing
+    	(item, state) = next
+		next = iterate(children, state)
+    	if item==me
+			x = next[1]
+			return tree.data[x].is_outlined ? x : 0
+		end
+	end
+	error("tree: $me itself is not a child of $par")
+end
+function last_outlined_child(tree::Doctree, ind::Int)
+	children = tree.data[ind].children
+	if isempty(children)
+		return 0
+	end
+	prev = 0
+	for i in children
+		if !tree.data[i].is_outlined
+			return prev
+		end
+		prev = i
+	end
+	return prev
+end
+function first_outlined_child(tree::Doctree, ind::Int)
+	children = tree.data[ind].children
+	if isempty(children)
+		return 0
+	end
+	x = first(children)
+	return tree.data[x].is_outlined ? x : 0
+end
 # assume that the target is the first of the chapter
 function prev_outlined(tree::Doctree, ind::Int)
+	while true
+		if ind==1
+			return 0
+		end
+		par = tree.data[ind].parent
+		x = previous_sibling(tree, ind, par)
+		if x!=0
+			ind = x
+			break
+		end
+		ind = par
+	end
+	while true
+		if tree.data[ind]::FileBase
+			return ind
+		end
+		x = last_outlined_child(tree, ind)
+		if x==0
+			return ind
+		end
+		ind = x
+	end
 end
 # assume that the target is the last of the chapter
 function next_outlined(tree::Doctree, ind::Int)
+	while true
+		if ind==1
+			return 0
+		end
+		par = tree.data[ind].parent
+		x = next_outlined_sibling(tree, ind, par)
+		if x!=0
+			ind = x
+			break
+		end
+		ind = par
+	end
+	while true
+		if tree.data[ind]::FileBase
+			return ind
+		end
+		x = first_outlined_child(tree, ind)
+		if x==0
+			return ind
+		end
+		ind = x
+	end
 end
 
 #= mutable struct SubDoctree <: AbstractDoctree
