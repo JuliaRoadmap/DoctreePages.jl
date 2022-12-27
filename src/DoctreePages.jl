@@ -41,6 +41,7 @@ const DTP_VERSION = v"1.7.0"
 using CommonMark
 # using CommonHighlight
 include("setting.jl")
+include("doctree.jl")
 
 function lw(pss::PagesSetting, id::Integer)
 	sym=Symbol(pss.lang)
@@ -54,14 +55,13 @@ end
 
 include("markdown.jl")
 
-using JSON3
+import JSON3
 using TOML
 include("highlighter.jl")
 include("tohtml.jl")
 include("scripts.jl")
 
 using Pkg
-include("doctree.jl")
 include("tools.jl")
 include("treedeal.jl")
 include("filedeal.jl")

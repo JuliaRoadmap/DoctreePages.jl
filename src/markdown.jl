@@ -100,11 +100,8 @@ function mkhtml(node::CommonMark.Node, ::CommonMark.TableHeader, pss::PagesSetti
 	return str
 end
 function mkhtml(node::CommonMark.Node, ::CommonMark.TableBody, pss::PagesSetting)
-	str = $(childrenhtml(node, pss))
-	if !pss.table_tight
-		str = "<tbody>$str</tbody>"
-	end
-	return str
+	str = childrenhtml(node, pss)
+	return pss.table_tight ? str : "<tbody>$str</tbody>"
 end
 function mkhtml(node::CommonMark.Node, ::CommonMark.TableRow, pss::PagesSetting)
 	str = childrenhtml(node, pss)
