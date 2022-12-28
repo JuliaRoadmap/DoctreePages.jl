@@ -64,11 +64,15 @@ function scan_rec(tree::Doctree, pss::PagesSetting; outlined::Bool, path::String
 	mkpath(tpath)
 	vec = readdir("."; sort=false)
 	children = Set(vec)
-	toml = in("setting.toml", children) ? TOML.parsefile("setting.toml") : Dict()
+	toml = if in("setting.toml", children)
+		delete!(children, "setting.toml")
+		TOML.parsefile("setting.toml")
+	else
+		Dict()
+	end
 	tb = self(tree)
 	tb.setting = toml
 	if haskey(toml, "ignore")
-		delete!(children, "setting.toml")
 		for id in toml["ignore"]
 			delete!(children, id)
 		end
@@ -82,34 +86,26 @@ function scan_rec(tree::Doctree, pss::PagesSetting; outlined::Bool, path::String
 	end
 	unoutlined = collect(children)
 	sort!(unoutlined)
-	omode = true
 	num = Base.length(tree.data)
 	i = 1
-	len = Base.length(outline)
+	len1 = Base.length(outline)
 	len2 = Base.length(unoutlined)
-	tb.children = num+1:num+len+len2
+	len = len1 + len2
+	tb.children = num+1:num+len
 	ns = get(toml, "names", Dict())::Dict
 	saved_rec = Tuple{Int, String, Bool}[]
-	while true
-		num += 1
-		@inbounds it = (omode ? outline : unoutlined)[i]
+	for i in 1:len
+		omode = i<=len1
+		@inbounds it = omode ? outline[i] : unoutlined[i-len1]
 		if isfile(it)
 			pre, suf = split_filesuffix(it)
 			info = FileBase(omode, false, tree.current, pre, suf, get(ns, pre, ""), "", "")
+			filedeal(Val(Symbol(suf)); info=info, it=it, path=path, pss=pss, spath=spath, tpath=tpath)
 			push!(tree.data, info)
-			filedeal(Val(Symbol(suf)); info=info, it=it, path=path, pathv=pathv, pre=pre, pss=pss, spath=spath, tpath=tpath)
 		else
 			info = DirBase(omode, tree.current, it, get(ns, it, it), nothing, Dict())
 			push!(tree.data, info)
-			push!(saved_rec, (num, it, omode))
-		end
-		if i == len
-			omode = false
-			i = 1
-		elseif i == len2
-			break
-		else
-			i += 1
+			push!(saved_rec, (num+i, it, omode))
 		end
 	end
 	for (num, dirname, omode) in saved_rec
@@ -123,18 +119,18 @@ function scan_rec(tree::Doctree, pss::PagesSetting; outlined::Bool, path::String
 	end
 end
 
-function get_pagestr(tree, pss, id::Int, is_prev)
-	tb = tree.data[id]
-	href = isa(id, FileBase) ? tb.target : "$(tb.name)/index$(pss.filesuffix)"
+function get_pagestr(tree, pss, nid::Int, is_prev)
+	tb = tree.data[nid]
+	href = isa(nid, FileBase) ? tb.target : "$(tb.name)/index$(pss.filesuffix)"
 	return "<a class='docs-footer-$(is_prev ? "prev" : "next")page' href='$(href)'>$(is_prev ? "« $title" : "$title »")</a>"
 end
-function get_pagestr(tree, pss, name::String, is_prev)
-	id = findchild(tree, tree.current, name)
-	if id == 0
+function get_pagestr(tree, pss, id::String, is_prev)
+	nid = findchild(tree, tree.current, id)
+	if nid == 0
 		@info tree
-		error("Check setting files [foot_direct]: nothing matches <$name>")
+		error("Check setting files [foot_direct]: nothing matches <$id>")
 	end
-	return get_pagestr(tree, pss, id, is_prev)
+	return get_pagestr(tree, pss, nid, is_prev)
 end
 function make_rec(tree::Doctree, pss::PagesSetting; path::String, pathv::Vector{String})
 	tpath = pss.tardir*path
@@ -216,7 +212,7 @@ function _makemenu(tree::Doctree, pss::PagesSetting; ind::Int)
 		if isa(base, FileBase)
 			str *= "`$(rep(base.id))/$(rep(base.name))`,"
 		else
-			str *= "[`$(rep(base.id))/$(rep(base.name))`,$(_makemenu(tree, pss; nid))],"
+			str *= "[`$(rep(base.id))/$(rep(base.name))`,$(_makemenu(tree, pss; ind=nid))],"
 		end
 	end
 	return str
@@ -266,7 +262,7 @@ function make404(_::AbstractDoctree, pss::PagesSetting)
 	write(tarundef, makehtml(pss, PageSetting(
 		description="404 ($(pss.title))",
 		editpath="",
-		mds="<p style='color:red'>$mds</p>",
+		mds="<p style='color:red'>$str</p>",
 		navbar_title="404",
 		nextpage="",
 		prevpage="<a class='docs-footer-prevpage' href='index$(pss.filesuffix)'>« $(lw(pss, 9))</a>",

@@ -34,7 +34,7 @@ One method of the `generate` function allows three parameters:
 | repo_owner | owner name of repo |
 | repo_path | full path to repo default branch |
 | show_info | whether to call `@info` |
-| src_assets | refer to [guidelines](guidelines.md#dir-managing |
+| src_assets | refer to [guidelines](guidelines.md#dir-managing) |
 | src_script | refer to [guidelines](guidelines.md#dir-managing) |
 | table_align | table align setting |
 | tar_assets | name of dir of generated `assets` |

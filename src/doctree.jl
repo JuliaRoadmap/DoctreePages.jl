@@ -36,10 +36,10 @@ end
 self(tree::Doctree) = tree.data[tree.current]
 backtoparent!(tree::Doctree) = tree.current = self(tree).parent
 backtoroot!(tree::Doctree) = tree.current = 1
-function findchild(tree::Doctree, from::Int, name::String)
+function findchild(tree::Doctree, from::Int, id::String)
 	tb = tree.data[from]
 	for ind in tb.children
-		if tree.data[ind].name == name
+		if tree.data[ind].id == id
 			return ind
 		end
 	end
@@ -120,7 +120,8 @@ function prev_outlined(tree::Doctree, ind::Int)
 		ind = par
 	end
 	while true
-		if isa(tree.data[ind], FileBase)
+		tb = tree.data[ind]
+		if isa(tb, FileBase) || isempty(tb.children)
 			return ind
 		end
 		x = last_outlined_child(tree, ind)
@@ -145,7 +146,8 @@ function next_outlined(tree::Doctree, ind::Int)
 		ind = par
 	end
 	while true
-		if isa(tree.data[ind], FileBase)
+		tb = tree.data[ind]
+		if isa(tb, FileBase) || isempty(tb.children)
 			return ind
 		end
 		x = first_outlined_child(tree, ind)
@@ -182,7 +184,7 @@ function debug(io::IO, tree::Doctree)
 	println(io, "current = ", tree.current)
 	for nid in eachindex(tree.data)
 		@inbounds tb = tree.data[nid]
-		print(io, "[$(tb.is_outlined ? "*" : "")$(nid)] ")
+		print(io, "[$(nid)$(tb.is_outlined ? "*" : "")] ")
 		if isa(tb, FileBase)
 			println(io, "<$(tb.id).$(tb.suffix) | $(tb.name)>")
 		else

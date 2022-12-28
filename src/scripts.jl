@@ -67,10 +67,7 @@ function makescript(io::IO, pss::PagesSetting)
 	print(io, giscus_script(pss))
 end
 function makescript(_::AbstractDoctree, pss::PagesSetting)
-	try
-		io = open("$(pss.tardir)$(pss.tar_extra)/main.js", "w")
+	open("$(pss.tardir)$(pss.tar_extra)/main.js", "w") do io
 		makescript(io, pss)
-	finally
-		close(io)
 	end
 end

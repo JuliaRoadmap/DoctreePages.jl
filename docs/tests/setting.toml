@@ -2,5 +2,8 @@ ignore = [
 	"ignoreme.md",
 ]
 
+[names]
+txtfiletest = ".txt 格式文件测试"
+
 [foot_direct.doctest]
 next = "txtfiletest"

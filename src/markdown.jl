@@ -105,14 +105,15 @@ function mkhtml(node::CommonMark.Node, ::CommonMark.TableBody, pss::PagesSetting
 end
 function mkhtml(node::CommonMark.Node, ::CommonMark.TableRow, pss::PagesSetting)
 	str = childrenhtml(node, pss)
-	return pss.header_region_start ? "<th>$str</th>" : "<tr>$str</tr>"
+	return "<tr>$str</tr>"
 end
 function mkhtml(node::CommonMark.Node, cell::CommonMark.TableCell, pss::PagesSetting)
+	tag = pss.header_region_start ? "th" : "td"
 	ta = pss.table_align
 	chtml = childrenhtml(node, pss)
-	ta == "inherit" && return "<td>$chtml</td>"
+	ta == "inherit" && return "<$tag>$chtml</$tag>"
 	al = pss.table_align=="auto" ? cell.align : pss.table_align
-	return "<td style='float:$al'>$chtml</td>"
+	return "<$tag style='float:$al'>$chtml</$tag>"
 end
 function mkhtml(node::CommonMark.Node, ::CommonMark.DisplayMath, ::PagesSetting)
 	return "<div class='display-math tex'>$(html_safe(node.literal))</div>"
