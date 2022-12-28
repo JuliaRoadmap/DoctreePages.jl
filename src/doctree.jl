@@ -19,8 +19,8 @@ mutable struct DirBase <: DoctreeBase
 	children # iterable, order: outlined (logical order), unoutlined (dictionary order)
 	setting::Dict
 end
-id(tb::DoctreeBase) = tb.info.id
-name(tb::DoctreeBase) = tb.info.name
+id(tb::DoctreeBase) = tb.id
+name(tb::DoctreeBase) = tb.name
 isroot(tb::DoctreeBase) = tb.parent==0
 
 abstract type AbstractDoctree end
@@ -120,7 +120,7 @@ function prev_outlined(tree::Doctree, ind::Int)
 		ind = par
 	end
 	while true
-		if tree.data[ind]::FileBase
+		if isa(tree.data[ind], FileBase)
 			return ind
 		end
 		x = last_outlined_child(tree, ind)
@@ -145,7 +145,7 @@ function next_outlined(tree::Doctree, ind::Int)
 		ind = par
 	end
 	while true
-		if tree.data[ind]::FileBase
+		if isa(tree.data[ind], FileBase)
 			return ind
 		end
 		x = first_outlined_child(tree, ind)
@@ -178,11 +178,23 @@ function Base.show(io::IO, tree::Doctree)
 		println(io, "| $(id(tb)) ($(name(tb)))")
 	end
 end
+function debug(io::IO, tree::Doctree)
+	println(io, "current = ", tree.current)
+	for nid in eachindex(tree.data)
+		@inbounds tb = tree.data[nid]
+		print(io, "[$(tb.is_outlined ? "*" : "")$(nid)] ")
+		if isa(tb, FileBase)
+			println(io, "<$(tb.id).$(tb.suffix) | $(tb.name)>")
+		else
+			println(io, "<$(tb.id) | $(tb.name)> $(tb.parent){$(tb.children)}")
+		end
+	end
+end
 
 chapter_name(tree::AbstractDoctree) = name(self(tree))
-function describe_page(tree::AbstractDoctree, title, pss)
+function describe_page(tree::AbstractDoctree, _title, pss)
 	tb = self(tree)
-	return isroot(tb) ? "$title - $(title(pss))" : "$(name(tb))/$title - $(title(pss))"
+	return isroot(tb) ? "$_title - $(title(pss))" : "$(name(tb))/$title - $(title(pss))"
 end
 function navbartext_page(tree::AbstractDoctree, title)
 	tb = self(tree)

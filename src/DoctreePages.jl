@@ -44,8 +44,8 @@ include("setting.jl")
 include("doctree.jl")
 
 function lw(pss::PagesSetting, id::Integer)
-	sym=Symbol(pss.lang)
-	named=language_tags[id]
+	sym = Symbol(pss.lang)
+	named = language_tags[id]
 	if haskey(named, sym)
 		return getproperty(named, sym)
 	else

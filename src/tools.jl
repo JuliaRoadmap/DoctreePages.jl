@@ -1,7 +1,7 @@
 function rep(str::AbstractString)
 	return replace(str, '`' => "\\`")
 end
-function expend_slash(str)
+function expand_slash(str)
 	return (str[end] in ['/', '\\']) ? str : str*'/'
 end
 function first_invec(x, vec::Vector)
@@ -16,13 +16,27 @@ function first_invec(x, vec::Vector)
 end
 
 function namedtuplefrom(d::Dict{String, Any})
-	v=map(collect(d)) do pair
+	v = map(collect(d)) do pair
 		Symbol(pair.first) => pair.second
 	end
 	return NamedTuple(v)
 end
+function expand_suffix(str::String, set::Set)
+	for i in set
+		if startswith(i, str)
+			if length(i)==length(str)
+				return i
+			end
+			dot = findlast('.', i)
+			if dot!==nothing && length(str)==dot-1
+				return i
+			end
+		end
+	end
+	error("no corresponding name for $str")
+end
 function split_filesuffix(str::String)
-	dot = findlast('.', it)
+	dot = findlast('.', str)
 	@inbounds return dot===nothing ? (str, "") : (str[1:dot-1], str[dot+1:end])
 end
 function share_file(x)

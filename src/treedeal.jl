@@ -1,10 +1,10 @@
 function readbuildsetting(path::AbstractString)
-	toml=TOML.parsefile(path)
+	toml = TOML.parsefile(path)
 	# The semver -related function set is too large
 	if haskey(toml, "version") && !(DTP_VERSION in Pkg.Types.semver_spec(toml["version"]))
 		error("version does not meet setting ($(toml["version"]))")
 	end
-	pages=toml["pages"]
+	pages = toml["pages"]
 	if haskey(toml, "giscus")
 		pages["giscus"]=GiscusSetting(;namedtuplefrom(toml["giscus"])...)
 	end
@@ -23,8 +23,8 @@ end
 
 function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSetting)
 	#= 处理路径 =#
-	pss.srcdir = srcdir = expend_slash(abspath(srcdir))
-	pss.tardir = tardir = expend_slash(abspath(tardir))
+	pss.srcdir = srcdir = expand_slash(abspath(srcdir))
+	pss.tardir = tardir = expand_slash(abspath(tardir))
 	@info "Route" srcdir tardir
 	if pss.remove_original && isdir(tardir)
 		rm(tardir; force=true, recursive=true)
@@ -74,19 +74,22 @@ function scan_rec(tree::Doctree, pss::PagesSetting; outlined::Bool, path::String
 		end
 	end
 	outline = outlined ? get(toml, "outline", [])::Vector : []
+	@inbounds for i in eachindex(outline)
+		outline[i] = expand_suffix(outline[i], children)
+	end
 	for x in outline
 		delete!(children, x)
 	end
 	unoutlined = collect(children)
-	if pss.sort_file
-		sort!(unoutlined)
-	end
+	sort!(unoutlined)
 	omode = true
-	num = length(tree.data)
+	num = Base.length(tree.data)
 	i = 1
-	len = length(outline), len2 = length(unoutlined)
+	len = Base.length(outline)
+	len2 = Base.length(unoutlined)
 	tb.children = num+1:num+len+len2
 	ns = get(toml, "names", Dict())::Dict
+	saved_rec = Tuple{Int, String, Bool}[]
 	while true
 		num += 1
 		@inbounds it = (omode ? outline : unoutlined)[i]
@@ -97,13 +100,8 @@ function scan_rec(tree::Doctree, pss::PagesSetting; outlined::Bool, path::String
 			filedeal(Val(Symbol(suf)); info=info, it=it, path=path, pathv=pathv, pre=pre, pss=pss, spath=spath, tpath=tpath)
 		else
 			info = DirBase(omode, tree.current, it, get(ns, it, it), nothing, Dict())
-			push!(pathv, it)
-			tree.current = num
-			cd(it)
-			scan_rec(tree, pss; outlined=omode, path="$(path)$(it)/", pathv=pathv,)
-			pop!(pathv)
-			backtoparent!(tree)
-			cd("..")
+			push!(tree.data, info)
+			push!(saved_rec, (num, it, omode))
 		end
 		if i == len
 			omode = false
@@ -113,6 +111,15 @@ function scan_rec(tree::Doctree, pss::PagesSetting; outlined::Bool, path::String
 		else
 			i += 1
 		end
+	end
+	for (num, dirname, omode) in saved_rec
+		push!(pathv, dirname)
+		tree.current = num
+		cd(dirname)
+		scan_rec(tree, pss; outlined=omode, path="$(path)$(dirname)/", pathv=pathv)
+		pop!(pathv)
+		backtoparent!(tree)
+		cd("..")
 	end
 end
 
@@ -138,7 +145,7 @@ function make_rec(tree::Doctree, pss::PagesSetting; path::String, pathv::Vector{
 	footdirect = get(toml, "foot_direct", Dict())
 	for nid in tb.children
 		base = tree.data[nid]
-		if base::DirBase
+		if isa(base, DirBase)
 			push!(pathv, base.id)
 			tree.current = nid
 			cd(base.id)
@@ -206,7 +213,7 @@ function _makemenu(tree::Doctree, pss::PagesSetting; ind::Int)
 		if !base.is_outlined
 			break
 		end
-		if base::FileBase
+		if isa(base, FileBase)
 			str *= "`$(rep(base.id))/$(rep(base.name))`,"
 		else
 			str *= "[`$(rep(base.id))/$(rep(base.name))`,$(_makemenu(tree, pss; nid))],"
@@ -223,7 +230,7 @@ function makeindex(tree::Doctree, pss::PagesSetting; path::String, pathv::Vector
 	tb = self(tree)
 	for nid in tb.children
 		base = tree.data[nid]
-		if base::FileBase
+		if isa(base, FileBase)
 			mds *= "<li class='li-file'><a href='$(base.target)'>$(base.name)</a></li>"
 		else
 			mds *= "<li class='li-dir'><a href='$(base.id)/index$(pss.filesuffix)'>$(base.name)</a></li>"
@@ -300,7 +307,7 @@ function makemainpage(tree::Doctree, pss::PagesSetting)
 		if !tb.is_outlined
 			return
 		end
-		if tb::FileBase
+		if isa(tb, FileBase)
 			break
 		end
 	end

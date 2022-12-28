@@ -54,7 +54,7 @@ function makescript(io::IO, pss::PagesSetting)
 		document.getElementById("theme-href").href=`\${tURL}\${tar_css}/\${theme}.css`
 	}
 	const oril=document.location.origin.length
-	requirejs.config({ paths: configpaths, shim: configshim})
+	requirejs.config({paths: configpaths, shim: configshim})
 	require(main_requirement, function(\$){
 		\$(document).ready(function(){
 	""")

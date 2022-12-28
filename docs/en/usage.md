@@ -34,7 +34,6 @@ One method of the `generate` function allows three parameters:
 | repo_owner | owner name of repo |
 | repo_path | full path to repo default branch |
 | show_info | whether to call `@info` |
-| sort_file | whether to sort files |
 | src_assets | refer to [guidelines](guidelines.md#dir-managing |
 | src_script | refer to [guidelines](guidelines.md#dir-managing) |
 | table_align | table align setting |

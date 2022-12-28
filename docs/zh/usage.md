@@ -34,7 +34,6 @@
 | repo_owner | 仓库的所有者名称 |
 | repo_path | 到仓库默认分支的完整路径 |
 | show_info | 是否在生成时调用 `@info` |
-| sort_file | 是否给文件排序 |
 | src_assets | 参阅[guidelines](guidelines.md#目录管理) |
 | src_script | 参阅[guidelines](guidelines.md#目录管理) |
 | table_align | 表格对齐方式 |

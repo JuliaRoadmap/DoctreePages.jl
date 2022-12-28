@@ -1,27 +1,27 @@
 function ify_md(s::AbstractString, pss::PagesSetting, accept_crlf::Bool = true)
-	if accept_crlf s=replace(s, "\r"=>"") end
+	if accept_crlf s = replace(s, "\r"=>"") end
 	md = pss.parser(s)
 	return mkhtml(md, md.t, pss)
 end
 
 #= @inline =# function childrenhtml(node::CommonMark.Node, pss::PagesSetting)
-	current=node.first_child
+	current = node.first_child
 	if !isdefined(current, :t)
 		return ""
 	end
-	str=""
+	str = ""
 	while true
-		str*=mkhtml(current, current.t, pss)
+		str *= mkhtml(current, current.t, pss)
 		if current===node.last_child
 			break
 		end
-		current=current.nxt
+		current = current.nxt
 	end
 	return str
 end
 
 function mkhtml(node::CommonMark.Node, c::CommonMark.AbstractContainer, pss::PagesSetting)
-	str="no method for Markdown Container ($(typeof(c)))"
+	str = "no method for Markdown Container ($(typeof(c)))"
 	if pss.throwall
 		error(str)
 	end
