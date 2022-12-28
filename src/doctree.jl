@@ -45,20 +45,6 @@ function findchild(tree::Doctree, from::Int, id::String)
 	end
 	return 0
 end
-
-#= Doctree model:
-[1*]---------+-----+--------+
- |           |     |        |
- |           |     |        |
-[2*]-----+  [3*]  [4*]--+  [5]
- |   |   |         |    |
- |   |   |         |    |
-[6*][7*][8]      [10*] [11]
-     |
-	 |
-	[9*]
-=#
-
 function previous_sibling(tree::Doctree, me::Int, par::Int)
 	children = tree.data[par].children
 	prev = 0
@@ -77,6 +63,9 @@ function next_outlined_sibling(tree::Doctree, me::Int, par::Int)
     	(item, state) = next
 		next = iterate(children, state)
     	if item==me
+			if next === nothing
+				return 0
+			end
 			x = next[1]
 			return tree.data[x].is_outlined ? x : 0
 		end

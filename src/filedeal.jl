@@ -28,7 +28,7 @@ end
 
 function filedeal(::Union{Val{:html}, Val{:htm}}; info::FileBase, it, path, pss::PagesSetting, spath, tpath)
 	str = read(spath*it, String)
-	info.target = it*pss.filesuffix
+	info.target = info.id*pss.filesuffix
 	if pss.wrap_html
 		info.data = str
 	else
@@ -39,12 +39,12 @@ end
 
 function filedeal(::Val{:jl}; info::FileBase, it, path, pss::PagesSetting, spath, tpath)
 	str = read(spath*it, String)
-	info.target = it*pss.filesuffix
+	info.target = info.id*pss.filesuffix
 	info.data = highlight_directly(:julia, str, pss)
 end
 
 function filedeal(::Val{:txt}; info::FileBase, it, path, pss::PagesSetting, spath, tpath)
 	str = read(spath*it, String)
-	info.target = it*pss.filesuffix
+	info.target = info.id*pss.filesuffix
 	info.data = highlight_directly(:plain, str, pss)
 end
