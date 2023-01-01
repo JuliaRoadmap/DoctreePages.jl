@@ -36,6 +36,7 @@ Discussion 功能来自[giscus](https://github.com/giscus/giscus)
 - [ ] 支持同文档在多路径下共享
 - [ ] 更模块化
 - [ ] 空间压缩
+- [ ] 支持沉浸式阅读
 - [ ] 支持 docstring
 - [ ] 支持 org-mode 文档
 - [ ] 支持 ink 文档
