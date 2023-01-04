@@ -151,6 +151,7 @@ function make_rec(tree::Doctree, pss::PagesSetting; path::String, pathv::Vector{
 			cd("..")
 			continue
 		end
+		typeassert(base, FileBase)
 		if base.generated
 			continue
 		end
@@ -170,7 +171,7 @@ function make_rec(tree::Doctree, pss::PagesSetting; path::String, pathv::Vector{
 		elseif outline_index == 0
 			prevpage = """<a class="docs-footer-prevpage" href="index$(pss.filesuffix)">« $(lw(pss, 6))</a>"""
 		else
-			i = outline_index[]
+			i = outline_index
 			if i==1
 				prevnid = prev_outlined(tree, nid)
 				prevpage = prevnid==0 ? """<a class="docs-footer-prevpage" href="index$(pss.filesuffix)">« $(lw(pss, 6))</a>""" : get_pagestr(tree, pss, prevnid, true)

@@ -23,6 +23,10 @@
 ## 主流程
 `generate` 是文档生成的最顶级功能函数，原型是 `generate(srcdir::AbstractString, tardir::AbstractString, build_setting::AbstractString = "DoctreeBuild.toml")` 与 `generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSetting)`：将 `srcdir` 目录下文档的生成结果置于 `tardir` 下。
 
+`scan_rec` 是文档生成时的递归扫描函数，会将信息载入 `Doctree` 结构，并调用 `filedeal` 进行预处理。原型是 `scan_rec(tree::Doctree, pss::PagesSetting; outlined::Bool, path::String, pathv::Vector{String})`。
+
+`make_rec` 是文档生成时的递归处理函数，会读取 `Doctree` 内容，递归地给预处理得到的 HTML 套壳（包括生成前后篇箭头）。原型是 `make_rec(tree::Doctree, pss::PagesSetting; path::String, pathv::Vector{String})`。
+
 ## 操作辅助
 `github_action` 原型 `github_action(setting::Union{AbstractString, PagesSetting} = "DoctreeBuild.toml")`，用于配合 `peaceiris/actions-gh-pages` 直接在 Github Action 脚本中调用生成功能。
 

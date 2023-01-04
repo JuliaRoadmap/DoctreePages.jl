@@ -40,10 +40,10 @@ Discussion 功能来自[giscus](https://github.com/giscus/giscus)
 - [ ] 支持 docstring
 - [ ] 支持 org-mode 文档
 - [ ] 支持 ink 文档
+- [ ] 链接检测，根据 fetch 到的页面内容自动生成链接块
 
 ### 代码块功能队列
 - [ ] 允许将代码块拖动到侧边
-- [ ] 根据 fetch 到的页面内容自动生成链接块
 - [ ] 支持插入 [ink](https://github.com/inkle/ink)
 - [ ] 支持插入[幻灯](https://wpmore.cn/resources/slick/)内容
 - [ ] 支持更复杂的条件触发代码块
