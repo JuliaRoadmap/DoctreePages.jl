@@ -13,7 +13,8 @@ jobs:
       - run: |
           julia -e '
             using Pkg
-            Pkg.add(name="DoctreePages")
+            Pkg.activate(".")
+            instantiate()
             using DoctreePages
             github_action()
           '

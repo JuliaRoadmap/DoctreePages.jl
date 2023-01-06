@@ -60,7 +60,7 @@ function mkhtml(::CommonMark.Node, ::CommonMark.ThematicBreak, ::PagesSetting)
 	return "<hr />"
 end
 function mkhtml(node::CommonMark.Node, f::CommonMark.FootnoteDefinition, pss::PagesSetting)
-	foot = "<li id='footnote-$(f.id)' class='footnote'><a class='tag is-link' href='#citeref-$(f.id)'>$(f.id)</a>\n$(childrenhtml(node, pss))</li>"
+	foot = "<li id='footnote-$(f.id)' class='footnote'><a class='tag is-link' href='#citeref-$(f.id)'>$(f.id)</a>$(childrenhtml(node, pss))</li>"
 	if !pss.footnote_region_start
 		pss.footnote_region_start = true
 		foot = "\n<section class='footnotes is-size-7'><ul>"*foot

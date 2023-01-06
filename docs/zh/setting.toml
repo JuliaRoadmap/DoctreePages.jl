@@ -6,3 +6,5 @@ outline = [
 	"notice",
 	"api",
 ]
+foot_direct.api.prev = "notice"
+foot_direct.api.next = ""

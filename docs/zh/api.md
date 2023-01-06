@@ -1,4 +1,6 @@
 # API 参考
+除特殊注明外，除非改变主版本号，以下功能均会被维护。
+
 ## 设置结构
 `GiscusSetting`、`MainScriptSetting`、`PageSetting`、`PageSetting` 设置结构主要用于传参。
 
@@ -26,6 +28,9 @@
 `scan_rec` 是文档生成时的递归扫描函数，会将信息载入 `Doctree` 结构，并调用 `filedeal` 进行预处理。原型是 `scan_rec(tree::Doctree, pss::PagesSetting; outlined::Bool, path::String, pathv::Vector{String})`。
 
 `make_rec` 是文档生成时的递归处理函数，会读取 `Doctree` 内容，递归地给预处理得到的 HTML 套壳（包括生成前后篇箭头）。原型是 `make_rec(tree::Doctree, pss::PagesSetting; path::String, pathv::Vector{String})`。
+
+## 单文件生成
+`filedeal` 是单个文件的处理函数，原型是 `filedeal(::Val; info::FileBase, it, path, pss::PagesSetting, spath, tpath)`（后面参数不保证稳定支持）。第一个参数是文件后缀，函数借此进行派发。若函数自身只是进行预处理，需把数据置于 `info.data` 中并设置 `info.target`，若进行了完全处理，应设置 `info.generated = true`。
 
 ## 操作辅助
 `github_action` 原型 `github_action(setting::Union{AbstractString, PagesSetting} = "DoctreeBuild.toml")`，用于配合 `peaceiris/actions-gh-pages` 直接在 Github Action 脚本中调用生成功能。

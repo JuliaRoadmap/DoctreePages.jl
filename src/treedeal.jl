@@ -77,7 +77,7 @@ function scan_rec(tree::Doctree, pss::PagesSetting; outlined::Bool, path::String
 			delete!(children, id)
 		end
 	end
-	outline = outlined ? get(toml, "outline", [])::Vector : []
+	outline = outlined ? copy(get(toml, "outline", []))::Vector : []
 	@inbounds for i in eachindex(outline)
 		outline[i] = expand_suffix(outline[i], children)
 	end
@@ -119,10 +119,11 @@ function scan_rec(tree::Doctree, pss::PagesSetting; outlined::Bool, path::String
 	end
 end
 
-function get_pagestr(tree, pss, nid::Int, is_prev)
+function get_pagestr(tree, pss, nid::Int, is_prev; simple_href::Bool = true)
 	tb = tree.data[nid]
-	href = isa(nid, FileBase) ? tb.target : "$(tb.name)/index$(pss.filesuffix)"
-	return "<a class='docs-footer-$(is_prev ? "prev" : "next")page' href='$(href)'>$(is_prev ? "« $title" : "$title »")</a>"
+	href = get_href(tree, nid; simple = simple_href, filesuffix = pss.filesuffix)
+	arrow = is_prev ? "« $(tb.name)" : "$(tb.name) »"
+	return "<a class='docs-footer-$(is_prev ? "prev" : "next")page' href='$(href)'>$(arrow)</a>"
 end
 function get_pagestr(tree, pss, id::String, is_prev)
 	nid = findchild(tree, tree.current, id)
@@ -163,10 +164,12 @@ function make_rec(tree::Doctree, pss::PagesSetting; path::String, pathv::Vector{
 		if haskey(footdirect, id)
 			thisdirect = footdirect[id]
 			if haskey(thisdirect, "prev")
-				prevpage = get_pagestr(tree, pss, thisdirect["prev"], true)
+				th = thisdirect["prev"]
+				prevpage = th=="" ? "" : get_pagestr(tree, pss, th, true)
 			end
 			if haskey(thisdirect, "next")
-				nextpage = get_pagestr(tree, pss, thisdirect["next"], false)
+				th = thisdirect["next"]
+				nextpage = th=="" ? "" : get_pagestr(tree, pss, th, false)
 			end
 		elseif outline_index == 0
 			prevpage = """<a class="docs-footer-prevpage" href="index$(pss.filesuffix)">« $(lw(pss, 6))</a>"""
@@ -174,13 +177,13 @@ function make_rec(tree::Doctree, pss::PagesSetting; path::String, pathv::Vector{
 			i = outline_index
 			if i==1
 				prevnid = prev_outlined(tree, nid)
-				prevpage = prevnid==0 ? """<a class="docs-footer-prevpage" href="index$(pss.filesuffix)">« $(lw(pss, 6))</a>""" : get_pagestr(tree, pss, prevnid, true)
+				prevpage = prevnid==0 ? """<a class="docs-footer-prevpage" href="index$(pss.filesuffix)">« $(lw(pss, 6))</a>""" : get_pagestr(tree, pss, prevnid, true, simple_href=false)
 			else
 				prevpage = get_pagestr(tree, pss, @inbounds(vec[i-1]), true)
 			end
 			if i==len
 				nextnid = next_outlined(tree, nid)
-				nextpage = nextnid==0 ? "" : get_pagestr(tree, pss, nextnid, false)
+				nextpage = nextnid==0 ? "" : get_pagestr(tree, pss, nextnid, false, simple_href=false)
 			else
 				nextpage = get_pagestr(tree, pss, @inbounds(vec[i+1]), false)
 			end
@@ -236,7 +239,7 @@ function makeindex(tree::Doctree, pss::PagesSetting; path::String, pathv::Vector
 	mds *= "</ul>"
 	title = (isroot(tb) ? lw(pss, 7) : tb.name)*lw(pss, 8)
 	ps = PageSetting(
-		description="$title - $(pss.title)",
+		description="$(title) - $(pss.title)",
 		editpath=pss.repo_path=="" ? "" : pss.repo_path*path,
 		mds=mds,
 		navbar_title=title,

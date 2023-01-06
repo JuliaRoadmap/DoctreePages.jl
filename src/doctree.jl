@@ -14,7 +14,7 @@ fullname(tb::FileBase) = tb.suffix=="" ? tb.id : "$(tb.id).$(tb.suffix)"
 mutable struct DirBase <: DoctreeBase
 	is_outlined::Bool
 	parent::Int
-	id::String # without suffix
+	id::String
 	name::String
 	children # iterable, order: outlined (logical order), unoutlined (dictionary order)
 	setting::Dict
@@ -30,12 +30,23 @@ mutable struct Doctree <: AbstractDoctree
 	data::Vector{DoctreeBase}
 end
 function Doctree(name)
-	return Doctree(1, [DirBase(true, 0, "", name, nothing, Dict())])
+	return Doctree(1, [DirBase(true, 0, "docs", name, nothing, Dict())])
 end
 
 self(tree::Doctree) = tree.data[tree.current]
 backtoparent!(tree::Doctree) = tree.current = self(tree).parent
 backtoroot!(tree::Doctree) = tree.current = 1
+function parent_queue(tree::Doctree, me::Int = tree.current)
+	v = Int[]
+	while true
+		me = tree.data[me].parent
+		if me == 0
+			break
+		end
+		push!(v, me)
+	end
+	return v
+end
 function findchild(tree::Doctree, from::Int, id::String)
 	tb = tree.data[from]
 	for ind in tb.children
@@ -185,9 +196,31 @@ end
 chapter_name(tree::AbstractDoctree) = name(self(tree))
 function describe_page(tree::AbstractDoctree, _title, pss)
 	tb = self(tree)
-	return isroot(tb) ? "$_title - $(title(pss))" : "$(name(tb))/$title - $(title(pss))"
+	return isroot(tb) ? "$(_title) - $(title(pss))" : "$(name(tb))/$(_title) - $(title(pss))"
 end
 function navbartext_page(tree::AbstractDoctree, title)
 	tb = self(tree)
 	return isroot(tb) ? String(title) : name(tb)*" / "*title
+end
+
+# assume that src is a file
+function get_href(tree::Doctree, tar::Int, src::Int = tree.current; simple::Bool, filesuffix = ".html")
+	tb = tree.data[tar]
+	isfile = isa(tb, FileBase)
+	href = isfile ? tb.target : "$(tb.id)/index$(filesuffix)"
+	if !simple
+		queue = parent_queue(tree, src)
+		while true
+			tar = tb.parent
+			x = first_invec(tar, queue)
+			if x == 0
+				tb = tree.data[tar]
+				href = "$(tb.id)/$(href)"
+			else
+				href = ("../"^x)*href
+				break
+			end
+		end
+	end
+	return href
 end

@@ -1,9 +1,9 @@
 # Usage
 !!! note
-	English documentation may be slower or more lack-in-detail than Chinese documentation, translation prs welcome.
+	The implement of English documentation may be slower, and it may lack in detail compared with the Chinese documentation. Translation pull-requests are welcomed.
 
 ## Sample
-The setting configuration in this repo is a good example, you can implement yours according to the format.
+The setting configuration in this repo is a good example, you can implement yours according to the format. [^1]
 
 ## Generate with Parameter
 One method of the `generate` function allows three parameters:
@@ -65,3 +65,6 @@ You can use `template()` to generate a template for document automatic building 
 
 ## Builder Script
 If you want, you can also call the provided functions and write a builder script yourself.
+
+[^1]:
+Note that you should replace the two lines before `using DoctreePages` with `Pkg.add(name = "DoctreePages")`.

@@ -4,3 +4,5 @@ outline = [
 	"notice",
 	"settings",
 ]
+foot_direct.settings.prev = "notice"
+foot_direct.settings.next = ""

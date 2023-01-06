@@ -1,5 +1,5 @@
 # README
-![](https://img.shields.io/badge/LICENSE-MIT-lightgrey) ![](https://img.shields.io/badge/Doctree-v1.6-green)
+![](https://img.shields.io/badge/LICENSE-MIT-lightgrey) ![](https://img.shields.io/badge/Doctree-v1.7-green)
 
 !!! note
 	由于 1.6 与 1.7 版本对代码进行了大幅更改，本文档以 1.7 版本为基准。

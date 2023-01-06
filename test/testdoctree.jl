@@ -12,7 +12,7 @@
 =#
 @testset "Doctree" begin
 	tree = Doctree(1, [
-		DirBase(true, 0, "", "ROOT", 2:5, Dict()),
+		DirBase(true, 0, "docs", "ROOT", 2:5, Dict()),
 		DirBase(true, 1, "red", "红", 6:8, Dict()),
 		DirBase(true, 1, "orange", "橙", 10:9, Dict()),
 		DirBase(true, 1, "yellow", "黄", 10:11, Dict()),
@@ -47,4 +47,10 @@
 	@test prev_outlined(tree, 3) == 9
 	@test prev_outlined(tree, 10) == 3
 	@test next_outlined(tree, 9) == 3
+	@test get_href(tree, 10, 11; simple = true) == "lemon.html"
+	@test get_href(tree, 11, 10; simple = true) == "wolley.lmth"
+	@test get_href(tree, 7, 8; simple = true) == "crimson/index.html"
+	@test get_href(tree, 9, 8; simple = false) == "../crimson/sky.png"
+	@test get_href(tree, 5, 8; simple = false) == "../../green/index.html"
+	@test get_href(tree, 2, 11; simple = false) == "../../red/index.html"
 end
