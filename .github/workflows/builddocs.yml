@@ -14,7 +14,7 @@ jobs:
           julia -e '
             using Pkg
             Pkg.activate(".")
-            instantiate()
+            Pkg.instantiate()
             using DoctreePages
             github_action()
           '

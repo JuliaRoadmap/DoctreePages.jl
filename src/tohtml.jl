@@ -26,6 +26,7 @@ function makehtml(pss::PagesSetting, ps::PageSetting)
 					<nav class="breadcrumb"><ul><li class="is-active">$(ps.navbar_title)</li></ul></nav>
 					<div class="docs-right">$(ps.editpath=="" ? "" : "<a class='docs-edit-link' href='$(ps.editpath)' target='_blank'><span class='docs-label is-hidden-touch'>$(lw(pss, 2))</span></a>")
 						<a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="$(lw(pss, 3))"></a>
+						<a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a>
 					</div>
 				</header>
 				<article class="content">$(ps.mds)</article>
