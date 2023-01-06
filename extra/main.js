@@ -5,7 +5,7 @@ else if(theme!="light"){
 	document.getElementById("theme-href").href=`${tURL}${tar_css}/${theme}.css`
 }
 const oril=document.location.origin.length
-requirejs.config({ paths: configpaths, shim: configshim})
+requirejs.config({paths: configpaths, shim: configshim})
 require(main_requirement, function($){
 	$(document).ready(function(){
 
@@ -238,11 +238,12 @@ for(let tag of $(".random-word")){
 		delete chosen.text
 		for(let k of Object.keys(chosen)){
 			let name = k
+			if(name=="tag" || name=="rate")continue
 			if(__lang == "zh"){
 				name = {
 					original: "原文",
 					source: "来源",
-					license: "许可证类型",
+					license: "许可信息",
 				}[k]
 			}
 			let box = document.createElement("button")
@@ -315,12 +316,11 @@ function activate_token(node){
 	let ul=document.createElement("ul")
 	let flag=false
 	for(let e of $(".content > h2")){
-		let text=e.id
 		let li=document.createElement("li")
 		let a=document.createElement("a")
 		a.className="tocitem"
-		a.href=`#${text}`
-		a.innerText=text.substring(7)
+		a.href=`#${e.id}`
+		a.innerHTML=e.innerHTML
 		li.appendChild(a)
 		ul.appendChild(li)
 		flag=true
@@ -532,10 +532,15 @@ function purecopycodeblock(ev){
 	let body = tar.parentNode.nextSibling
 	let codes = body.querySelectorAll(".hljs-ln-code")
 	let s = ""
+	let region = true
 	for(let code of codes){
 		let txt = code.innerText
 		let start = txt.substring(0, 7)
-		if(start=="julia> " || start=="help?> " || start=="shell> " || start=="       ")s+=txt.substring(7)+"\n"
+		if(start=="julia> " || start=="help?> " || start=="shell> " || start=="       "){
+			region = false
+			s+=txt.substring(7)+"\n"
+		}
+		else if(region)s+=txt+"\n"
 	}
 	navigator.clipboard.writeText(s).then(
 		function(){
