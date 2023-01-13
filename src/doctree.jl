@@ -3,24 +3,22 @@ mutable struct FileBase <: DoctreeBase
 	is_outlined::Bool
 	generated::Bool # for make_rec control
 	parent::Int
-	id::String # without suffix
+	name::String # without suffix
 	suffix::String
-	name::String
+	title::String
 	target::String
 	data::String
 end
-fullname(tb::FileBase) = tb.suffix=="" ? tb.id : "$(tb.id).$(tb.suffix)"
+fullname(tb::FileBase) = tb.suffix=="" ? tb.name : "$(tb.name).$(tb.suffix)"
 
 mutable struct DirBase <: DoctreeBase
 	is_outlined::Bool
 	parent::Int
-	id::String
 	name::String
+	title::String
 	children # iterable, order: outlined (logical order), unoutlined (dictionary order)
 	setting::Dict
 end
-id(tb::DoctreeBase) = tb.id
-name(tb::DoctreeBase) = tb.name
 isroot(tb::DoctreeBase) = tb.parent==0
 
 abstract type AbstractDoctree end
@@ -47,10 +45,10 @@ function parent_queue(tree::Doctree, me::Int = tree.current)
 	end
 	return v
 end
-function findchild(tree::Doctree, from::Int, id::String)
+function findchild(tree::Doctree, from::Int, name::String)
 	tb = tree.data[from]
 	for ind in tb.children
-		if tree.data[ind].id == id
+		if tree.data[ind].name == name
 			return ind
 		end
 	end
@@ -164,20 +162,20 @@ end
 end =#
 
 function Base.show(io::IO, tree::Doctree)
+	current = self(tree)
 	if get(io, :compat, false)
-		print(io, id(tree.data[1]))
+		print(io, current.name)
 		return
 	end
 	print(io, "Doctree at ")
-	current = self(tree)
 	if current.parent == 0
 		println(io, "<ROOT>")
 	else
-		println(io, "Directory ", id(tree.data[current.parent]))
+		println(io, "Directory ", tree.data[current.parent].name)
 	end
 	for i in current.children
 		tb = tree.data[i]
-		println(io, "| $(id(tb)) ($(name(tb)))")
+		println(io, "| $(tb.name) ($(tb.title))")
 	end
 end
 function debug(io::IO, tree::Doctree)
@@ -186,28 +184,18 @@ function debug(io::IO, tree::Doctree)
 		@inbounds tb = tree.data[nid]
 		print(io, "[$(nid)$(tb.is_outlined ? "*" : "")] ")
 		if isa(tb, FileBase)
-			println(io, "<$(tb.id).$(tb.suffix) | $(tb.name)>")
+			println(io, "<$(tb.name).$(tb.suffix) | $(tb.title)>")
 		else
-			println(io, "<$(tb.id) | $(tb.name)> $(tb.parent){$(tb.children)}")
+			println(io, "<$(tb.name) | $(tb.title)> $(tb.parent){$(tb.children)}")
 		end
 	end
-end
-
-chapter_name(tree::AbstractDoctree) = name(self(tree))
-function describe_page(tree::AbstractDoctree, _title, pss)
-	tb = self(tree)
-	return isroot(tb) ? "$(_title) - $(title(pss))" : "$(name(tb))/$(_title) - $(title(pss))"
-end
-function navbartext_page(tree::AbstractDoctree, title)
-	tb = self(tree)
-	return isroot(tb) ? String(title) : name(tb)*" / "*title
 end
 
 # assume that src is a file
 function get_href(tree::Doctree, tar::Int, src::Int = tree.current; simple::Bool, filesuffix = ".html")
 	tb = tree.data[tar]
 	isfile = isa(tb, FileBase)
-	href = isfile ? tb.target : "$(tb.id)/index$(filesuffix)"
+	href = isfile ? tb.target : "$(tb.name)/index$(filesuffix)"
 	if !simple
 		queue = parent_queue(tree, src)
 		while true
@@ -215,7 +203,7 @@ function get_href(tree::Doctree, tar::Int, src::Int = tree.current; simple::Bool
 			x = first_invec(tar, queue)
 			if x == 0
 				tb = tree.data[tar]
-				href = "$(tb.id)/$(href)"
+				href = "$(tb.name)/$(href)"
 			else
 				href = ("../"^x)*href
 				break

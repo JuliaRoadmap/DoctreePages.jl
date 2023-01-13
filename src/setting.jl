@@ -123,7 +123,6 @@ function Base.show(io::IO, pss::PagesSetting)
     end
     print(io, " | $(pss.lang), $(pss.charset), $(pss.theme)")
 end
-title(pss::PagesSetting) = pss.title
 
 Base.@kwdef struct PageSetting
     description::String

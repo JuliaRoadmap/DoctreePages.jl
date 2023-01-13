@@ -73,8 +73,8 @@ function scan_rec(tree::Doctree, pss::PagesSetting; outlined::Bool, path::String
 	tb = self(tree)
 	tb.setting = toml
 	if haskey(toml, "ignore")
-		for id in toml["ignore"]
-			delete!(children, id)
+		for name in toml["ignore"]
+			delete!(children, name)
 		end
 	end
 	outline = outlined ? copy(get(toml, "outline", []))::Vector : []
@@ -122,14 +122,14 @@ end
 function get_pagestr(tree, pss, nid::Int, is_prev; simple_href::Bool = true)
 	tb = tree.data[nid]
 	href = get_href(tree, nid; simple = simple_href, filesuffix = pss.filesuffix)
-	arrow = is_prev ? "« $(tb.name)" : "$(tb.name) »"
+	arrow = is_prev ? "« $(tb.title)" : "$(tb.title) »"
 	return "<a class='docs-footer-$(is_prev ? "prev" : "next")page' href='$(href)'>$(arrow)</a>"
 end
-function get_pagestr(tree, pss, id::String, is_prev)
-	nid = findchild(tree, tree.current, id)
+function get_pagestr(tree, pss, name::String, is_prev)
+	nid = findchild(tree, tree.current, name)
 	if nid == 0
 		@info tree
-		error("Check setting files [foot_direct]: nothing matches <$id>")
+		error("Check setting files [foot_direct]: nothing matches <$name>")
 	end
 	return get_pagestr(tree, pss, nid, is_prev)
 end
@@ -143,10 +143,10 @@ function make_rec(tree::Doctree, pss::PagesSetting; path::String, pathv::Vector{
 	for nid in tb.children
 		base = tree.data[nid]
 		if isa(base, DirBase)
-			push!(pathv, base.id)
+			push!(pathv, base.name)
 			tree.current = nid
-			cd(base.id)
-			make_rec(tree, pss; path="$(path)$(base.id)/", pathv=pathv)
+			cd(base.name)
+			make_rec(tree, pss; path="$(path)$(base.name)/", pathv=pathv)
 			pop!(pathv)
 			backtoparent!(tree)
 			cd("..")
@@ -156,14 +156,14 @@ function make_rec(tree::Doctree, pss::PagesSetting; path::String, pathv::Vector{
 		if base.generated
 			continue
 		end
-		id = base.id
-		title = base.name
+		name = base.name
+		title = base.title
 		prevpage = ""
 		nextpage = ""
 		pmark, nmark = true, true
-		outline_index = first_invec(id, vec)
-		if haskey(footdirect, id)
-			thisdirect = footdirect[id]
+		outline_index = first_invec(name, vec)
+		if haskey(footdirect, name)
+			thisdirect = footdirect[name]
 			if haskey(thisdirect, "prev")
 				th = thisdirect["prev"]
 				prevpage = th=="" ? "" : get_pagestr(tree, pss, th, true)
@@ -198,11 +198,13 @@ function make_rec(tree::Doctree, pss::PagesSetting; path::String, pathv::Vector{
 				end
 			end
 		end
+		description = isroot(tb) ? "$title - $(pss.title)" : "$(tb.title)/$(title) - $(pss.title)"
+		navtext = isroot(tb) ? title : "$(tb.title) / $(title)"
 		ps = PageSetting(
-			description = describe_page(tree, title, pss),
+			description = description,
 			editpath = pss.repo_path=="" ? "" : "$(pss.repo_path*path)$(fullname(base))",
 			mds = base.data,
-			navbar_title = navbartext_page(tree, title),
+			navbar_title = navtext,
 			nextpage = nextpage,
 			prevpage = prevpage,
 			tURL = "../"^length(pathv)
@@ -224,9 +226,9 @@ function _makemenu(tree::Doctree, pss::PagesSetting; ind::Int)
 			break
 		end
 		if isa(base, FileBase)
-			str *= "`$(rep(base.id))/$(rep(base.name))`,"
+			str *= "`$(rep(base.name))/$(rep(base.title))`,"
 		else
-			str *= "[`$(rep(base.id))/$(rep(base.name))`,$(_makemenu(tree, pss; ind=nid))],"
+			str *= "[`$(rep(base.name))/$(rep(base.title))`,$(_makemenu(tree, pss; ind=nid))],"
 		end
 	end
 	return str
@@ -241,13 +243,13 @@ function makeindex(tree::Doctree, pss::PagesSetting; path::String, pathv::Vector
 	for nid in tb.children
 		base = tree.data[nid]
 		if isa(base, FileBase)
-			mds *= "<li class='li-file'><a href='$(base.target)'>$(base.name)</a></li>"
+			mds *= "<li class='li-file'><a href='$(base.target)'>$(base.title)</a></li>"
 		else
-			mds *= "<li class='li-dir'><a href='$(base.id)/index$(pss.filesuffix)'>$(base.name)</a></li>"
+			mds *= "<li class='li-dir'><a href='$(base.name)/index$(pss.filesuffix)'>$(base.title)</a></li>"
 		end
 	end
 	mds *= "</ul>"
-	title = (isroot(tb) ? lw(pss, 7) : tb.name)*lw(pss, 8)
+	title = (isroot(tb) ? lw(pss, 7) : tb.title)*lw(pss, 8)
 	ps = PageSetting(
 		description="$(title) - $(pss.title)",
 		editpath=pss.repo_path=="" ? "" : pss.repo_path*path,
@@ -326,10 +328,10 @@ function makemainpage(tree::Doctree, pss::PagesSetting)
 	# next = iterate(partb.children, iter)
 	# nextnid = next===nothing ? next_outlined(tree, nid) : next[1]
 	ps = PageSetting(
-		description = "$(tb.name) - $(pss.title)",
+		description = "$(tb.title) - $(pss.title)",
 		editpath = pss.repo_path=="" ? "" : pss.repo_path*path,
 		mds = share_file(tb.data),
-		navbar_title = tb.name,
+		navbar_title = tb.title,
 		nextpage = "",
 		prevpage = "",
 		tURL = "./"
