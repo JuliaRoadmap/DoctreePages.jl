@@ -100,7 +100,7 @@ function scan_rec(tree::Doctree, pss::PagesSetting; outlined::Bool, path::String
 		if isfile(it)
 			pre, suf = split_filesuffix(it)
 			info = FileBase(omode, false, tree.current, pre, suf, get(ns, pre, ""), "", "")
-			filedeal(Val(Symbol(suf)); info=info, it=it, path=path, pss=pss, spath=spath, tpath=tpath)
+			filedeal(Val(Symbol(suf)); fbase=info, it=it, path=path, pss=pss, spath=spath, tpath=tpath)
 			push!(tree.data, info)
 		else
 			info = DirBase(omode, tree.current, it, get(ns, it, it), nothing, Dict())
@@ -160,32 +160,42 @@ function make_rec(tree::Doctree, pss::PagesSetting; path::String, pathv::Vector{
 		title = base.name
 		prevpage = ""
 		nextpage = ""
+		pmark, nmark = true, true
 		outline_index = first_invec(id, vec)
 		if haskey(footdirect, id)
 			thisdirect = footdirect[id]
 			if haskey(thisdirect, "prev")
 				th = thisdirect["prev"]
 				prevpage = th=="" ? "" : get_pagestr(tree, pss, th, true)
+				pmark = false
 			end
 			if haskey(thisdirect, "next")
 				th = thisdirect["next"]
 				nextpage = th=="" ? "" : get_pagestr(tree, pss, th, false)
+				nmark = false
 			end
-		elseif outline_index == 0
-			prevpage = """<a class="docs-footer-prevpage" href="index$(pss.filesuffix)">« $(lw(pss, 6))</a>"""
+		end
+		if outline_index == 0
+			if pmark
+				prevpage = """<a class="docs-footer-prevpage" href="index$(pss.filesuffix)">« $(lw(pss, 6))</a>"""
+			end
 		else
 			i = outline_index
-			if i==1
-				prevnid = prev_outlined(tree, nid)
-				prevpage = prevnid==0 ? """<a class="docs-footer-prevpage" href="index$(pss.filesuffix)">« $(lw(pss, 6))</a>""" : get_pagestr(tree, pss, prevnid, true, simple_href=false)
-			else
-				prevpage = get_pagestr(tree, pss, @inbounds(vec[i-1]), true)
+			if pmark
+				if i==1
+					prevnid = prev_outlined(tree, nid)
+					prevpage = prevnid==0 ? """<a class="docs-footer-prevpage" href="index$(pss.filesuffix)">« $(lw(pss, 6))</a>""" : get_pagestr(tree, pss, prevnid, true, simple_href=false)
+				else
+					prevpage = get_pagestr(tree, pss, @inbounds(vec[i-1]), true)
+				end
 			end
-			if i==len
-				nextnid = next_outlined(tree, nid)
-				nextpage = nextnid==0 ? "" : get_pagestr(tree, pss, nextnid, false, simple_href=false)
-			else
-				nextpage = get_pagestr(tree, pss, @inbounds(vec[i+1]), false)
+			if nmark
+				if i==len
+					nextnid = next_outlined(tree, nid)
+					nextpage = nextnid==0 ? "" : get_pagestr(tree, pss, nextnid, false, simple_href=false)
+				else
+					nextpage = get_pagestr(tree, pss, @inbounds(vec[i+1]), false)
+				end
 			end
 		end
 		ps = PageSetting(

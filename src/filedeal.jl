@@ -1,19 +1,19 @@
-function filedeal(::Val; info::FileBase, it, path, pss::PagesSetting, spath, tpath)
+function filedeal(::Val; fbase::FileBase, it, path, pss::PagesSetting, spath, tpath)
 	cp(spath*it, tpath*it; force=true)
-	info.generated = true
-	info.target = it
+	fbase.generated = true
+	fbase.target = it
 end
 
-function filedeal(::Val{:md}; info::FileBase, it, path, pss::PagesSetting, spath, tpath)
+function filedeal(::Val{:md}; fbase::FileBase, it, path, pss::PagesSetting, spath, tpath)
 	con = ""
 	s = replace(read(spath*it, String), "\r"=>"")
 	try
 		md = pss.parser(s)
-		if info.name == ""
-			info.name = md.first_child.first_child.literal
+		if fbase.name == ""
+			fbase.name = md.first_child.first_child.literal
 		end
-		info.target = info.id*pss.filesuffix
-		info.data = mkhtml(md, md.t, pss)
+		fbase.target = fbase.id*pss.filesuffix
+		fbase.data = mkhtml(md, md.t, pss)
 	catch er
 		if pss.throwall
 			error(er)
@@ -26,25 +26,25 @@ function filedeal(::Val{:md}; info::FileBase, it, path, pss::PagesSetting, spath
 	end
 end
 
-function filedeal(::Union{Val{:html}, Val{:htm}}; info::FileBase, it, path, pss::PagesSetting, spath, tpath)
+function filedeal(::Union{Val{:html}, Val{:htm}}; fbase::FileBase, it, path, pss::PagesSetting, spath, tpath)
 	str = read(spath*it, String)
-	info.target = info.id*pss.filesuffix
+	fbase.target = fbase.id*pss.filesuffix
 	if pss.wrap_html
-		info.data = str
+		fbase.data = str
 	else
-		info.generated = true
-		write(tpath*info.target, str)
+		fbase.generated = true
+		write(tpath*fbase.target, str)
 	end
 end
 
-function filedeal(::Val{:jl}; info::FileBase, it, path, pss::PagesSetting, spath, tpath)
+function filedeal(::Val{:jl}; fbase::FileBase, it, path, pss::PagesSetting, spath, tpath)
 	str = read(spath*it, String)
-	info.target = info.id*pss.filesuffix
-	info.data = highlight_directly(:julia, str, pss)
+	fbase.target = fbase.id*pss.filesuffix
+	fbase.data = highlight_directly(:julia, str, pss)
 end
 
-function filedeal(::Val{:txt}; info::FileBase, it, path, pss::PagesSetting, spath, tpath)
+function filedeal(::Val{:txt}; fbase::FileBase, it, path, pss::PagesSetting, spath, tpath)
 	str = read(spath*it, String)
-	info.target = info.id*pss.filesuffix
-	info.data = highlight_directly(:plain, str, pss)
+	fbase.target = fbase.id*pss.filesuffix
+	fbase.data = highlight_directly(:plain, str, pss)
 end
