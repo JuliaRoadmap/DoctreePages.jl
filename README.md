@@ -41,6 +41,8 @@ Discussion 功能来自[giscus](https://github.com/giscus/giscus)
 - [ ] 支持 org-mode 文档
 - [ ] 支持 ink 文档
 - [ ] 链接检测，根据 fetch 到的页面内容自动生成链接块
+- [ ] 支持文档标签
+- [ ] 支持更丰富的单文档设置控制
 
 ### 代码块功能队列
 - [ ] 允许将代码块拖动到侧边

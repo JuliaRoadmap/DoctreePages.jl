@@ -71,9 +71,6 @@ function highlight(language::AbstractString, code::AbstractString, pss::PagesSet
 		return buildhljsblock("plain", code)
 	end
 	langs[1] = lowercase(langs[1])
-	if langs[1] != "julia-repl"
-		langs[1] = replace(langs[1], '-' => '_')
-	end
 	language = langs[1]
 	sym = Symbol(language)
 	return highlight(Val(sym), code, pss, langs)
@@ -86,6 +83,9 @@ end
 
 function highlight(::Val, code::AbstractString, pss::PagesSetting, args)
 	language = String(args[1])
+	if language == "julia_repl"
+		language = "julia-repl"
+	end
 	return buildhljsblock(language, code)
 	#= else
 		msg = "pss.hljs_all = false not yet supported"

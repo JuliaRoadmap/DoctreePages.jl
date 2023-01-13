@@ -5,6 +5,11 @@
 ## hide 点击显示
 `hide` 的代码块标题后可以加一项参数，表示按钮文字。代码块内内容（按照 Markdown 解析）会在按钮被按下后显示。
 
+样例：
+```hide "点我展开"
+这是内容 ^_^
+```
+
 ## insert-fill 插入填空题
 `insert-fill` 表示插入填空题，使用 TOML 格式配置
 ```toml
@@ -47,7 +52,7 @@ instruction = "提示（可选，不支持Markdown）"
 * 文字内容在 `content` 项中，支持 Markdown
 * 编号分配方式由 `index_char`，`index_suffix` 项决定，前者允许 `Aa1`（默认为 `A`） ，后者允许任意字符串（默认为 `. `）
 * `choices` 项表明各选项内容，不支持 Markdown
-* `ans` 表明正确答案（形如`AC`而不允许`CA`、`ab`）
+* `ans` 表明正确答案（形如 `AC` 而不允许 `CA`、`ab`）
 * `score` 表明分值
 * `ans_dict` 是一个字典，表明各选项及对应得分，会覆盖 `ans` 与 `score`
 
@@ -55,8 +60,8 @@ instruction = "提示（可选，不支持Markdown）"
 `type = "fill"` 时，表明插入填空题
 * 文字内容在 `content` 项中，支持 Markdown
 * `ans` 表明正确答案
-* `ans_regex` 表明判断答案的正则表达式（覆盖`ans`）
-* `score`表明分值
+* `ans_regex` 表明判断答案的正则表达式（覆盖 `ans`）
+* `score` 表明分值
 
 ### 组
 `type = "group"` 时，表明插入组，文字内容在 `content` 项中，支持 Markdown；`type = "group-end"` 标记组结束
@@ -73,3 +78,16 @@ instruction = "提示（可选，不支持Markdown）"
 ## random-word 插入随机句子
 `random-word` 表示插入随机句子，使用 TOML 格式配置。
 `id` 表示辨识编号，`pool` 是一个表数组，其中每个 `text` 项表示文字内容，不会被 html-unescape 处理。
+
+样例：
+```random-word
+id = "rwzh"
+
+[[pool]]
+text = "猫猫！"
+source = "我"
+
+[[pool]]
+text = "<em>这是斜体字</em>"
+original = "&lt;em&gt;这是斜体字&lt;/em&gt;"
+```
