@@ -95,6 +95,7 @@ function scan_rec(tree::Doctree, pss::PagesSetting; outlined::Bool, path::String
 	tb.children = num+1:num+len
 	ns = get(toml, "names", Dict())::Dict
 	saved_rec = Tuple{Int, String, Bool}[]
+	method = get(toml, "method", Dict())::Dict
 	for i in 1:len
 		omode = i<=len1
 		@inbounds it = omode ? outline[i] : unoutlined[i-len1]
@@ -102,7 +103,7 @@ function scan_rec(tree::Doctree, pss::PagesSetting; outlined::Bool, path::String
 			pre, suf = split_filesuffix(it)
 			info = FileBase(omode, false, tree.current, pre, suf, get(ns, pre, ""), "", "")
 			pss.fullname = it
-			filedeal(Val(Symbol(suf)); fbase = info, pss = pss)
+			filedeal(Val(Symbol(suf)); fbase = info, method = Symbol(get(method, pre, :default)), pss = pss)
 			push!(tree.data, info)
 		else
 			info = DirBase(omode, tree.current, it, get(ns, it, it), nothing, Dict())

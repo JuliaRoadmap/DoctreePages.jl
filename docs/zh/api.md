@@ -32,7 +32,7 @@
 `make_rec` 是文档生成时的递归处理函数，会读取 `Doctree` 内容，递归地给预处理得到的 HTML 套壳（包括生成前后篇箭头）。原型是 `make_rec(tree::Doctree, pss::PagesSetting; path::String, pathv::Vector{String})`。
 
 ## 单文件生成
-`filedeal` 是单个文件的处理函数，原型是 `filedeal(::Val; fbase::FileBase, pss::PagesSetting)`。第一个参数是文件后缀，函数借此进行派发。若函数自身只是进行预处理，需把数据置于 `fbase.data` 中并设置 `fbase.target`，若进行了完全处理，应设置 `fbase.generated = true`。
+`filedeal` 是单个文件的处理函数，原型是 `filedeal(::Val; fbase::FileBase, method::String, pss::PagesSetting)`。第一个参数是文件后缀，函数借此进行派发。若函数自身只是进行预处理，需把数据置于 `fbase.data` 中并设置 `fbase.target`，若进行了完全处理，应设置 `fbase.generated = true`。
 
 ## 操作辅助
 `github_action` 原型 `github_action(setting::Union{AbstractString, PagesSetting} = "DoctreeBuild.toml")`，用于配合 `peaceiris/actions-gh-pages` 直接在 Github Action 脚本中调用生成功能。
