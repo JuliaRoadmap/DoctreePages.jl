@@ -59,8 +59,9 @@ function generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSett
 end
 
 function scan_rec(tree::Doctree, pss::PagesSetting; outlined::Bool, path::String, pathv::Vector{String})
-	spath = pss.srcdir*path
-	tpath = pss.tardir*path
+	pss.path = path
+	pss.spath = pss.srcdir*path
+	pss.tpath = tpath = pss.tardir*path
 	mkpath(tpath)
 	vec = readdir("."; sort=false)
 	children = Set(vec)
@@ -100,7 +101,8 @@ function scan_rec(tree::Doctree, pss::PagesSetting; outlined::Bool, path::String
 		if isfile(it)
 			pre, suf = split_filesuffix(it)
 			info = FileBase(omode, false, tree.current, pre, suf, get(ns, pre, ""), "", "")
-			filedeal(Val(Symbol(suf)); fbase=info, it=it, path=path, pss=pss, spath=spath, tpath=tpath)
+			pss.fullname = it
+			filedeal(Val(Symbol(suf)); fbase = info, pss = pss)
 			push!(tree.data, info)
 		else
 			info = DirBase(omode, tree.current, it, get(ns, it, it), nothing, Dict())
