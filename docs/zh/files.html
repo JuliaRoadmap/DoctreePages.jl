@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>中文文档/非设置文件 - DoctreePages</title>
+	<meta name="tURL" id="tURL" content="../../">
+	<meta name="description" content="中文文档/非设置文件 - DoctreePages">
+	<script src="../../extra/info.js"></script>
+	<link id="theme-href" rel="stylesheet" type="text/css" href="../../css/light.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../extra/main.js"></script>
+	<link rel="stylesheet" type="text/css" href="../../css/general.css">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/fontawesome.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/solid.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/brands.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/katex.min.css">
+</head>
+<body>
+	<div id="documenter">
+		<nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit">DoctreePages</span></div><ul class="docs-menu"></ul></nav>
+		<div class="docs-main">
+			<header class="docs-navbar">
+				<nav class="breadcrumb"><ul><li class="is-active">中文文档 / 非设置文件</li></ul></nav>
+				<div class="docs-right"><a class='docs-edit-link' href='https://github.com/JuliaRoadmap/DoctreePages.jl/tree/master/docs/zh/files.md' target='_blank'><span class='docs-label is-hidden-touch'>编辑此页面</span></a>
+					<a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="设置"></a>
+					<a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a>
+				</div>
+			</header>
+			<article class="content"><h1 id='header-非设置文件'>非设置文件<a class='docs-heading-anchor-permalink'></a></h1><p>非设置文件指 <code>docs/</code> 下所有不是 <code>setting.toml</code> 的文件，程序会调用 <a href='api.html#header-%E5%8D%95%E6%96%87%E4%BB%B6%E7%94%9F%E6%88%90' target='_blank'>filedeal</a> 进行处理。</p><p>对于这些文件，当前有 4 种处理方式。</p><p>在设置文件中，可以对指定文件设置处理方式。不设置或设置为 <code>default</code> 即调用 <code>default_filedealmethod</code> 获取默认处理方式。</p><h2 id='header-复制'>复制<a class='docs-heading-anchor-permalink'></a></h2><p>辨识符为 <code>copy</code>，即将原文件会被复制到对应的位置。</p><h2 id='header-纯文本'>纯文本<a class='docs-heading-anchor-permalink'></a></h2><p>辨识符为 <code>plain</code>，将文件文本内容不加更改地嵌入「标准单文档框架」中。</p><h2 id='header-代码块'>代码块<a class='docs-heading-anchor-permalink'></a></h2><p>辨识符为 <code>codeblock</code>，将文件文本内容作为代码块嵌入「标准单文档框架」中。</p><h2 id='header-特别处理'>特别处理<a class='docs-heading-anchor-permalink'></a></h2><p>辨识符为 <code>extra</code>，这一处理方式会调用 <code>filedeal_extra</code> 进行处理，包括以下类型：</p><h3 id='header-html'>HTML<a class='docs-heading-anchor-permalink'></a></h3><p>当设置项 <code>wrap_html</code> 为真时，HTML 内容会被保留，并在之后处理后将它作为「标准单文档框架」的嵌入内容；否则，它会被作为一个独立的 HTML 页面直接复制到对应的位置。</p><h3 id='header-markdown'>Markdown<a class='docs-heading-anchor-permalink'></a></h3><p>对于 Markdown 文件，会使用设置项 <code>parser</code> 对应的解析器进行解析 <sup><a id="citeref-1" href="#footnote-1">[1]</a></sup>（相关 API 参考 <a href='api.html#header-markdown-%E5%A4%84%E7%90%86' target='_blank'>Markdown 处理</a>）。它始终是「标准单文档框架」的嵌入内容。在 Markdown 文件解析失败时，若 <code>throwall</code> 为假，会调用 <code>@error</code> 同时将错误信息置于错误所在文件内；若为真则抛出错误。</p>
+<section class='footnotes is-size-7'><ul><li id='footnote-1' class='footnote'><a class='tag is-link' href='#citeref-1'>1</a><p>默认解析器使用了 <a href='https://github.com/MichaelHatherly/CommonMark.jl' target='_blank'>CommonMark</a>，当前存在含 unicode 字符时的表格解析错误等 bug</p></li></ul></section></article>
+			<nav class="docs-footer"><a class='docs-footer-prevpage' href='settings.html'>« 设置</a><a class='docs-footer-nextpage' href='spec_codeblocks.html'>特殊代码块 »</a><div class='flexbox-break'></div><p class='footer-message'>Powered by <a href='https://github.com/JuliaRoadmap/DoctreePages.jl'>DoctreePages.jl</a> and its dependencies.</p></nav>
+			
+			<div id='rocket' onclick='boom()'></div>
+		</div>
+	</div>
+</body>
+</html>
