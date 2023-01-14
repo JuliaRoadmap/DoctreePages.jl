@@ -48,7 +48,11 @@ macro register_codefiledeal(sym, target)
 	)
 end
 
+@register_codefiledeal :c :c
+@register_codefiledeal (:h, :cpp, :hpp) :cpp
 @register_codefiledeal :jl :julia
+@register_codefiledeal :js :js
+@register_codefiledeal :py :py
 @register_codefiledeal :txt :plain
 function codefiledeal(fbase::FileBase, pss::PagesSetting, target::Symbol)
 	str = read(pss.spath*pss.fullname, String)

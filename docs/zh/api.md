@@ -6,6 +6,8 @@
 
 `default_parser()` 可生成支持恰当多功能的 Markdown 解析器，该解析器来自 CommonMark 包。
 
+## 文档树结构
+
 ## Markdown 处理
 `ify_md` 原型 `ify_md(s::AbstractString, pss::PagesSetting, accept_crlf::Bool = true)`，直接将 Markdown 格式的文本 `s` 转为 HTML。
 
