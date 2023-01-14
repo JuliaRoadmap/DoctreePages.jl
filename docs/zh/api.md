@@ -7,6 +7,27 @@
 `default_parser()` 可生成支持恰当多功能的 Markdown 解析器，该解析器来自 CommonMark 包。
 
 ## 文档树结构
+基本的文件信息类型名为 `FileBase`，包含以下字段
+| 字段名 | 类型限制 | 作用 |
+| :-: | :-: | :-: |
+| `is_outlined` | `Bool` | 标记是否在提纲中 |
+| `generated` | `Bool` | `make_rec` 检测为否则进行「标准单文档框架」包裹 |
+| `parent` | `Int` | 父母节点的索引 |
+|` name` | `String` | 去掉后缀的文件名 |
+| `suffix` | `String` | 文件后缀 |
+| `title` | `String` | 标题 |
+| `target` | `String` | 目标文件名（包括后缀） |
+| `data` | `String` | 文本数据 |
+
+基本的目录信息类型名为 `DirBase`，包含以下字段
+| 字段名 | 类型限制 | 作用 |
+| :-: | :-: | :-: |
+| `is_outlined` | `Bool` | 标记是否在提纲中 |
+| `parent` | `Int` | 父母节点的索引 |
+|` name` | `String` | 去掉后缀的文件名 |
+| `title` | `String` | 标题 |
+| `children` | / | 暂不维护 |
+| `setting` | `Dict` | 设置文件的内容 |
 
 ## Markdown 处理
 `ify_md` 原型 `ify_md(s::AbstractString, pss::PagesSetting, accept_crlf::Bool = true)`，直接将 Markdown 格式的文本 `s` 转为 HTML。
@@ -25,7 +46,7 @@
 `makehtml` 原型 `makehtml(pss::PagesSetting, ps::PageSetting)`，用于生成单个文档 HTML。嵌入模板中的 HTML 作为 `ps.mds` 传参。
 
 ## 主流程
-`generate` 是文档生成的最顶级功能函数，原型是 `generate(srcdir::AbstractString, tardir::AbstractString, build_setting::AbstractString = "DoctreeBuild.toml")` 与 `generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSetting)`：将 `srcdir` 目录下文档的生成结果置于 `tardir` 下。
+`generate` 是文档生成的最顶级功能函数，原型是 `generate(srcdir::AbstractString, tardir::AbstractString, build_setting::AbstractString = "DoctreeBuild.toml")` 与 `generate(srcdir::AbstractString, tardir::AbstractString, pss::PagesSetting)`：将 `srcdir` 目录下文档的生成结果置于 `tardir` 下。它会调用 `@info` 显示提示信息。
 
 `scan_rec` 是文档生成时的递归扫描函数，会将信息载入 `Doctree` 结构，并调用 `filedeal` 进行预处理。原型是 `scan_rec(tree::Doctree, pss::PagesSetting; outlined::Bool, path::String, pathv::Vector{String})`。
 

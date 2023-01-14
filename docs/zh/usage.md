@@ -21,7 +21,7 @@
 | favicon_path | favicon 的路径，若无则为 `""` |
 | filesuffix | 生成文件的后缀 |
 | giscus | Giscus 设置 |
-| lang | 使用语言（`en`、`zh`等） |
+| lang | 使用语言（`en`、`zh` 等） |
 | logo_path | logo 的路径，若无则为 `""` |
 | main_script | `main.js` 的设置 |
 | make404 | 是否创建 404 页面 |

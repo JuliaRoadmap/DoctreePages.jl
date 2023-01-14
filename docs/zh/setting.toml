@@ -5,7 +5,6 @@ outline = [
 	"files",
 	"spec_codeblocks",
 	"frame",
-	"notice",
 	"api",
 ]
 foot_direct.api.prev = "notice"

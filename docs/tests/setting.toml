@@ -2,6 +2,7 @@ ignore = [
 	"ignoreme.md",
 ]
 
+method.txtfiletest = "plain"
 [names]
 txtfiletest = ".txt 格式文件测试"
 
