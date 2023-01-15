@@ -29,31 +29,28 @@ function buildmenu(){
 function _buildmenu(vec, path, level){
 	let ans=[]
 	let l=vec.length
-	let spl = (str) => {
-		let pl=str.search('/')
-		return [str.substring(0, pl), str.substring(pl+1)]
-	}
 	for(let i=1;i<l;i++){
 		let e=vec[i]
 		if(typeof e == "string"){
-			let tup=spl(e)
+			let splitp=e.search('\\|')
 			let a=document.createElement("a")
 			a.className="tocitem"
-			a.href=`${tURL}${path}${tup[0]}`
-			a.innerText=tup[1]
+			a.href=`${tURL}${path}${e.substring(0, splitp)}`
+			a.innerText=e.substring(splitp+1)
 			let li=document.createElement("li")
 			li.appendChild(a)
 			ans.push(li)
 		}
 		else{
-			let tup=spl(e[0])
+			let splitp=e[0].search('\\|')
+			let fullname=e[0].substring(0, splitp)
 			let a=document.createElement("a")
 			a.className="tocitem"
-			a.href=`${tURL}${path}${tup[0]}/index`
-			a.innerText=tup[1]
+			a.href=`${tURL}${path}${fullname}`
+			a.innerText=e[0].substring(splitp+1)
 			let li=document.createElement("li")
 			if(level==1){
-				let iden=`menu-${path}${tup[0]}`
+				let iden=`menu-${path}${fullname}`
 				let input=document.createElement("input")
 				input.type="checkbox"
 				input.className="collapse-toggle"
@@ -69,7 +66,7 @@ function _buildmenu(vec, path, level){
 				li.appendChild(label)
 			}
 			else li.appendChild(a)
-			let clis=_buildmenu(e, `${path}${tup[0]}/`, level+1)
+			let clis=_buildmenu(e, `${path}${fullname}/`, level+1)
 			let ul=document.createElement("ul")
 			for(let cli of clis)ul.appendChild(cli)
 			if(level==1)ul.className="collapsed"

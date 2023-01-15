@@ -229,9 +229,9 @@ function _makemenu(tree::Doctree, pss::PagesSetting; ind::Int)
 			break
 		end
 		if isa(base, FileBase)
-			str *= "`$(rep(base.target))/$(rep(base.title))`,"
+			str *= "`$(rep(base.target))|$(rep(base.title))`,"
 		else
-			str *= "[`$(rep(base.name))/$(rep(base.title))`,$(_makemenu(tree, pss; ind=nid))],"
+			str *= "[`$(rep(base.name))/index$(pss.filesuffix)|$(rep(base.title))`,$(_makemenu(tree, pss; ind=nid))],"
 		end
 	end
 	return str
