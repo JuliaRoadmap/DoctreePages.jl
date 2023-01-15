@@ -17,5 +17,4 @@ function activate_token(node){
 		ul.className="internal"
 		par.appendChild(ul)
 	}
-	return flag
 }

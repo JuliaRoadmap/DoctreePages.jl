@@ -29,10 +29,9 @@ function makehtml(pss::PagesSetting, ps::PageSetting)
 						<a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a>
 					</div>
 				</header>
-				<article class="content">$(ps.mds)</article>
+				<article class="content">$(ps.mds)<div id='rocket' onclick='boom()'></div></article>
 				$(singlehtml_footer(pss, ps))
 				$(gis===nothing ? "" : "<div class='giscus'></div>")
-				<div id='rocket' onclick='boom()'></div>
 			</div>
 		</div>
 	</body>

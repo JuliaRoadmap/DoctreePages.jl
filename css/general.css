@@ -53,7 +53,7 @@ table{
 .li-file span.li-marked::before{
 	content: "📑 ";
 }
-.li-marked a::before{
+.li-marked > .toc-item::before{
 	font-family: "Font Awesome 6 Free";
 	content: "\f02e  "; /* fa-bookmark */
 	color: gold;

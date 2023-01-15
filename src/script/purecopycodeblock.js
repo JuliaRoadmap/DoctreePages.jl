@@ -1,5 +1,5 @@
 function purecopycodeblock(ev){
-	let tar = ev.target
+	let tar = ev.currentTarget
 	let body = tar.parentNode.nextSibling
 	let codes = body.querySelectorAll(".hljs-ln-code")
 	let s = ""

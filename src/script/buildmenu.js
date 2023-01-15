@@ -7,7 +7,7 @@ function buildmenu(){
 	let marked=JSON.parse(localStorage.getItem("marked"))
 	if(marked==null)marked=[]
 	$(".docs-chevron").bind("click", function(ev){
-		ev.target.parentElement.nextElementSibling.classList.toggle("collapsed")
+		ev.currentTarget.parentElement.nextElementSibling.classList.toggle("collapsed")
 	})
 	let loc=document.location
 	let active=undefined
@@ -21,10 +21,9 @@ function buildmenu(){
 		}
 	}
 	if(active!=undefined){
-		if(activate_token(active)){
-			let sidebar=$(".docs-menu")[0]
-			sidebar.scrollTop = active.offsetTop - sidebar.offsetTop - 15;
-		}
+		activate_token(active)
+		let sidebar=$(".docs-menu")[0]
+		sidebar.scrollTop = active.offsetTop - sidebar.offsetTop - 15
 	}
 }
 function _buildmenu(vec, path, level){
