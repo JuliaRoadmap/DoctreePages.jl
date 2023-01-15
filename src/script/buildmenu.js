@@ -43,14 +43,14 @@ function _buildmenu(vec, path, level){
 		}
 		else{
 			let splitp=e[0].search('\\|')
-			let fullname=e[0].substring(0, splitp)
+			let name=e[0].substring(0, splitp)
 			let a=document.createElement("a")
 			a.className="tocitem"
-			a.href=`${tURL}${path}${fullname}`
+			a.href=`${tURL}${path}${name}/index${filesuffix}`
 			a.innerText=e[0].substring(splitp+1)
 			let li=document.createElement("li")
 			if(level==1){
-				let iden=`menu-${path}${fullname}`
+				let iden=`menu-${path}${name}`
 				let input=document.createElement("input")
 				input.type="checkbox"
 				input.className="collapse-toggle"
@@ -66,7 +66,7 @@ function _buildmenu(vec, path, level){
 				li.appendChild(label)
 			}
 			else li.appendChild(a)
-			let clis=_buildmenu(e, `${path}${fullname}/`, level+1)
+			let clis=_buildmenu(e, `${path}${name}/`, level+1)
 			let ul=document.createElement("ul")
 			for(let cli of clis)ul.appendChild(cli)
 			if(level==1)ul.className="collapsed"

@@ -7,16 +7,16 @@ for(let i of $("code.hljs")){
 	let header=i.parentElement.parentElement.firstElementChild
 	let copybut = document.createElement("span")
 	copybut.className = "codeblock-paste fa-solid fa-clipboard"
-	copybut.onclick = function(ev){
+	copybut.click(function(ev){
 		copycodeblock(ev)
-	}
+	})
 	header.append(copybut)
 	if(i.classList.contains("language-julia-repl")){
 		let purebut = document.createElement("span")
 		purebut.className = "codeblock-purepaste fa-solid fa-clipboard"
-		purebut.onclick = function(ev){
+		purebut.click(function(ev){
 			purecopycodeblock(ev)
-		}
+		})
 		header.append(purebut)
 	}
 }

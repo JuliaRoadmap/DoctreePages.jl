@@ -231,7 +231,7 @@ function _makemenu(tree::Doctree, pss::PagesSetting; ind::Int)
 		if isa(base, FileBase)
 			str *= "`$(rep(base.target))|$(rep(base.title))`,"
 		else
-			str *= "[`$(rep(base.name))/index$(pss.filesuffix)|$(rep(base.title))`,$(_makemenu(tree, pss; ind=nid))],"
+			str *= "[`$(rep(base.name))|$(rep(base.title))`,$(_makemenu(tree, pss; ind=nid))],"
 		end
 	end
 	return str
@@ -295,6 +295,7 @@ function makeinfo_script(tree::Doctree, pss::PagesSetting)
 		println(io, "const buildmessage=`$(rep(pss.buildmessage))`")
 		println(io, "const page_foot=`$(rep(pss.page_foot))`")
 		println(io, "const tar_css=`$(rep(pss.tar_css))`")
+		println(io, "const filesuffix=`$(rep(pss.filesuffix))`")
 		ms=pss.main_script
 		# 无直角引号
 		println(io, "const menu=", makemenu(tree, pss))
