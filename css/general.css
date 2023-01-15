@@ -100,9 +100,12 @@ table{
 	z-index: 101;
 	color:deepskyblue;
 }
-#rocket:hover{
-	color: dodgerblue;
+@media (any-hover: hover){
+	#rocket:hover{
+		color: dodgerblue;
+	}
 }
+
 #rocket::before{
 	font-family: "Font Awesome 6 Free";
 	content: '\f135'; /* fa-rocket ; fa-rocket-launch not free */

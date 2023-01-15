@@ -42,6 +42,7 @@ Discussion 功能来自[giscus](https://github.com/giscus/giscus)
 - [ ] 支持 ink 文档
 - [ ] 链接检测，根据 fetch 到的页面内容自动生成链接块
 - [ ] 支持文档标签
+- [ ] 支持图片下标注文字
 
 ### 代码块功能队列
 - [ ] 允许将代码块拖动到侧边
@@ -49,6 +50,7 @@ Discussion 功能来自[giscus](https://github.com/giscus/giscus)
 - [ ] 支持插入[幻灯](https://wpmore.cn/resources/slick/)内容
 - [ ] 支持更复杂的条件触发代码块
 - [ ] 支持坐标系展示模块
+- [ ] 支持 `random-word` 内的 `tag`、`rate` 属性
 
 ### 副队列
 - [ ] 复制时添加后缀

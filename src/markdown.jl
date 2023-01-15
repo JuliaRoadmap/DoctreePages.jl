@@ -91,17 +91,14 @@ function mkhtml(node::CommonMark.Node, ::CommonMark.Table, pss::PagesSetting)
 	return "<table>$(childrenhtml(node, pss))</table>"
 end
 function mkhtml(node::CommonMark.Node, ::CommonMark.TableHeader, pss::PagesSetting)
-	if !pss.table_tight
-		return "<thead>$(childrenhtml(node, pss))</thead>"
-	end
 	pss.header_region_start = true
 	str = childrenhtml(node, pss)
 	pss.header_region_start = false
-	return str
+	return "<thead>$(str)</thead>"
 end
 function mkhtml(node::CommonMark.Node, ::CommonMark.TableBody, pss::PagesSetting)
 	str = childrenhtml(node, pss)
-	return pss.table_tight ? str : "<tbody>$str</tbody>"
+	return "<tbody>$str</tbody>"
 end
 function mkhtml(node::CommonMark.Node, ::CommonMark.TableRow, pss::PagesSetting)
 	str = childrenhtml(node, pss)
