@@ -70,16 +70,16 @@ for(let i of $("code.hljs")){
 	let header=i.parentElement.parentElement.firstElementChild
 	let copybut = document.createElement("span")
 	copybut.className = "codeblock-paste fa-solid fa-clipboard"
-	copybut.onclick = function(ev){
+	copybut.click(function(ev){
 		copycodeblock(ev)
-	}
+	})
 	header.append(copybut)
 	if(i.classList.contains("language-julia-repl")){
 		let purebut = document.createElement("span")
 		purebut.className = "codeblock-purepaste fa-solid fa-clipboard"
-		purebut.onclick = function(ev){
+		purebut.click(function(ev){
 			purecopycodeblock(ev)
-		}
+		})
 		header.append(purebut)
 	}
 }
@@ -214,7 +214,7 @@ for(let i of $(".select-is")){
 		if(localStorage.getItem(defkey)==null)localStorage.setItem(defkey, "false")
 	}
 	else if(localStorage.getItem(defkey)==null)localStorage.setItem(defkey, "true")
-	select.onchange=function(){
+	select.change(function(){
 		let v=select.value
 		let stk=store[v]
 		if(stk!=undefined){
@@ -227,7 +227,7 @@ for(let i of $(".select-is")){
 				upd_trigger(stk)
 			}
 		}
-	}
+	})
 	i.append(select)
 }
 for(let tag of $(".random-word")){
@@ -417,14 +417,14 @@ function _buildmenu(vec, path, level){
 		}
 		else{
 			let splitp=e[0].search('\\|')
-			let fullname=e[0].substring(0, splitp)
+			let name=e[0].substring(0, splitp)
 			let a=document.createElement("a")
 			a.className="tocitem"
-			a.href=`${tURL}${path}${fullname}`
+			a.href=`${tURL}${path}${name}/index${filesuffix}`
 			a.innerText=e[0].substring(splitp+1)
 			let li=document.createElement("li")
 			if(level==1){
-				let iden=`menu-${path}${fullname}`
+				let iden=`menu-${path}${name}`
 				let input=document.createElement("input")
 				input.type="checkbox"
 				input.className="collapse-toggle"
@@ -440,7 +440,7 @@ function _buildmenu(vec, path, level){
 				li.appendChild(label)
 			}
 			else li.appendChild(a)
-			let clis=_buildmenu(e, `${path}${fullname}/`, level+1)
+			let clis=_buildmenu(e, `${path}${name}/`, level+1)
 			let ul=document.createElement("ul")
 			for(let cli of clis)ul.appendChild(cli)
 			if(level==1)ul.className="collapsed"
