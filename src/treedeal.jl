@@ -229,7 +229,7 @@ function _makemenu(tree::Doctree, pss::PagesSetting; ind::Int)
 			break
 		end
 		if isa(base, FileBase)
-			str *= "`$(rep(base.name))/$(rep(base.title))`,"
+			str *= "`$(rep(base.target))/$(rep(base.title))`,"
 		else
 			str *= "[`$(rep(base.name))/$(rep(base.title))`,$(_makemenu(tree, pss; ind=nid))],"
 		end
@@ -290,13 +290,11 @@ function make404(_::AbstractDoctree, pss::PagesSetting)
 end
 
 function makeinfo_script(tree::Doctree, pss::PagesSetting)
-	io = open("$(pss.tardir)$(pss.tar_extra)/info.js", "w")
-	try
+	open("$(pss.tardir)$(pss.tar_extra)/info.js", "w") do io
 		println(io, "const __lang=`$(rep(pss.lang))`")
 		println(io, "const buildmessage=`$(rep(pss.buildmessage))`")
 		println(io, "const page_foot=`$(rep(pss.page_foot))`")
 		println(io, "const tar_css=`$(rep(pss.tar_css))`")
-		println(io, "const filesuffix=`$(rep(pss.filesuffix))`")
 		ms=pss.main_script
 		# 无直角引号
 		println(io, "const menu=", makemenu(tree, pss))
@@ -304,8 +302,6 @@ function makeinfo_script(tree::Doctree, pss::PagesSetting)
 		println(io, "const configshim=$(ms.requirejs.configshim)")
 		println(io, "const hljs_languages=$(ms.hljs_languages)")
 		println(io, "const main_requirement=$(ms.main_requirement)")
-	finally
-		close(io)
 	end
 end
 

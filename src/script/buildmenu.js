@@ -5,7 +5,7 @@ function buildmenu(){
 		dm.appendChild(li)
 	}
 	let marked=JSON.parse(localStorage.getItem("marked"))
-	if(marked==null)marked=[]
+	marked = marked==null ? new Set() : new Set(marked)
 	$(".docs-chevron").bind("click", function(ev){
 		ev.currentTarget.parentElement.nextElementSibling.classList.toggle("collapsed")
 	})
@@ -16,7 +16,7 @@ function buildmenu(){
 		if(pathname==loc.pathname){
 			active=a
 		}
-		if(marked.includes(pathname)){
+		if(marked.has(pathname)){
 			a.parentNode.classList.add("li-marked")
 		}
 	}
@@ -39,7 +39,7 @@ function _buildmenu(vec, path, level){
 			let tup=spl(e)
 			let a=document.createElement("a")
 			a.className="tocitem"
-			a.href=`${tURL}${path}${tup[0]}${filesuffix}`
+			a.href=`${tURL}${path}${tup[0]}`
 			a.innerText=tup[1]
 			let li=document.createElement("li")
 			li.appendChild(a)
@@ -49,7 +49,7 @@ function _buildmenu(vec, path, level){
 			let tup=spl(e[0])
 			let a=document.createElement("a")
 			a.className="tocitem"
-			a.href=`${tURL}${path}${tup[0]}/index${filesuffix}`
+			a.href=`${tURL}${path}${tup[0]}/index`
 			a.innerText=tup[1]
 			let li=document.createElement("li")
 			if(level==1){

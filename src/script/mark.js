@@ -1,5 +1,3 @@
-let marked=JSON.parse(localStorage.getItem("marked"))
-marked = marked==null ? (new Set()) : (new Set(marked))
 for(let it of $(".content .li-dir,.li-file")){
 	let span=document.createElement("span")
 	span.click(function(ev){
@@ -7,7 +5,8 @@ for(let it of $(".content .li-dir,.li-file")){
 		tar.classList.toggle("li-marked")
 		let a = tar.nextSibling
 		let link = a.href.substring(oril)
-		let marked = new Set(JSON.parse(localStorage.getItem("marked")))
+		let marked=JSON.parse(localStorage.getItem("marked"))
+		marked = marked==null ? new Set() : new Set(marked)
 		if(marked.has(link)){
 			marked.delete(link)
 		}
