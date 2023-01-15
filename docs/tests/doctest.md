@@ -41,6 +41,22 @@ $$\sum_{i=1}^n i^{i+1}$$
 plain
 ```
 
+```jl
+for x in cats
+	println(x)
+	cnt += 3
+end
+```
+
+```cpp
+#include <iostream>
+using std::cout;
+int main(){
+	cout << __FILE__;
+	return 0;
+}
+```
+
 ```julia-repl
 julia> begin foo(nothing,"$(Int)\n") end # comment
 

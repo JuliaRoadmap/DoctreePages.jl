@@ -95,12 +95,13 @@ table{
 #rocket{
 	position: fixed;
 	right: 5px;
-	bottom: 50px;
+	bottom: 60px;
 	font-size: 40px;
 	z-index: 101;
+	color:deepskyblue;
 }
 #rocket:hover{
-	color: red;
+	color: dodgerblue;
 }
 #rocket::before{
 	font-family: "Font Awesome 6 Free";
