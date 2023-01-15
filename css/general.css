@@ -53,7 +53,7 @@ table{
 .li-file span.li-marked::before{
 	content: "📑 ";
 }
-.li-marked a::before{
+.li-marked > .toc-item::before{
 	font-family: "Font Awesome 6 Free";
 	content: "\f02e  "; /* fa-bookmark */
 	color: gold;
@@ -95,13 +95,17 @@ table{
 #rocket{
 	position: fixed;
 	right: 5px;
-	bottom: 50px;
+	bottom: 60px;
 	font-size: 40px;
 	z-index: 101;
+	color:deepskyblue;
 }
-#rocket:hover{
-	color: red;
+@media (any-hover: hover){
+	#rocket:hover{
+		color: dodgerblue;
+	}
 }
+
 #rocket::before{
 	font-family: "Font Awesome 6 Free";
 	content: '\f135'; /* fa-rocket ; fa-rocket-launch not free */
