@@ -21,7 +21,8 @@
 当设置项 `wrap_html` 为真时，HTML 内容会被保留，并在之后处理后将它作为「标准单文档框架」的嵌入内容；否则，它会被作为一个独立的 HTML 页面直接复制到对应的位置。
 
 ### Markdown
-对于 Markdown 文件，会使用设置项 `parser` 对应的解析器进行解析 [^1]（相关 API 参考 [Markdown 处理](api.md#markdown-处理)）。它始终是「标准单文档框架」的嵌入内容。
+对于 Markdown 文件 [^1]，会使用设置项 `parser` 对应的解析器进行解析 [^2]（相关 API 参考 [Markdown 处理](api.md#markdown-处理)）。它始终是「标准单文档框架」的嵌入内容。
 在 Markdown 文件解析失败时，若 `throwall` 为假，会调用 `@error` 同时将错误信息置于错误所在文件内；若为真则抛出错误。
 
-[^1]: 默认解析器使用了 [CommonMark](https://github.com/MichaelHatherly/CommonMark.jl)，当前存在含 unicode 字符时的表格解析错误等 bug
+[^1]: Markdown 是一种富文本格式，基本用法可以方便地搜索得到，标准化的规范可参见 [CommonMark](https://spec.commonmark.org/)
+[^2]: 默认解析器使用了 [CommonMark](https://github.com/MichaelHatherly/CommonMark.jl)，当前存在含 unicode 字符时的表格解析错误等 bug

@@ -12,7 +12,7 @@
 * 强大：[各式各样的功能](zh/features.html)
 * 可配置：超过 30 个设置项（不包括子项）
 
-详细信息可参考仓库 README
+详细信息可参考仓库 README。若有任何无法解决的问题，可在仓库 issue 处提出。
 
 ## English
 This is a documentation generator.

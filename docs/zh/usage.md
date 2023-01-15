@@ -1,7 +1,7 @@
 # 使用方式
 ## 导引
 当你使用这个包生成一批 HTML 时，需要待处理数据与文档设置配置。对于前者，您可以自行学习 Markdown 等文档格式。
-对于后者，这个仓库的文档设置配置就是一个很好的样例（[这是功能测试页](../tests/doctest.md)），您可以参照格式完成 [^1]。如有疑问，可发布在仓库的 issue 处。
+如有疑问，可发布在仓库的 issue 处。
 
 ## 基于参数生成
 `generate` 函数的核心方法接受三个参数：源目录 srcdir、目标目录 tardir、设置数据 pss
@@ -56,17 +56,45 @@
 ## 配置文件
 `generate` 函数的另一个方法的第三个参数为字符串，表示配置文件的路径，默认是 `DoctreeBuild.toml`。
 
-配置文件应使用 TOML 格式，其中
+配置文件应使用 TOML 格式 [^1]，其中
 * `version` 项表明最低支持的 `DoctreePages` 版本，1.3 之后支持[像这样的更复杂的设置](https://pkgdocs.julialang.org/v1/compatibility/)
 * `pages`、`giscus`、`mainscript` 表分别表示总设置、`giscus` 设置与 `main_script` 设置
 * 除字符串与布尔值以外，不支持更高级的值配置
 
 ## Github Action
-可以使用 github action 创建 github pages，配置可参考 [builddocs.yml](https://github.com/JuliaRoadmap/DoctreePages.jl/blob/master/.github/workflows/builddocs.yml)
+可以使用 Github Action 自动将更新的文档处理，再推送到 Github Pages 或其它服务器。
+样例如下：
+```yaml
+name: Build Docs
+on:
+  push:
+    branches: [master]
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: "!(contains(github.event.head_commit.message, '[nobuild]'))"
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          julia -e '
+            using Pkg
+            Pkg.add(name="DoctreePages")
+            using DoctreePages
+            github_action()
+          '
+      - uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: "./public"
+```
+
+它会在 commit message 不含 `[nobuild]` 时运行本包，并构建 Github Pages。
 
 利用 `template()`，可以在当前目录生成一个用于文档自动构建的模板。
 
 ## 构建脚本
 如果你想，你可以选择自己调用、重载提供的函数编写构建脚本。
 
-[^1]: 注意需替换 `using DoctreePages` 前的安装部分，将其前两行改为 `Pkg.add(name = "DoctreePages")`
+[^1]: TOML 是一种配置文件格式，语法说明参考[此文](https://github.com/LongTengDao/TOML/blob/%E9%BE%99%E8%85%BE%E9%81%93-%E8%AF%91/toml-v1.0.0.md)
