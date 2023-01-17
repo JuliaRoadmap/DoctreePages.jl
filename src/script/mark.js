@@ -15,6 +15,7 @@ for(let it of $(".content .li-dir,.li-file")){
 		}
 		localStorage.setItem("marked", JSON.stringify([...marked]))
 	})
+	let marked=JSON.parse(localStorage.getItem("marked"))
 	if(marked.has(it.firstElementChild.href.substring(oril)))span.className="li-marked"
 	it.prepend(span)
 }

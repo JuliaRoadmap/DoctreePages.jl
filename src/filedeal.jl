@@ -15,7 +15,7 @@ function filedeal(v::Val; fbase::FileBase, method::Symbol, pss::PagesSetting)
 	elseif method == :codeblock
 		str = read(pss.spath*pss.fullname, String)
 		fbase.target = fbase.name*pss.filesuffix
-		fbase.data = highlight_directly(target, str, pss)
+		fbase.data = highlight_directly(fbase.suffix, str, pss)
 	else
 		error("File dealing method \"$(method)\" is not supported.")
 	end

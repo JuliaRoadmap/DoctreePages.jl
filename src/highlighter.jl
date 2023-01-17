@@ -67,7 +67,7 @@ function highlight(language::AbstractString, code::AbstractString, pss::PagesSet
 	end
 	langs = split_codeblocktitle(language)
 	if isempty(langs)
-		@warn "No codeblock type information given."
+		@warn "No codeblock type information given." code
 		return buildhljsblock("plain", code)
 	end
 	langs[1] = replace(lowercase(langs[1]), '-' => '_')
