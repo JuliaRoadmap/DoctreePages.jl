@@ -91,21 +91,16 @@ function mkhtml(node::CommonMark.Node, ::CommonMark.Table, pss::PagesSetting)
 	return "<table>$(childrenhtml(node, pss))</table>"
 end
 function mkhtml(node::CommonMark.Node, ::CommonMark.TableHeader, pss::PagesSetting)
-	pss.header_region_start = true
-	str = childrenhtml(node, pss)
-	pss.header_region_start = false
-	return "<thead>$(str)</thead>"
+	return "<thead>$(childrenhtml(node, pss))</thead>"
 end
 function mkhtml(node::CommonMark.Node, ::CommonMark.TableBody, pss::PagesSetting)
-	str = childrenhtml(node, pss)
-	return "<tbody>$str</tbody>"
+	return "<tbody>$(childrenhtml(node, pss))</tbody>"
 end
 function mkhtml(node::CommonMark.Node, ::CommonMark.TableRow, pss::PagesSetting)
-	str = childrenhtml(node, pss)
-	return "<tr>$str</tr>"
+	return "<tr>$(childrenhtml(node, pss))</tr>"
 end
 function mkhtml(node::CommonMark.Node, cell::CommonMark.TableCell, pss::PagesSetting)
-	tag = pss.header_region_start ? "th" : "td"
+	tag = cell.header ? "th" : "td"
 	ta = pss.table_align
 	chtml = childrenhtml(node, pss)
 	ta == "inherit" && return "<$tag>$chtml</$tag>"
