@@ -39,16 +39,10 @@ default_filedealmethod(::Val{:txt}) = :plain
 function filedeal_extra(::Val{:md}; fbase::FileBase, pss::PagesSetting)
 	con = ""
 	s = replace(read(pss.spath*pss.fullname, String), "\r"=>"")
+	md = nothing
 	try
 		md = pss.parser(s)
-		if fbase.title == ""
-			fbase.title = get_markdowntitle(md)
-			if fbase.title == ""
-				error("Failed to get title.")
-			end
-		end
-		fbase.target = fbase.name*pss.filesuffix
-		fbase.data = mkhtml(md, md.t, pss)
+		con = mkhtml(md, md.t, pss)
 	catch er
 		pss.throwall && error(er)
 		buf = IOBuffer()
@@ -57,6 +51,15 @@ function filedeal_extra(::Val{:md}; fbase::FileBase, pss::PagesSetting)
 		@error "Markdown Parsing Error" it str
 		con = "<h2 id='header-error'>ERROR handled by DoctreePages</h2><p style='color:red'>$(html_safe(str))</p>"
 	end
+	if fbase.title == ""
+		fbase.title = get_markdowntitle(md)
+		if fbase.title == ""
+			@error "Failed to get title of Markdown document."
+			fbase.title = "Untitled"
+		end
+	end
+	fbase.target = fbase.name*pss.filesuffix
+	fbase.data = con
 end
 
 function filedeal_extra(::Union{Val{:html}, Val{:htm}}; fbase::FileBase, pss::PagesSetting)
