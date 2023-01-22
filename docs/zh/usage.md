@@ -33,7 +33,6 @@
 | repo_name | 仓库的名称 |
 | repo_owner | 仓库的所有者名称 |
 | repo_path | 到仓库默认分支的完整路径 |
-| show_info | 是否在生成时调用 `@info` |
 | src_assets | 参阅[guidelines](guidelines.md#目录管理) |
 | src_script | 参阅[guidelines](guidelines.md#目录管理) |
 | table_align | 表格对齐方式 |
@@ -45,7 +44,6 @@
 | title | 标题 |
 | theme | 展示的 css 主题 |
 | unfound | 404 错误时可显示的页面链接（若无文件则自动生成） |
-| wrap_html | 是否对 html 文件进行包裹 |
 
 1. 所有的键都提供了默认值
 2. `unfound` 值表示的文件应在同一目录下

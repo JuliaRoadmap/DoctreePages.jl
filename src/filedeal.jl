@@ -29,8 +29,8 @@ default_filedealmethod(::Val{:cpp}) = :codeblock
 default_filedealmethod(::Val{:css}) = :copy
 default_filedealmethod(::Val{:h}) = :codeblock
 default_filedealmethod(::Val{:hpp}) = :codeblock
-default_filedealmethod(::Val{:htm}) = :extra
-default_filedealmethod(::Val{:html}) = :extra
+default_filedealmethod(::Val{:htm}) = :insert
+default_filedealmethod(::Val{:html}) = :insert
 default_filedealmethod(::Val{:jl}) = :codeblock
 default_filedealmethod(::Val{:js}) = :copy
 default_filedealmethod(::Val{:md}) = :extra
@@ -62,15 +62,4 @@ function filedeal_extra(::Val{:md}; fbase::FileBase, pss::PagesSetting)
 	end
 	fbase.target = fbase.name*pss.filesuffix
 	fbase.data = con
-end
-
-function filedeal_extra(::Union{Val{:html}, Val{:htm}}; fbase::FileBase, pss::PagesSetting)
-	str = read(pss.spath*pss.fullname, String)
-	fbase.target = fbase.name*pss.filesuffix
-	if pss.wrap_html
-		fbase.data = str
-	else
-		fbase.generated = true
-		write(pss.tpath*fbase.target, str)
-	end
 end
