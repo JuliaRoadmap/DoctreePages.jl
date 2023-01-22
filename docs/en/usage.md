@@ -65,5 +65,4 @@ You can use `template()` to generate a template for document automatic building 
 ## Builder Script
 If you want, you can also call the provided functions and write a builder script yourself.
 
-[^1]:
-Note that you should replace the two lines before `using DoctreePages` with `Pkg.add(name = "DoctreePages")`.
+[^1]: Note that you should replace the two lines before `using DoctreePages` with `Pkg.add(name = "DoctreePages")`.

@@ -1,1 +1,1 @@
-$('.modal-card-foot')[0].innerText=buildmessage
+$('.modal-card-foot')[0].innerHTML=buildmessage

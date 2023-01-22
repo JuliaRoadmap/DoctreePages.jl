@@ -42,7 +42,7 @@ end
 Base.getproperty(pss::PagesSetting, key::Symbol) = getfield(pss, :dict)[key]
 Base.setproperty!(pss::PagesSetting, key::Symbol, x) = getfield(pss, :dict)[key] = x
 function PagesSetting(;
-    buildmessage = "built at $(Libc.strftime(Libc.time())) by DoctreePages.jl v$(DTP_VERSION)",
+    buildmessage = "<p>built at $(Libc.strftime(Libc.time())), by <a href='https://github.com/JuliaRoadmap/DoctreePages.jl'>DoctreePages.jl</a> v$(DTP_VERSION)</p>",
     charset = "UTF-8",
     default_alt = "img",
 	favicon_path = "",
