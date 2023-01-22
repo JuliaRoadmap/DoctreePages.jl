@@ -1,42 +1,5 @@
-文档功能测试
-文字，**粗体**，*斜体*，`行内代码`，[内部链接](#标题2)[^1]，[外部链接](http://info.cern.ch/)\
-第二行，[其它文档链接](../zh/usage.md)，[标题链接](../zh/usage.md#github-action)，[txt 文件测试](txtfiletest.txt)，[纯代码文件链接](https://learn.juliacn.com/docs/lists/typetree1.8.html#L20-L50)
-
----
-
-## 标题2
-![](https://github.com/favicon.ico)
-
-1. 1
-	* a
-	* b
-		1. 1
-		2. 2
-2. 2
-	* a
-		* a
-			* $x^2$
-
-> 引用
-> > 二级引用
-> > * a
-
-| 表格 | 第二个 |
-| :-: | --- |
-| `a` | 1**+**2 |
-| $b$ | 末尾 |
-
-$$\sum_{i=1}^n i^{i+1}$$
-
-!!! note
-	note
-
-!!! warn
-	warn
-
-!!! compat "DoctreePages v1.1"
-	compat
-
+# 代码块测试
+## 普通代码块
 ```plain
 plain
 ```
@@ -76,6 +39,7 @@ initialized
 vfs> quit
 ```
 
+## 条件触发
 ```insert-setting
 type = "select-is"
 content = "您是否是开发者？"
@@ -84,14 +48,11 @@ choices = {"yes"="是", "no"="否"}
 store = {"yes"="is-developer","no"="!is-developer"}
 ```
 
-```is-developer
+```check developer
 欢迎开发者！
 ```
 
-```check developer
-欢迎开发者×2
-```
-
+## 测试
 ```insert-fill
 content = "1+1等于几？"
 ans = "2"
@@ -103,8 +64,6 @@ content = "1+1等于几？**允许末尾额外空格**"
 ans = "2"
 ans_regex = "^2 {0,}$"
 ```
-
-<p>&lt;p&gt;&amp;lt;</p>
 
 ```insert-test
 [global]
@@ -129,6 +88,7 @@ type = "text"
 content = "文字"
 ```
 
+## 杂项
 ```hide 点击显示内容
 - 「开发」ignore 设置项
 - 「开发」foot_direct 设置项
@@ -146,6 +106,3 @@ source = "missing"
 [[pool]]
 text = "猫猫"
 ```
-
-[^1]: footnote
-[^2]: 脚注2
