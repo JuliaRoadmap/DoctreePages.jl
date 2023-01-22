@@ -1,7 +1,5 @@
 """
-A lightweight interactive document generator.
-
-Please read docs on https://juliaroadmap.github.io/DoctreePages.jl/docs
+Please read docs on https://juliaroadmap.github.io/DoctreePages.jl
 """
 module DoctreePages
 export GiscusSetting, MainScriptSetting, PagesSetting
