@@ -49,11 +49,11 @@ for(let tag of pi[0].children){
 		break
 	}
 }
-pi.change(function(){
+pi.onchange=function(){
 	theme=pi[0].value
 	$("#theme-href")[0].href=`${tURL}${tar_css}/${theme}.css`
 	localStorage.setItem("theme", theme)
-})
+}
 $(".content .docs-heading-anchor-permalink").click(function(ev){
 	let s=document.location.href
 	let id=ev.currentTarget.parentNode.id
@@ -116,6 +116,7 @@ for(let it of $(".content .li-dir,.li-file")){
 		}
 		localStorage.setItem("marked", JSON.stringify([...marked]))
 	})
+	let marked=JSON.parse(localStorage.getItem("marked"))
 	if(marked.has(it.firstElementChild.href.substring(oril)))span.className="li-marked"
 	it.prepend(span)
 }
@@ -214,7 +215,7 @@ for(let i of $(".select-is")){
 		if(localStorage.getItem(defkey)==null)localStorage.setItem(defkey, "false")
 	}
 	else if(localStorage.getItem(defkey)==null)localStorage.setItem(defkey, "true")
-	select.change(function(){
+	select.onchange=function(){
 		let v=select.value
 		let stk=store[v]
 		if(stk!=undefined){
@@ -227,7 +228,7 @@ for(let i of $(".select-is")){
 				upd_trigger(stk)
 			}
 		}
-	})
+	}
 	i.append(select)
 }
 for(let tag of $(".random-word")){

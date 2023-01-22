@@ -26,7 +26,10 @@
 					<a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a>
 				</div>
 			</header>
-			<article class="content"><h1 id='header-特殊代码块'>特殊代码块<a class='docs-heading-anchor-permalink'></a></h1><h2 id='header-encoded-已加密标记'>encoded 已加密标记<a class='docs-heading-anchor-permalink'></a></h2><ul><li><p><code>encoded</code> 标注该部分内容已被加密，仍使用 Markdown 解析而不加其它特殊操作。</p></li></ul><h2 id='header-hide-点击显示'>hide 点击显示<a class='docs-heading-anchor-permalink'></a></h2><p><code>hide</code> 的代码块标题后可以加一项参数，表示按钮文字。代码块内内容（按照 Markdown 解析）会在按钮被按下后显示。</p><p>样例：</p><div class='box-hide'><button class='button-hide' onclick='unhide(event)'><span>点我展开</span></button><div class='display-hide'><p>这是内容 ^_^</p></div></div><h2 id='header-insert-fill-插入填空题'>insert-fill 插入填空题<a class='docs-heading-anchor-permalink'></a></h2><p><code>insert-fill</code> 表示插入填空题，使用 TOML 格式配置</p><div data-lang='toml'><div class='codeblock-header'></div><pre class='codeblock-body language-toml'><code>content = "题目描述，**使用 Markdown**"
+			<article class="content"><h1 id='header-特殊代码块'>特殊代码块<a class='docs-heading-anchor-permalink'></a></h1><h2 id='header-check-检测'>check 检测<a class='docs-heading-anchor-permalink'></a></h2><div data-lang='md'><div class='codeblock-header'></div><pre class='codeblock-body language-md'><code>```check x
+a
+```
+</code></pre></div><br /><p>会在 <code>localStorage["is-x"]=="true"</code> 时显示文字 <code>a</code></p><h2 id='header-encoded-已加密标记'>encoded 已加密标记<a class='docs-heading-anchor-permalink'></a></h2><p><code>encoded</code> 标注该部分内容已被加密，仍使用 Markdown 解析而不加其它特殊操作。</p><h2 id='header-hide-点击显示'>hide 点击显示<a class='docs-heading-anchor-permalink'></a></h2><p><code>hide</code> 的代码块标题后可以加一项参数，表示按钮文字。代码块内内容（按照 Markdown 解析）会在按钮被按下后显示。</p><p>样例：</p><div class='box-hide'><button class='button-hide' onclick='unhide(event)'><span>点我展开</span></button><div class='display-hide'><p>这是内容 ^_^</p></div></div><h2 id='header-insert-fill-插入填空题'>insert-fill 插入填空题<a class='docs-heading-anchor-permalink'></a></h2><p><code>insert-fill</code> 表示插入填空题，使用 TOML 格式配置</p><div data-lang='toml'><div class='codeblock-header'></div><pre class='codeblock-body language-toml'><code>content = "题目描述，**使用 Markdown**"
 ans = "标准答案"
 ans_regex = "答案判定，若无此项则以“与标准答案完全相同”判定"
 instruction = "提示（可选，不支持Markdown）"
