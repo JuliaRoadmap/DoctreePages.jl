@@ -8,16 +8,18 @@ function filedeal(v::Val; fbase::FileBase, method::Symbol, pss::PagesSetting)
 		fbase.target = pss.fullname
 	elseif method == :extra
 		filedeal_extra(v; fbase = fbase, pss = pss)
-	elseif method == :plain
-		str = read(pss.spath*pss.fullname, String)
-		fbase.target = fbase.name*pss.filesuffix
-		fbase.data = html_safe(str)
-	elseif method == :codeblock
-		str = read(pss.spath*pss.fullname, String)
-		fbase.target = fbase.name*pss.filesuffix
-		fbase.data = highlight_directly(fbase.suffix, str, pss)
 	else
-		error("File dealing method \"$(method)\" is not supported.")
+		str = read(pss.spath*pss.fullname, String)
+		fbase.target = fbase.name*pss.filesuffix
+		if method == :plain
+			fbase.data = html_safe(str)
+		elseif method == :insert
+			fbase.data = str
+		elseif method == :codeblock
+			fbase.data = highlight_directly(fbase.suffix, str, pss)
+		else
+			error("File dealing method \"$(method)\" is not supported.")
+		end
 	end
 end
 
