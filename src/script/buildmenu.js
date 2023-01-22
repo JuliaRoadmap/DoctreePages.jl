@@ -6,7 +6,7 @@ function buildmenu(){
 	}
 	let marked=JSON.parse(localStorage.getItem("marked"))
 	marked = marked==null ? new Set() : new Set(marked)
-	$(".docs-chevron").bind("click", function(ev){
+	$(".docs-chevron").click(function(ev){
 		ev.currentTarget.parentElement.nextElementSibling.classList.toggle("collapsed")
 	})
 	let loc=document.location

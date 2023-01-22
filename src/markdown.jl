@@ -50,7 +50,7 @@ function mkhtml(node::CommonMark.Node, ::CommonMark.Document, pss::PagesSetting)
 	str = childrenhtml(node, pss)
 	if pss.footnote_region_start
 		pss.footnote_region_start = false
-		str*="</ul></section>"
+		str *= "</ul></section>"
 	end
 	return str
 end
@@ -143,17 +143,17 @@ function mkhtml(node::CommonMark.Node, ::CommonMark.Strong, pss::PagesSetting)
 	return "<strong>$(childrenhtml(node, pss))</strong>"
 end
 function mkhtml(node::CommonMark.Node, link::CommonMark.Link, pss::PagesSetting)
-	htm=childrenhtml(node, pss)
-	url=link.destination
+	htm = childrenhtml(node, pss)
+	url = link.destination
 	# 特殊处理
 	if startswith(url, '#')
 		return "<a href='#header-$(url[2:end])'>$htm</a>"
 	elseif startswith(url, '/')
-		url=joinpath(pss.server_prefix, url[2:end])
+		url = joinpath(pss.server_prefix, url[2:end])
 	elseif !startswith(url, "https://") && !startswith(url, "http://")
-		dot=findlast('.', url)
+		dot = findlast('.', url)
 		if dot !== nothing
-			has=findlast('#', url)
+			has = findlast('#', url)
 			if has===nothing
 				url=url[1:prevind(url, dot)]*pss.filesuffix
 			elseif has > dot
@@ -173,14 +173,14 @@ function mkhtml(node::CommonMark.Node, img::CommonMark.Image, pss::PagesSetting)
 	alt = isdefined(fc, :literal) ? fc.literal : pss.default_alt
 	dest = img.destination
 	if startswith(dest, "/")
-		dest=joinpath(pss.server_prefix, dest[2:end])
+		dest = joinpath(pss.server_prefix, dest[2:end])
 	end
 	return "<img src='$dest' alt='$alt'>"
 end
 function mkhtml(::CommonMark.Node, ::Union{CommonMark.Backslash, CommonMark.LineBreak}, ::PagesSetting)
 	return "<br />\n"
 end
-mkhtml(::CommonMark.Node, ::CommonMark.SoftBreak, ::PagesSetting)=""
+mkhtml(::CommonMark.Node, ::CommonMark.SoftBreak, ::PagesSetting) = " "
 function mkhtml(node::CommonMark.Node, ::CommonMark.Code, ::PagesSetting)
 	return "<code>$(html_safe(node.literal))</code>"
 end

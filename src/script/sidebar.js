@@ -5,7 +5,7 @@ sidebar_button.click(function(ev){
 	sidebar.toggleClass('visible')
 	if(sidebar.hasClass('visible'))$("#documenter .docs-menu a.is-active").focus()
 })
-$("#documenter > .docs-main").bind('click', function(ev){
+$("#documenter > .docs-main").click(function(ev){
 	if($(ev.target).is(sidebar_button))return
 	if(sidebar.hasClass('visible'))sidebar.removeClass('visible')
 })

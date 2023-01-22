@@ -1,6 +1,6 @@
 for(let it of $(".content .li-dir,.li-file")){
 	let span=document.createElement("span")
-	span.click(function(ev){
+	$(span).click(function(ev){
 		let tar = ev.currentTarget
 		tar.classList.toggle("li-marked")
 		let a = tar.nextSibling
