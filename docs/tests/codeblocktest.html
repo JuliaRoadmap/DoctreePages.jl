@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>测试/代码块测试 - DoctreePages</title>
+	<meta name="tURL" id="tURL" content="../../">
+	<meta name="description" content="测试/代码块测试 - DoctreePages">
+	<script src="../../extra/info.js"></script>
+	<link id="theme-href" rel="stylesheet" type="text/css" href="../../css/light.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../extra/main.js"></script>
+	<link rel="stylesheet" type="text/css" href="../../css/general.css">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/fontawesome.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/solid.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/brands.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/katex.min.css">
+</head>
+<body>
+	<div id="documenter">
+		<nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit">DoctreePages</span></div><ul class="docs-menu"></ul></nav>
+		<div class="docs-main">
+			<header class="docs-navbar">
+				<nav class="breadcrumb"><ul><li class="is-active">测试 / 代码块测试</li></ul></nav>
+				<div class="docs-right"><a class='docs-edit-link' href='https://github.com/JuliaRoadmap/DoctreePages.jl/tree/master/docs/tests/codeblocktest.md' target='_blank'><span class='docs-label is-hidden-touch'>编辑此页面</span></a>
+					<a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="设置"></a>
+					<a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a>
+				</div>
+			</header>
+			<article class="content"><h1 id='header-代码块测试'>代码块测试<a class='docs-heading-anchor-permalink'></a></h1><h2 id='header-普通代码块'>普通代码块<a class='docs-heading-anchor-permalink'></a></h2><div data-lang='plain'><div class='codeblock-header'></div><pre class='codeblock-body language-plain'><code>plain
+</code></pre></div><br /><div data-lang='jl'><div class='codeblock-header'></div><pre class='codeblock-body language-jl'><code>for x in cats
+	println(x)
+	cnt += 3
+end
+</code></pre></div><br /><div data-lang='cpp'><div class='codeblock-header'></div><pre class='codeblock-body language-cpp'><code>#include &lt;iostream&gt;
+using std::cout;
+int main(){
+	cout &lt;&lt; __FILE__;
+	return 0;
+}
+</code></pre></div><br /><div data-lang='julia-repl'><div class='codeblock-header'></div><pre class='codeblock-body language-julia-repl'><code>julia&gt; begin foo(nothing,"$(Int)\n") end # comment
+
+julia&gt; @bar 32 == `15` #= =#
+</code></pre></div><br /><div data-lang='html'><div class='codeblock-header'></div><pre class='codeblock-body language-html'><code>&lt;a&gt;&lt;/a&gt; &lt;div&gt;
+</code></pre></div><br /><div data-lang='shell'><div class='codeblock-header'></div><pre class='codeblock-body language-shell'><code>$ activate vfs
+
+vfs&gt; init
+initialized
+
+vfs&gt; quit
+</code></pre></div><br /><h2 id='header-条件触发'>条件触发<a class='docs-heading-anchor-permalink'></a></h2><div class='select-is modal-card-body' data-de='no' data-chs='"yes":"是","no":"否",' data-st='"yes":"is-developer","no":"!is-developer",'><p>您是否是开发者？</p></div><div class='checkis' data-check='is-developer'><p>欢迎开发者！</p></div><h2 id='header-测试'>测试<a class='docs-heading-anchor-permalink'></a></h2><div class='fill-area'><div><p>1+1等于几？</p></div><input type='text' placeholder='ans'><button class='submit-fill fa-solid fa-upload' data-ans='2' data-isreg='false'></button><button class='ans-fill fa-solid fa-key' data-ans='2'></button><button class='instruction-fill fa-solid fa-lightbulb' data-con='3-1'></button></div><div class='fill-area'><div><p>1+1等于几？<strong>允许末尾额外空格</strong></p></div><input type='text' placeholder='ans'><button class='submit-fill fa-solid fa-upload' data-ans='^2 {0,}$' data-isreg='true'></button><button class='ans-fill fa-solid fa-key' data-ans='2'></button></div><div class='test-area' data-tl='600' data-fs='10' data-name='文档测试测试'><br /><div class='choose-area' data-dict='"ABC":3,"A":1,"ABCD":4,"AB":2,'><div>1. <p>选择</p></div><span>A. a	</span><span>B. b	</span><span>C. c	</span><span>D. d	</span><br /></div><div class='fill-area' data-sc='6' data-re='^ {3,5}$'><div>2. <p>3~5个空格</p></div><input type='text' placeholder='ans'></div><p>文字</p></div><h2 id='header-杂项'>杂项<a class='docs-heading-anchor-permalink'></a></h2><div class='box-hide'><button class='button-hide' onclick='unhide(event)'><span>点击显示内容</span></button><div class='display-hide'><ul><li><p>「开发」ignore 设置项</p></li><li><p>「开发」foot_direct 设置项</p></li><li><p>「交互」支持“回到顶端”火箭</p></li></ul></div></div><div class='random-word' data-id='rw1'></div>
+<div id='rocket' onclick='boom()'></div></article>
+			<nav class="docs-footer"><a class="docs-footer-prevpage" href="index.html">« 索引</a><div class='flexbox-break'></div><p class='footer-message'>Powered by <a href='https://github.com/JuliaRoadmap/DoctreePages.jl'>DoctreePages.jl</a> and its dependencies.</p></nav>
+			
+		</div>
+	</div>
+</body>
+</html>
