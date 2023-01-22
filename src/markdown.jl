@@ -4,6 +4,13 @@ function ify_md(s::AbstractString, pss::PagesSetting, accept_crlf::Bool = true)
 	return mkhtml(md, md.t, pss)
 end
 
+get_markdowntitle(node::CommonMark.Node) = isdefined(node, :first_child) ?
+	get_markdowntitle(node.first_child) : ""
+function get_markdowntitle(node::Text)
+	str = node.literal
+	return length(str)>20 ? first(str, 20) : str
+end
+
 #= @inline =# function childrenhtml(node::CommonMark.Node, pss::PagesSetting)
 	current = node.first_child
 	if !isdefined(current, :t)

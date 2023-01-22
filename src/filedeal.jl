@@ -42,14 +42,15 @@ function filedeal_extra(::Val{:md}; fbase::FileBase, pss::PagesSetting)
 	try
 		md = pss.parser(s)
 		if fbase.title == ""
-			fbase.title = md.first_child.first_child.literal
+			fbase.title = get_markdowntitle(md)
+			if fbase.title == ""
+				error("Failed to get title.")
+			end
 		end
 		fbase.target = fbase.name*pss.filesuffix
 		fbase.data = mkhtml(md, md.t, pss)
 	catch er
-		if pss.throwall
-			error(er)
-		end
+		pss.throwall && error(er)
 		buf = IOBuffer()
 		showerror(buf, er)
 		str = String(take!(buf))
