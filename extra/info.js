@@ -1,5 +1,5 @@
 const __lang=`zh`
-const buildmessage=`built at Sun Jan 22 06:31:55 2023 by DoctreePages.jl v1.8.0`
+const buildmessage=`<p>built at Sun Jan 22 09:51:06 2023, by <a href='https://github.com/JuliaRoadmap/DoctreePages.jl'>DoctreePages.jl</a> v1.8.1</p>`
 const page_foot=`Powered by <a href='https://github.com/JuliaRoadmap/DoctreePages.jl'>DoctreePages.jl</a> and its dependencies.`
 const tar_css=`css`
 const filesuffix=`.html`

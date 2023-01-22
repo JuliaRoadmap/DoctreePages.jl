@@ -35,7 +35,7 @@ sidebar_button.click(function(ev){
 	sidebar.toggleClass('visible')
 	if(sidebar.hasClass('visible'))$("#documenter .docs-menu a.is-active").focus()
 })
-$("#documenter > .docs-main").bind('click', function(ev){
+$("#documenter > .docs-main").click(function(ev){
 	if($(ev.target).is(sidebar_button))return
 	if(sidebar.hasClass('visible'))sidebar.removeClass('visible')
 })
@@ -49,11 +49,11 @@ for(let tag of pi[0].children){
 		break
 	}
 }
-pi.onchange=function(){
+pi.change(function(){
 	theme=pi[0].value
 	$("#theme-href")[0].href=`${tURL}${tar_css}/${theme}.css`
 	localStorage.setItem("theme", theme)
-}
+})
 $(".content .docs-heading-anchor-permalink").click(function(ev){
 	let s=document.location.href
 	let id=ev.currentTarget.parentNode.id
@@ -70,14 +70,14 @@ for(let i of $("code.hljs")){
 	let header=i.parentElement.parentElement.firstElementChild
 	let copybut = document.createElement("span")
 	copybut.className = "codeblock-paste fa-solid fa-clipboard"
-	copybut.click(function(ev){
+	$(copybut).click(function(ev){
 		copycodeblock(ev)
 	})
 	header.append(copybut)
 	if(i.classList.contains("language-julia-repl")){
 		let purebut = document.createElement("span")
 		purebut.className = "codeblock-purepaste fa-solid fa-clipboard"
-		purebut.click(function(ev){
+		$(purebut).click(function(ev){
 			purecopycodeblock(ev)
 		})
 		header.append(purebut)
@@ -85,7 +85,7 @@ for(let i of $("code.hljs")){
 }
 buildmenu()
 for(let i of $(".checkis")){
-	var chk=i.dataset["check"]
+	let chk=i.dataset["check"]
 	if(localStorage.getItem(chk)=="true"){
 		i.style.display="block"
 	}
@@ -101,7 +101,7 @@ $(".instruction-fill").click(function(ev){
 })
 for(let it of $(".content .li-dir,.li-file")){
 	let span=document.createElement("span")
-	span.click(function(ev){
+	$(span).click(function(ev){
 		let tar = ev.currentTarget
 		tar.classList.toggle("li-marked")
 		let a = tar.nextSibling
@@ -130,7 +130,7 @@ $(".hljs-ln-numbers").ready(function(){
 		scroll_to_lines(from, to)
 	}
 })
-$('.modal-card-foot')[0].innerText=buildmessage
+$('.modal-card-foot')[0].innerHTML=buildmessage
 const clockemojis="🕛🕐🕑🕒🕓🕔🕕🕖🕗🕘🕙🕚⌛ "
 for(let i of $(".test-area")){
 	let header=document.createElement("div")
@@ -215,7 +215,7 @@ for(let i of $(".select-is")){
 		if(localStorage.getItem(defkey)==null)localStorage.setItem(defkey, "false")
 	}
 	else if(localStorage.getItem(defkey)==null)localStorage.setItem(defkey, "true")
-	select.onchange=function(){
+	$(select).change(function(){
 		let v=select.value
 		let stk=store[v]
 		if(stk!=undefined){
@@ -228,7 +228,7 @@ for(let i of $(".select-is")){
 				upd_trigger(stk)
 			}
 		}
-	}
+	})
 	i.append(select)
 }
 for(let tag of $(".random-word")){
@@ -381,7 +381,7 @@ function buildmenu(){
 	}
 	let marked=JSON.parse(localStorage.getItem("marked"))
 	marked = marked==null ? new Set() : new Set(marked)
-	$(".docs-chevron").bind("click", function(ev){
+	$(".docs-chevron").click(function(ev){
 		ev.currentTarget.parentElement.nextElementSibling.classList.toggle("collapsed")
 	})
 	let loc=document.location
