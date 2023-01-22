@@ -5,8 +5,8 @@ for(let tag of pi[0].children){
 		break
 	}
 }
-pi.change(function(){
+pi.onchange=function(){
 	theme=pi[0].value
 	$("#theme-href")[0].href=`${tURL}${tar_css}/${theme}.css`
 	localStorage.setItem("theme", theme)
-})
+}

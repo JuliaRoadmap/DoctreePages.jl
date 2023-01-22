@@ -18,7 +18,7 @@ for(let i of $(".select-is")){
 		if(localStorage.getItem(defkey)==null)localStorage.setItem(defkey, "false")
 	}
 	else if(localStorage.getItem(defkey)==null)localStorage.setItem(defkey, "true")
-	select.change(function(){
+	select.onchange=function(){
 		let v=select.value
 		let stk=store[v]
 		if(stk!=undefined){
@@ -31,6 +31,6 @@ for(let i of $(".select-is")){
 				upd_trigger(stk)
 			}
 		}
-	})
+	}
 	i.append(select)
 }

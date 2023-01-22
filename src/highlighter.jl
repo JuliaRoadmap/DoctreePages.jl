@@ -94,6 +94,7 @@ function highlight(::Val, code::AbstractString, pss::PagesSetting, args)
 	end =#
 end
 
+include("codeblocks/check.jl")
 include("codeblocks/encoded.jl")
 include("codeblocks/hide.jl")
 include("codeblocks/insert_html.jl")
