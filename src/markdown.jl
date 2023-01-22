@@ -4,10 +4,18 @@ function ify_md(s::AbstractString, pss::PagesSetting, accept_crlf::Bool = true)
 	return mkhtml(md, md.t, pss)
 end
 
-get_markdowntitle(node::CommonMark.Node) = isdefined(node, :first_child) ?
-	get_markdowntitle(node.first_child) : ""
-function get_markdowntitle(node::Text)
-	str = node.literal
+function get_markdowntitle(node::CommonMark.Node)
+	str = ""
+	while true
+		if !isdefined(node, :first_child)
+			return ""
+		end
+		node = node.first_child
+		if node.t isa CommonMark.Text
+			str = node.literal
+			break
+		end
+	end
 	return length(str)>20 ? first(str, 20) : str
 end
 

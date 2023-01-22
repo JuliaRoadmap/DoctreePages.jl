@@ -1,4 +1,13 @@
 # 特殊代码块
+## check 检测
+``````md
+```check x
+a
+```
+``````
+
+会在 `localStorage["is-x"]=="true"` 时显示文字 `a`
+
 ## encoded 已加密标记
 `encoded` 标注该部分内容已被加密，仍使用 Markdown 解析而不加其它特殊操作。
 
