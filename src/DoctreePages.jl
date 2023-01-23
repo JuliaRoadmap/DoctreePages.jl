@@ -2,11 +2,6 @@
 Please read docs on https://juliaroadmap.github.io/DoctreePages.jl
 """
 module DoctreePages
-export GiscusSetting, MainScriptSetting, PagesSetting
-export generate
-export github_action
-
-# 用于自行编写脚本的用户
 export GiscusSetting, MainScriptSetting, default_parser
 export PageSetting
 export PageSetting
