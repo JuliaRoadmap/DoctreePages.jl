@@ -24,20 +24,16 @@ end
 function expand_suffix(str::String, set::Set)
 	for i in set
 		if startswith(i, str)
-			if length(i)==length(str)
+			if sizeof(i)==sizeof(str)
 				return i
 			end
 			dot = findlast('.', i)
-			if dot!==nothing && length(str)==dot-1
+			if !isnothing(dot) && sizeof(str)==dot-1
 				return i
 			end
 		end
 	end
 	error("no corresponding name for $str")
-end
-function split_filesuffix(str::String)
-	dot = findlast('.', str)
-	@inbounds return dot===nothing ? (str, "") : (str[1:dot-1], str[dot+1:end])
 end
 function share_file(x)
 	return x
