@@ -4,6 +4,7 @@ ignore = [
 
 method.txtfiletest = "plain"
 method.copytest = "copy"
+method."阿猫" = "plain"
 [names]
 txtfiletest = ".txt 格式文件测试"
 copytest = "复制测试"

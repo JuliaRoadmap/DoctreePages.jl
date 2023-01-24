@@ -101,6 +101,9 @@ function scan_rec(tree::Doctree, pss::PagesSetting; outlined::Bool, path::String
 		@inbounds it = omode ? outline[i] : unoutlined[i-len1]
 		if isfile(it)
 			pre, suf = splitext(it)
+			if suf != ""
+				suf = suf[2:end]
+			end
 			info = FileBase(omode, false, tree.current, pre, suf, get(ns, pre, ""), "", "")
 			pss.fullname = it
 			filedeal(Val(Symbol(suf)); fbase = info, method = Symbol(get(method, pre, :default)), pss = pss)

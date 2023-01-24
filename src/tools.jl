@@ -6,9 +6,9 @@ function expand_slash(str)
 end
 function first_invec(x, vec::Vector)
 	i = 0
-	for j in eachindex(vec)
-		@inbounds if vec[j]==x
-			i=j
+	for (j, val) in enumerate(vec)
+		if val == x
+			i = j
 			break
 		end
 	end
