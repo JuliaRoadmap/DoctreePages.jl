@@ -5,11 +5,11 @@ Use `cd(template, path)` if the target is not the current path.
 function template(;github_workflow::Bool = true, print_help::Bool = true)
 	mkpath("docs")
 	mkpath("assets")
-	mkpath(".github/workflows")
 	write("DoctreeBuild.toml", "[pages]")
 	write("docs/setting.toml", "outline = []")
 	if github_workflow
-        write(".github/workflows/builddocs.yml",
+		mkpath(".github/workflows")
+		write(".github/workflows/builddocs.yml",
 """
 name: Build Docs
 on:
@@ -34,7 +34,7 @@ jobs:
         with:
           github_token: \${{ secrets.GITHUB_TOKEN }}
           publish_dir: "./public"\n""")
-    end
+	end
 	if print_help
 		print("Remember to fill in DoctreeBuild.toml")
 	end
