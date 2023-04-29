@@ -14,7 +14,7 @@ One method of the `generate` function allows three parameters:
 `PagesSetting` constructor uses keywords. These are just introductions, please refer to the source code for details.
 
 | key name | description |
-| --- | --- |
+| :-: | :-: |
 | buildmessage | build message |
 | charset | charset of source files |
 | default_alt | default alt for images |
