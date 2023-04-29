@@ -28,7 +28,7 @@ Base.@kwdef struct MainScriptSetting
 end
 
 function default_parser()
-    p=Parser()
+    p = Parser()
     enable!(p, AdmonitionRule())
     enable!(p, FootnoteRule())
     enable!(p, DollarMathRule())

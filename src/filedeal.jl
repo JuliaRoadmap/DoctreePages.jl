@@ -6,21 +6,19 @@ function filedeal(v::Val; fbase::FileBase, method::Symbol, pss::PagesSetting)
 		cp(pss.spath*pss.fullname, pss.tpath*pss.fullname; force=true)
 		fbase.generated = true
 		fbase.target = pss.fullname
-	elseif method == :extra
-		filedeal_extra(v; fbase = fbase, pss = pss)
-	else
-		str = read(pss.spath*pss.fullname, String)
-		fbase.target = fbase.name*pss.filesuffix
-		if method == :plain
-			fbase.data = html_safe(str)
-		elseif method == :insert
-			fbase.data = str
-		elseif method == :codeblock
-			fbase.data = highlight_directly(fbase.suffix, str, pss)
-		else
-			error("File dealing method \"$(method)\" is not supported.")
-		end
+		return
 	end
+	if method == :extra
+		filedeal_extra(v; fbase = fbase, pss = pss)
+		return
+	end
+	str = read(pss.spath*pss.fullname, String)
+	fbase.target = fbase.name*pss.filesuffix
+	fbase.data =
+		method == :plain ? html_safe(str) :
+		method == :insert ? str :
+		method == :codeblock ? highlight_directly(fbase.suffix, str, pss) :
+		error("File dealing method \"$(method)\" is not supported.")
 end
 
 default_filedealmethod(::Val) = :copy

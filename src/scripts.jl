@@ -1,8 +1,6 @@
 function giscus_script(pss::PagesSetting)
 	gis = pss.giscus
-	if gis===nothing
-		return ""
-	end
+	isnothing(gis) && return ""
 	return """
 	let gsc=document.createElement("script")
 	gsc.src="https://giscus.app/client.js"

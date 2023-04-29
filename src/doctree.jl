@@ -38,9 +38,7 @@ function parent_queue(tree::Doctree, me::Int = tree.current)
 	v = Int[]
 	while true
 		me = tree.data[me].parent
-		if me == 0
-			break
-		end
+		iszero(me) && break
 		push!(v, me)
 	end
 	return v
@@ -71,10 +69,8 @@ function next_outlined_sibling(tree::Doctree, me::Int, par::Int)
 	while next !== nothing
     	(item, state) = next
 		next = iterate(children, state)
-    	if item==me
-			if next === nothing
-				return 0
-			end
+    	if item == me
+			isnothing(next) && return 0
 			x = next[1]
 			return tree.data[x].is_outlined ? x : 0
 		end
@@ -83,9 +79,7 @@ function next_outlined_sibling(tree::Doctree, me::Int, par::Int)
 end
 function last_outlined_child(tree::Doctree, ind::Int)
 	children = tree.data[ind].children
-	if isempty(children)
-		return 0
-	end
+	isempty(children) && return 0
 	prev = 0
 	for i in children
 		if !tree.data[i].is_outlined
@@ -97,9 +91,7 @@ function last_outlined_child(tree::Doctree, ind::Int)
 end
 function first_outlined_child(tree::Doctree, ind::Int)
 	children = tree.data[ind].children
-	if isempty(children)
-		return 0
-	end
+	isempty(children) && return 0
 	x = first(children)
 	return tree.data[x].is_outlined ? x : 0
 end

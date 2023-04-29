@@ -21,14 +21,14 @@
 * [测试示例](https://juliaroadmap.github.io/DoctreePages.jl/docs/tests/doctest.html)
 
 ## LICENSE
-遵循 MIT LICENSE，其中以下文件部分来自[Documenter](https://github.com/JuliaDocs/Documenter.jl)（MIT）
+遵循 MIT LICENSE，其中以下文件部分来自 [Documenter](https://github.com/JuliaDocs/Documenter.jl)（MIT）
 * css/dark.css
 * css/light.css
 * src/script/headroom.js
 * src/script/resize.js
 * src/script/sidebar.js
 
-Discussion 功能来自[giscus](https://github.com/giscus/giscus)
+Discussion 功能来自 [giscus](https://github.com/giscus/giscus)
 
 ## 计划
 ### 主队列

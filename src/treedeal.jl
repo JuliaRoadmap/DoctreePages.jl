@@ -296,13 +296,13 @@ function make404(_::AbstractDoctree, pss::PagesSetting)
 end
 
 function makeinfo_script(tree::Doctree, pss::PagesSetting)
+	ms = pss.main_script
 	open("$(pss.tardir)$(pss.tar_extra)/info.js", "w") do io
 		println(io, "const __lang=`$(rep(pss.lang))`")
 		println(io, "const buildmessage=`$(rep(pss.buildmessage))`")
 		println(io, "const page_foot=`$(rep(pss.page_foot))`")
 		println(io, "const tar_css=`$(rep(pss.tar_css))`")
 		println(io, "const filesuffix=`$(rep(pss.filesuffix))`")
-		ms=pss.main_script
 		# 无直角引号
 		println(io, "const menu=", makemenu(tree, pss))
 		println(io, "const configpaths=$(ms.requirejs.configpaths)")
@@ -322,12 +322,8 @@ function makemainpage(tree::Doctree, pss::PagesSetting)
 		# nid, iter = iterate(tb.children)
 		nid = first(tb.children)
 		tb = tree.data[nid]
-		if !tb.is_outlined
-			return
-		end
-		if isa(tb, FileBase)
-			break
-		end
+		tb.is_outlined || return
+		isa(tb, FileBase) && break
 	end
 	# par = tb.parent
 	# @inbounds partb = tree.data[par]
